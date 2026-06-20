@@ -24,12 +24,16 @@ operator implementation belong to the Advanced Operators topic.
 ## Learning Path
 
 1. [Assignment, Arithmetic, and Comparison](assignment-arithmetic-and-comparison/README.md)
+2. [Conditional and Logical Operators](conditional-and-logical-operators/README.md)
+3. [Range Operators](range-operators/README.md)
 
 ## Concepts
 
 | Concept | Summary | Level |
 |---|---|---|
 | [Assignment, Arithmetic, and Comparison](assignment-arithmetic-and-comparison/README.md) | Understand how operators interact with type semantics, overflow, aliasing, and equality contracts. | Senior |
+| [Conditional and Logical Operators](conditional-and-logical-operators/README.md) | Control expression evaluation explicitly through ternary selection, short-circuiting, and readable Boolean logic. | Senior |
+| [Range Operators](range-operators/README.md) | Model inclusive and exclusive boundaries safely across iteration, slicing, and collection index spaces. | Senior |
 
 ## Existing Related Coverage
 
