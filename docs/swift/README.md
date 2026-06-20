@@ -20,10 +20,12 @@ Apple frameworks and platform-specific APIs belong in their own domains.
 | Topic | Summary |
 |---|---|
 | [Language Basics](language-basics/README.md) | Foundational language rules viewed through correctness, state management, and API design. |
+| [Basic Operators](basic-operators/README.md) | Assignment, arithmetic, comparison, conditional, logical, and range semantics. |
 
 ## Suggested Learning Path
 
 1. [Language Basics](language-basics/README.md)
+2. [Basic Operators](basic-operators/README.md)
 
 ## Primary Reference
 
