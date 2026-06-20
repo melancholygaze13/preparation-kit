@@ -23,6 +23,7 @@ Apple frameworks and platform-specific APIs belong in their own domains.
 | [Basic Operators](basic-operators/README.md) | Assignment, arithmetic, comparison, conditional, logical, and range semantics. |
 | [Strings and Characters](strings-and-characters/README.md) | Unicode text semantics, indexing, slicing, storage, comparison, and boundary conversion. |
 | [Collection Types](collection-types/README.md) | Ordered, unique, and keyed collections with value semantics, hashing, indexing, and mutation costs. |
+| [Control Flow](control-flow/README.md) | Branches, pattern matching, loops, early exits, cleanup, and runtime availability decisions. |
 
 ## Suggested Learning Path
 
@@ -30,6 +31,7 @@ Apple frameworks and platform-specific APIs belong in their own domains.
 2. [Basic Operators](basic-operators/README.md)
 3. [Strings and Characters](strings-and-characters/README.md)
 4. [Collection Types](collection-types/README.md)
+5. [Control Flow](control-flow/README.md)
 
 ## Primary Reference
 

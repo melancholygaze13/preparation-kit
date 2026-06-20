@@ -26,12 +26,16 @@ Swift behavior or performance decisions.
 ## Learning Path
 
 1. [Arrays](arrays/README.md)
+2. [Sets](sets/README.md)
+3. [Dictionaries](dictionaries/README.md)
 
 ## Concepts
 
 | Concept | Summary | Level |
 |---|---|---|
 | [Arrays](arrays/README.md) | Model ordered homogeneous data while reasoning about copy-on-write, indices, slices, capacity, and mutation cost. | Senior |
+| [Sets](sets/README.md) | Model unordered uniqueness with explicit equality, hashing, set algebra, and identity contracts. | Senior |
+| [Dictionaries](dictionaries/README.md) | Model keyed lookup with explicit absence, conflict resolution, key stability, and ownership semantics. | Senior |
 
 ## Related Topics
 
