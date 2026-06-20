@@ -1,0 +1,2 @@
+# Stay on the current major release while receiving compatible fixes.
+mkdocs-material==9.*
