@@ -5,6 +5,8 @@
   --md-accent-fg-color: #e84a2f;
   --kit-orange: #f05138;
   --kit-orange-soft: rgba(240, 81, 56, 0.12);
+  --kit-link: #b8321c;
+  --kit-link-hover: #8f2514;
   --kit-border: rgba(20, 24, 39, 0.1);
   --kit-card: rgba(255, 255, 255, 0.82);
   --kit-shadow: 0 18px 50px rgba(32, 38, 62, 0.08);
@@ -13,12 +15,20 @@
 }
 
 [data-md-color-scheme="slate"] {
+  --md-default-bg-color: #171a24;
+  --md-default-fg-color: #f3f4f8;
+  --md-default-fg-color--light: rgba(235, 237, 244, 0.78);
+  --md-default-fg-color--lighter: rgba(235, 237, 244, 0.56);
+  --md-default-fg-color--lightest: rgba(235, 237, 244, 0.14);
+  --md-typeset-a-color: #ff8b78;
   --md-primary-fg-color: #11131e;
   --md-primary-fg-color--light: #202438;
   --md-primary-fg-color--dark: #090a10;
   --md-accent-fg-color: #ff725c;
   --kit-orange: #ff725c;
   --kit-orange-soft: rgba(255, 114, 92, 0.14);
+  --kit-link: #ff9a88;
+  --kit-link-hover: #ffc0b5;
   --kit-border: rgba(255, 255, 255, 0.1);
   --kit-card: rgba(31, 35, 52, 0.78);
   --kit-shadow: 0 18px 50px rgba(0, 0, 0, 0.22);
@@ -60,9 +70,23 @@
   letter-spacing: -0.025em;
 }
 
-.md-typeset a:not(.md-button):not(.domain-card) {
-  text-decoration-color: color-mix(in srgb, var(--kit-orange) 45%, transparent);
-  text-underline-offset: 0.14em;
+.md-typeset :is(p, li, td) > a:not(.md-button):not(.domain-card) {
+  color: var(--kit-link);
+  font-weight: 650;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--kit-link) 52%, transparent);
+  text-decoration-thickness: 0.075em;
+  text-underline-offset: 0.17em;
+  transition: color 120ms ease, text-decoration-color 120ms ease;
+}
+
+.md-typeset :is(p, li, td) > a:not(.md-button):not(.domain-card):hover {
+  color: var(--kit-link-hover);
+  text-decoration-color: currentColor;
+}
+
+[data-md-color-scheme="slate"] .md-typeset :is(h1, h2, h3, h4, h5, h6) {
+  color: #f6f7fa;
 }
 
 .md-typeset .md-button {
@@ -273,9 +297,16 @@
   font-weight: 680;
 }
 
-.md-nav__link--active,
-.md-nav__link:hover {
-  color: var(--kit-orange);
+.md-sidebar .md-nav__item--active > .md-nav__link,
+.md-sidebar .md-nav__link--active,
+.md-sidebar .md-nav__link:hover,
+.md-nav--secondary .md-nav__link--active {
+  color: var(--kit-link);
+}
+
+.md-sidebar .md-nav__item--active > .md-nav__link,
+.md-sidebar .md-nav__link--active {
+  font-weight: 680;
 }
 
 .md-footer {
