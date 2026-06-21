@@ -5,6 +5,466 @@ repo_url: https://github.com/melancholygaze13/preparation-kit
 repo_name: melancholygaze13/preparation-kit
 edit_uri: edit/main/docs/
 
+# Keep topic and concept order aligned with each index's learning path.
+nav:
+  - Home: README.md
+  - Swift:
+      - Overview: swift/README.md
+      - Language Basics:
+          - Overview: swift/language-basics/README.md
+          - Constants and Variables:
+              - Overview: swift/language-basics/constants-and-variables/README.md
+              - Theory: swift/language-basics/constants-and-variables/theory.md
+              - Interview Questions: swift/language-basics/constants-and-variables/interview.md
+          - Type Safety and Type Inference:
+              - Overview: swift/language-basics/type-safety-and-inference/README.md
+              - Theory: swift/language-basics/type-safety-and-inference/theory.md
+              - Interview Questions: swift/language-basics/type-safety-and-inference/interview.md
+          - Numeric Types and Conversions:
+              - Overview: swift/language-basics/numeric-types-and-conversions/README.md
+              - Theory: swift/language-basics/numeric-types-and-conversions/theory.md
+              - Interview Questions: swift/language-basics/numeric-types-and-conversions/interview.md
+          - Tuples:
+              - Overview: swift/language-basics/tuples/README.md
+              - Theory: swift/language-basics/tuples/theory.md
+              - Interview Questions: swift/language-basics/tuples/interview.md
+          - Optionals:
+              - Overview: swift/language-basics/optionals/README.md
+              - Theory: swift/language-basics/optionals/theory.md
+              - Interview Questions: swift/language-basics/optionals/interview.md
+          - Memory Safety:
+              - Overview: swift/language-basics/memory-safety/README.md
+              - Theory: swift/language-basics/memory-safety/theory.md
+              - Interview Questions: swift/language-basics/memory-safety/interview.md
+          - Error Handling:
+              - Overview: swift/language-basics/error-handling/README.md
+              - Theory: swift/language-basics/error-handling/theory.md
+              - Interview Questions: swift/language-basics/error-handling/interview.md
+          - Assertions and Preconditions:
+              - Overview: swift/language-basics/assertions-and-preconditions/README.md
+              - Theory: swift/language-basics/assertions-and-preconditions/theory.md
+              - Interview Questions: swift/language-basics/assertions-and-preconditions/interview.md
+      - Basic Operators:
+          - Overview: swift/basic-operators/README.md
+          - Assignment, Arithmetic, and Comparison:
+              - Overview: swift/basic-operators/assignment-arithmetic-and-comparison/README.md
+              - Theory: swift/basic-operators/assignment-arithmetic-and-comparison/theory.md
+              - Interview Questions: swift/basic-operators/assignment-arithmetic-and-comparison/interview.md
+          - Conditional and Logical Operators:
+              - Overview: swift/basic-operators/conditional-and-logical-operators/README.md
+              - Theory: swift/basic-operators/conditional-and-logical-operators/theory.md
+              - Interview Questions: swift/basic-operators/conditional-and-logical-operators/interview.md
+          - Range Operators:
+              - Overview: swift/basic-operators/range-operators/README.md
+              - Theory: swift/basic-operators/range-operators/theory.md
+              - Interview Questions: swift/basic-operators/range-operators/interview.md
+      - Strings and Characters:
+          - Overview: swift/strings-and-characters/README.md
+          - String and Unicode Model:
+              - Overview: swift/strings-and-characters/string-and-unicode-model/README.md
+              - Theory: swift/strings-and-characters/string-and-unicode-model/theory.md
+              - Interview Questions: swift/strings-and-characters/string-and-unicode-model/interview.md
+          - String Indexing and Substrings:
+              - Overview: swift/strings-and-characters/string-indexing-and-substrings/README.md
+              - Theory: swift/strings-and-characters/string-indexing-and-substrings/theory.md
+              - Interview Questions: swift/strings-and-characters/string-indexing-and-substrings/interview.md
+      - Collection Types:
+          - Overview: swift/collection-types/README.md
+          - Arrays:
+              - Overview: swift/collection-types/arrays/README.md
+              - Theory: swift/collection-types/arrays/theory.md
+              - Interview Questions: swift/collection-types/arrays/interview.md
+          - Sets:
+              - Overview: swift/collection-types/sets/README.md
+              - Theory: swift/collection-types/sets/theory.md
+              - Interview Questions: swift/collection-types/sets/interview.md
+          - Dictionaries:
+              - Overview: swift/collection-types/dictionaries/README.md
+              - Theory: swift/collection-types/dictionaries/theory.md
+              - Interview Questions: swift/collection-types/dictionaries/interview.md
+      - Control Flow:
+          - Overview: swift/control-flow/README.md
+          - Loops and Control Transfer:
+              - Overview: swift/control-flow/loops-and-control-transfer/README.md
+              - Theory: swift/control-flow/loops-and-control-transfer/theory.md
+              - Interview Questions: swift/control-flow/loops-and-control-transfer/interview.md
+          - Conditional Branching and Pattern Matching:
+              - Overview: swift/control-flow/conditional-branching-and-pattern-matching/README.md
+              - Theory: swift/control-flow/conditional-branching-and-pattern-matching/theory.md
+              - Interview Questions: swift/control-flow/conditional-branching-and-pattern-matching/interview.md
+          - Guard and Deferred Cleanup:
+              - Overview: swift/control-flow/guard-and-deferred-cleanup/README.md
+              - Theory: swift/control-flow/guard-and-deferred-cleanup/theory.md
+              - Interview Questions: swift/control-flow/guard-and-deferred-cleanup/interview.md
+          - Availability Checking:
+              - Overview: swift/control-flow/availability-checking/README.md
+              - Theory: swift/control-flow/availability-checking/theory.md
+              - Interview Questions: swift/control-flow/availability-checking/interview.md
+      - Functions:
+          - Overview: swift/functions/README.md
+          - Function Signatures and Argument Semantics:
+              - Overview: swift/functions/function-signatures-and-argument-semantics/README.md
+              - Theory: swift/functions/function-signatures-and-argument-semantics/theory.md
+              - Interview Questions: swift/functions/function-signatures-and-argument-semantics/interview.md
+          - Function Values and Higher-Order Functions:
+              - Overview: swift/functions/function-values-and-higher-order-functions/README.md
+              - Theory: swift/functions/function-values-and-higher-order-functions/theory.md
+              - Interview Questions: swift/functions/function-values-and-higher-order-functions/interview.md
+          - Nested Functions and Local Abstraction:
+              - Overview: swift/functions/nested-functions-and-local-abstraction/README.md
+              - Theory: swift/functions/nested-functions-and-local-abstraction/theory.md
+              - Interview Questions: swift/functions/nested-functions-and-local-abstraction/interview.md
+      - Closures:
+          - Overview: swift/closures/README.md
+          - Closure Expressions and Call-Site Syntax:
+              - Overview: swift/closures/closure-expressions-and-call-site-syntax/README.md
+              - Theory: swift/closures/closure-expressions-and-call-site-syntax/theory.md
+              - Interview Questions: swift/closures/closure-expressions-and-call-site-syntax/interview.md
+          - Capture Semantics and Lifetime:
+              - Overview: swift/closures/capture-semantics-and-lifetime/README.md
+              - Theory: swift/closures/capture-semantics-and-lifetime/theory.md
+              - Interview Questions: swift/closures/capture-semantics-and-lifetime/interview.md
+          - Escaping, Autoclosure, and API Boundaries:
+              - Overview: swift/closures/escaping-autoclosure-and-api-boundaries/README.md
+              - Theory: swift/closures/escaping-autoclosure-and-api-boundaries/theory.md
+              - Interview Questions: swift/closures/escaping-autoclosure-and-api-boundaries/interview.md
+      - Enumerations:
+          - Overview: swift/enumerations/README.md
+          - Enumeration Modeling and Exhaustiveness:
+              - Overview: swift/enumerations/enumeration-modeling-and-exhaustiveness/README.md
+              - Theory: swift/enumerations/enumeration-modeling-and-exhaustiveness/theory.md
+              - Interview Questions: swift/enumerations/enumeration-modeling-and-exhaustiveness/interview.md
+          - Associated Values and Pattern Matching:
+              - Overview: swift/enumerations/associated-values-and-pattern-matching/README.md
+              - Theory: swift/enumerations/associated-values-and-pattern-matching/theory.md
+              - Interview Questions: swift/enumerations/associated-values-and-pattern-matching/interview.md
+          - Raw Values, Recursive Enums, and Evolution:
+              - Overview: swift/enumerations/raw-values-recursive-enums-and-evolution/README.md
+              - Theory: swift/enumerations/raw-values-recursive-enums-and-evolution/theory.md
+              - Interview Questions: swift/enumerations/raw-values-recursive-enums-and-evolution/interview.md
+      - Classes and Structures:
+          - Overview: swift/classes-and-structures/README.md
+          - Type Design and Initialization:
+              - Overview: swift/classes-and-structures/type-design-and-initialization/README.md
+              - Theory: swift/classes-and-structures/type-design-and-initialization/theory.md
+              - Interview Questions: swift/classes-and-structures/type-design-and-initialization/interview.md
+          - Value and Reference Semantics:
+              - Overview: swift/classes-and-structures/value-and-reference-semantics/README.md
+              - Theory: swift/classes-and-structures/value-and-reference-semantics/theory.md
+              - Interview Questions: swift/classes-and-structures/value-and-reference-semantics/interview.md
+          - Identity, Aliasing, and Mutation Ownership:
+              - Overview: swift/classes-and-structures/identity-aliasing-and-mutation-ownership/README.md
+              - Theory: swift/classes-and-structures/identity-aliasing-and-mutation-ownership/theory.md
+              - Interview Questions: swift/classes-and-structures/identity-aliasing-and-mutation-ownership/interview.md
+      - Properties:
+          - Overview: swift/properties/README.md
+          - Stored and Computed Properties:
+              - Overview: swift/properties/stored-and-computed-properties/README.md
+              - Theory: swift/properties/stored-and-computed-properties/theory.md
+              - Interview Questions: swift/properties/stored-and-computed-properties/interview.md
+          - Property Observers and Mutation Boundaries:
+              - Overview: swift/properties/property-observers-and-mutation-boundaries/README.md
+              - Theory: swift/properties/property-observers-and-mutation-boundaries/theory.md
+              - Interview Questions: swift/properties/property-observers-and-mutation-boundaries/interview.md
+          - Property Wrappers and Type Properties:
+              - Overview: swift/properties/property-wrappers-and-type-properties/README.md
+              - Theory: swift/properties/property-wrappers-and-type-properties/theory.md
+              - Interview Questions: swift/properties/property-wrappers-and-type-properties/interview.md
+      - Methods:
+          - Overview: swift/methods/README.md
+          - Instance Methods and Self Semantics:
+              - Overview: swift/methods/instance-methods-and-self-semantics/README.md
+              - Theory: swift/methods/instance-methods-and-self-semantics/theory.md
+              - Interview Questions: swift/methods/instance-methods-and-self-semantics/interview.md
+          - Mutating Value Types and State Transitions:
+              - Overview: swift/methods/mutating-value-types-and-state-transitions/README.md
+              - Theory: swift/methods/mutating-value-types-and-state-transitions/theory.md
+              - Interview Questions: swift/methods/mutating-value-types-and-state-transitions/interview.md
+          - Type Methods and API Design:
+              - Overview: swift/methods/type-methods-and-api-design/README.md
+              - Theory: swift/methods/type-methods-and-api-design/theory.md
+              - Interview Questions: swift/methods/type-methods-and-api-design/interview.md
+      - Subscripts:
+          - Overview: swift/subscripts/README.md
+          - Subscript Access and Domain Indexing:
+              - Overview: swift/subscripts/subscript-access-and-domain-indexing/README.md
+              - Theory: swift/subscripts/subscript-access-and-domain-indexing/theory.md
+              - Interview Questions: swift/subscripts/subscript-access-and-domain-indexing/interview.md
+          - Overloading, Type Subscripts, and API Evolution:
+              - Overview: swift/subscripts/overloading-type-subscripts-and-api-evolution/README.md
+              - Theory: swift/subscripts/overloading-type-subscripts-and-api-evolution/theory.md
+              - Interview Questions: swift/subscripts/overloading-type-subscripts-and-api-evolution/interview.md
+      - Initialization:
+          - Overview: swift/initialization/README.md
+          - Stored-Property Initialization and Delegation:
+              - Overview: swift/initialization/stored-property-initialization-and-delegation/README.md
+              - Theory: swift/initialization/stored-property-initialization-and-delegation/theory.md
+              - Interview Questions: swift/initialization/stored-property-initialization-and-delegation/interview.md
+          - Class Initialization and Two-Phase Safety:
+              - Overview: swift/initialization/class-initialization-and-two-phase-safety/README.md
+              - Theory: swift/initialization/class-initialization-and-two-phase-safety/theory.md
+              - Interview Questions: swift/initialization/class-initialization-and-two-phase-safety/interview.md
+          - Failable, Required, and Evolving Initializers:
+              - Overview: swift/initialization/failable-required-and-evolving-initializers/README.md
+              - Theory: swift/initialization/failable-required-and-evolving-initializers/theory.md
+              - Interview Questions: swift/initialization/failable-required-and-evolving-initializers/interview.md
+      - Inheritance:
+          - Overview: swift/inheritance/README.md
+          - Subclassing and Override Semantics:
+              - Overview: swift/inheritance/subclassing-and-override-semantics/README.md
+              - Theory: swift/inheritance/subclassing-and-override-semantics/theory.md
+              - Interview Questions: swift/inheritance/subclassing-and-override-semantics/interview.md
+          - Behavioral Contracts and Substitutability:
+              - Overview: swift/inheritance/behavioral-contracts-and-substitutability/README.md
+              - Theory: swift/inheritance/behavioral-contracts-and-substitutability/theory.md
+              - Interview Questions: swift/inheritance/behavioral-contracts-and-substitutability/interview.md
+          - Inheritance Boundaries and Framework Evolution:
+              - Overview: swift/inheritance/inheritance-boundaries-and-framework-evolution/README.md
+              - Theory: swift/inheritance/inheritance-boundaries-and-framework-evolution/theory.md
+              - Interview Questions: swift/inheritance/inheritance-boundaries-and-framework-evolution/interview.md
+      - Optional Chaining:
+          - Overview: swift/optional-chaining/README.md
+          - Chained Access and Optional Composition:
+              - Overview: swift/optional-chaining/chained-access-and-optional-composition/README.md
+              - Theory: swift/optional-chaining/chained-access-and-optional-composition/theory.md
+              - Interview Questions: swift/optional-chaining/chained-access-and-optional-composition/interview.md
+          - Conditional Mutation and API Boundaries:
+              - Overview: swift/optional-chaining/conditional-mutation-and-api-boundaries/README.md
+              - Theory: swift/optional-chaining/conditional-mutation-and-api-boundaries/theory.md
+              - Interview Questions: swift/optional-chaining/conditional-mutation-and-api-boundaries/interview.md
+      - Error Handling:
+          - Overview: swift/error-handling/README.md
+          - Error Modeling and Throwing APIs:
+              - Overview: swift/error-handling/error-modeling-and-throwing-apis/README.md
+              - Theory: swift/error-handling/error-modeling-and-throwing-apis/theory.md
+              - Interview Questions: swift/error-handling/error-modeling-and-throwing-apis/interview.md
+          - Propagation, Recovery, and Boundary Policy:
+              - Overview: swift/error-handling/propagation-recovery-and-boundary-policy/README.md
+              - Theory: swift/error-handling/propagation-recovery-and-boundary-policy/theory.md
+              - Interview Questions: swift/error-handling/propagation-recovery-and-boundary-policy/interview.md
+      - Type Casting:
+          - Overview: swift/type-casting/README.md
+          - Runtime Type Checks and Downcasting:
+              - Overview: swift/type-casting/runtime-type-checks-and-downcasting/README.md
+              - Theory: swift/type-casting/runtime-type-checks-and-downcasting/theory.md
+              - Interview Questions: swift/type-casting/runtime-type-checks-and-downcasting/interview.md
+          - Heterogeneous Values and Boundary Design:
+              - Overview: swift/type-casting/heterogeneous-values-and-boundary-design/README.md
+              - Theory: swift/type-casting/heterogeneous-values-and-boundary-design/theory.md
+              - Interview Questions: swift/type-casting/heterogeneous-values-and-boundary-design/interview.md
+      - Nested Types:
+          - Overview: swift/nested-types/README.md
+          - Scoped Domain Modeling:
+              - Overview: swift/nested-types/scoped-domain-modeling/README.md
+              - Theory: swift/nested-types/scoped-domain-modeling/theory.md
+              - Interview Questions: swift/nested-types/scoped-domain-modeling/interview.md
+          - Generic Context and API Evolution:
+              - Overview: swift/nested-types/generic-context-and-api-evolution/README.md
+              - Theory: swift/nested-types/generic-context-and-api-evolution/theory.md
+              - Interview Questions: swift/nested-types/generic-context-and-api-evolution/interview.md
+      - Extensions:
+          - Overview: swift/extensions/README.md
+          - Extension Capabilities and Initialization:
+              - Overview: swift/extensions/extension-capabilities-and-initialization/README.md
+              - Theory: swift/extensions/extension-capabilities-and-initialization/theory.md
+              - Interview Questions: swift/extensions/extension-capabilities-and-initialization/interview.md
+          - Conditional Extensions and Specialization:
+              - Overview: swift/extensions/conditional-extensions-and-specialization/README.md
+              - Theory: swift/extensions/conditional-extensions-and-specialization/theory.md
+              - Interview Questions: swift/extensions/conditional-extensions-and-specialization/interview.md
+          - Conformance and Module Ownership:
+              - Overview: swift/extensions/conformance-and-module-ownership/README.md
+              - Theory: swift/extensions/conformance-and-module-ownership/theory.md
+              - Interview Questions: swift/extensions/conformance-and-module-ownership/interview.md
+      - Protocols:
+          - Overview: swift/protocols/README.md
+          - Requirements, Conformance, and Synthesis:
+              - Overview: swift/protocols/requirements-conformance-and-synthesis/README.md
+              - Theory: swift/protocols/requirements-conformance-and-synthesis/theory.md
+              - Interview Questions: swift/protocols/requirements-conformance-and-synthesis/interview.md
+          - Existentials, Composition, and Delegation:
+              - Overview: swift/protocols/existentials-composition-and-delegation/README.md
+              - Theory: swift/protocols/existentials-composition-and-delegation/theory.md
+              - Interview Questions: swift/protocols/existentials-composition-and-delegation/interview.md
+          - Protocol Extensions and Dispatch:
+              - Overview: swift/protocols/protocol-extensions-and-dispatch/README.md
+              - Theory: swift/protocols/protocol-extensions-and-dispatch/theory.md
+              - Interview Questions: swift/protocols/protocol-extensions-and-dispatch/interview.md
+          - Protocol API Evolution and Isolation:
+              - Overview: swift/protocols/protocol-api-evolution-and-isolation/README.md
+              - Theory: swift/protocols/protocol-api-evolution-and-isolation/theory.md
+              - Interview Questions: swift/protocols/protocol-api-evolution-and-isolation/interview.md
+      - Generics:
+          - Overview: swift/generics/README.md
+          - Generic Abstraction and Constraints:
+              - Overview: swift/generics/generic-abstraction-and-constraints/README.md
+              - Theory: swift/generics/generic-abstraction-and-constraints/theory.md
+              - Interview Questions: swift/generics/generic-abstraction-and-constraints/interview.md
+          - Associated Types and Type Relationships:
+              - Overview: swift/generics/associated-types-and-type-relationships/README.md
+              - Theory: swift/generics/associated-types-and-type-relationships/theory.md
+              - Interview Questions: swift/generics/associated-types-and-type-relationships/interview.md
+          - Where Clauses and Conditional Conformance:
+              - Overview: swift/generics/where-clauses-and-conditional-conformance/README.md
+              - Theory: swift/generics/where-clauses-and-conditional-conformance/theory.md
+              - Interview Questions: swift/generics/where-clauses-and-conditional-conformance/interview.md
+          - Parameter Packs and Variadic Generics:
+              - Overview: swift/generics/parameter-packs-and-variadic-generics/README.md
+              - Theory: swift/generics/parameter-packs-and-variadic-generics/theory.md
+              - Interview Questions: swift/generics/parameter-packs-and-variadic-generics/interview.md
+          - Generic API Design and Evolution:
+              - Overview: swift/generics/generic-api-design-and-evolution/README.md
+              - Theory: swift/generics/generic-api-design-and-evolution/theory.md
+              - Interview Questions: swift/generics/generic-api-design-and-evolution/interview.md
+      - Opaque and Boxed Protocol Types:
+          - Overview: swift/opaque-and-boxed-protocol-types/README.md
+          - Opaque Type Identity and Underlying Types:
+              - Overview: swift/opaque-and-boxed-protocol-types/opaque-type-identity-and-underlying-types/README.md
+              - Theory: swift/opaque-and-boxed-protocol-types/opaque-type-identity-and-underlying-types/theory.md
+              - Interview Questions: swift/opaque-and-boxed-protocol-types/opaque-type-identity-and-underlying-types/interview.md
+          - Boxed Protocol Types and Existential Semantics:
+              - Overview: swift/opaque-and-boxed-protocol-types/boxed-protocol-types-and-existential-semantics/README.md
+              - Theory: swift/opaque-and-boxed-protocol-types/boxed-protocol-types-and-existential-semantics/theory.md
+              - Interview Questions: swift/opaque-and-boxed-protocol-types/boxed-protocol-types-and-existential-semantics/interview.md
+          - Constrained and Implicitly Opened Existentials:
+              - Overview: swift/opaque-and-boxed-protocol-types/constrained-and-implicitly-opened-existentials/README.md
+              - Theory: swift/opaque-and-boxed-protocol-types/constrained-and-implicitly-opened-existentials/theory.md
+              - Interview Questions: swift/opaque-and-boxed-protocol-types/constrained-and-implicitly-opened-existentials/interview.md
+          - Abstraction Boundary Design and Evolution:
+              - Overview: swift/opaque-and-boxed-protocol-types/abstraction-boundary-design-and-evolution/README.md
+              - Theory: swift/opaque-and-boxed-protocol-types/abstraction-boundary-design-and-evolution/theory.md
+              - Interview Questions: swift/opaque-and-boxed-protocol-types/abstraction-boundary-design-and-evolution/interview.md
+      - Automatic Reference Counting:
+          - Overview: swift/automatic-reference-counting/README.md
+          - ARC Ownership and Object Lifetime:
+              - Overview: swift/automatic-reference-counting/arc-ownership-and-object-lifetime/README.md
+              - Theory: swift/automatic-reference-counting/arc-ownership-and-object-lifetime/theory.md
+              - Interview Questions: swift/automatic-reference-counting/arc-ownership-and-object-lifetime/interview.md
+          - Object Graph Cycles and Non-Owning References:
+              - Overview: swift/automatic-reference-counting/object-graph-cycles-and-non-owning-references/README.md
+              - Theory: swift/automatic-reference-counting/object-graph-cycles-and-non-owning-references/theory.md
+              - Interview Questions: swift/automatic-reference-counting/object-graph-cycles-and-non-owning-references/interview.md
+          - Closure, Callback, and Task Lifetimes:
+              - Overview: swift/automatic-reference-counting/closure-callback-and-task-lifetimes/README.md
+              - Theory: swift/automatic-reference-counting/closure-callback-and-task-lifetimes/theory.md
+              - Interview Questions: swift/automatic-reference-counting/closure-callback-and-task-lifetimes/interview.md
+          - Lifecycle Architecture and Leak Diagnosis:
+              - Overview: swift/automatic-reference-counting/lifecycle-architecture-and-leak-diagnosis/README.md
+              - Theory: swift/automatic-reference-counting/lifecycle-architecture-and-leak-diagnosis/theory.md
+              - Interview Questions: swift/automatic-reference-counting/lifecycle-architecture-and-leak-diagnosis/interview.md
+      - Deinitialization:
+          - Overview: swift/deinitialization/README.md
+          - Deinitializer Semantics and Lifetime:
+              - Overview: swift/deinitialization/deinitializer-semantics-and-lifetime/README.md
+              - Theory: swift/deinitialization/deinitializer-semantics-and-lifetime/theory.md
+              - Interview Questions: swift/deinitialization/deinitializer-semantics-and-lifetime/interview.md
+          - Deterministic Cleanup and Resource Ownership:
+              - Overview: swift/deinitialization/deterministic-cleanup-and-resource-ownership/README.md
+              - Theory: swift/deinitialization/deterministic-cleanup-and-resource-ownership/theory.md
+              - Interview Questions: swift/deinitialization/deterministic-cleanup-and-resource-ownership/interview.md
+      - Memory Safety:
+          - Overview: swift/memory-safety/README.md
+          - Access Duration and Exclusivity Enforcement:
+              - Overview: swift/memory-safety/access-duration-and-exclusivity-enforcement/README.md
+              - Theory: swift/memory-safety/access-duration-and-exclusivity-enforcement/theory.md
+              - Interview Questions: swift/memory-safety/access-duration-and-exclusivity-enforcement/interview.md
+          - "`inout` Writeback and Mutation APIs":
+              - Overview: swift/memory-safety/inout-writeback-and-mutation-apis/README.md
+              - Theory: swift/memory-safety/inout-writeback-and-mutation-apis/theory.md
+              - Interview Questions: swift/memory-safety/inout-writeback-and-mutation-apis/interview.md
+          - Disjoint Storage and Value Mutation:
+              - Overview: swift/memory-safety/disjoint-storage-and-value-mutation/README.md
+              - Theory: swift/memory-safety/disjoint-storage-and-value-mutation/theory.md
+              - Interview Questions: swift/memory-safety/disjoint-storage-and-value-mutation/interview.md
+          - Unsafe Memory and Foreign Boundaries:
+              - Overview: swift/memory-safety/unsafe-memory-and-foreign-boundaries/README.md
+              - Theory: swift/memory-safety/unsafe-memory-and-foreign-boundaries/theory.md
+              - Interview Questions: swift/memory-safety/unsafe-memory-and-foreign-boundaries/interview.md
+      - Access Control:
+          - Overview: swift/access-control/README.md
+          - Access Levels and Lexical Scope:
+              - Overview: swift/access-control/access-levels-and-lexical-scope/README.md
+              - Theory: swift/access-control/access-levels-and-lexical-scope/theory.md
+              - Interview Questions: swift/access-control/access-levels-and-lexical-scope/interview.md
+          - Members, Extensions, and Conformances:
+              - Overview: swift/access-control/members-extensions-and-conformances/README.md
+              - Theory: swift/access-control/members-extensions-and-conformances/theory.md
+              - Interview Questions: swift/access-control/members-extensions-and-conformances/interview.md
+          - Subclassing, Initialization, and Setter Access:
+              - Overview: swift/access-control/subclassing-initialization-and-setter-access/README.md
+              - Theory: swift/access-control/subclassing-initialization-and-setter-access/theory.md
+              - Interview Questions: swift/access-control/subclassing-initialization-and-setter-access/interview.md
+          - Module, Package, Testing, and API Evolution:
+              - Overview: swift/access-control/module-package-testing-and-api-evolution/README.md
+              - Theory: swift/access-control/module-package-testing-and-api-evolution/theory.md
+              - Interview Questions: swift/access-control/module-package-testing-and-api-evolution/interview.md
+      - Advanced Operators:
+          - Overview: swift/advanced-operators/README.md
+          - Bitwise and Overflow Arithmetic:
+              - Overview: swift/advanced-operators/bitwise-and-overflow-arithmetic/README.md
+              - Theory: swift/advanced-operators/bitwise-and-overflow-arithmetic/theory.md
+              - Interview Questions: swift/advanced-operators/bitwise-and-overflow-arithmetic/interview.md
+          - Operator Overloading and Compound Assignment:
+              - Overview: swift/advanced-operators/operator-overloading-and-compound-assignment/README.md
+              - Theory: swift/advanced-operators/operator-overloading-and-compound-assignment/theory.md
+              - Interview Questions: swift/advanced-operators/operator-overloading-and-compound-assignment/interview.md
+          - Custom Operators and Precedence Groups:
+              - Overview: swift/advanced-operators/custom-operators-and-precedence-groups/README.md
+              - Theory: swift/advanced-operators/custom-operators-and-precedence-groups/theory.md
+              - Interview Questions: swift/advanced-operators/custom-operators-and-precedence-groups/interview.md
+          - Operator API Design and Evolution:
+              - Overview: swift/advanced-operators/operator-api-design-and-evolution/README.md
+              - Theory: swift/advanced-operators/operator-api-design-and-evolution/theory.md
+              - Interview Questions: swift/advanced-operators/operator-api-design-and-evolution/interview.md
+      - Concurrency:
+          - Overview: swift/concurrency/README.md
+          - Async Functions, Suspension, and Executors:
+              - Overview: swift/concurrency/async-functions-suspension-and-executors/README.md
+              - Theory: swift/concurrency/async-functions-suspension-and-executors/theory.md
+              - Interview Questions: swift/concurrency/async-functions-suspension-and-executors/interview.md
+          - Structured Concurrency and Task Groups:
+              - Overview: swift/concurrency/structured-concurrency-and-task-groups/README.md
+              - Theory: swift/concurrency/structured-concurrency-and-task-groups/theory.md
+              - Interview Questions: swift/concurrency/structured-concurrency-and-task-groups/interview.md
+          - Unstructured Tasks and Task Context:
+              - Overview: swift/concurrency/unstructured-tasks-and-task-context/README.md
+              - Theory: swift/concurrency/unstructured-tasks-and-task-context/theory.md
+              - Interview Questions: swift/concurrency/unstructured-tasks-and-task-context/interview.md
+          - Cancellation, Timeouts, and Lifecycle:
+              - Overview: swift/concurrency/cancellation-timeouts-and-lifecycle/README.md
+              - Theory: swift/concurrency/cancellation-timeouts-and-lifecycle/theory.md
+              - Interview Questions: swift/concurrency/cancellation-timeouts-and-lifecycle/interview.md
+          - Async Sequences, Streams, and Continuations:
+              - Overview: swift/concurrency/async-sequences-streams-and-continuations/README.md
+              - Theory: swift/concurrency/async-sequences-streams-and-continuations/theory.md
+              - Interview Questions: swift/concurrency/async-sequences-streams-and-continuations/interview.md
+          - Actors, Global Actors, and Reentrancy:
+              - Overview: swift/concurrency/actors-global-actors-and-reentrancy/README.md
+              - Theory: swift/concurrency/actors-global-actors-and-reentrancy/theory.md
+              - Interview Questions: swift/concurrency/actors-global-actors-and-reentrancy/interview.md
+          - Sendability and Swift 6 Migration:
+              - Overview: swift/concurrency/sendability-and-swift-6-migration/README.md
+              - Theory: swift/concurrency/sendability-and-swift-6-migration/theory.md
+              - Interview Questions: swift/concurrency/sendability-and-swift-6-migration/interview.md
+          - Concurrency Testing and Observability:
+              - Overview: swift/concurrency/concurrency-testing-and-observability/README.md
+              - Theory: swift/concurrency/concurrency-testing-and-observability/theory.md
+              - Interview Questions: swift/concurrency/concurrency-testing-and-observability/interview.md
+      - Macros:
+          - Overview: swift/macros/README.md
+          - Freestanding and Attached Macro Semantics:
+              - Overview: swift/macros/freestanding-and-attached-macro-semantics/README.md
+              - Theory: swift/macros/freestanding-and-attached-macro-semantics/theory.md
+              - Interview Questions: swift/macros/freestanding-and-attached-macro-semantics/interview.md
+          - Macro Implementation, Diagnostics, and Testing:
+              - Overview: swift/macros/macro-implementation-diagnostics-and-testing/README.md
+              - Theory: swift/macros/macro-implementation-diagnostics-and-testing/theory.md
+              - Interview Questions: swift/macros/macro-implementation-diagnostics-and-testing/interview.md
+          - Macro Adoption and API Evolution:
+              - Overview: swift/macros/macro-adoption-and-api-evolution/README.md
+              - Theory: swift/macros/macro-adoption-and-api-evolution/theory.md
+              - Interview Questions: swift/macros/macro-adoption-and-api-evolution/interview.md
+
 docs_dir: docs
 site_dir: site
 strict: true
