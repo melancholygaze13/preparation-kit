@@ -1,5 +1,5 @@
 ---
-title: "Structured Tasks and Cancellation"
+title: "Async Functions, Suspension, and Executors"
 domain: "Swift"
 topic: "Concurrency"
 page_type: concept-index
@@ -8,9 +8,9 @@ status: reviewed
 last_reviewed: 2026-06-21
 ---
 
-# Structured Tasks and Cancellation
+# Async Functions, Suspension, and Executors
 
-> Structured concurrency keeps child lifetime, cancellation, priority, errors, and results inside an awaited parent scope.
+> `async` permits suspension; isolation and execution attributes determine where each synchronous segment runs.
 
 ## Study
 

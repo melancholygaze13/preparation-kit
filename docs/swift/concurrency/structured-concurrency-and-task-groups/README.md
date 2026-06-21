@@ -1,5 +1,5 @@
 ---
-title: "Actors, Isolation, and Sendability"
+title: "Structured Concurrency and Task Groups"
 domain: "Swift"
 topic: "Concurrency"
 page_type: concept-index
@@ -8,9 +8,9 @@ status: reviewed
 last_reviewed: 2026-06-21
 ---
 
-# Actors, Isolation, and Sendability
+# Structured Concurrency and Task Groups
 
-> Actors serialize isolated state access; `Sendable` constrains transfer; neither removes the need to design invariants across suspension.
+> Structured tasks bind child lifetime, failure, cancellation, priority, and results to an awaited lexical scope.
 
 ## Study
 

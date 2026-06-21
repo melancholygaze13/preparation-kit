@@ -25,6 +25,11 @@ tags: [macros, swiftsyntax, diagnostics, testing]
 - Cover empty input, malformed declarations, generics, access, attributes, collisions, and composition.
 - Pin compatible toolchain and SwiftSyntax versions through the package/build system.
 
+The repository's `fixtures/swift/macros/stringify` package provides an exact-expansion
+test and a separately compiled consumer target. Keep a fixture like this for each
+supported toolchain line; syntax-only tests cannot catch plugin loading, public
+declaration, or consumer type-checking failures.
+
 ## Mental Model
 
 A macro implementation is a compiler extension with untrusted source input. Its output

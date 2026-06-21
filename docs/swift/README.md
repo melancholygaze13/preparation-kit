@@ -40,6 +40,8 @@ Apple frameworks and platform-specific APIs belong in their own domains.
 | [Macros](macros/README.md) | Freestanding and attached expansion, implementation diagnostics, testing, build impact, and API evolution. |
 | [Type Casting](type-casting/README.md) | Runtime type checks, conditional and forced casts, heterogeneous storage, and boundary design. |
 | [Nested Types](nested-types/README.md) | Lexically scoped domain vocabulary, generic context, public naming, dependency boundaries, and API evolution. |
+| [Extensions](extensions/README.md) | Add behavior, conditional specialization, and conformances without changing stored representation or ownership boundaries. |
+| [Protocols](protocols/README.md) | Define capability contracts, model existential boundaries, provide defaults, and evolve conformances safely. |
 
 ## Suggested Learning Path
 
@@ -64,6 +66,8 @@ Apple frameworks and platform-specific APIs belong in their own domains.
 19. [Macros](macros/README.md)
 20. [Type Casting](type-casting/README.md)
 21. [Nested Types](nested-types/README.md)
+22. [Extensions](extensions/README.md)
+23. [Protocols](protocols/README.md)
 
 ## Primary Reference
 
