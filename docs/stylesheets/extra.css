@@ -316,6 +316,12 @@
   font-weight: 680;
 }
 
+/* The drawer title already links to the homepage. Avoid repeating it as the
+   first top-level navigation item. */
+.md-nav--primary > .md-nav__list > .md-nav__item:first-child {
+  display: none;
+}
+
 [data-md-color-scheme="slate"] .md-nav--primary .md-nav__title,
 [data-md-color-scheme="slate"] .md-nav--primary .md-nav__link {
   color: var(--md-default-fg-color--light);
