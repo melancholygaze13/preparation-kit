@@ -2,7 +2,7 @@
 title: "Swift"
 page_type: domain-index
 status: draft
-last_reviewed: 2026-06-20
+last_reviewed: 2026-06-21
 ---
 
 # Swift
@@ -42,6 +42,12 @@ Apple frameworks and platform-specific APIs belong in their own domains.
 | [Nested Types](nested-types/README.md) | Lexically scoped domain vocabulary, generic context, public naming, dependency boundaries, and API evolution. |
 | [Extensions](extensions/README.md) | Add behavior, conditional specialization, and conformances without changing stored representation or ownership boundaries. |
 | [Protocols](protocols/README.md) | Define capability contracts, model existential boundaries, provide defaults, and evolve conformances safely. |
+| [Generics](generics/README.md) | Express reusable algorithms and types with compile-time relationships, conditional capabilities, and scalable generic APIs. |
+| [Opaque and Boxed Protocol Types](opaque-and-boxed-protocol-types/README.md) | Hide implementation types with preserved identity or erase them deliberately at runtime abstraction boundaries. |
+| [Automatic Reference Counting](automatic-reference-counting/README.md) | Manage object lifetime, cycles, callback/task retention, cleanup ownership, and leak diagnosis. |
+| [Memory Safety](memory-safety/README.md) | Enforce exclusive access, design scoped mutation, prove disjoint storage, and contain unsafe memory boundaries. |
+| [Access Control](access-control/README.md) | Control visibility across scopes, files, modules, and packages while evolving supported APIs deliberately. |
+| [Advanced Operators](advanced-operators/README.md) | Apply bitwise and overflow arithmetic, overload operators, define precedence, and govern custom syntax safely. |
 
 ## Suggested Learning Path
 
@@ -68,6 +74,12 @@ Apple frameworks and platform-specific APIs belong in their own domains.
 21. [Nested Types](nested-types/README.md)
 22. [Extensions](extensions/README.md)
 23. [Protocols](protocols/README.md)
+24. [Generics](generics/README.md)
+25. [Opaque and Boxed Protocol Types](opaque-and-boxed-protocol-types/README.md)
+26. [Automatic Reference Counting](automatic-reference-counting/README.md)
+27. [Memory Safety](memory-safety/README.md)
+28. [Access Control](access-control/README.md)
+29. [Advanced Operators](advanced-operators/README.md)
 
 ## Primary Reference
 
