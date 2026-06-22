@@ -1002,6 +1002,266 @@ nav:
               - Overview: uikit/custom-drawing-graphics-and-media/blur-material-effects-and-advanced-compositing/README.md
               - Theory: uikit/custom-drawing-graphics-and-media/blur-material-effects-and-advanced-compositing/theory.md
               - Interview Questions: uikit/custom-drawing-graphics-and-media/blur-material-effects-and-advanced-compositing/interview.md
+  - Architecture:
+      - Overview: architecture/README.md
+      - Architectural Foundations and Trade-offs:
+          - Overview: architecture/architectural-foundations-and-trade-offs/README.md
+          - Quality Attributes and Product Constraints:
+              - Overview: architecture/architectural-foundations-and-trade-offs/quality-attributes-and-product-constraints/README.md
+              - Theory: architecture/architectural-foundations-and-trade-offs/quality-attributes-and-product-constraints/theory.md
+              - Interview Questions: architecture/architectural-foundations-and-trade-offs/quality-attributes-and-product-constraints/interview.md
+          - Boundaries, Dependency Direction, and Coupling:
+              - Overview: architecture/architectural-foundations-and-trade-offs/boundaries-dependency-direction-and-coupling/README.md
+              - Theory: architecture/architectural-foundations-and-trade-offs/boundaries-dependency-direction-and-coupling/theory.md
+              - Interview Questions: architecture/architectural-foundations-and-trade-offs/boundaries-dependency-direction-and-coupling/interview.md
+          - State Ownership and Source of Truth:
+              - Overview: architecture/architectural-foundations-and-trade-offs/state-ownership-and-source-of-truth/README.md
+              - Theory: architecture/architectural-foundations-and-trade-offs/state-ownership-and-source-of-truth/theory.md
+              - Interview Questions: architecture/architectural-foundations-and-trade-offs/state-ownership-and-source-of-truth/interview.md
+          - Choosing Proportional Architecture:
+              - Overview: architecture/architectural-foundations-and-trade-offs/choosing-proportional-architecture/README.md
+              - Theory: architecture/architectural-foundations-and-trade-offs/choosing-proportional-architecture/theory.md
+              - Interview Questions: architecture/architectural-foundations-and-trade-offs/choosing-proportional-architecture/interview.md
+      - MVVM:
+          - Overview: architecture/mvvm/README.md
+          - View, View Model, and Model Responsibilities:
+              - Overview: architecture/mvvm/view-view-model-and-model-responsibilities/README.md
+              - Theory: architecture/mvvm/view-view-model-and-model-responsibilities/theory.md
+              - Interview Questions: architecture/mvvm/view-view-model-and-model-responsibilities/interview.md
+          - Inputs, Outputs, Bindings, and Observation:
+              - Overview: architecture/mvvm/inputs-outputs-bindings-and-observation/README.md
+              - Theory: architecture/mvvm/inputs-outputs-bindings-and-observation/theory.md
+              - Interview Questions: architecture/mvvm/inputs-outputs-bindings-and-observation/interview.md
+          - Async Work, Lifecycle, and Cancellation:
+              - Overview: architecture/mvvm/async-work-lifecycle-and-cancellation/README.md
+              - Theory: architecture/mvvm/async-work-lifecycle-and-cancellation/theory.md
+              - Interview Questions: architecture/mvvm/async-work-lifecycle-and-cancellation/interview.md
+          - View Model Scope and Composition:
+              - Overview: architecture/mvvm/view-model-scope-and-composition/README.md
+              - Theory: architecture/mvvm/view-model-scope-and-composition/theory.md
+              - Interview Questions: architecture/mvvm/view-model-scope-and-composition/interview.md
+      - Unidirectional Data Flow:
+          - Overview: architecture/unidirectional-data-flow/README.md
+          - State, Actions, and Reducers:
+              - Overview: architecture/unidirectional-data-flow/state-actions-and-reducers/README.md
+              - Theory: architecture/unidirectional-data-flow/state-actions-and-reducers/theory.md
+              - Interview Questions: architecture/unidirectional-data-flow/state-actions-and-reducers/interview.md
+          - Effects, Dependencies, and Cancellation:
+              - Overview: architecture/unidirectional-data-flow/effects-dependencies-and-cancellation/README.md
+              - Theory: architecture/unidirectional-data-flow/effects-dependencies-and-cancellation/theory.md
+              - Interview Questions: architecture/unidirectional-data-flow/effects-dependencies-and-cancellation/interview.md
+          - Feature Composition and State Scoping:
+              - Overview: architecture/unidirectional-data-flow/feature-composition-and-state-scoping/README.md
+              - Theory: architecture/unidirectional-data-flow/feature-composition-and-state-scoping/theory.md
+              - Interview Questions: architecture/unidirectional-data-flow/feature-composition-and-state-scoping/interview.md
+          - Determinism, Debugging, and Performance:
+              - Overview: architecture/unidirectional-data-flow/determinism-debugging-and-performance/README.md
+              - Theory: architecture/unidirectional-data-flow/determinism-debugging-and-performance/theory.md
+              - Interview Questions: architecture/unidirectional-data-flow/determinism-debugging-and-performance/interview.md
+      - Clean Architecture and Ports and Adapters:
+          - Overview: architecture/clean-architecture-and-ports-adapters/README.md
+          - Dependency Rule and Use-Case Boundaries:
+              - Overview: architecture/clean-architecture-and-ports-adapters/dependency-rule-and-use-case-boundaries/README.md
+              - Theory: architecture/clean-architecture-and-ports-adapters/dependency-rule-and-use-case-boundaries/theory.md
+              - Interview Questions: architecture/clean-architecture-and-ports-adapters/dependency-rule-and-use-case-boundaries/interview.md
+          - Ports, Adapters, and Protocol Ownership:
+              - Overview: architecture/clean-architecture-and-ports-adapters/ports-adapters-and-protocol-ownership/README.md
+              - Theory: architecture/clean-architecture-and-ports-adapters/ports-adapters-and-protocol-ownership/theory.md
+              - Interview Questions: architecture/clean-architecture-and-ports-adapters/ports-adapters-and-protocol-ownership/interview.md
+          - Boundary Models and Data Mapping:
+              - Overview: architecture/clean-architecture-and-ports-adapters/boundary-models-and-data-mapping/README.md
+              - Theory: architecture/clean-architecture-and-ports-adapters/boundary-models-and-data-mapping/theory.md
+              - Interview Questions: architecture/clean-architecture-and-ports-adapters/boundary-models-and-data-mapping/interview.md
+          - Pragmatic Layering and Adoption Cost:
+              - Overview: architecture/clean-architecture-and-ports-adapters/pragmatic-layering-and-adoption-cost/README.md
+              - Theory: architecture/clean-architecture-and-ports-adapters/pragmatic-layering-and-adoption-cost/theory.md
+              - Interview Questions: architecture/clean-architecture-and-ports-adapters/pragmatic-layering-and-adoption-cost/interview.md
+      - Coordinator and Navigation Architecture:
+          - Overview: architecture/coordinator-and-navigation-architecture/README.md
+          - Navigation Ownership and Flow Boundaries:
+              - Overview: architecture/coordinator-and-navigation-architecture/navigation-ownership-and-flow-boundaries/README.md
+              - Theory: architecture/coordinator-and-navigation-architecture/navigation-ownership-and-flow-boundaries/theory.md
+              - Interview Questions: architecture/coordinator-and-navigation-architecture/navigation-ownership-and-flow-boundaries/interview.md
+          - Child Coordinators and Lifetime:
+              - Overview: architecture/coordinator-and-navigation-architecture/child-coordinators-and-lifetime/README.md
+              - Theory: architecture/coordinator-and-navigation-architecture/child-coordinators-and-lifetime/theory.md
+              - Interview Questions: architecture/coordinator-and-navigation-architecture/child-coordinators-and-lifetime/interview.md
+          - Deep Links, Restoration, and Navigation State:
+              - Overview: architecture/coordinator-and-navigation-architecture/deep-links-restoration-and-navigation-state/README.md
+              - Theory: architecture/coordinator-and-navigation-architecture/deep-links-restoration-and-navigation-state/theory.md
+              - Interview Questions: architecture/coordinator-and-navigation-architecture/deep-links-restoration-and-navigation-state/interview.md
+          - MVVM-C and State-Driven Navigation:
+              - Overview: architecture/coordinator-and-navigation-architecture/mvvm-c-and-state-driven-navigation/README.md
+              - Theory: architecture/coordinator-and-navigation-architecture/mvvm-c-and-state-driven-navigation/theory.md
+              - Interview Questions: architecture/coordinator-and-navigation-architecture/mvvm-c-and-state-driven-navigation/interview.md
+      - Dependency Injection and Composition:
+          - Overview: architecture/dependency-injection-and-composition/README.md
+          - Constructor and Protocol Injection:
+              - Overview: architecture/dependency-injection-and-composition/constructor-and-protocol-injection/README.md
+              - Theory: architecture/dependency-injection-and-composition/constructor-and-protocol-injection/theory.md
+              - Interview Questions: architecture/dependency-injection-and-composition/constructor-and-protocol-injection/interview.md
+          - Composition Roots and Object Graphs:
+              - Overview: architecture/dependency-injection-and-composition/composition-roots-and-object-graphs/README.md
+              - Theory: architecture/dependency-injection-and-composition/composition-roots-and-object-graphs/theory.md
+              - Interview Questions: architecture/dependency-injection-and-composition/composition-roots-and-object-graphs/interview.md
+          - Dependency Lifetimes and Scopes:
+              - Overview: architecture/dependency-injection-and-composition/dependency-lifetimes-and-scopes/README.md
+              - Theory: architecture/dependency-injection-and-composition/dependency-lifetimes-and-scopes/theory.md
+              - Interview Questions: architecture/dependency-injection-and-composition/dependency-lifetimes-and-scopes/interview.md
+          - Test Overrides and Service-Locator Trade-offs:
+              - Overview: architecture/dependency-injection-and-composition/test-overrides-and-service-locator-trade-offs/README.md
+              - Theory: architecture/dependency-injection-and-composition/test-overrides-and-service-locator-trade-offs/theory.md
+              - Interview Questions: architecture/dependency-injection-and-composition/test-overrides-and-service-locator-trade-offs/interview.md
+      - Modularization and Feature Boundaries:
+          - Overview: architecture/modularization-and-feature-boundaries/README.md
+          - Feature and Layer Module Boundaries:
+              - Overview: architecture/modularization-and-feature-boundaries/feature-and-layer-module-boundaries/README.md
+              - Theory: architecture/modularization-and-feature-boundaries/feature-and-layer-module-boundaries/theory.md
+              - Interview Questions: architecture/modularization-and-feature-boundaries/feature-and-layer-module-boundaries/interview.md
+          - Interfaces, Implementations, and Dependency Inversion:
+              - Overview: architecture/modularization-and-feature-boundaries/interfaces-implementations-and-dependency-inversion/README.md
+              - Theory: architecture/modularization-and-feature-boundaries/interfaces-implementations-and-dependency-inversion/theory.md
+              - Interview Questions: architecture/modularization-and-feature-boundaries/interfaces-implementations-and-dependency-inversion/interview.md
+          - Package Graphs, Build Times, and Cycles:
+              - Overview: architecture/modularization-and-feature-boundaries/package-graphs-build-times-and-cycles/README.md
+              - Theory: architecture/modularization-and-feature-boundaries/package-graphs-build-times-and-cycles/theory.md
+              - Interview Questions: architecture/modularization-and-feature-boundaries/package-graphs-build-times-and-cycles/interview.md
+          - Cross-Team Ownership and API Evolution:
+              - Overview: architecture/modularization-and-feature-boundaries/cross-team-ownership-and-api-evolution/README.md
+              - Theory: architecture/modularization-and-feature-boundaries/cross-team-ownership-and-api-evolution/theory.md
+              - Interview Questions: architecture/modularization-and-feature-boundaries/cross-team-ownership-and-api-evolution/interview.md
+      - Architecture Testing and Testability:
+          - Overview: architecture/architecture-testing-and-testability/README.md
+          - Test Boundaries and Confidence:
+              - Overview: architecture/architecture-testing-and-testability/test-boundaries-and-confidence/README.md
+              - Theory: architecture/architecture-testing-and-testability/test-boundaries-and-confidence/theory.md
+              - Interview Questions: architecture/architecture-testing-and-testability/test-boundaries-and-confidence/interview.md
+          - Test Doubles, Contracts, and Integration:
+              - Overview: architecture/architecture-testing-and-testability/test-doubles-contracts-and-integration/README.md
+              - Theory: architecture/architecture-testing-and-testability/test-doubles-contracts-and-integration/theory.md
+              - Interview Questions: architecture/architecture-testing-and-testability/test-doubles-contracts-and-integration/interview.md
+          - Architecture Rules and Dependency Enforcement:
+              - Overview: architecture/architecture-testing-and-testability/architecture-rules-and-dependency-enforcement/README.md
+              - Theory: architecture/architecture-testing-and-testability/architecture-rules-and-dependency-enforcement/theory.md
+              - Interview Questions: architecture/architecture-testing-and-testability/architecture-rules-and-dependency-enforcement/interview.md
+          - Testing Navigation, State, and Side Effects:
+              - Overview: architecture/architecture-testing-and-testability/testing-navigation-state-and-side-effects/README.md
+              - Theory: architecture/architecture-testing-and-testability/testing-navigation-state-and-side-effects/theory.md
+              - Interview Questions: architecture/architecture-testing-and-testability/testing-navigation-state-and-side-effects/interview.md
+      - The Composable Architecture (TCA):
+          - Overview: architecture/composable-architecture-tca/README.md
+          - Store, State, Action, and Reducer:
+              - Overview: architecture/composable-architecture-tca/store-state-action-and-reducer/README.md
+              - Theory: architecture/composable-architecture-tca/store-state-action-and-reducer/theory.md
+              - Interview Questions: architecture/composable-architecture-tca/store-state-action-and-reducer/interview.md
+          - Effects, Dependencies, and Cancellation:
+              - Overview: architecture/composable-architecture-tca/effects-dependencies-and-cancellation/README.md
+              - Theory: architecture/composable-architecture-tca/effects-dependencies-and-cancellation/theory.md
+              - Interview Questions: architecture/composable-architecture-tca/effects-dependencies-and-cancellation/interview.md
+          - Scoping, Presentation, and Navigation:
+              - Overview: architecture/composable-architecture-tca/scoping-presentation-and-navigation/README.md
+              - Theory: architecture/composable-architecture-tca/scoping-presentation-and-navigation/theory.md
+              - Interview Questions: architecture/composable-architecture-tca/scoping-presentation-and-navigation/interview.md
+          - Testing, Adoption, and Library Trade-offs:
+              - Overview: architecture/composable-architecture-tca/testing-adoption-and-library-trade-offs/README.md
+              - Theory: architecture/composable-architecture-tca/testing-adoption-and-library-trade-offs/theory.md
+              - Interview Questions: architecture/composable-architecture-tca/testing-adoption-and-library-trade-offs/interview.md
+      - Data Layer, Repositories, and Offline State:
+          - Overview: architecture/data-layer-repositories-and-offline-state/README.md
+          - Repository Boundaries and Query Ownership:
+              - Overview: architecture/data-layer-repositories-and-offline-state/repository-boundaries-and-query-ownership/README.md
+              - Theory: architecture/data-layer-repositories-and-offline-state/repository-boundaries-and-query-ownership/theory.md
+              - Interview Questions: architecture/data-layer-repositories-and-offline-state/repository-boundaries-and-query-ownership/interview.md
+          - Remote, Local, Cache, and Synchronization:
+              - Overview: architecture/data-layer-repositories-and-offline-state/remote-local-cache-and-synchronization/README.md
+              - Theory: architecture/data-layer-repositories-and-offline-state/remote-local-cache-and-synchronization/theory.md
+              - Interview Questions: architecture/data-layer-repositories-and-offline-state/remote-local-cache-and-synchronization/interview.md
+          - Offline Conflicts, Idempotency, and Retries:
+              - Overview: architecture/data-layer-repositories-and-offline-state/offline-conflicts-idempotency-and-retries/README.md
+              - Theory: architecture/data-layer-repositories-and-offline-state/offline-conflicts-idempotency-and-retries/theory.md
+              - Interview Questions: architecture/data-layer-repositories-and-offline-state/offline-conflicts-idempotency-and-retries/interview.md
+          - Domain, Transport, and Persistence Mapping:
+              - Overview: architecture/data-layer-repositories-and-offline-state/domain-transport-and-persistence-mapping/README.md
+              - Theory: architecture/data-layer-repositories-and-offline-state/domain-transport-and-persistence-mapping/theory.md
+              - Interview Questions: architecture/data-layer-repositories-and-offline-state/domain-transport-and-persistence-mapping/interview.md
+      - Concurrency, State, and Side Effects:
+          - Overview: architecture/concurrency-state-and-side-effects/README.md
+          - Isolation Ownership and Main-Actor Boundaries:
+              - Overview: architecture/concurrency-state-and-side-effects/isolation-ownership-and-main-actor-boundaries/README.md
+              - Theory: architecture/concurrency-state-and-side-effects/isolation-ownership-and-main-actor-boundaries/theory.md
+              - Interview Questions: architecture/concurrency-state-and-side-effects/isolation-ownership-and-main-actor-boundaries/interview.md
+          - Task and Effect Lifetimes:
+              - Overview: architecture/concurrency-state-and-side-effects/task-and-effect-lifetimes/README.md
+              - Theory: architecture/concurrency-state-and-side-effects/task-and-effect-lifetimes/theory.md
+              - Interview Questions: architecture/concurrency-state-and-side-effects/task-and-effect-lifetimes/interview.md
+          - Cancellation, Stale Results, and Logical Races:
+              - Overview: architecture/concurrency-state-and-side-effects/cancellation-stale-results-and-logical-races/README.md
+              - Theory: architecture/concurrency-state-and-side-effects/cancellation-stale-results-and-logical-races/theory.md
+              - Interview Questions: architecture/concurrency-state-and-side-effects/cancellation-stale-results-and-logical-races/interview.md
+          - Event Ordering, Streams, and Backpressure:
+              - Overview: architecture/concurrency-state-and-side-effects/event-ordering-streams-and-backpressure/README.md
+              - Theory: architecture/concurrency-state-and-side-effects/event-ordering-streams-and-backpressure/theory.md
+              - Interview Questions: architecture/concurrency-state-and-side-effects/event-ordering-streams-and-backpressure/interview.md
+      - Architecture Evolution and Migration:
+          - Overview: architecture/architecture-evolution-and-migration/README.md
+          - Incremental Replacement and Compatibility Boundaries:
+              - Overview: architecture/architecture-evolution-and-migration/incremental-replacement-and-compatibility-boundaries/README.md
+              - Theory: architecture/architecture-evolution-and-migration/incremental-replacement-and-compatibility-boundaries/theory.md
+              - Interview Questions: architecture/architecture-evolution-and-migration/incremental-replacement-and-compatibility-boundaries/interview.md
+          - Migration Sequencing and Dependency Untangling:
+              - Overview: architecture/architecture-evolution-and-migration/migration-sequencing-and-dependency-untangling/README.md
+              - Theory: architecture/architecture-evolution-and-migration/migration-sequencing-and-dependency-untangling/theory.md
+              - Interview Questions: architecture/architecture-evolution-and-migration/migration-sequencing-and-dependency-untangling/interview.md
+          - Rollout, Observability, and Reversal:
+              - Overview: architecture/architecture-evolution-and-migration/rollout-observability-and-reversal/README.md
+              - Theory: architecture/architecture-evolution-and-migration/rollout-observability-and-reversal/theory.md
+              - Interview Questions: architecture/architecture-evolution-and-migration/rollout-observability-and-reversal/interview.md
+          - Deprecation, Standards, and Team Coordination:
+              - Overview: architecture/architecture-evolution-and-migration/deprecation-standards-and-team-coordination/README.md
+              - Theory: architecture/architecture-evolution-and-migration/deprecation-standards-and-team-coordination/theory.md
+              - Interview Questions: architecture/architecture-evolution-and-migration/deprecation-standards-and-team-coordination/interview.md
+      - VIPER:
+          - Overview: architecture/viper/README.md
+          - View, Interactor, Presenter, Entity, and Router:
+              - Overview: architecture/viper/view-interactor-presenter-entity-and-router/README.md
+              - Theory: architecture/viper/view-interactor-presenter-entity-and-router/theory.md
+              - Interview Questions: architecture/viper/view-interactor-presenter-entity-and-router/interview.md
+          - Module Assembly, Routing, and Data Handoff:
+              - Overview: architecture/viper/module-assembly-routing-and-data-handoff/README.md
+              - Theory: architecture/viper/module-assembly-routing-and-data-handoff/theory.md
+              - Interview Questions: architecture/viper/module-assembly-routing-and-data-handoff/interview.md
+          - Testability, Complexity, and Adoption:
+              - Overview: architecture/viper/testability-complexity-and-adoption/README.md
+              - Theory: architecture/viper/testability-complexity-and-adoption/theory.md
+              - Interview Questions: architecture/viper/testability-complexity-and-adoption/interview.md
+      - RIBs:
+          - Overview: architecture/ribs/README.md
+          - Router, Interactor, Builder, and Component:
+              - Overview: architecture/ribs/router-interactor-builder-and-component/README.md
+              - Theory: architecture/ribs/router-interactor-builder-and-component/theory.md
+              - Interview Questions: architecture/ribs/router-interactor-builder-and-component/interview.md
+          - RIB Trees, Lifecycle, and Scoping:
+              - Overview: architecture/ribs/rib-trees-lifecycle-and-scoping/README.md
+              - Theory: architecture/ribs/rib-trees-lifecycle-and-scoping/theory.md
+              - Interview Questions: architecture/ribs/rib-trees-lifecycle-and-scoping/interview.md
+          - Testability, Tooling, and Adoption:
+              - Overview: architecture/ribs/testability-tooling-and-adoption/README.md
+              - Theory: architecture/ribs/testability-tooling-and-adoption/theory.md
+              - Interview Questions: architecture/ribs/testability-tooling-and-adoption/interview.md
+      - Large-Scale Architecture and Governance:
+          - Overview: architecture/large-scale-architecture-and-governance/README.md
+          - Architecture Decisions, Standards, and Exceptions:
+              - Overview: architecture/large-scale-architecture-and-governance/architecture-decisions-standards-and-exceptions/README.md
+              - Theory: architecture/large-scale-architecture-and-governance/architecture-decisions-standards-and-exceptions/theory.md
+              - Interview Questions: architecture/large-scale-architecture-and-governance/architecture-decisions-standards-and-exceptions/interview.md
+          - Platform Teams, Shared Capabilities, and Ownership:
+              - Overview: architecture/large-scale-architecture-and-governance/platform-teams-shared-capabilities-and-ownership/README.md
+              - Theory: architecture/large-scale-architecture-and-governance/platform-teams-shared-capabilities-and-ownership/theory.md
+              - Interview Questions: architecture/large-scale-architecture-and-governance/platform-teams-shared-capabilities-and-ownership/interview.md
+          - Observability, Resilience, and Incident Boundaries:
+              - Overview: architecture/large-scale-architecture-and-governance/observability-resilience-and-incident-boundaries/README.md
+              - Theory: architecture/large-scale-architecture-and-governance/observability-resilience-and-incident-boundaries/theory.md
+              - Interview Questions: architecture/large-scale-architecture-and-governance/observability-resilience-and-incident-boundaries/interview.md
 
 docs_dir: docs
 site_dir: site
