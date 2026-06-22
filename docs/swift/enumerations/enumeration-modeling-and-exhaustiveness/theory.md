@@ -4,11 +4,13 @@ domain: "Swift"
 topic: "Enumerations"
 concept: "Enumeration Modeling and Exhaustiveness"
 page_type: theory
+interview_priority: high
+estimated_read_minutes: 6
 levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-20
+last_reviewed: 2026-06-22
 tags:
   - enumerations
   - state-modeling
@@ -19,22 +21,6 @@ tags:
 # Enumeration Modeling and Exhaustiveness: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> A Swift enum is a first-class value type whose current value is exactly one
-> case. Cases are values, not implicit integers.
-
-- Use an enum when alternatives are closed, mutually exclusive, and share one
-  domain meaning.
-- Exhaustive switches force every owned case to receive policy; a broad `default`
-  can hide new states.
-- Replace correlated Booleans and optional fields with cases that make invalid
-  combinations unrepresentable.
-- `CaseIterable` exposes all simple cases for iteration, but case order and count
-  should not become persisted identity or business policy accidentally.
-- Adding or reinterpreting a case is a semantic migration for every consumer,
-  persisted value, and distributed peer.
 
 ## Mental Model
 
@@ -205,22 +191,6 @@ that should not define domain identity.
 - `allCases` is an inventory, not a stable database order or permission policy.
 - Value semantics do not make referenced payloads deeply immutable or thread-safe.
 
-## Failure Modes
-
-- **Boolean state explosion:** Invalid flag combinations reach production.
-- **Default hides new owned case:** New state silently receives unsafe generic
-  behavior.
-- **Enum combines independent dimensions:** Case count grows combinatorially and
-  transitions become artificial.
-- **allCases drives authorization:** Newly added cases become selectable without
-  policy review.
-- **Case offset persisted:** Reordering changes stored meaning.
-- **Transitions scattered:** Side effects and validation differ across callers.
-- **Synthesized equality used as identity:** Incidental payload changes make one
-  logical entity compare unequal.
-- **Reference payload assumed snapshotted:** Mutation is visible through copied
-  enum values.
-
 ## Engineering Judgment
 
 ### When to Use an Enum
@@ -241,81 +211,6 @@ require coordinated evolution. Protocol-based open sets allow new conformers
 without changing a central declaration but cannot provide the same exhaustive
 switch. One large state enum prevents invalid combinations while coupling all
 consumers to every new case.
-
-## Production Considerations
-
-### Performance
-
-Enum representation is an implementation detail influenced by cases and payloads.
-Do not depend on case tag numbers, memory layout, or payload packing. Large payloads
-can increase value size and copying cost; use profiling and ownership-oriented
-types rather than replacing clear models with raw integers preemptively.
-
-### Concurrency and Thread Safety
-
-An enum can be `Sendable` when its payloads satisfy the required sendability.
-This permits value transfer; it does not make a shared variable atomically
-mutable. Keep state-machine transitions actor-isolated or synchronized and
-revalidate state after suspension before committing a transition.
-
-### Testing
-
-Use exhaustive switches in test helpers so new cases produce compile failures.
-`allCases` can drive tests for simple enums, but do not let generated loops replace
-case-specific assertions. Test every valid transition, every rejected transition,
-and unknown-case policy at external boundaries.
-
-### Observability and Debugging
-
-Log explicit stable diagnostic names, transition source/event/destination, rejected
-events, and unknown inputs. Avoid persisting reflected case descriptions. Metrics
-should handle newly added cases without collapsing them into misleading success.
-
-### Compatibility and Migration
-
-Adding a case is source-compatible in some binary contexts but semantically
-affects exhaustive consumers, serialization, analytics, UI, tests, and older
-clients. Deploy tolerant readers before producers emit a new external case. For
-owned source, let compile failures identify policy updates instead of adding
-defaults everywhere.
-
-## Staff and Principal Perspective
-
-### System Impact
-
-Shared enums become cross-module schemas. Their cases influence state machines,
-network protocols, storage, analytics, experimentation, and UI. A local case
-addition can therefore require a distributed rollout.
-
-### Decision Framework
-
-Identify whether the set is truly closed, who owns cases and transitions, which
-dimensions are independent, whether payloads affect identity, how unknown values
-are represented, whether cases cross persistence or process boundaries, and how
-old consumers behave.
-
-### Organizational Impact
-
-Assign ownership to shared state enums and require compatibility review for case
-changes. Publish transition and unknown-state policy. Coordinate schema producers,
-readers, analytics, and clients, and avoid using `allCases` as an automatic product
-catalog without a product-policy layer.
-
-## Common Mistakes
-
-### Using default on Every Enum Switch
-
-**Why it is wrong:** It suppresses compiler pressure to handle new owned states.
-
-**Better approach:** Exhaustively name owned cases and reserve unknown fallback for
-resilient external boundaries.
-
-### Encoding State as Multiple Flags
-
-**Why it is wrong:** Callers can construct combinations the domain does not allow.
-
-**Better approach:** Use enum cases and case-specific payloads for mutually
-exclusive states, with one transition owner when needed.
 
 ## References
 

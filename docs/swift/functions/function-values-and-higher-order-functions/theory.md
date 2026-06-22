@@ -4,11 +4,13 @@ domain: "Swift"
 topic: "Functions"
 concept: "Function Values and Higher-Order Functions"
 page_type: theory
+interview_priority: high
+estimated_read_minutes: 6
 levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-20
+last_reviewed: 2026-06-22
 tags:
   - function-types
   - higher-order-functions
@@ -19,23 +21,6 @@ tags:
 # Function Values and Higher-Order Functions: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> A function value packages callable behavior. Its function type checks compatible
-> inputs, output, and effects, but the API must separately define when, where, and
-> how often it is invoked.
-
-- `(Input) -> Output`, `(Input) throws -> Output`, and
-  `@Sendable (Input) async throws -> Output` are different contracts.
-- Argument labels are not part of a function value's function type; calls through
-  the value use the type's positional parameters.
-- Function parameters are nonescaping by default. Mark one `@escaping` when the
-  callee stores it or can invoke it after returning.
-- `@Sendable` enables concurrency checking of the function value and captures; it
-  does not make arbitrary shared state thread-safe or start concurrent execution.
-- Function values have no general equality or stable identity. Use explicit
-  registration tokens rather than comparing callbacks.
 
 ## Mental Model
 
@@ -219,22 +204,6 @@ methods can prevent accidental interchange and provide documentation.
 - Type aliases do not create nominally distinct callback types.
 - Function values do not expose stable equality or persistence identity.
 
-## Failure Modes
-
-- **Callback invoked twice:** Caller completes state or continuation more than
-  once.
-- **Sometimes synchronous callback:** Unexpected reentrancy observes partially
-  updated state.
-- **Escaping capture retains an owner:** Creates a lifecycle leak.
-- **Shared mutable capture:** Concurrent invocations race.
-- **@Sendable treated as synchronization:** Unsafe global or referenced state is
-  still mutated.
-- **Callback used as registration identity:** Removal fails or is impossible.
-- **Function type used for a stateful subsystem:** Lifecycle and related behavior
-  become hidden in captures.
-- **Type alias treated as a new type:** Semantically different callbacks remain
-  interchangeable.
-
 ## Engineering Judgment
 
 ### Function Value versus Protocol
@@ -255,84 +224,6 @@ structure. Protocols and types add ceremony while supporting lifecycle, identity
 capabilities, and documentation. Escaping increases flexibility at ownership and
 concurrency cost. Sendable annotations improve enforcement but can expose legacy
 non-Sendable dependencies requiring architectural work.
-
-## Production Considerations
-
-### Performance
-
-Calling through a function value can inhibit some specialization or inlining, and
-captured escaping contexts may allocate. The optimizer can remove much of this in
-common cases. Measure optimized builds before replacing clear higher-order code.
-Avoid per-element escaping allocations in hot paths and retain-cycle-driven memory
-growth.
-
-### Concurrency and Thread Safety
-
-Define isolation in the API rather than relying on documentation such as “usually
-main thread.” Use `@MainActor` for UI callbacks and `@Sendable` for transferred
-work. If multiple invocations can overlap, ensure captured and external state is
-immutable, actor-isolated, or synchronized. Cancellation must prevent or safely
-tolerate late delivery.
-
-### Testing
-
-Test zero, one, repeated, synchronous, deferred, cancelled, and error invocations
-according to the declared contract. Use test callbacks to assert ordering and
-isolation. Add leak tests for escaping ownership and concurrency tests for
-overlapping delivery. Avoid tests that depend on closure identity.
-
-### Observability and Debugging
-
-Assign operation or registration IDs outside the function value. Record callback
-registration, invocation count, latency, isolation violations, cancellation, and
-late delivery. Do not log captured object graphs or use code addresses as stable
-identifiers.
-
-### Compatibility and Migration
-
-Adding `@escaping`, `@Sendable`, async, throws, or actor isolation changes caller
-constraints and can be source-breaking. Callback-to-async migrations must define
-single-resume behavior, cancellation, progress, and legacy coexistence. Preserve
-adapters only while their execution semantics remain equivalent and observable.
-
-## Staff and Principal Perspective
-
-### System Impact
-
-Callback contracts shape task ownership, UI isolation, retries, cancellation, and
-memory retention across module boundaries. Ambiguous invocation rules create
-distributed state machines that are difficult to debug.
-
-### Decision Framework
-
-Review function shape, semantic role, escape lifetime, capture ownership,
-cardinality, ordering, reentrancy, isolation, sendability, cancellation, error
-delivery, observability, and migration path.
-
-### Organizational Impact
-
-Standardize callback contracts for shared infrastructure and prefer structured
-async APIs for one-shot asynchronous results. Provide registration tokens for
-observer systems. Treat strict-concurrency adoption errors as ownership feedback,
-not warnings to suppress with unchecked annotations.
-
-## Common Mistakes
-
-### Assuming a Matching Function Type Is Enough
-
-**Why it is wrong:** The arrow type omits call timing, count, ordering, isolation,
-and domain meaning.
-
-**Better approach:** Document or encode the full execution contract and use a
-named abstraction when semantics exceed one operation.
-
-### Using @Sendable as a Thread-Safety Claim
-
-**Why it is wrong:** It checks transfer and captures but does not protect arbitrary
-shared state or schedule execution.
-
-**Better approach:** Combine sendability with actor isolation or explicit
-synchronization and scheduler ownership.
 
 ## References
 

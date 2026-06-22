@@ -4,25 +4,16 @@ domain: "Swift"
 topic: "Initialization"
 concept: "Class Initialization and Two-Phase Safety"
 page_type: theory
+interview_priority: high
+estimated_read_minutes: 2
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Class Initialization and Two-Phase Safety: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> Designated initializers establish storage; convenience initializers delegate across
-> to another initializer until a designated initializer is reached.
-
-- A designated initializer must initialize properties introduced by its class before delegating up.
-- A convenience initializer must delegate across with `self.init` and ultimately reach a designated initializer.
-- Phase one completes stored-property initialization up the hierarchy; phase two permits customization down the hierarchy.
-- Before phase one completes, initializers cannot call instance methods, read instance properties, or use `self` as a value.
-- Never depend on overridable callbacks observing complete subclass state during construction.
 
 ## Mental Model
 
@@ -70,31 +61,17 @@ Initializer inheritance is conditional; do not assume a subclass receives every 
 - Overriding a superclass designated initializer requires `override`; implementing a required initializer uses `required`.
 - Initialization safety does not guarantee application-level rollback of external effects.
 
-## Failure Modes
-
-- Subclass property remains uninitialized before `super.init`.
-- Convenience initializer delegates directly to a superclass.
-- `self` escapes through registration or callback during phase one.
-- Base construction invokes overridable behavior too early.
-- Side effects occur before a later initializer failure.
-
 ## Engineering Judgment
 
 Keep designated initializers few and complete. Use convenience initializers for ergonomic
 input forms only. Move asynchronous I/O and external registration into explicit factories
 or start methods so failure, cancellation, and cleanup are visible.
 
-## Production Considerations
+## Production Application
 
 Test every delegation path, subclass default, failure point, and lifecycle callback.
 Changing designated initializers can alter automatic inheritance and break downstream
 subclasses; compile representative subclass fixtures during evolution.
-
-## Staff and Principal Perspective
-
-Framework initializers are extension protocols. Document subclass obligations, safe
-override points, side-effect ordering, and compatibility policy; prefer final classes
-when lifecycle customization is unsupported.
 
 ## References
 

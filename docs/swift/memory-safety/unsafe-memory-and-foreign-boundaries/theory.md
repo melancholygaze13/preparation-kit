@@ -4,24 +4,16 @@ domain: "Swift"
 topic: "Memory Safety"
 concept: "Unsafe Memory and Foreign Boundaries"
 page_type: theory
+interview_priority: high
+estimated_read_minutes: 3
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Unsafe Memory and Foreign Boundaries: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> Unsafe Swift removes enforcement, not requirements; every unchecked memory operation needs a complete local proof.
-
-- Prove allocation size, bounds, alignment, binding, initialization state, and pointee lifetime.
-- Preserve exclusivity and synchronization even when raw pointers bypass enforcement.
-- Pointers from `withUnsafe...` closures are normally valid only for the documented closure scope.
-- Match foreign ownership conventions and deallocate exactly once with the correct allocator.
-- Keep unsafe code narrow, return safe values/owners, document invariants, and test with sanitizers.
 
 ## Mental Model
 
@@ -60,22 +52,13 @@ previous storage assumptions through reallocation or copy-on-write.
 - `Unmanaged` bypasses automatic ownership balancing and requires exact convention handling.
 - Safe Swift callers can still be compromised by one incorrectly implemented unsafe wrapper.
 
-## Failure Modes
-
-- A scoped buffer pointer escapes and becomes dangling after mutation or return.
-- Byte-count multiplication overflows before bounds validation.
-- Uninitialized memory is loaded or initialized memory is initialized twice.
-- Memory is rebound or cast with incompatible alignment/layout assumptions.
-- A C returned object is over-released, leaked, or retained under the wrong convention.
-- Pointer mutation races because exclusivity checks were bypassed.
-
 ## Engineering Judgment
 
 Use unsafe APIs for required C/system interop or measured performance that safe APIs cannot deliver.
 Centralize them in small adapters with explicit preconditions and safe outputs. Prefer copying when
 data is small or crosses ownership/lifetime boundaries; “zero copy” is not free if correctness is unclear.
 
-## Production Considerations
+## Production Application
 
 ### Performance
 
@@ -118,14 +101,6 @@ synchronization, validation, sanitizer/fuzz coverage, benchmark evidence, and ro
 
 Establish unsafe-code owners and review policy proportional to blast radius. Security-sensitive parsers
 and shared platform wrappers require stronger fuzzing, change control, and incident response.
-
-## Common Mistakes
-
-### Trusting Tests as a Lifetime Proof
-
-**Why it is wrong:** Dangling, misbound, or racy pointers can appear stable until allocation layout, optimization, timing, or input changes.
-
-**Better approach:** Document and enforce the formal lifetime/bounds/binding contract, then use tests and sanitizers as supporting evidence.
 
 ## References
 

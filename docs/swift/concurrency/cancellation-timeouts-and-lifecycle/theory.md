@@ -4,24 +4,16 @@ domain: "Swift"
 topic: "Concurrency"
 concept: "Cancellation, Timeouts, and Lifecycle"
 page_type: theory
+interview_priority: core
+estimated_read_minutes: 4
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Cancellation, Timeouts, and Lifecycle: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> Cancellation marks a task; code and callees must cooperate before work actually stops.
-
-- `Task.checkCancellation()` throws; `Task.isCancelled` supports nonthrowing policy.
-- Parent cancellation propagates to structured children, not unrelated task handles.
-- A cancellation handler promptly signals underlying work but does not terminate the task.
-- Cleanup must leave invariants valid and preserve cancellation as a distinct outcome.
-- Model timeouts as deadlines using `Clock`; cancel losing work and account for cleanup latency.
 
 ## Mental Model
 
@@ -72,14 +64,6 @@ or higher-level scheduler for deterministic tests.
   guarantee the callee checks it.
 - Cancellation handlers provide prompt notification, not exclusive access or automatic cleanup.
 
-## Failure Modes
-
-- A broad `catch` retries cancellation and creates zombie work.
-- CPU loops ignore cancellation and delay navigation or shutdown.
-- A handler races initialization of the legacy cancellation token.
-- The timeout child returns while the losing operation continues unowned.
-- Cleanup awaits indefinitely or exposes partial state.
-
 ## Engineering Judgment
 
 ### When to Use It
@@ -106,7 +90,7 @@ transaction rollback. Do not promise a hard deadline around noncooperative depen
 Use explicit stop messages for long-lived services and server-enforced deadlines when
 the remote system owns the expensive resource.
 
-## Production Considerations
+## Production Application
 
 ### Performance
 
@@ -149,14 +133,6 @@ and noncooperative dependency behavior.
 
 Standardize deadline propagation and cancellation metrics across modules. API owners must
 document whether cancellation stops underlying work or merely ignores its result.
-
-## Common Mistakes
-
-### Assuming timeout means the operation stopped
-
-**Why it is wrong:** The losing task must observe cancellation, and structured scope waits for it.
-
-**Better approach:** Use cooperative dependencies, propagate deadlines, and measure cancellation drain time.
 
 ## References
 

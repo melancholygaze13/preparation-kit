@@ -4,24 +4,16 @@ domain: "Swift"
 topic: "Protocols"
 concept: "Existentials, Composition, and Delegation"
 page_type: theory
+interview_priority: core
+estimated_read_minutes: 3
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Existentials, Composition, and Delegation: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> `some P`/generics preserve a concrete type relationship; `any P` erases the concrete type into an existential container.
-
-- Use generics when input/output types are related or specialization matters.
-- Use `any P` for heterogeneous storage, runtime replacement, and ABI/module boundaries.
-- Protocol composition `P & Q` requires all listed capabilities without creating a new protocol.
-- Class-only protocols use `AnyObject` when reference identity/weak ownership is part of the contract.
-- Delegates should define ownership, isolation, ordering, cardinality, and failure behavior explicitly.
 
 ## Mental Model
 
@@ -70,21 +62,13 @@ capability protocols when Objective-C interoperability is not required.
 - `AnyObject` composition permits weak references but excludes value conformers.
 - Optional requirements are an Objective-C interoperability feature, not general Swift defaults.
 
-## Failure Modes
-
-- Existential erasure makes associated input/output relationships unusable.
-- A strong delegate cycle prevents teardown.
-- A weak delegate disappears before required completion.
-- Optional callback delivery becomes an invisible no-op.
-- A delegate callback arrives on an undocumented actor or queue.
-
 ## Engineering Judgment
 
 Prefer generics for static algorithms and related types; use existentials at real dynamic
 boundaries. Use delegation for replaceable one-to-one collaboration with explicit lifecycle;
 use async values/streams for structured results over time.
 
-## Production Considerations
+## Production Application
 
 Measure boxing and dispatch only when profiling identifies a hot path. Test delegate
 release, missing delegates, callback ordering, isolation, reentrancy, and cancellation.
@@ -94,14 +78,6 @@ Changing generic to existential APIs can alter performance, source inference, an
 
 Erasure boundaries shape modules and testing seams. Standardize ownership and actor rules
 for delegates; avoid protocols that become universal service locators.
-
-## Common Mistakes
-
-### Using any Protocol Everywhere for Flexibility
-
-**Why it is wrong:** Erasure discards static relationships and may add allocation and dispatch costs.
-
-**Better approach:** Preserve generic relationships internally and erase only at a genuine runtime boundary.
 
 ## References
 

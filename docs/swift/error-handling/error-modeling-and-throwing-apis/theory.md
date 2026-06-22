@@ -4,26 +4,17 @@ domain: "Swift"
 topic: "Error Handling"
 concept: "Error Modeling and Throwing APIs"
 page_type: theory
+interview_priority: core
+estimated_read_minutes: 3
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 tags: [errors, throws, typed-throws, api-design]
 ---
 
 # Error Modeling and Throwing APIs: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> Swift errors are values conforming to `Error`; throwing transfers control to the
-> nearest matching recovery boundary.
-
-- Use `throw`, `throws`, and `try` to make recoverable failure explicit.
-- Model domain errors with stable cases and associated context needed for recovery.
-- Use `throws(SomeError)` when a closed error contract materially helps callers; ordinary `throws` remains appropriate for open/composed failures.
-- Use `Result` for stored, callback, or value-level outcomes—not as a replacement for normal synchronous throwing control flow.
-- Never include secrets or unstable low-level descriptions in durable error identity.
 
 ## Mental Model
 
@@ -81,21 +72,13 @@ declaring one giant error enum.
 - `try!` traps on a thrown error and requires a proven invariant.
 - Errors do not automatically roll back mutations or external effects.
 
-## Failure Modes
-
-- One generic error prevents targeted recovery.
-- Exhaustive internal error types leak across public boundaries.
-- `try?` erases actionable diagnostics.
-- Mutation commits partially before throwing.
-- Localized descriptions become programmatic identifiers.
-
 ## Engineering Judgment
 
 Design errors from caller decisions, not every internal event. Keep domain errors near
 the owning boundary, preserve underlying errors for diagnostics where safe, and use
 transaction/compensation design for effectful partial failure.
 
-## Production Considerations
+## Production Application
 
 Test every error case, unchanged-state guarantees, redaction, and typed-error evolution.
 Measure failures by stable category and operation, not message text. Adding a public

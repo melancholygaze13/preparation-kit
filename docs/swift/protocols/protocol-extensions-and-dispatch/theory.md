@@ -4,24 +4,16 @@ domain: "Swift"
 topic: "Protocols"
 concept: "Protocol Extensions and Dispatch"
 page_type: theory
+interview_priority: core
+estimated_read_minutes: 2
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Protocol Extensions and Dispatch: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> A conformer's implementation overrides a default for a declared requirement; an extension-only member is selected using static type and constraints.
-
-- Protocol extensions can add computed properties, methods, initializers, and subscripts.
-- A default implementation can satisfy a protocol requirement.
-- A same-named member not declared as a requirement is not dynamically dispatched through the existential/generic witness.
-- Constrained defaults apply only where their requirements hold; the most specific valid implementation must remain unambiguous.
-- Defaults should preserve one semantic contract rather than provide surprising fallback behavior.
 
 ## Mental Model
 
@@ -64,20 +56,13 @@ not a requirement. If polymorphism is intended, declare it in the protocol.
 - A conformer need not implement a requirement with an available default.
 - Static and witness dispatch differences are language behavior, not optimizer accidents.
 
-## Failure Modes
-
-- Concrete tests pass while existential calls use an extension-only implementation.
-- A default silently hides a missing safety-critical implementation.
-- New constrained defaults make overload resolution ambiguous.
-- A broad default couples unrelated conformers to one policy.
-
 ## Engineering Judgment
 
 Use defaults for universal behavior derivable from requirements. Require explicit
 implementation when policy, performance, security, or lifecycle differs by conformer.
 Keep convenience helpers extension-only only when static dispatch is intentional.
 
-## Production Considerations
+## Production Application
 
 Test calls through concrete, generic, and existential views. Benchmark defaults where
 complexity differs. Audit isolation: synchronous requirements cannot be satisfied by
@@ -87,14 +72,6 @@ actor-isolated witnesses unless the protocol/conformance expresses that isolatio
 
 Default implementations are ecosystem policy. Version them cautiously, document laws,
 and compile external conformer fixtures before adding requirements or overlapping defaults.
-
-## Common Mistakes
-
-### Assuming Every Extension Method Is Dynamically Dispatched
-
-**Why it is wrong:** Only protocol requirements participate in the conformance witness table.
-
-**Better approach:** Declare intended customization points as requirements and provide defaults separately.
 
 ## References
 

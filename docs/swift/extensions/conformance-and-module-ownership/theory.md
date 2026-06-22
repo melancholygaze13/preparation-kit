@@ -4,24 +4,16 @@ domain: "Swift"
 topic: "Extensions"
 concept: "Conformance and Module Ownership"
 page_type: theory
+interview_priority: situational
+estimated_read_minutes: 4
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Conformance and Module Ownership: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> Put a conformance with the module that owns either the type or protocol; a conformance between two imported declarations is retroactive and can collide globally.
-
-- Extensions can declare conformance and implement requirements for owned or imported types.
-- Protocol conformances are globally unique at runtime, not scoped to the importing file or feature.
-- Swift 6 warns when both the type and protocol come from other modules.
-- `@retroactive` acknowledges the risk; it does not make future conflicts safe.
-- Prefer an owned wrapper when semantics, persistence, identity, or compatibility are application-specific.
 
 ## Mental Model
 
@@ -81,14 +73,6 @@ need separate protocol-level reasoning; an extension does not create dynamic ove
 - Extensions of imported types without imported-protocol conformance do not create the same witness-table conflict, though member names can still collide.
 - A same-package exception to the warning is not proof that architecture or semantics are sound.
 
-## Failure Modes
-
-- A framework exports a retroactive conformance every downstream app inherits unknowingly.
-- An SDK later adds the conformance and client builds fail or old binaries behave inconsistently.
-- Two teams choose different identity, equality, encoding, or hashing semantics.
-- A global conformance leaks feature-specific policy into unrelated generic algorithms.
-- `@retroactive` is treated as a routine warning suppression.
-
 ## Engineering Judgment
 
 ### When to Use It
@@ -115,58 +99,6 @@ feature-specific identity, persistence, ordering, or serialization policy.
 
 Use a wrapper, local adapter, key-path parameter, strategy object, or explicit closure
 instead of teaching all generic code one global meaning for a foreign type.
-
-## Production Considerations
-
-### Performance
-
-Conformance lookup is not usually the decision driver. Wrapper allocation/copy costs
-should be measured, but semantic compatibility outweighs speculative micro-optimization.
-
-### Concurrency and Thread Safety
-
-Conformance does not add thread safety. Audit `Sendable`, global-actor, and synchronous
-protocol requirements; do not use unchecked conformance to bypass isolation errors.
-
-### Testing
-
-Compile representative downstream clients with current and beta toolchains. Test generic
-behavior, persistence compatibility, dynamic casts, and mixed binary/source dependency graphs.
-
-### Observability and Debugging
-
-Inventory retroactive conformances and their importing modules. Record schema/version
-identity explicitly rather than inferring which witness implementation ran.
-
-### Compatibility and Migration
-
-Before removing a retroactive conformance, migrate call sites to a wrapper or adapter and
-coordinate binary releases. Monitor upstream SDK proposals and betas for new conformances.
-
-## Staff and Principal Perspective
-
-### System Impact
-
-A single utility extension can constrain every application's dependency graph and block
-an SDK upgrade. Conformance governance is platform architecture, not local code style.
-
-### Decision Framework
-
-Identify both declaration owners, semantic law, binary distribution, upstream evolution
-likelihood, persistence impact, client inventory, and exit strategy.
-
-### Organizational Impact
-
-Require central review and an owner registry for retroactive conformances. Ban them from
-widely distributed libraries by default and test against platform betas.
-
-## Common Mistakes
-
-### Treating @retroactive as a Fix
-
-**Why it is wrong:** It acknowledges risk but cannot prevent an upstream module from introducing the same conformance.
-
-**Better approach:** Prefer an owned wrapper; if unavoidable, fund compatibility monitoring and migration.
 
 ## References
 

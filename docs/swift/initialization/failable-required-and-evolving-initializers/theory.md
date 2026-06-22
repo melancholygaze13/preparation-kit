@@ -4,25 +4,16 @@ domain: "Swift"
 topic: "Initialization"
 concept: "Failable, Required, and Evolving Initializers"
 page_type: theory
+interview_priority: high
+estimated_read_minutes: 2
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Failable, Required, and Evolving Initializers: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> Use `init?` for one expected absence result, throwing initialization for diagnostic
-> failures, and `required` when every subclass must implement or inherit construction.
-
-- Failable initialization returns `nil` and cannot explain why construction failed.
-- Throwing initialization communicates typed failure through the error channel.
-- `required` propagates an initializer obligation to subclasses.
-- A nonfailable initializer can override a failable one, but not vice versa for the same promise.
-- Changing failure, isolation, defaults, or required status is a compatibility change.
 
 ## Mental Model
 
@@ -55,39 +46,17 @@ evolution, so do not add it for hypothetical uniformity.
 - Initializer inheritance and override rules differ from ordinary methods.
 - No initializer mechanism provides automatic rollback for external side effects.
 
-## Failure Modes
-
-- `init?` collapses actionable failures into nil.
-- `init!` defers invalid-input failure to a trap.
-- Required initializer forces meaningless subclass defaults.
-- Validation changes reject persisted old data without migration.
-- Async work is hidden behind blocking construction.
-
 ## Engineering Judgment
 
 Use `init?` for simple membership/shape failure, `throws` for actionable diagnostics,
 and an async factory for effectful construction. Use `required` only for a real subtype
 creation contract. Preserve raw input or version it when future migration is required.
 
-## Production Considerations
+## Production Application
 
 Test error classification, no-side-effect failure, persisted old versions, subclass
 requirements, and mixed-version rollout. Instrument failure categories without logging
 sensitive raw input. Deploy tolerant readers before writers enforce new required fields.
-
-## Staff and Principal Perspective
-
-Initialization changes are schema changes. Assign owners to validation and decoding,
-publish compatibility windows, coordinate producers and consumers, and provide migration
-tooling before tightening invariants across modules or services.
-
-## Common Mistakes
-
-### Use init! to Avoid Optional Handling
-
-**Why it is wrong:** Invalid runtime input becomes a delayed trap.
-
-**Better approach:** Handle optional absence, propagate an error, or prove the invariant at a trusted boundary.
 
 ## References
 

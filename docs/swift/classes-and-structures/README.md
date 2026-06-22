@@ -2,17 +2,17 @@
 title: "Classes and Structures"
 domain: "Swift"
 page_type: topic-index
+interview_priority: core
 status: reviewed
-last_reviewed: 2026-06-20
+last_reviewed: 2026-06-22
 ---
 
 # Classes and Structures
 
 ## Scope
 
-Choosing and designing Swift structures and classes, reasoning about value versus
-reference behavior, and making identity, aliasing, and mutation ownership explicit
-at production boundaries.
+This topic explains when to use a struct or class. It focuses on copying,
+identity, shared mutation, and ownership.
 
 Detailed property behavior, methods, initialization rules, inheritance, and ARC
 belong to their dedicated chapters. This topic uses only the mechanics needed to
@@ -23,7 +23,7 @@ make sound type and ownership decisions.
 - [Language Basics](../language-basics/README.md)
 - [Functions](../functions/README.md)
 
-## Learning Path
+## Rapid Review
 
 1. [Type Design and Initialization](type-design-and-initialization/README.md)
 2. [Value and Reference Semantics](value-and-reference-semantics/README.md)
@@ -31,11 +31,11 @@ make sound type and ownership decisions.
 
 ## Concepts
 
-| Concept | Summary | Level |
-|---|---|---|
-| [Type Design and Initialization](type-design-and-initialization/README.md) | Select a struct or class from domain semantics and expose initialization that preserves invariants. | Senior |
-| [Value and Reference Semantics](value-and-reference-semantics/README.md) | Predict assignment and mutation behavior without assuming deep copies or a particular storage optimization. | Senior |
-| [Identity, Aliasing, and Mutation Ownership](identity-aliasing-and-mutation-ownership/README.md) | Separate identity from equality and place shared mutation behind an explicit lifecycle and synchronization owner. | Senior |
+| Concept | Why it matters | Priority | Time |
+|---|---|---|---:|
+| [Type Design and Initialization](type-design-and-initialization/README.md) | Selects a type from domain behavior, not habit. | Core | 12 min |
+| [Value and Reference Semantics](value-and-reference-semantics/README.md) | Predicts copying and mutation after assignment. | Core | 12 min |
+| [Identity, Aliasing, and Mutation Ownership](identity-aliasing-and-mutation-ownership/README.md) | Places shared state behind a clear owner. | Core | 13 min |
 
 ## Related Topics
 

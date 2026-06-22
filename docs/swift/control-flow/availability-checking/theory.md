@@ -4,12 +4,14 @@ domain: "Swift"
 topic: "Control Flow"
 concept: "Availability Checking"
 page_type: theory
+interview_priority: high
+estimated_read_minutes: 6
 levels:
   - senior
   - staff
   - principal
 status: reviewed
-last_reviewed: 2026-06-20
+last_reviewed: 2026-06-22
 tags:
   - availability
   - deployment-target
@@ -19,23 +21,6 @@ tags:
 # Availability Checking: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> `@available` declares where a symbol can be used; `#available` and
-> `#unavailable` refine what the compiler permits inside runtime control-flow
-> regions.
-
-- The deployment target is the baseline OS promise; the SDK determines which API
-  declarations the compiler knows.
-- `if #available` protects a new-API branch; `guard #available` refines the rest
-  of the scope after its fallback exits.
-- The `*` covers unspecified platforms at their minimum deployment target; the
-  platform list is not an ordinary Boolean OR expression.
-- Availability proves symbol presence for a platform version, not permission,
-  entitlement, device capability, server rollout, data validity, or success.
-- Fallback code is production code: test it on actual supported OS versions and
-  retire it only with an intentional deployment-target migration.
 
 ## Mental Model
 
@@ -220,21 +205,6 @@ transaction guarantees.
   operand.
 - Testing only on the newest OS does not validate fallback behavior.
 
-## Failure Modes
-
-- **Confusing SDK with deployment target:** Builds successfully but references a
-  newer API without a valid runtime guard.
-- **Using OS version as capability:** Enables behavior on devices or accounts that
-  cannot support it.
-- **Scattering checks:** New and legacy behavior drift across call sites.
-- **Empty or unsafe fallback:** Older supported users crash or lose core behavior.
-- **Using #if for runtime versions:** Removes one path from the binary instead of
-  selecting by executing OS.
-- **Treating `*` as Boolean OR:** Misunderstands behavior on other platforms.
-- **Testing fallback with mocks only:** Misses older-runtime framework behavior.
-- **Removing fallback before raising deployment target:** Breaks supported OS
-  versions.
-
 ## Engineering Judgment
 
 ### Decision Criteria
@@ -253,83 +223,6 @@ transaction guarantees.
 Inline checks are local but duplicate policy. Adapter boundaries add types while
 centralizing compatibility. Raising the deployment target removes fallback cost
 and test burden but drops users and may constrain business or enterprise support.
-
-## Production Considerations
-
-### Performance
-
-Version check cost is negligible. The architectural cost comes from duplicated
-implementations, binary size, maintenance, and divergent behavior. Resolve the
-implementation once at a boundary instead of repeatedly branching in a hot path.
-
-### Concurrency
-
-New and fallback APIs can have different isolation, callback, cancellation, or
-threading contracts. An adapter must normalize these behaviors or expose the
-difference honestly. Availability alone does not make a legacy callback API safe
-to call from an actor or guarantee equivalent cancellation.
-
-### Testing and Observability
-
-Run tests on the oldest supported OS, boundary versions, and current OS. Test both
-implementations for shared contract behavior and platform-specific differences.
-Track fallback usage, failures by OS, unsupported-capability outcomes, and legacy
-path health without using version alone as a proxy for causation.
-
-### Compatibility and Migration
-
-To adopt a newer API:
-
-1. Define the behavior contract and minimum version.
-2. Add a small guarded adapter with a functional fallback.
-3. Test supported OS boundaries and mixed feature configurations.
-4. Roll out with path and failure telemetry.
-5. Raise the deployment target only through a product-supported migration.
-6. Remove fallback and obsolete tests after the old target is no longer built.
-
-Raising the deployment target is a product and support decision, not merely code
-cleanup. Consider active users, enterprise fleets, release cadence, and emergency
-rollback builds.
-
-## Staff and Principal Perspective
-
-### System Impact
-
-Compatibility branches multiply across modules if no one owns them. Divergent
-paths affect analytics, accessibility, security, concurrency, and support, not
-only UI appearance. A common adapter surface limits the number of behavior
-variants the system must reason about.
-
-### Decision Framework
-
-Record the deployment and SDK baselines, declaration availability, fallback
-contract, capability checks, path owner, oldest-OS test plan, telemetry, adoption
-threshold, and retirement criteria.
-
-### Organizational Impact
-
-Maintain a deployment-target policy with product and support stakeholders.
-Centralize compatibility utilities only where semantics are genuinely shared;
-avoid a generic “availability helper” that hides compiler refinement. Assign
-owners and deletion criteria to fallbacks so compatibility code does not become
-permanent by neglect.
-
-## Common Mistakes
-
-### Treating Availability as Feature Detection
-
-**Why it is wrong:** An existing symbol says nothing about permission, hardware,
-configuration, server rollout, or operation success.
-
-**Better approach:** Guard symbol use by availability and separately query the
-actual capability or handle the operation result.
-
-### Repeating Checks Throughout a Feature
-
-**Why it is wrong:** Branch behavior and version thresholds drift.
-
-**Better approach:** Select an implementation at a compatibility boundary and
-expose one semantic interface.
 
 ## References
 

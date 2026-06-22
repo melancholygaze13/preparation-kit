@@ -4,25 +4,16 @@ domain: "Swift"
 topic: "Generics"
 concept: "Where Clauses and Conditional Conformance"
 page_type: theory
+interview_priority: core
+estimated_read_minutes: 3
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Where Clauses and Conditional Conformance: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> A generic `where` clause states facts required in a context; a conditional conformance
-> publishes a protocol contract only for substitutions where those facts hold.
-
-- Requirements can express conformance, superclass, same-type, and associated-type relationships.
-- Constrained extensions add APIs to eligible substitutions without creating new runtime states.
-- Conditional conformance must provide every requirement under its stated conditions.
-- Conformance lookup is global for a type/protocol pair; conditions are not a runtime selection mechanism.
-- Overlapping behavioral overloads can make source behavior fragile even when each declaration compiles.
 
 ## Mental Model
 
@@ -69,14 +60,6 @@ without relying on an undocumented uniqueness precondition.
 - Swift does not allow multiple conformances of one type to the same protocol selected by different generic conditions.
 - Retrofitting a conformance can affect overload resolution and conflict with another module's conformance.
 
-## Failure Modes
-
-- An unconditional conformance traps or degrades semantics for unsupported type arguments.
-- A retroactive conditional conformance collides with an owner-provided conformance.
-- Adding a more-specific overload changes which implementation source clients select.
-- Constraints repeat across APIs and diverge during maintenance.
-- A helper such as dictionary construction has an undocumented duplicate-key failure.
-
 ## Engineering Judgment
 
 Use conditional conformance when the outer type's protocol semantics derive directly and
@@ -84,7 +67,7 @@ universally from its arguments. Use constrained members when only a capability i
 added. Prefer conformance ownership by the type or protocol owner, especially for public
 cross-module APIs.
 
-## Production Considerations
+## Production Application
 
 ### Performance
 
@@ -115,17 +98,6 @@ temporary adapters, and compile downstream packages against the new graph.
 Treat public conformances as ecosystem-wide instances, not local conveniences. Maintain a
 conformance ownership policy, inspect downstream overload behavior, and use source-compatibility
 fixtures before publishing new constrained overloads.
-
-## Common Mistakes
-
-### Confusing a Constrained Extension with Conditional Conformance
-
-**Why it is wrong:** A constrained extension can add members without asserting a protocol
-contract; conditional conformance makes the type usable as that protocol everywhere its
-conditions hold.
-
-**Better approach:** Publish conformance only when the full semantic contract derives from
-the stated constraints.
 
 ## References
 

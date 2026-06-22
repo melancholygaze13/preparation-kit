@@ -4,24 +4,16 @@ domain: "Swift"
 topic: "Concurrency"
 concept: "Concurrency Testing and Observability"
 page_type: theory
+interview_priority: high
+estimated_read_minutes: 5
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Concurrency Testing and Observability: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> Concurrency tests should control ordering through awaited dependencies, gates, and clocks—not infer it from sleeps.
-
-- Swift Testing test functions can be `async`; await the production operation directly.
-- Use `confirmation()` only when the operation completes before its closure returns.
-- Inject clocks, producers, and suspension gates to make cancellation and reentrancy deterministic.
-- Actor-state assertions should go through actor APIs; Thread Sanitizer complements compiler checks.
-- Operate with active-task, queueing, hop, cancellation-latency, buffer, drop, and trace signals.
 
 ## Mental Model
 
@@ -84,14 +76,6 @@ deterministic assertions.
 - TSan detects runtime memory races, not logical stale-result or cancellation-policy bugs.
 - `confirmation()` counts calls during its dynamic scope; it does not wait for discarded tasks.
 
-## Failure Modes
-
-- A sleep-based test flakes under load or passes without reaching the intended interleaving.
-- A test starts `Task {}` and ends before observing its failure.
-- Shared mocks race because Swift Testing runs tests in parallel.
-- Metrics omit cancellations and make abandoned work look successful.
-- Trace/task identifiers create unbounded metric labels.
-
 ## Engineering Judgment
 
 ### When to Use It
@@ -118,7 +102,7 @@ or serialize the suite to compensate for unsafe fixtures.
 Use model/state-machine tests for complex owners, integration tests for boundary adapters,
 and load tests for capacity policy. Each answers a different risk.
 
-## Production Considerations
+## Production Application
 
 ### Performance
 
@@ -162,14 +146,6 @@ runtime signal, and failure budget. Avoid tests that merely repeat work probabil
 
 Provide shared concurrency-safe fakes, clocks, and metric conventions. Run strict compile,
 TSan, deterministic unit, and capacity tests in distinct CI lanes with clear ownership.
-
-## Common Mistakes
-
-### Waiting with sleep
-
-**Why it is wrong:** Elapsed time does not prove the operation reached the required state.
-
-**Better approach:** Wait for an explicit gate/confirmation from the dependency, mutate or cancel, then release and await completion.
 
 ## References
 

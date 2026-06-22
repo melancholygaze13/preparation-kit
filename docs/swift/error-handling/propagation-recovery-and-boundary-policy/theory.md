@@ -4,25 +4,17 @@ domain: "Swift"
 topic: "Error Handling"
 concept: "Propagation, Recovery, and Boundary Policy"
 page_type: theory
+interview_priority: core
+estimated_read_minutes: 3
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 tags: [error-propagation, recovery, cancellation, observability]
 ---
 
 # Propagation, Recovery, and Boundary Policy: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> Catch an error only where you can make a meaningful policy decision.
-
-- `do-catch` pattern matching selects recovery by error type and associated values.
-- Rethrow or propagate when the current layer cannot recover or translate responsibly.
-- `defer` performs synchronous scope cleanup on success, return, or throw.
-- Cancellation is a control-flow request, not normally a user-visible failure; do not catch and report it as generic error.
-- Retry only classified transient, idempotent operations with limits, backoff, and cancellation.
 
 ## Mental Model
 
@@ -73,22 +65,13 @@ database codes, and localized strings should not leak as the domain contract.
 - Throwing does not undo external effects.
 - Cancellation flags require cooperative checks by running work.
 
-## Failure Modes
-
-- Catch-and-ignore creates false success.
-- Every layer logs the same error, multiplying incidents.
-- Generic catch turns cancellation into an alert and retry loop.
-- Retry repeats nonidempotent payment or mutation.
-- Error translation drops underlying correlation and category.
-- Cleanup itself fails silently after partial work.
-
 ## Engineering Judgment
 
 Propagate within a layer, translate at stable boundaries, and present only at the user-
 experience owner. Retry near the operation owner with idempotency evidence. Use explicit
 transactions or compensation for partial side effects.
 
-## Production Considerations
+## Production Application
 
 Test cancellation, retry exhaustion, redaction, cleanup, translation, and partial
 failure. Emit stable operation/category/retry/cancellation metrics with correlation IDs.
@@ -99,20 +82,6 @@ Migrate taxonomies reader-first so old clients tolerate new server categories.
 Define an organization-wide error policy: ownership boundaries, retry budgets,
 idempotency keys, cancellation treatment, redaction, alerting, correlation, and public
 schema evolution. Error volume without decision ownership is operational debt.
-
-## Common Mistakes
-
-### Catch Every Error Near Its Source
-
-**Why it is wrong:** Low layers usually lack business context and produce duplicated policy.
-
-**Better approach:** Propagate to the nearest owner capable of a real decision.
-
-### Cancellation Is Just Another Failure
-
-**Why it is wrong:** Reporting or retrying expected cancellation creates noise and wasted work.
-
-**Better approach:** Preserve cancellation and handle it separately from failures.
 
 ## References
 

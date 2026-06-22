@@ -4,11 +4,13 @@ domain: "Swift"
 topic: "Classes and Structures"
 concept: "Value and Reference Semantics"
 page_type: theory
+interview_priority: core
+estimated_read_minutes: 6
 levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-20
+last_reviewed: 2026-06-22
 tags:
   - value-semantics
   - reference-semantics
@@ -19,19 +21,6 @@ tags:
 # Value and Reference Semantics: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> Value semantics promise independent observable values after assignment or
-> argument passing; reference semantics allow multiple references to one instance.
-
-- Swift structures and enumerations are value types; classes are reference types.
-- Value semantics describe observable behavior, not an eager byte-for-byte copy.
-- Standard collections use copy-on-write optimizations, but arbitrary structs do
-  not gain copy-on-write automatically and custom implementations must preserve it.
-- A value containing a mutable class reference is not a deep snapshot of that graph.
-- Pass-by-value does not imply a fixed performance cost; profile size, storage,
-  mutation patterns, and optimizer behavior.
 
 ## Mental Model
 
@@ -117,16 +106,6 @@ while still being aliased, and a value can omit equality entirely.
 - Neither value nor reference semantics alone guarantees `Sendable` conformance,
   atomicity, immutability, or race freedom.
 
-## Failure Modes
-
-- **Shallow snapshot:** Reference members change through another copy.
-- **COW uniqueness check omitted:** Mutation leaks across values.
-- **Mutable storage escapes:** Callers bypass detachment and invalidate invariants.
-- **Large value blamed without evidence:** A class rewrite adds allocation and aliasing
-  while missing the actual bottleneck.
-- **Reference used as cache key by mutable equality:** Hash/equality changes after insertion.
-- **Value sent concurrently with unsafe internals:** Surface syntax hides non-sendable state.
-
 ## Engineering Judgment
 
 ### Choosing Semantics
@@ -148,7 +127,7 @@ checks, storage complexity, and harder profiling. Reference types make sharing
 cheap and explicit but distribute alias and lifetime reasoning. Persistent data
 structures are another value-oriented option for large branching histories.
 
-## Production Considerations
+## Production Application
 
 ### Performance
 
@@ -204,24 +183,6 @@ as an optimization project with invariant tests, not an API redesign shortcut.
 Document types with non-obvious reference members. Give shared mutable owners a
 team and operational boundary. Require benchmarks and semantic regression tests for
 representation migrations used across modules.
-
-## Common Mistakes
-
-### Value Semantics Means Deep Copy
-
-**Why it is wrong:** A copied struct copies its fields according to their semantics;
-a class-typed field remains a reference to the same instance.
-
-**Better approach:** Use value-semantic members, immutable references, or correctly
-detaching storage when independent graphs are required.
-
-### Copy-on-Write Is Automatic
-
-**Why it is wrong:** Standard collections implement COW; declaring a struct around a
-class does not create correct detachment behavior.
-
-**Better approach:** Implement and test uniqueness-preserving mutation deliberately,
-or keep straightforward stored values until profiling justifies complexity.
 
 ## References
 

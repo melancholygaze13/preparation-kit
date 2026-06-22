@@ -4,31 +4,17 @@ domain: "Swift"
 topic: "Macros"
 concept: "Macro Implementation, Diagnostics, and Testing"
 page_type: theory
+interview_priority: situational
+estimated_read_minutes: 1
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 tags: [macros, swiftsyntax, diagnostics, testing]
 ---
 
 # Macro Implementation, Diagnostics, and Testing: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> Macro implementations transform syntax trees; they should reject unsupported syntax
-> with source-located diagnostics rather than crash or generate misleading code.
-
-- Parse semantic intent from syntax explicitly; do not depend on formatting trivia.
-- Emit actionable errors, warnings, notes, and fix-its at the narrowest useful source node.
-- Test exact expansion plus diagnostics, not only code that happens to compile afterward.
-- Cover empty input, malformed declarations, generics, access, attributes, collisions, and composition.
-- Pin compatible toolchain and SwiftSyntax versions through the package/build system.
-
-The repository's `fixtures/swift/macros/stringify` package provides an exact-expansion
-test and a separately compiled consumer target. Keep a fixture like this for each
-supported toolchain line; syntax-only tests cannot catch plugin loading, public
-declaration, or consumer type-checking failures.
 
 ## Mental Model
 
@@ -52,31 +38,11 @@ force-cast expected syntax or silently ignore unsupported declarations.
 - Tests make intentional formatting and API changes reviewable.
 - Implementation dependencies are reproducible.
 
-## Failure Modes
-
-- Force-cast crashes the plugin on unexpected syntax.
-- String assembly produces invalid escaping or formatting.
-- Snapshot tests are updated without semantic review.
-- Diagnostic points at the attribute instead of the invalid member.
-- Toolchain/SwiftSyntax mismatch breaks every consumer build.
-
 ## Engineering Judgment
 
 Keep transformation logic small and separate semantic analysis from syntax emission.
 Test helpers independently, then expansion fixtures and compile-level integration.
 Prefer a clear diagnostic over guessing developer intent.
-
-## Production Considerations
-
-Measure macro execution and incremental build invalidation. Run fixtures across supported
-toolchains, test diagnostics and fix-its, and inspect expanded output. Treat plugin crashes
-and nondeterminism as release-blocking build-system failures.
-
-## Staff and Principal Perspective
-
-Provide shared test utilities, compatibility matrices, diagnostic standards, and owners.
-Macro packages affect the whole developer fleet, so rollout and rollback must be as
-disciplined as compiler/toolchain changes.
 
 ## References
 

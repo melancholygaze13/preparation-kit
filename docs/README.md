@@ -1,19 +1,18 @@
 ---
 title: "iOS Engineering Preparation Kit"
 page_type: domain-index
-status: draft
-last_reviewed: 2026-06-20
+status: reviewed
+last_reviewed: 2026-06-22
 ---
 
 <div class="home-hero" markdown>
 
 <span class="home-eyebrow">ENGINEERING PREPARATION · iOS</span>
 
-# Build depth. Communicate judgment.
+# Prepare for senior iOS interviews
 
-A focused knowledge base for engineers preparing for Senior, Staff, and
-Principal iOS roles—built around fast revision, production trade-offs, and
-interview-ready reasoning.
+Review important concepts, practise direct answers, and build the engineering
+judgment expected in Senior, Staff, and Principal interviews.
 
 [Start with Swift](swift/README.md){ .md-button .md-button--primary }
 [View on GitHub](https://github.com/melancholygaze13/preparation-kit){ .md-button }
@@ -26,13 +25,17 @@ interview-ready reasoning.
 
 </div>
 
-## Scope
+## What This Kit Is For
 
-Each concept combines an authoritative theory page with layered interview
-questions. The emphasis is on mechanics only where they support correct
-decisions, debugging, system design, and production engineering judgment.
+This kit is a preparation tool, not a complete language reference. It gives more
+space to common interview areas, such as concurrency, ownership, architecture,
+and testing. Less common language details are shorter and optional.
 
-## Domains
+Each concept starts with a quick mental model. Theory pages explain only the
+details needed for correct reasoning. Interview pages help you practise answers
+out loud.
+
+## Domain
 
 <div class="domain-grid" markdown>
 
@@ -40,32 +43,32 @@ decisions, debugging, system design, and production engineering judgment.
   <span class="domain-card__icon">S</span>
   <span class="domain-card__body">
     <strong>Swift</strong>
-    <small>Language semantics, correctness, API design, concurrency, performance, and evolution.</small>
+    <small>Language semantics, ownership, API design, concurrency, and performance.</small>
   </span>
   <span class="domain-card__arrow">→</span>
 </a>
 
 </div>
 
-## How to Use This Kit
+## How to Study
 
 <div class="study-grid" markdown>
 
 <div class="study-card" markdown>
 
-### 01 · Recall
+### 01 · Select
 
-Start with each theory page's Quick Recall section to refresh the mental model
-and core invariants in under a minute.
+Start with core topics. Add high-priority topics when you have more time. Use
+situational topics only when they match the role or interview format.
 
 </div>
 
 <div class="study-card" markdown>
 
-### 02 · Reason
+### 02 · Recall
 
-Review failure modes, constraints, and trade-offs until you can explain why a
-choice fits one production context and fails in another.
+Read the concept overview first. Stop when you can explain its mental model and
+main decisions without looking at the page.
 
 </div>
 
@@ -73,8 +76,8 @@ choice fits one production context and fails in another.
 
 ### 03 · Rehearse
 
-Answer the interview questions aloud, then compare your reasoning against the
-short answer, detailed answer, and strong-answer signals.
+Answer each interview question aloud. Compare your answer with the short answer,
+then use the expanded answer to fill important gaps.
 
 </div>
 

@@ -4,24 +4,16 @@ domain: "Swift"
 topic: "Automatic Reference Counting"
 concept: "Object Graph Cycles and Non-Owning References"
 page_type: theory
+interview_priority: core
+estimated_read_minutes: 4
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Object Graph Cycles and Non-Owning References: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> ARC cannot reclaim an all-strong cycle; break it where the domain relationship is observation, back-reference, or otherwise non-owning.
-
-- `weak` does not retain, is optional, and becomes `nil` when the instance deallocates.
-- `unowned` does not retain and assumes the referenced instance is alive whenever accessed.
-- Accessing a safe unowned reference after deallocation traps; `unowned(unsafe)` can access dangling memory.
-- An unowned optional can be `nil` but is not zeroed automatically when its object deallocates.
-- Choose ownership from proven lifetime relationships, not from which syntax avoids optionals.
 
 ## Mental Model
 
@@ -75,14 +67,6 @@ edge to weak can turn a leak into missing required work.
 - Safe unowned references perform a lifetime check on access; unsafe unowned removes that safety.
 - ARC does not search for or collect strongly connected unreachable cycles.
 
-## Failure Modes
-
-- A delegate is strong on both sides and neither object deallocates.
-- A weak dependency vanishes and critical work silently stops.
-- An unowned child escapes its owner and later traps.
-- An unowned optional still points at a deallocated instance because code expected weak zeroing.
-- A graph snapshot identifies a cycle, but the chosen weak edge violates actual ownership.
-
 ## Engineering Judgment
 
 ### When to Use It
@@ -104,7 +88,7 @@ is required. Give required work a strong operation owner and explicit cancellati
 | Unowned | No | Assumed present | Trap after deallocation | Proven owner-owned child |
 | Unowned unsafe | No | Unchecked | Dangling-memory behavior | Rare low-level interop with separate proof |
 
-## Production Considerations
+## Production Application
 
 ### Performance
 
@@ -135,14 +119,6 @@ early-release assertions, cancellation metrics, leak tests, and a fallback owner
 
 Cross-module object graphs need explicit ownership conventions. Frameworks should document delegate,
 token, child, cache, and callback retention so clients do not reverse-engineer lifecycle from leaks.
-
-## Common Mistakes
-
-### Choosing Unowned to Avoid Optional Handling
-
-**Why it is wrong:** Syntax convenience is not proof that the referenced object outlives every access.
-
-**Better approach:** Prove and enforce the lifetime structurally; otherwise use weak and handle disappearance explicitly.
 
 ## References
 

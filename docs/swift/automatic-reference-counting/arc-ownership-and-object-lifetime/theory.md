@@ -4,24 +4,16 @@ domain: "Swift"
 topic: "Automatic Reference Counting"
 concept: "ARC Ownership and Object Lifetime"
 page_type: theory
+interview_priority: core
+estimated_read_minutes: 4
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # ARC Ownership and Object Lifetime: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> ARC inserts ownership operations for class instances; strong references keep an instance alive until no strong owner remains.
-
-- Assignment, arguments, returns, properties, captures, and collections can establish or move strong ownership.
-- `let` prevents rebinding a reference; it does not make the object immutable or non-owning.
-- Lifetime follows ownership and compiler-observable use, not indentation or an assumed end of lexical scope.
-- ARC manages memory lifetime, not thread safety, cancellation, file/network closure, or business completion.
-- `deinit` is evidence of deallocation, not a scheduling or coordination API.
 
 ## Mental Model
 
@@ -70,14 +62,6 @@ their capture context.
 - Weak references do not extend lifetime; unowned references assert a separate lifetime relationship.
 - Source code has no supported API for reading an object's retain count as an ownership proof.
 
-## Failure Modes
-
-- A hidden framework registration or collection remains an unexpected strong root.
-- A local variable is blamed even though an escaping closure owns the object.
-- A temporary strong reference is misdiagnosed as a permanent leak.
-- Deallocation is used to trigger required cancellation or persistence.
-- Shared reference lifetime is correct but mutation races because ARC is mistaken for synchronization.
-
 ## Engineering Judgment
 
 ### When to Use It
@@ -99,7 +83,7 @@ survive, move ownership to the correct operation, task, store, or subsystem owne
 | Scoped closure access | Limits escape and documents use | Less flexible storage | Borrow-like synchronous operation |
 | Explicit lifecycle owner | Predictable shutdown and observability | More API/state-machine work | Resource or long-running operation |
 
-## Production Considerations
+## Production Application
 
 ### Performance
 
@@ -130,14 +114,6 @@ Stage ownership migration with lifecycle assertions and tests for both early rel
 
 Ownership is system topology. Document root owners, long-lived registries, shutdown order, and module
 boundaries. A memory incident often exposes unclear service ownership rather than one missing `weak`.
-
-## Common Mistakes
-
-### Equating Scope Exit with Guaranteed Business Cleanup
-
-**Why it is wrong:** Other strong owners may remain, and deinitialization cannot perform awaited or coordinated shutdown.
-
-**Better approach:** Provide explicit cancel/close/finish semantics and treat ARC as the memory-lifetime mechanism.
 
 ## References
 

@@ -2,8 +2,9 @@
 title: "Nested Types"
 domain: "Swift"
 page_type: topic-index
+interview_priority: reference
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Nested Types
@@ -21,17 +22,17 @@ the decision to nest or expose a type.
 - [Enumerations](../enumerations/README.md)
 - [Classes and Structures](../classes-and-structures/README.md)
 
-## Learning Path
+## Optional Review
 
 1. [Scoped Domain Modeling](scoped-domain-modeling/README.md)
 2. [Generic Context and API Evolution](generic-context-and-api-evolution/README.md)
 
 ## Concepts
 
-| Concept | Summary | Level |
-|---|---|---|
-| [Scoped Domain Modeling](scoped-domain-modeling/README.md) | Nest supporting types when their meaning and lifecycle belong exclusively to one enclosing domain. | Senior |
-| [Generic Context and API Evolution](generic-context-and-api-evolution/README.md) | Manage specialization, qualified names, access, dependency direction, and migration of nested public types. | Senior |
+| Concept | Why it matters | Priority | Time |
+|---|---|---|---:|
+| [Scoped Domain Modeling](scoped-domain-modeling/README.md) | Nest supporting types when their meaning and lifecycle belong exclusively to one enclosing domain. | Reference | 5 min |
+| [Generic Context and API Evolution](generic-context-and-api-evolution/README.md) | Manage specialization, qualified names, access, dependency direction, and migration of nested public types. | Reference | 5 min |
 
 ## Source Section
 

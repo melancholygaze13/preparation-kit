@@ -4,24 +4,16 @@ domain: "Swift"
 topic: "Initialization"
 concept: "Stored-Property Initialization and Delegation"
 page_type: theory
+interview_priority: high
+estimated_read_minutes: 2
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Stored-Property Initialization and Delegation: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> Every stored property must have an initial value before initialization completes.
-
-- Defaults are assigned at declaration; remaining properties must be assigned by an initializer.
-- A constant property can be assigned once during initialization by the type that declares it.
-- Structure and enum initializers delegate with `self.init`; class rules additionally distinguish designated and convenience initializers.
-- Closure defaults run when an instance is created and cannot use the not-yet-initialized instance.
-- Centralize validation in the smallest initializer set that owns all invariants.
 
 ## Mental Model
 
@@ -66,38 +58,17 @@ design require preserving synthesis.
 - Initializer closure defaults cannot access instance properties or `self`.
 - Initialization syntax does not imply cheap, pure, or thread-safe construction.
 
-## Failure Modes
-
-- Sentinel defaults create temporarily invalid objects.
-- Multiple initializers duplicate validation and drift.
-- Delegation cycles fail to establish one source of truth.
-- Public memberwise construction exposes representation.
-- Expensive hidden defaults inflate startup or per-instance latency.
-
 ## Engineering Judgment
 
 Use defaults for universally valid policy, explicit initializers for required inputs,
 failable/throwing construction for validation, and factories for effectful or cached work.
 Keep I/O out of synchronous initializers when cancellation and recovery matter.
 
-## Production Considerations
+## Production Application
 
 Profile construction volume, allocations, and expensive default closures. Test every
 boundary and verify failed construction leaves no registration or external side effect.
 Changing defaults or synthesized initializer availability is an API migration.
-
-## Staff and Principal Perspective
-
-Shared model construction is a schema boundary. Standardize validation ownership,
-default evolution, decoding behavior, observability, and rollout for changed invariants.
-
-## Common Mistakes
-
-### Use a Placeholder Then Repair It
-
-**Why it is wrong:** Invalid state can escape and every consumer must defend against it.
-
-**Better approach:** Require valid input or fail construction before publishing the value.
 
 ## References
 

@@ -4,11 +4,13 @@ domain: "Swift"
 topic: "Classes and Structures"
 concept: "Type Design and Initialization"
 page_type: theory
+interview_priority: core
+estimated_read_minutes: 6
 levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-20
+last_reviewed: 2026-06-22
 tags:
   - classes
   - structures
@@ -19,23 +21,6 @@ tags:
 # Type Design and Initialization: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> Start from domain semantics: a struct represents an independent value; a class
-> represents an instance whose identity or shared lifecycle matters.
-
-- Both can store properties, define methods, use subscripts, initialize state, and
-  conform to protocols; classes additionally support inheritance, deinitialization,
-  reference identity, and reference counting.
-- A stored-property default can enable `Type()`; structs may also receive a
-  memberwise initializer, subject to access-control and declaration rules.
-- A synthesized memberwise initializer is a convenience, not a durable public API
-  contract; an explicit initializer protects invariants and source stability.
-- Prefer a struct by default only when independent-value semantics are correct—not
-  because structs are universally faster or classes are inherently unsafe.
-- Changing between struct and class changes observable semantics and requires a
-  migration, even when the surface syntax still compiles.
 
 ## Mental Model
 
@@ -146,20 +131,6 @@ workload after choosing correct semantics.
   necessarily independently copied.
 - Neither declaration kind guarantees thread safety or a particular memory layout.
 
-## Failure Modes
-
-- **Class by habit:** Unnecessary identity introduces aliases and synchronization work.
-- **Struct around a shared mutable reference:** Callers expect snapshots but observe
-  changes through the reference member.
-- **Synthesized initializer treated as API:** A storage refactor breaks callers or
-  leaks invalid construction.
-- **Subclassing left open accidentally:** Unknown overrides weaken invariants and
-  lifecycle reasoning.
-- **Identity-bearing entity modeled as a struct:** Copies diverge while representing
-  what should be one live entity.
-- **Type changed mechanically:** Existing equality, mutation, caching, and concurrency
-  assumptions no longer hold.
-
 ## Engineering Judgment
 
 ### Decision Table
@@ -182,7 +153,7 @@ to a plain mutable class when isolated shared mutation is the defining requireme
 A protocol selects capabilities; it does not itself decide value or reference
 semantics.
 
-## Production Considerations
+## Production Application
 
 ### Performance
 
@@ -225,23 +196,6 @@ change introduces identity, reference-backed storage, or public construction.
 Write down the required copy behavior, identity definition, lifecycle owner,
 invariants, mutation authority, concurrency boundary, API stability needs, and
 measured performance constraints. Select the type only after those answers agree.
-
-## Common Mistakes
-
-### Structures Are Always Cheaper
-
-**Why it is wrong:** Large values and hidden reference storage can incur copying or
-retain/release work, while compiler optimizations depend on context.
-
-**Better approach:** Choose semantics first and profile representative workloads.
-
-### The Memberwise Initializer Is the Public Design
-
-**Why it is wrong:** It mirrors storage, may not be visible publicly, and changes
-when representation changes.
-
-**Better approach:** Declare stable initializers or factories that enforce domain
-meaning and invariants.
 
 ## References
 

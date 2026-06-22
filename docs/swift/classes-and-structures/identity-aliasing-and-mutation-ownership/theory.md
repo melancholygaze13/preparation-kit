@@ -4,12 +4,14 @@ domain: "Swift"
 topic: "Classes and Structures"
 concept: "Identity, Aliasing, and Mutation Ownership"
 page_type: theory
+interview_priority: core
+estimated_read_minutes: 6
 levels:
   - senior
   - staff
   - principal
 status: reviewed
-last_reviewed: 2026-06-20
+last_reviewed: 2026-06-22
 tags:
   - identity
   - aliasing
@@ -20,21 +22,6 @@ tags:
 # Identity, Aliasing, and Mutation Ownership: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> Class identity means two references can name the exact same instance; aliasing is
-> safe only when mutation, synchronization, and lifecycle have an explicit owner.
-
-- `===` and `!==` compare whether class references point to the same instance;
-  `==` expresses a type's domain equality when it conforms to `Equatable`.
-- `let` prevents rebinding a class reference but does not make the instance immutable;
-  `let` on a struct binding prevents mutating its stored value through that binding.
-- Shared mutable classes are not automatically thread-safe or `Sendable`.
-- Prefer one actor or synchronized component to own mutable state rather than
-  distributing locks and mutation authority among aliases.
-- A value/reference migration changes cache keys, observation, lifecycle, testing,
-  and concurrency assumptions and must be rolled out as a semantic change.
 
 ## Mental Model
 
@@ -143,16 +130,6 @@ not survive serialization or relaunch.
 - Actors serialize isolated access, but reentrancy across suspension still requires
   invariant revalidation.
 
-## Failure Modes
-
-- **Equality used as identity:** Equal replicas are assumed to be the same live object.
-- **Identity used as durable ID:** Cache or persistence behavior changes after relaunch.
-- **Mutable reference escapes owner:** Callers mutate without synchronization or validation.
-- **`let` mistaken for immutable object:** Shared state changes from another alias.
-- **Lock spread across callers:** Ordering and deadlock policy become unenforceable.
-- **Deinit treated as timely cleanup:** Resource release occurs later than business logic requires.
-- **Actor suspension ignored:** State changes while an operation awaits.
-
 ## Engineering Judgment
 
 ### Ownership Choices
@@ -174,7 +151,7 @@ depends on disciplined encapsulation and lock ordering. Immutable snapshots avoi
 shared mutation but can be stale and need a publication strategy. Select based on
 ordering, latency, platform constraints, and ownership—not syntax preference.
 
-## Production Considerations
+## Production Application
 
 ### Performance
 
@@ -228,23 +205,6 @@ responsibilities are distributed implicitly among aliases.
 Assign ownership of shared state and synchronization primitives to a component and
 team. Publish mutation APIs and shutdown contracts. Use architecture checks and
 code review to prevent raw mutable references from crossing declared boundaries.
-
-## Common Mistakes
-
-### A Constant Class Reference Is Immutable
-
-**Why it is wrong:** `let` prevents assigning a different instance to the binding;
-it does not freeze variable properties on the referenced instance.
-
-**Better approach:** Expose an immutable interface or snapshot and centralize writes.
-
-### Sendable Means Thread-Safe
-
-**Why it is wrong:** Sendability concerns safe transfer across concurrency domains;
-unchecked or inappropriate conformance can still hide data races.
-
-**Better approach:** Prefer immutable final classes, actors, or audited internal
-synchronization, and let strict concurrency checking validate boundaries.
 
 ## References
 

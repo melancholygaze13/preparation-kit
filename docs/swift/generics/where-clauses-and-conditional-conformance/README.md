@@ -3,15 +3,23 @@ title: "Where Clauses and Conditional Conformance"
 domain: "Swift"
 topic: "Generics"
 page_type: concept-index
+interview_priority: core
+estimated_read_minutes: 1
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Where Clauses and Conditional Conformance
 
 > `where` clauses express relationships among generic types; conditional conformances
 > make a generic type conform only when its arguments can satisfy the full contract.
+
+## Quick Recall
+
+- A `where` clause states extra relationships between types.
+- Conditional conformance exists only when its conditions are true.
+- The implementation must satisfy the full semantic contract.
 
 ## Study
 

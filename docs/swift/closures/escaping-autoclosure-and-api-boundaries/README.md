@@ -3,11 +3,13 @@ title: "Escaping, Autoclosure, and API Boundaries"
 domain: "Swift"
 topic: "Closures"
 page_type: concept-index
+interview_priority: core
+estimated_read_minutes: 1
 levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-20
+last_reviewed: 2026-06-22
 tags:
   - closures
   - escaping
@@ -17,9 +19,15 @@ tags:
 
 # Escaping, Autoclosure, and API Boundaries
 
-> `@escaping` permits invocation after the receiving function returns;
-> `@autoclosure` hides a zero-argument closure behind expression syntax. Both
-> change evaluation and lifetime expectations that an API must make explicit.
+> `@escaping` allows later invocation. `@autoclosure` turns an expression into a
+> hidden zero-argument closure. Both change lifetime or evaluation timing.
+
+## Quick Recall
+
+- Closure parameters are nonescaping by default.
+- `@escaping` does not guarantee asynchronous or single execution.
+- Escaping captures can extend object lifetime and form cycles.
+- Use `@autoclosure` only when delayed evaluation is clear at the call site.
 
 ## Study
 

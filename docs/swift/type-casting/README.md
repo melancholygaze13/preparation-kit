@@ -2,8 +2,9 @@
 title: "Type Casting"
 domain: "Swift"
 page_type: topic-index
+interview_priority: situational
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Type Casting
@@ -22,17 +23,17 @@ are covered only where they affect casting decisions.
 - [Inheritance](../inheritance/README.md)
 - [Optional Chaining](../optional-chaining/README.md)
 
-## Learning Path
+## Role-Specific Review
 
 1. [Runtime Type Checks and Downcasting](runtime-type-checks-and-downcasting/README.md)
 2. [Heterogeneous Values and Boundary Design](heterogeneous-values-and-boundary-design/README.md)
 
 ## Concepts
 
-| Concept | Summary | Level |
-|---|---|---|
-| [Runtime Type Checks and Downcasting](runtime-type-checks-and-downcasting/README.md) | Use `is`, `as`, `as?`, and `as!` with explicit proof, failure, and substitutability policy. | Senior |
-| [Heterogeneous Values and Boundary Design](heterogeneous-values-and-boundary-design/README.md) | Contain `Any` and `AnyObject` at interoperability boundaries and restore typed invariants promptly. | Senior |
+| Concept | Why it matters | Priority | Time |
+|---|---|---|---:|
+| [Runtime Type Checks and Downcasting](runtime-type-checks-and-downcasting/README.md) | Use `is`, `as`, `as?`, and `as!` with explicit proof, failure, and substitutability policy. | Situational | 6 min |
+| [Heterogeneous Values and Boundary Design](heterogeneous-values-and-boundary-design/README.md) | Contain `Any` and `AnyObject` at interoperability boundaries and restore typed invariants promptly. | Situational | 6 min |
 
 ## Related Topics
 

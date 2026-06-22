@@ -2,8 +2,9 @@
 title: "Subscripts"
 domain: "Swift"
 page_type: topic-index
+interview_priority: reference
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Subscripts
@@ -22,17 +23,17 @@ their dedicated topics and appear here only where they affect subscript correctn
 - [Methods](../methods/README.md)
 - [Properties](../properties/README.md)
 
-## Learning Path
+## Optional Review
 
 1. [Subscript Access and Domain Indexing](subscript-access-and-domain-indexing/README.md)
 2. [Overloading, Type Subscripts, and API Evolution](overloading-type-subscripts-and-api-evolution/README.md)
 
 ## Concepts
 
-| Concept | Summary | Level |
-|---|---|---|
-| [Subscript Access and Domain Indexing](subscript-access-and-domain-indexing/README.md) | Design indexed reads and writes with explicit index meaning, bounds, complexity, and failure policy. | Senior |
-| [Overloading, Type Subscripts, and API Evolution](overloading-type-subscripts-and-api-evolution/README.md) | Evolve overloaded and type-level lookup without ambiguity, hidden global state, or compatibility surprises. | Senior |
+| Concept | Why it matters | Priority | Time |
+|---|---|---|---:|
+| [Subscript Access and Domain Indexing](subscript-access-and-domain-indexing/README.md) | Design indexed reads and writes with explicit index meaning, bounds, complexity, and failure policy. | Reference | 3 min |
+| [Overloading, Type Subscripts, and API Evolution](overloading-type-subscripts-and-api-evolution/README.md) | Evolve overloaded and type-level lookup without ambiguity, hidden global state, or compatibility surprises. | Reference | 3 min |
 
 ## Related Topics
 

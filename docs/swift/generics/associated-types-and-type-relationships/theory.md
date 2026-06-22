@@ -4,25 +4,16 @@ domain: "Swift"
 topic: "Generics"
 concept: "Associated Types and Type Relationships"
 page_type: theory
+interview_priority: core
+estimated_read_minutes: 3
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Associated Types and Type Relationships: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> An associated type is selected by a protocol conformance and lets requirements describe
-> a family of related types without making the protocol declaration itself generic.
-
-- A conformer supplies or implies each associated type through its witnesses.
-- Constraints can relate associated types to protocols, concrete types, or one another.
-- Same-type requirements use `==`; conformance requirements use `:`.
-- Primary associated types improve spelling and constraint placement but do not turn protocols into generic types.
-- Associated-type inference is useful, but explicit aliases can stabilize intent and diagnostics.
 
 ## Mental Model
 
@@ -62,14 +53,6 @@ generic function preserves the equalities among its argument, identifier, and re
 - Primary associated type syntax names selected associated types for constraint purposes; callers do not specialize a protocol declaration as if it were `Repository<User>` the generic type.
 - The usability of an existential with associated types depends on the operations and relationships needed at the use site; blanket claims that such protocols cannot be existentials are obsolete.
 
-## Failure Modes
-
-- A protocol mixes unrelated associated types and forces every adopter into one oversized abstraction.
-- Inference selects an unintended witness after overload or default changes.
-- A same-type requirement leaks storage or vendor types into public API.
-- Type erasure removes an identifier/element relationship and shifts errors to runtime casts.
-- Recursive associated-type constraints make diagnostics and compile times disproportionate to the value delivered.
-
 ## Engineering Judgment
 
 Use associated types when operations are meaningful only with a conformer-selected type
@@ -80,7 +63,7 @@ Prefer the weakest relationship that proves correctness. Split protocols when di
 clients need independent capabilities; do not add same-type constraints only to silence a
 local compiler error.
 
-## Production Considerations
+## Production Application
 
 ### Performance
 
@@ -109,16 +92,6 @@ need availability and client-compilation review.
 Associated types define dependency direction. A domain protocol should own domain
 relationships, while adapters map vendor-specific types at module edges. Review recursive
 constraints for build-time impact and publish conformance examples as part of the contract.
-
-## Common Mistakes
-
-### Calling a Protocol with Primary Associated Types a Generic Protocol
-
-**Why it is wrong:** The conformance selects associated types; angle-bracket syntax merely
-exposes selected associated types for constraints.
-
-**Better approach:** Describe it as a protocol with primary associated types and distinguish
-conformance-owned choices from call-site generic arguments.
 
 ## References
 

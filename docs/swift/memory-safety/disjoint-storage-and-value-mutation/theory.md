@@ -4,24 +4,16 @@ domain: "Swift"
 topic: "Memory Safety"
 concept: "Disjoint Storage and Value Mutation"
 page_type: theory
+interview_priority: high
+estimated_read_minutes: 3
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Disjoint Storage and Value Mutation: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> Member syntax does not prove disjoint memory; Swift permits overlapping property access only under specific stored, local, uncaptured conditions.
-
-- Mutating a value type commonly requires write access to the whole value.
-- Distinct stored properties of a local structure or tuple can be proven disjoint when capture does not escape.
-- Globals, computed properties, class properties, and captured values can hide aliasing or execute code.
-- A mutating method holds access to all of `self`, so passing part/all of the same value `inout` can conflict.
-- Compute then commit when callbacks or reentrancy would overlap whole-value mutation.
 
 ## Mental Model
 
@@ -64,20 +56,12 @@ dynamically checked because accessors and aliases can overlap.
 - Computed properties may call arbitrary getter/setter code and cannot be assumed disjoint.
 - Copying to locals changes the access graph and must match intended snapshot/commit semantics.
 
-## Failure Modes
-
-- A valid local tuple pattern is moved to global storage and begins trapping/rejecting.
-- A stored property becomes computed and invalidates disjoint-access assumptions.
-- `self` is passed as another `inout` argument during a mutating method.
-- A closure captures a local aggregate and removes the proof of isolated storage.
-- Two separate property mutations violate an aggregate invariant between commits.
-
 ## Engineering Judgment
 
 Use separate `inout` projections for small local algorithms with proven stored disjointness. Use one
 aggregate method/result when representation can evolve, invariants span fields, or callbacks occur.
 
-## Production Considerations
+## Production Application
 
 ### Performance
 
@@ -108,14 +92,6 @@ Keep mutation behind methods and compile downstream `inout` call sites before ro
 
 Storage projection is an implementation detail that easily leaks through `inout` APIs. Platform surfaces
 should expose domain transitions, allowing storage, observation, and synchronization to evolve together.
-
-## Common Mistakes
-
-### Assuming Different Property Names Mean Different Memory
-
-**Why it is wrong:** Accessors, aliasing, capture, and whole-value mutation can make separate syntax touch overlapping storage.
-
-**Better approach:** Rely on the narrow proven local stored-property rule or redesign as one aggregate transition.
 
 ## References
 

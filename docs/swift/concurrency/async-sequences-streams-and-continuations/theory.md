@@ -4,24 +4,16 @@ domain: "Swift"
 topic: "Concurrency"
 concept: "Async Sequences, Streams, and Continuations"
 page_type: theory
+interview_priority: high
+estimated_read_minutes: 4
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Async Sequences, Streams, and Continuations: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> `AsyncSequence` lets a consumer await each element; it does not by itself guarantee cancellation, bounded buffering, producer cleanup, or broadcast delivery.
-
-- `for await` may suspend for each element; throwing sequences use `for try await`.
-- On consumer cancellation, iterator code must observe cancellation and producers must stop through an explicit termination path.
-- `AsyncStream` is a single iteration stream abstraction; multiple consumers are not an implicit broadcast contract.
-- Buffer policy is part of API semantics. Inspect `yield` results and account for dropped elements.
-- Checked continuations bridge one-shot callbacks and must resume exactly once on every path.
 
 ## Mental Model
 
@@ -84,14 +76,6 @@ cancel-before-registration and callback-after-cancel cannot double resume.
 - `AsyncStream` buffering is not backpressure unless the producer responds to yield outcomes.
 - Checked continuations diagnose misuse but do not automatically bridge cancellation or lifetime.
 
-## Failure Modes
-
-- Consumer exits while delegate or socket production continues.
-- Unbounded buffering causes memory growth under a slow consumer.
-- Dropped elements violate a lossless business contract without telemetry.
-- Multiple consumers divide or race elements while callers expected broadcast.
-- A callback resumes twice or never resumes, trapping or hanging the task.
-
 ## Engineering Judgment
 
 ### When to Use It
@@ -118,7 +102,7 @@ choose a lossy buffer for an audit/logging contract.
 Return a single async value, expose an actor method for state snapshots, or use a domain
 event system when persistence, replay, or cross-process delivery is required.
 
-## Production Considerations
+## Production Application
 
 ### Performance
 
@@ -161,15 +145,6 @@ failure, cancellation, and replay needs before choosing the abstraction.
 
 Document stream ownership and overflow policy in public APIs. Standardize metrics for
 drops and leaked producers so incidents are diagnosable across teams.
-
-## Common Mistakes
-
-### Claiming async sequences naturally handle cancellation
-
-**Why it is wrong:** Consumer cancellation is only a signal; iterator, adapter, producer,
-cleanup, and buffering behavior must implement the policy.
-
-**Better approach:** Define cancellation checks, `onTermination`, idempotent producer stop, and buffer overflow handling.
 
 ## References
 

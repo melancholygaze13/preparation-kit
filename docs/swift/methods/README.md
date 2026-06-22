@@ -2,8 +2,9 @@
 title: "Methods"
 domain: "Swift"
 page_type: topic-index
+interview_priority: reference
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Methods
@@ -23,7 +24,7 @@ topics and appear here only where they affect method design.
 - [Classes and Structures](../classes-and-structures/README.md)
 - [Properties](../properties/README.md)
 
-## Learning Path
+## Optional Review
 
 1. [Instance Methods and Self Semantics](instance-methods-and-self-semantics/README.md)
 2. [Mutating Value Types and State Transitions](mutating-value-types-and-state-transitions/README.md)
@@ -31,11 +32,11 @@ topics and appear here only where they affect method design.
 
 ## Concepts
 
-| Concept | Summary | Level |
-|---|---|---|
-| [Instance Methods and Self Semantics](instance-methods-and-self-semantics/README.md) | Attach behavior to the state and invariants it owns while keeping receiver and side effects explicit. | Senior |
-| [Mutating Value Types and State Transitions](mutating-value-types-and-state-transitions/README.md) | Use `mutating` methods to replace value state through validated, testable transitions. | Senior |
-| [Type Methods and API Design](type-methods-and-api-design/README.md) | Use type-level behavior for operations about the type, not as a namespace for hidden global dependencies. | Senior |
+| Concept | Why it matters | Priority | Time |
+|---|---|---|---:|
+| [Instance Methods and Self Semantics](instance-methods-and-self-semantics/README.md) | Attach behavior to the state and invariants it owns while keeping receiver and side effects explicit. | Reference | 3 min |
+| [Mutating Value Types and State Transitions](mutating-value-types-and-state-transitions/README.md) | Use `mutating` methods to replace value state through validated, testable transitions. | Reference | 3 min |
+| [Type Methods and API Design](type-methods-and-api-design/README.md) | Use type-level behavior for operations about the type, not as a namespace for hidden global dependencies. | Reference | 3 min |
 
 ## Related Topics
 

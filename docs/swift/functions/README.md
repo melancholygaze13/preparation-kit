@@ -2,17 +2,17 @@
 title: "Functions"
 domain: "Swift"
 page_type: topic-index
+interview_priority: high
 status: reviewed
-last_reviewed: 2026-06-20
+last_reviewed: 2026-06-22
 ---
 
 # Functions
 
 ## Scope
 
-Swift function declarations and values, with emphasis on call-site API design,
-parameter ownership, return contracts, higher-order behavior, effect annotations,
-and local abstraction boundaries.
+This topic covers function signatures, argument behavior, higher-order functions,
+and local helpers. Focus on what the caller can observe and rely on.
 
 Detailed closure syntax and capture-list mechanics belong to the Closures topic.
 Error modeling and async task structure remain in their owning topics; this topic
@@ -23,7 +23,7 @@ covers them only where they shape a function's type or caller contract.
 - [Language Basics](../language-basics/README.md)
 - [Control Flow](../control-flow/README.md)
 
-## Learning Path
+## Rapid Review
 
 1. [Function Signatures and Argument Semantics](function-signatures-and-argument-semantics/README.md)
 2. [Function Values and Higher-Order Functions](function-values-and-higher-order-functions/README.md)
@@ -31,11 +31,11 @@ covers them only where they shape a function's type or caller contract.
 
 ## Concepts
 
-| Concept | Summary | Level |
-|---|---|---|
-| [Function Signatures and Argument Semantics](function-signatures-and-argument-semantics/README.md) | Design labels, defaults, variadics, returns, overloads, and `inout` mutation as explicit caller contracts. | Senior |
-| [Function Values and Higher-Order Functions](function-values-and-higher-order-functions/README.md) | Pass behavior safely while reasoning about effects, escaping lifetime, sendability, identity, and abstraction cost. | Senior |
-| [Nested Functions and Local Abstraction](nested-functions-and-local-abstraction/README.md) | Encapsulate algorithm-local behavior without obscuring captured state, lifetime, reuse, or test boundaries. | Senior |
+| Concept | Why it matters | Priority | Time |
+|---|---|---|---:|
+| [Function Signatures and Argument Semantics](function-signatures-and-argument-semantics/README.md) | Defines labels, effects, return contracts, and scoped mutation. | High | 15 min |
+| [Function Values and Higher-Order Functions](function-values-and-higher-order-functions/README.md) | Adds behavior as a value with lifetime and isolation rules. | High | 12 min |
+| [Nested Functions and Local Abstraction](nested-functions-and-local-abstraction/README.md) | Keeps local behavior private without hiding long-lived state. | Situational | 9 min |
 
 ## Related Topics
 

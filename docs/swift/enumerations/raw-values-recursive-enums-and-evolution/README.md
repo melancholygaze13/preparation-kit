@@ -3,12 +3,14 @@ title: "Raw Values, Recursive Enums, and Evolution"
 domain: "Swift"
 topic: "Enumerations"
 page_type: concept-index
+interview_priority: high
+estimated_read_minutes: 1
 levels:
   - senior
   - staff
   - principal
 status: reviewed
-last_reviewed: 2026-06-20
+last_reviewed: 2026-06-22
 tags:
   - enumerations
   - raw-values
@@ -21,6 +23,13 @@ tags:
 > Raw values map cases to fixed scalar codes; `indirect` enables recursive enum
 > structure. Neither should expose compiler representation details as persistence,
 > wire, or ABI contracts without an explicit compatibility design.
+
+## Quick Recall
+
+- Raw values are fixed literals and must be unique.
+- `init?(rawValue:)` fails for an unknown raw value.
+- Recursive storage needs `indirect` on the case or enum.
+- Persist stable external codes and define how unknown future cases are handled.
 
 ## Study
 

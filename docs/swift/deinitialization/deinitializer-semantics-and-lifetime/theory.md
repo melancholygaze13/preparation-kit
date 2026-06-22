@@ -4,24 +4,16 @@ domain: "Swift"
 topic: "Deinitialization"
 concept: "Deinitializer Semantics and Lifetime"
 page_type: theory
+interview_priority: situational
+estimated_read_minutes: 2
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Deinitializer Semantics and Lifetime: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> `deinit` runs automatically for a class instance immediately before deallocation.
-
-- Only classes declare deinitializers, with no parameters or parentheses.
-- A deinitializer cannot be called directly.
-- Subclass teardown runs before superclass teardown; superclass deinitializers are called automatically.
-- The instance remains accessible during its deinitializer, but it must not escape again.
-- Actor-isolated classes need `isolated deinit` when teardown accesses isolated state.
 
 ## Mental Model
 
@@ -59,30 +51,10 @@ is nonisolated; it cannot access actor-protected state merely because the class 
 - ARC timing depends on the last strong reference, not source-scope appearance alone.
 - Deinitialization cannot perform awaited asynchronous cleanup.
 
-## Failure Modes
-
-- Retain cycle prevents release.
-- Blocking teardown stalls the releasing executor.
-- Callback from `deinit` exposes a dying instance.
-- Business state relies on unpredictable object lifetime.
-- Nonisolated teardown touches actor-isolated state.
-
 ## Engineering Judgment
 
 Use `deinit` for bounded release of exclusively owned synchronous resources and as a
 fallback assertion. Use explicit close/cancel APIs for observable or asynchronous shutdown.
-
-## Production Considerations
-
-Test release with weak references and bounded autorelease scopes where applicable.
-Log leaked-resource counters rather than depending on deinit logs as guaranteed events.
-Changing ownership can change teardown timing without changing API syntax.
-
-## Staff and Principal Perspective
-
-Treat lifetime as architecture: identify resource owners, cycles, shutdown order, and
-isolation. Framework base classes must document whether subclass cleanup needs explicit
-hooks; never require manual superclass `deinit` calls.
 
 ## References
 

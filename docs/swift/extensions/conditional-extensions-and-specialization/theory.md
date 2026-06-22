@@ -4,24 +4,16 @@ domain: "Swift"
 topic: "Extensions"
 concept: "Conditional Extensions and Specialization"
 page_type: theory
+interview_priority: situational
+estimated_read_minutes: 3
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Conditional Extensions and Specialization: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> A constrained extension adds an API only when the generic arguments satisfy its `where` requirements; it does not create a new specialized runtime type.
-
-- Extend a generic type without restating its generic parameter list.
-- Use `where` clauses to require conformances, same-type relationships, or associated-type constraints.
-- Unconstrained members remain available to every specialization; constrained members appear only where provable.
-- Conditional conformance is stronger than conditionally available helper methods and carries protocol-wide semantics.
-- Overlapping constrained members must remain unambiguous and semantically consistent.
 
 ## Mental Model
 
@@ -76,14 +68,6 @@ Declare it only when every protocol requirement and semantic invariant holds.
 - Constraints do not inspect runtime values or dynamically attach behavior.
 - More-specific overload selection is compile-time behavior and ambiguity is a compile error.
 
-## Failure Modes
-
-- Broad overlapping extensions produce ambiguous calls after a dependency evolves.
-- A conformance is declared from method availability but violates protocol semantics.
-- Runtime casts duplicate a relationship that a `where` clause could prove.
-- Constraint-heavy APIs expose unreadable error messages and implementation coupling.
-- A specialized helper silently changes complexity relative to the general operation.
-
 ## Engineering Judgment
 
 ### When to Use It
@@ -109,58 +93,6 @@ that is clearer as separate strategy types or protocols.
 
 Use a generic free function when neither type owns the operation, protocol refinement
 for a named capability, or a wrapper when specialization needs stored state.
-
-## Production Considerations
-
-### Performance
-
-Static constraints enable specialization, but performance is not guaranteed. Document
-and benchmark complexity, code-size growth, and compile-time impact for widely used APIs.
-
-### Concurrency and Thread Safety
-
-Add `Sendable` constraints only when values actually cross isolation. A conditional
-`Sendable` conformance must reflect the safety of the complete stored graph.
-
-### Testing
-
-Compile positive and negative fixtures for representative specializations. Test overlapping
-constraints, semantic laws for conditional conformances, and complexity-sensitive paths.
-
-### Observability and Debugging
-
-Inspect generic signatures and generated interfaces when member availability surprises.
-Record concrete specialization information only where cardinality and privacy permit it.
-
-### Compatibility and Migration
-
-Adding overloads or conformances can alter inference and overload resolution. Compile
-downstream clients and stage broad generic API additions behind deprecation/migration plans.
-
-## Staff and Principal Perspective
-
-### System Impact
-
-Constraint vocabulary becomes a platform API. Poorly owned marker protocols and broad
-conditional conformances couple many modules and make evolution unpredictable.
-
-### Decision Framework
-
-Validate ownership, semantic law, overlap, complexity, code size, diagnostics, and the
-effect of future conformances before publishing the extension.
-
-### Organizational Impact
-
-Central libraries should review new conditional conformances and overlapping generic APIs
-with downstream client fixtures, not only local tests.
-
-## Common Mistakes
-
-### Treating Conditional Conformance as a Convenience Method
-
-**Why it is wrong:** A conformance participates globally in generic algorithms and promises the full protocol semantics.
-
-**Better approach:** Add a constrained helper unless the entire protocol contract is valid.
 
 ## References
 

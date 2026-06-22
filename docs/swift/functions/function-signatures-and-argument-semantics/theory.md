@@ -4,11 +4,13 @@ domain: "Swift"
 topic: "Functions"
 concept: "Function Signatures and Argument Semantics"
 page_type: theory
+interview_priority: high
+estimated_read_minutes: 8
 levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-20
+last_reviewed: 2026-06-22
 tags:
   - functions
   - api-design
@@ -19,23 +21,6 @@ tags:
 # Function Signatures and Argument Semantics: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> Design a function from its call site: the base name and argument labels should
-> read as one operation, while types and effects state what the caller must supply
-> and handle.
-
-- Argument labels are caller-facing; parameter names are implementation-facing.
-  Changing public labels is a source-breaking API change.
-- Defaults reduce call-site noise but encode policy; variadics accept zero or more
-  arguments and appear as an array inside the function.
-- A return value should model the complete result, absence, or failure contract;
-  `Void` is the empty tuple `()`.
-- `inout` provides temporary exclusive mutable access with writeback semantics;
-  it is not a general escaping reference or thread-safety mechanism.
-- Overloads should remain obvious at the call site and stable under inference,
-  defaults, literals, and future API additions.
 
 ## Mental Model
 
@@ -229,22 +214,6 @@ the signature look synchronous.
   runtime dispatch policy.
 - A declared return type requires a value on every reachable returning path.
 
-## Failure Modes
-
-- **Unclear unlabeled arguments:** Callers swap same-typed values without a
-  compiler error.
-- **Boolean policy parameters:** Calls read as unexplained `true` or `false`.
-- **Default hides important policy:** Security, timeout, caching, or data-loss
-  behavior changes without visible caller intent.
-- **Variadic used for bulk input:** Forces argument-list materialization and hides
-  zero-input behavior.
-- **Overlapping inout access:** Violates memory exclusivity and can trap.
-- **inout used as a shared reference:** Couples layers and fails under concurrency.
-- **Overload family becomes ambiguous:** A source-compatible addition breaks
-  inference at existing source call sites.
-- **Tuple becomes a public model:** Callers depend on positional structure that
-  cannot evolve cleanly.
-
 ## Engineering Judgment
 
 ### Signature Decision Table
@@ -267,86 +236,6 @@ common use but create implicit policy. `inout` can reduce intermediate values an
 express mutation while limiting composability and increasing exclusivity risk.
 Overloads create fluent APIs until inference and maintenance costs exceed the
 benefit of one shared base name.
-
-## Production Considerations
-
-### Performance
-
-Measure whole operations. Value parameters may share copy-on-write storage;
-mutation can trigger copies. `inout` may enable in-place work but does not
-guarantee it. Variadics create array-like storage. Large returned values can also
-benefit from compiler ownership optimizations, so do not redesign APIs around
-assumed copies without profiling optimized builds.
-
-### Concurrency and Thread Safety
-
-`inout` requires exclusive synchronous access but does not provide cross-task
-synchronization. Do not share one variable through concurrent calls. Reference
-parameters can expose unsynchronized mutation even without `inout`. Put shared
-mutable state behind an actor or synchronization owner and make sendability and
-isolation visible in higher-level APIs.
-
-### Testing
-
-Test required and omitted-default calls, zero and many variadic arguments, every
-return/failure path, and boundary overload contexts. For mutating functions,
-assert final writeback and invariants rather than storage identity. Compile small
-client fixtures when evolving public labels, defaults, or overload sets.
-
-### Observability and Debugging
-
-Log semantic parameter values and policy choices, redacted where necessary—not
-raw argument positions or memory addresses. Record whether defaults were applied
-when operational behavior depends on them. Distinguish input validation,
-operation failure, and invariant violation in diagnostics.
-
-### Compatibility and Migration
-
-Public base names, labels, parameter order, types, effects, and return types are
-source contracts. Migrate call sites deliberately and provide renamed or
-deprecated shims when compatibility matters. Adding a default may be source
-compatible but changes how future callers express intent. Adding overloads can
-introduce ambiguity; validate downstream source before release.
-
-## Staff and Principal Perspective
-
-### System Impact
-
-Function signatures propagate domain vocabulary and ownership assumptions across
-modules. Weak primitives—Boolean flags, strings as IDs, tuples as models, hidden
-mutation—scale into inconsistent policy and difficult migrations.
-
-### Decision Framework
-
-Review the call spelling, domain types, ownership, mutation, failure, suspension,
-default policy, expected input scale, overload evolution, and binary/source
-compatibility. Require stronger justification as the API surface and caller count
-grow.
-
-### Organizational Impact
-
-Establish API review around caller semantics rather than formatting rules. Publish
-canonical identity and policy types, track deprecated signatures, test important
-client modules, and assign migration owners. Avoid universal rules such as “never
-use inout” or “always add labels”; context determines the correct contract.
-
-## Common Mistakes
-
-### Treating inout as Pass-by-Reference
-
-**Why it is wrong:** Swift specifies bounded exclusive access and writeback, not a
-durable reference with stable pointer identity.
-
-**Better approach:** Use `inout` for scoped mutation and an owning reference type
-or actor for shared lifetime.
-
-### Optimizing for the Function Body Instead of the Call Site
-
-**Why it is wrong:** One declaration is read at every call, often without local
-implementation context.
-
-**Better approach:** Choose base name, labels, and domain types by reviewing real
-calls and misuse cases.
 
 ## References
 

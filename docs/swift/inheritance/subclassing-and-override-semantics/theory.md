@@ -4,27 +4,17 @@ domain: "Swift"
 topic: "Inheritance"
 concept: "Subclassing and Override Semantics"
 page_type: theory
+interview_priority: situational
+estimated_read_minutes: 3
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 tags: [inheritance, subclassing, overrides, final]
 ---
 
 # Subclassing and Override Semantics: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> Swift classes can inherit from one superclass; overrides must be explicit and must
-> match a supported superclass member.
-
-- Use `override` for inherited instance/type methods, properties, and subscripts.
-- Use `super` to invoke the superclass implementation when the extension contract requires composition.
-- A subclass may add observers to an inherited property and may override a read-only
-  property as read-write, but not a read-write property as read-only.
-- `final` prevents overriding a member or subclassing a class.
-- Initialization and deinitialization have separate inheritance rules and belong to their dedicated topics.
 
 ## Mental Model
 
@@ -84,61 +74,11 @@ cross-module subclassing or overriding.
 - `public` permits use outside a module; `open` additionally permits supported subclassing/overriding.
 - Global-actor isolation on a superclass propagates to subclasses; module default isolation can differ.
 
-## Failure Modes
-
-- **Missing super contract:** Base bookkeeping, validation, or notification is skipped.
-- **Double super call:** Side effects or registration occur twice.
-- **Semantic property override:** The same property means different things by subtype.
-- **Accidental extension point:** External subclasses depend on undocumented call ordering.
-- **Override during initialization:** Dynamic behavior observes partially initialized subclass state.
-- **Isolation mismatch:** Hierarchy members imply incompatible execution domains.
-
 ## Engineering Judgment
 
 Use inheritance when the subtype is substitutable and the base intentionally owns the
 algorithm with limited variation points. Prefer `final` classes, value types, protocol
 composition, or contained strategy objects when dynamic subclass variation is unnecessary.
-
-## Production Considerations
-
-### Performance and Concurrency
-
-Dynamic dispatch cost is rarely the primary design criterion; measure before closing
-an abstraction solely for speed. More important are hidden override effects and actor
-isolation. A subclass of a global-actor-isolated class shares that isolation. Do not
-use unchecked sendability to bypass hierarchy safety.
-
-### Testing and Observability
-
-Test base behavior against every supported subtype, `super` ordering, property access,
-failure paths, and isolation at public calls. Instrument at stable base operations;
-include subtype diagnostics without making subtype names durable business identifiers.
-
-### Compatibility and Migration
-
-Making an overridable member `final`, changing required `super` ordering, or adding a
-new base assumption can break subclasses. Introduce replacement hooks, deprecate old
-ones, and test representative downstream subclasses before release.
-
-## Staff and Principal Perspective
-
-Every nonfinal overridable member expands the behavior matrix. Keep extension points
-few, name their pre/postconditions, and own compatibility fixtures. Treat subclass
-contracts as APIs even when current subclasses live in the same repository.
-
-## Common Mistakes
-
-### Every Override Should Call super
-
-**Why it is wrong:** Some contracts replace behavior; others require augmentation.
-
-**Better approach:** Document per-hook requirements and test ordering explicitly.
-
-### Public Means Externally Subclassable
-
-**Why it is wrong:** Cross-module subclassing and overriding require `open`, not merely `public`.
-
-**Better approach:** Expose `open` only for supported extension protocols.
 
 ## References
 

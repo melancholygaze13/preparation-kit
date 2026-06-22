@@ -4,11 +4,13 @@ domain: "Swift"
 topic: "Strings and Characters"
 concept: "String and Unicode Model"
 page_type: theory
+interview_priority: high
+estimated_read_minutes: 7
 levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-20
+last_reviewed: 2026-06-22
 tags:
   - strings
   - unicode
@@ -19,22 +21,6 @@ tags:
 # String and Unicode Model: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> `String` is a value-semantic collection whose elements are `Character` values,
-> and each `Character` is one extended grapheme cluster composed of one or more
-> Unicode scalars.
-
-- A visible character, Unicode scalar, UTF-8 byte, and UTF-16 code unit aren't
-  interchangeable units.
-- `String.count` counts extended grapheme clusters and can require traversal.
-- Swift string equality uses canonical equivalence, but isn't locale-sensitive
-  and doesn't solve case folding or visually confusable text.
-- Use `utf8`, `utf16`, or `unicodeScalars` only when the boundary specifies that
-  representation.
-- `String` has value semantics; storage sharing is an optimization, not shared
-  logical mutation or a synchronization guarantee.
 
 ## Mental Model
 
@@ -224,25 +210,6 @@ profile, normalization/case policy, allowed-script rules, and server agreement.
 - Bridged APIs can expose UTF-16-based conventions that differ from Swift's native
   `Character` view.
 
-## Failure Modes
-
-- **Treating bytes as characters:** Truncates a multibyte sequence or accepts an
-  invalid boundary.
-- **Treating UTF-16 length as character count:** Miscounts surrogate pairs and
-  multi-scalar grapheme clusters.
-- **Using character count as UI width:** Produces incorrect layout and limits.
-- **Assuming equality is localized:** Gives incorrect sorting, search, or user-
-  facing matching.
-- **Assuming canonical equality stops spoofing:** Misses cross-script confusables
-  and policy-invalid identifiers.
-- **Using interpolation for structured data:** Creates ambiguous escaping,
-  injection risk, and compatibility problems.
-- **Logging interpolated secrets:** Bypasses privacy and redaction policy.
-- **Re-encoding without a malformed-input decision:** Silently repairs or loses
-  information needed by the protocol.
-- **Treating value semantics as synchronization:** Races on one shared mutable
-  binding despite `String` itself being a value type.
-
 ## Engineering Judgment
 
 ### When to Use Each Text Layer
@@ -270,110 +237,6 @@ profile, normalization/case policy, allowed-script rules, and server agreement.
   strings.
 - Use `Data` or a byte buffer until an input encoding has been validated.
 - Use a domain identifier type that centralizes Unicode and comparison policy.
-
-## Production Considerations
-
-### Performance
-
-String cost depends on content, representation, and operation. Copy-on-write can
-make assignment cheap, while later mutation may allocate. Grapheme segmentation,
-encoding conversion, normalization work, bridging, and repeated concatenation can
-dominate hot paths.
-
-Measure using representative multilingual data. ASCII-only benchmarks miss the
-paths that motivate Swift's index and segmentation model.
-
-### Concurrency and Thread Safety
-
-Independent string values are natural snapshots to send across isolation
-boundaries. Concurrent mutation of the same variable or containing reference
-state still requires actor, lock, or other ownership enforcement.
-
-Don't publish a string and a separately computed encoding offset as unrelated
-mutable state. Transfer them as one immutable versioned value so the offset and
-text remain consistent.
-
-### Testing
-
-Include:
-
-- Precomposed and decomposed canonically equivalent text.
-- Combining marks, emoji sequences, flags, and multiple scripts.
-- Empty strings and strings beginning or ending with combining content.
-- Malformed encoded input under the chosen reject-or-repair policy.
-- Round trips through UTF-8, UTF-16, Foundation, and persistence boundaries.
-- Case, locale, normalization, and confusable cases required by the domain.
-- Privacy tests for diagnostics containing user text or credentials.
-
-### Observability and Debugging
-
-When text differs unexpectedly, inspect sanitized scalar or code-unit sequences
-and record the declared encoding and normalization policy. Don't log raw private
-content merely to expose invisible Unicode differences.
-
-Track decoding failures separately from semantic validation failures. A valid
-Unicode string can still violate an identifier or product policy.
-
-### Compatibility and Migration
-
-Changing encoding, normalization, case folding, or comparison policy changes
-keys, hashes, search results, caches, and persisted identity. Plan dual-read or
-reindexing strategies and coordinate with server-side rules.
-
-Foundation and protocol migrations need explicit conversion at boundaries. Never
-reinterpret an old UTF-16 offset as a character or UTF-8 offset.
-
-## Staff and Principal Perspective
-
-### System Impact
-
-Text semantics become distributed contracts in identifiers, search indexes,
-signatures, filenames, URLs, analytics, and localization. Different normalization
-or case policies across clients and services create duplicate identities and
-authorization gaps.
-
-### Decision Framework
-
-For a shared text field, define:
-
-1. Input encoding and malformed-input behavior.
-2. Length unit and maximum enforced size.
-3. Normalization, case, locale, and allowed-character policy.
-4. Equality, ordering, and search behavior.
-5. Storage and wire representation.
-6. Privacy classification and diagnostic handling.
-7. Ownership, versioning, rollout, and reindexing strategy.
-
-### Organizational Impact
-
-Centralize critical text policy in shared schemas and owned domain types. Provide
-cross-platform fixtures containing non-ASCII and adversarial cases. Treat Unicode
-version or normalization changes like data migrations, not cosmetic refactors.
-
-## Common Mistakes
-
-### “One visible character is one byte or scalar”
-
-**Why it is wrong:** One extended grapheme cluster can contain several scalars,
-and each scalar can require several encoded code units.
-
-**Better approach:** Choose `Character`, scalar, UTF-8, or UTF-16 units from the
-boundary contract.
-
-### “Swift equality handles every text-matching requirement”
-
-**Why it is wrong:** Canonical equivalence isn't localized comparison, case
-folding, search collation, or spoof prevention.
-
-**Better approach:** Define and test the domain's comparison and security policy.
-
-### “String interpolation is a serializer”
-
-**Why it is wrong:** It doesn't provide a target format's escaping, schema,
-locale, privacy, or compatibility contract.
-
-**Better approach:** Use the target domain's encoder, formatter, parameterized
-API, or structured logger.
 
 ## References
 

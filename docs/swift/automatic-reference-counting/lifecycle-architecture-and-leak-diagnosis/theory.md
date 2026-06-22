@@ -4,24 +4,16 @@ domain: "Swift"
 topic: "Automatic Reference Counting"
 concept: "Lifecycle Architecture and Leak Diagnosis"
 page_type: theory
+interview_priority: core
+estimated_read_minutes: 4
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Lifecycle Architecture and Leak Diagnosis: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> A leak diagnosis needs a lifecycle expectation plus an unexpected strong path from a live root; memory growth alone is not proof of an ARC cycle.
-
-- Define subsystem owners, child lifetimes, registrations, tasks, caches, and terminal states before debugging.
-- Reproduce a bounded lifecycle and verify release with a weak probe.
-- Use memory graphs to trace roots; use allocation/leak profiling to measure repeated growth over time.
-- Distinguish cycles from intentional caches, long-running tasks, allocator behavior, foreign autorelease, and large value buffers.
-- Fix ownership semantics and add regression coverage; do not stop after inserting `weak`.
 
 ## Mental Model
 
@@ -70,14 +62,6 @@ A production investigation usually combines:
 - ARC cannot reclaim all-strong cycles, but not every persistent allocation is such a cycle.
 - Unsafe pointers and foreign runtimes can introduce memory failures outside ARC's object graph.
 
-## Failure Modes
-
-- A leak test passes because weak capture drops required work before assertion.
-- A memory spike is labeled a leak without repeated-lifecycle evidence.
-- A cache or task is intentionally rooted but has no bound or terminal policy.
-- A root path is fixed locally while another terminal state still retains the graph.
-- Production telemetry uses deinit messages only and cannot identify registrations or task owners.
-
 ## Engineering Judgment
 
 ### When to Use It
@@ -99,7 +83,7 @@ confirming which component is responsible for completion.
 | Allocation profiling | Shows counts, stacks, churn | Needs representative workload | Growth/performance analysis |
 | Lifecycle telemetry | Connects retention to operations | Requires instrumentation discipline | Production diagnosis |
 
-## Production Considerations
+## Production Application
 
 ### Performance
 
@@ -142,14 +126,6 @@ cancellation, resource cleanup, isolation, capacity, telemetry, and release test
 
 Platform teams should publish retention contracts and token/task patterns, maintain memory budgets,
 and include ownership review in API changes. Incident playbooks need both graph and lifecycle evidence.
-
-## Common Mistakes
-
-### Treating Deinit Absence as a Complete Diagnosis
-
-**Why it is wrong:** It proves only that the instance has not deallocated; it does not identify whether retention is expected, cyclic, task-bound, cached, or foreign-runtime related.
-
-**Better approach:** State the expected terminal event, trace strong roots, measure repeated behavior, and fix the owning lifecycle.
 
 ## References
 

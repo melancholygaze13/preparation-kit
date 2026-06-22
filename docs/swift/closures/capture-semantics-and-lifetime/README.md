@@ -3,11 +3,13 @@ title: "Capture Semantics and Lifetime"
 domain: "Swift"
 topic: "Closures"
 page_type: concept-index
+interview_priority: core
+estimated_read_minutes: 1
 levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-20
+last_reviewed: 2026-06-22
 tags:
   - closures
   - captures
@@ -17,9 +19,15 @@ tags:
 
 # Capture Semantics and Lifetime
 
-> A closure can preserve access to surrounding bindings after their lexical scope
-> ends. Correctness depends on whether state is shared or snapshotted, which
-> objects are retained, and which isolation protects mutable captures.
+> A closure can keep access to values after their original scope ends. Decide
+> whether it needs live state, a snapshot, or a non-owning reference.
+
+## Quick Recall
+
+- Ordinary capture can observe later changes to a captured variable.
+- A capture-list value stores a snapshot when the closure is created.
+- Closures are reference types and copied closures can share capture storage.
+- Concurrent mutable captures need actor isolation or synchronization.
 
 ## Study
 

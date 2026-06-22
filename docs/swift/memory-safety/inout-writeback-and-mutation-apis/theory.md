@@ -4,24 +4,16 @@ domain: "Swift"
 topic: "Memory Safety"
 concept: "inout Writeback and Mutation APIs"
 page_type: theory
+interview_priority: core
+estimated_read_minutes: 3
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # `inout` Writeback and Mutation APIs: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> An `inout` call temporarily owns mutation of caller storage and writes the final value back when the access ends.
-
-- The caller must pass mutable storage with `&`; literals and `let` bindings are invalid.
-- The source location cannot be accessed through another path during the long-term access.
-- Swift may implement copy-in/copy-out or direct access; address identity is not the contract.
-- Computed/observed properties can make getter, setter, and observer behavior visible at writeback.
-- `inout` cannot escape as an ordinary long-lived reference or provide synchronization.
 
 ## Mental Model
 
@@ -59,20 +51,12 @@ as computation. A returned value often shortens access and composes more safely 
 - Passing an observed property can trigger writeback/observer behavior even if the callee makes no semantic change.
 - `inout` does not make reference-type pointee mutation exclusive across aliases.
 
-## Failure Modes
-
-- Same storage is passed twice or read globally during mutation.
-- An observed/computed property performs unexpected work during writeback.
-- A pointer derived from `inout` escapes its valid scope.
-- Multiple output parameters obscure partial-failure and commit semantics.
-- An async or escaping workflow is forced into a synchronous mutation API.
-
 ## Engineering Judgment
 
 Use `inout` for small synchronous state transitions with one clear owner. Prefer a returned value or
 named result for computation, and an actor/owning reference type for long-lived or asynchronous state.
 
-## Production Considerations
+## Production Application
 
 ### Performance
 
@@ -103,14 +87,6 @@ Provide adapters and compile clients before migration.
 
 Public mutation APIs distribute ownership policy. Prefer aggregate domain transitions, keep access
 short, and reject `inout` surfaces that leak storage mechanics across modules.
-
-## Common Mistakes
-
-### Treating inout as a C Pointer
-
-**Why it is wrong:** Swift promises scoped mutation and writeback, not a stable address or escaping alias.
-
-**Better approach:** Use the value semantics directly; enter a documented unsafe-pointer scope only for justified interop.
 
 ## References
 

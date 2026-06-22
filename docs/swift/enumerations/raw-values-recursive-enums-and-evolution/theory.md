@@ -4,12 +4,14 @@ domain: "Swift"
 topic: "Enumerations"
 concept: "Raw Values, Recursive Enums, and Evolution"
 page_type: theory
+interview_priority: high
+estimated_read_minutes: 7
 levels:
   - senior
   - staff
   - principal
 status: reviewed
-last_reviewed: 2026-06-20
+last_reviewed: 2026-06-22
 tags:
   - enumerations
   - raw-values
@@ -20,21 +22,6 @@ tags:
 # Raw Values, Recursive Enums, and Evolution: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> A raw value is one fixed unique scalar assigned to a case declaration. It is not
-> the enum's hidden memory tag and is not a per-instance associated payload.
-
-- Raw-value types are strings, characters, integer types, or floating-point types;
-  every declared raw value is unique within the enum.
-- Integer raw values can auto-increment and string raw values can default to case
-  names, but implicit values are unsafe external contracts under reorder or rename.
-- `init?(rawValue:)` is failable because external input may not match a known case.
-- `indirect` inserts the representation indirection needed for cases that contain
-  the enum recursively; recursive algorithms still need depth and resource limits.
-- Persisted, wire, analytics, and public enum evolution needs explicit stable
-  codes, unknown handling, tolerant readers, and rollout ownership.
 
 ## Mental Model
 
@@ -240,19 +227,6 @@ Deploy readers before writers and retain rollback compatibility.
 - Compiler exhaustiveness and binary resilience do not solve persisted or wire
   compatibility automatically.
 
-## Failure Modes
-
-- **Implicit integer persisted:** Inserting a case changes every later meaning.
-- **Implicit string persisted:** Renaming source breaks decoding and analytics.
-- **Unknown raw value force-unwrapped:** A newer server or corrupt record crashes
-  the client.
-- **Retired code reused:** Old data is interpreted as a different state.
-- **Description used as code:** Debug formatting changes a durable contract.
-- **Unbounded recursive decode:** Malicious input exhausts stack or memory.
-- **indirect treated as node identity:** Algorithms depend on unobservable storage.
-- **New writer deployed first:** Older readers reject or misinterpret the new case.
-- **Synthesized encoding assumed stable:** Refactoring source changes external data.
-
 ## Engineering Judgment
 
 ### Representation Decision Table
@@ -274,87 +248,6 @@ preserving wrappers add complexity and forward compatibility. Recursive enums gi
 elegant exhaustive trees but recursive algorithms and large edits can stress stack
 and memory. Reference graphs support identity and sharing at ownership and
 concurrency cost.
-
-## Production Considerations
-
-### Performance
-
-Measure raw decoding, recursive allocation, traversal depth, and editing patterns.
-Set hard input limits before optimization. Iterative traversal can avoid stack
-overflow. Do not depend on `MemoryLayout` observations or case-tag layout as a
-cross-version guarantee.
-
-### Concurrency and Thread Safety
-
-Value-semantic recursive trees can be transferred when their payloads satisfy
-sendability. Parallel traversal still needs bounded task creation and deterministic
-aggregation. Reference payloads or graph nodes require explicit isolation.
-Cancellation checks matter for large recursive or iterative workloads.
-
-### Testing
-
-Maintain fixtures for every stable raw code, unknown codes, retired codes, old
-schemas, maximum valid depth, excessive depth, overflow, and malformed payloads.
-Property tests can generate recursive trees within strict size limits. Test that
-source reorder and rename do not alter explicit external codes.
-
-### Observability and Debugging
-
-Record external code, mapped case, unknown frequency, schema version, decode depth,
-node count, and rejection reason. Redact payloads as required. Never use
-`hashValue`, ordinal, or debug description as a metric key.
-
-### Compatibility and Migration
-
-To add an external case:
-
-1. Allocate a new immutable code and schema payload.
-2. Update tolerant readers and unknown preservation.
-3. Update storage, analytics, and operational tooling.
-4. Deploy and observe readers before enabling writers.
-5. Gate producer rollout and retain rollback behavior.
-6. Remove legacy handling only after old data and clients age out.
-
-For implicit raw values already persisted, freeze current mappings explicitly
-before any reorder or rename, then migrate data under a versioned plan.
-
-## Staff and Principal Perspective
-
-### System Impact
-
-Raw enum codes become schema shared by clients, services, databases, dashboards,
-experiments, and support tooling. Recursive enums can become parser boundaries
-where resource exhaustion and malformed-input security matter.
-
-### Decision Framework
-
-Identify code ownership, stability duration, unknown preservation, schema version,
-reader/writer population, rollback, recursive depth and size limits, identity
-needs, sendability, and deletion criteria for legacy cases.
-
-### Organizational Impact
-
-Maintain a registry or schema review for cross-system codes. Prohibit code reuse
-and implicit durable mappings. Coordinate reader-first rollout with analytics and
-support teams. Require resource limits and fuzzing for recursive formats exposed
-to untrusted input.
-
-## Common Mistakes
-
-### Persisting Implicit Raw Values
-
-**Why it is wrong:** Source reorder or rename silently changes external meaning.
-
-**Better approach:** Assign explicit immutable codes and validate them with schema
-fixtures.
-
-### Treating indirect as a Safety Limit
-
-**Why it is wrong:** It makes recursive representation possible but does not bound
-depth, work, memory, overflow, or cancellation.
-
-**Better approach:** Enforce resource limits and select recursive or iterative
-algorithms from trusted maximum depth.
 
 ## References
 

@@ -4,24 +4,16 @@ domain: "Swift"
 topic: "Concurrency"
 concept: "Async Functions, Suspension, and Executors"
 page_type: theory
+interview_priority: core
+estimated_read_minutes: 5
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Async Functions, Suspension, and Executors: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> An async function may suspend; it does not inherently create a task, move to a background thread, or run in parallel.
-
-- `await` marks a possible suspension and interleaving point, not guaranteed suspension.
-- Suspension releases the thread; blocking occupies it. Resumption is not tied to the same thread.
-- Consecutive awaited calls are sequential unless child tasks make them concurrent.
-- With Swift 6.2's approachable-concurrency setting, nonisolated async code runs on the caller's actor; `@concurrent` explicitly moves eligible work to the concurrent executor.
-- Long synchronous regions monopolize their executor even when declared `async`.
 
 ## Mental Model
 
@@ -71,14 +63,6 @@ sendable work `@concurrent`; do not use it merely because a function performs I/
 - `@concurrent` is current Swift 6.2 behavior and requires matching toolchain and mode;
   older targets follow their configured language and isolation rules.
 
-## Failure Modes
-
-- **UI stalls:** parsing or image processing remains on the main actor after an I/O await.
-- **False concurrency:** sequential awaits serialize independent operations.
-- **Pool starvation:** code blocks runtime threads on semaphores or future work.
-- **Transfer diagnostics:** neighboring targets use different isolation defaults.
-- **Executor monopolization:** a long loop neither suspends nor checks cancellation.
-
 ## Engineering Judgment
 
 ### When to Use It
@@ -105,7 +89,7 @@ or offload ordinary network waits. Do not introduce concurrency when ordering is
 Keep small work synchronous, use actors for mutable ownership, and use low-level locks
 or Dispatch only where a synchronous interoperability or performance boundary requires it.
 
-## Production Considerations
+## Production Application
 
 ### Performance
 
@@ -148,14 +132,6 @@ then select suspension, child tasks, or explicit concurrent execution.
 
 Publish target isolation settings and profiling budgets. Review API execution contracts
 when modules migrate because identical source can have different semantics by setting.
-
-## Common Mistakes
-
-### Treating async as background execution
-
-**Why it is wrong:** Async describes suspension capability, not executor placement.
-
-**Better approach:** Express isolation explicitly and use `@concurrent` only for intentional CPU offloading.
 
 ## References
 

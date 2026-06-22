@@ -4,24 +4,16 @@ domain: "Swift"
 topic: "Protocols"
 concept: "Protocol API Evolution and Isolation"
 page_type: theory
+interview_priority: high
+estimated_read_minutes: 2
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Protocol API Evolution and Isolation: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> A public protocol requirement is implemented outside its defining module, so changing it is a distributed source, binary, semantic, and isolation migration.
-
-- Adding a requirement can break conformers; a default may preserve source but still changes behavior and dispatch.
-- Removing or tightening requirements can break generic clients and witness compatibility.
-- Conformances are global and may be conditional, synthesized, retroactive, unavailable, or actor-isolated.
-- `Sendable` and `@Sendable` express transfer safety, not synchronization or atomicity.
-- Swift 6.2 isolated conformances keep global-actor-bound witnesses usable only in that isolation domain.
 
 ## Mental Model
 
@@ -56,21 +48,13 @@ or using a global-actor-isolated conformance where supported and appropriate.
 - Isolated conformances restrict where the conformance can be used.
 - Protocol resilience depends on distribution model and library-evolution constraints.
 
-## Failure Modes
-
-- A defaulted requirement silently supplies incorrect behavior to old conformers.
-- `@unchecked Sendable` or `nonisolated` silences a diagnostic without a safety proof.
-- A retroactive conformance collides with an SDK update.
-- App and library targets infer different isolation for equivalent-looking declarations.
-- A protocol becomes a large unstable service interface that forces coordinated releases.
-
 ## Engineering Judgment
 
 Prefer small capability protocols and refinements. Add requirements only with conformer
 inventory, defaults that are universally correct, client fixtures, and rollout policy.
 Use isolation annotations to express ownership, not to appease diagnostics.
 
-## Production Considerations
+## Production Application
 
 Compile representative conformers and generic clients across supported toolchains and
 module settings. Track adoption, legacy annotations, unchecked conformances, dynamic
@@ -80,14 +64,6 @@ isolation failures, and beta-SDK conformance collisions.
 
 Assign protocol owners, semantic versioning, conformance certification, diagnostics policy,
 and retirement plans. Split organizational interfaces before they become release trains.
-
-## Common Mistakes
-
-### Adding a Default Means Adding a Requirement Is Safe
-
-**Why it is wrong:** Source may compile while dispatch, semantics, performance, or isolation changes for existing conformers.
-
-**Better approach:** Use refinement or versioned capability protocols and test real external conformers.
 
 ## References
 

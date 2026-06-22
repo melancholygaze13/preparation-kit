@@ -4,11 +4,13 @@ domain: "Swift"
 topic: "Strings and Characters"
 concept: "String Indexing and Substrings"
 page_type: theory
+interview_priority: high
+estimated_read_minutes: 7
 levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-20
+last_reviewed: 2026-06-22
 tags:
   - string-index
   - substring
@@ -19,19 +21,6 @@ tags:
 # String Indexing and Substrings: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> `String.Index` identifies a valid Unicode boundary in a particular string;
-> it is not an integer character offset. Derive it from the current string and
-> keep it coupled to the string version it indexes.
-
-- Use `startIndex`, `endIndex`, `indices`, `firstIndex`, and index-navigation APIs.
-- `endIndex` is an exclusive boundary and can't be subscripted.
-- Mutation can invalidate saved indices and ranges.
-- Repeatedly advancing from `startIndex` can turn a linear algorithm quadratic.
-- `Substring` is a short-lived view that can retain the original string's storage;
-  convert to `String` for independent long-term ownership.
 
 ## Mental Model
 
@@ -233,25 +222,6 @@ reuse the range with changed text.
 - Copying a substring into `String` establishes a durable value contract at an
   allocation and copy cost.
 
-## Failure Modes
-
-- **Using `0..<text.count`:** Produces integers, not `String.Index` values.
-- **Subscripting `endIndex`:** Traps at the exclusive boundary.
-- **Reusing an index after mutation:** Applies a stale position to changed
-  grapheme layout.
-- **Applying an index or range to different content:** Violates its string-relative
-  meaning.
-- **Persisting native indices:** Stores process-local implementation detail rather
-  than a versioned domain position.
-- **Repeatedly offsetting from the beginning:** Creates quadratic traversal.
-- **Holding tiny substrings in caches:** Retains large source storage.
-- **Converting every intermediate substring:** Adds avoidable copies and
-  allocations.
-- **Treating `NSRange` as character offsets:** Splits UTF-16 sequences or selects
-  the wrong text.
-- **Validating then mutating elsewhere:** Creates a time-of-check/time-of-use range
-  failure.
-
 ## Engineering Judgment
 
 ### Navigation Checklist
@@ -284,111 +254,6 @@ Before manipulating a position, establish:
   need positions.
 - Use `StringProtocol` generics for read-only utilities that genuinely benefit
   from accepting both strings and substrings.
-
-## Production Considerations
-
-### Performance
-
-Prefer single-pass iteration and searches returning indices. A loop that asks for
-the nth character by advancing from `startIndex` on every iteration can perform
-quadratic work.
-
-Substring use shifts cost: slicing may avoid allocation now but retain memory
-later. Measure allocation, traversal, bridging, and retained storage with realistic
-Unicode text and payload sizes.
-
-### Concurrency and Thread Safety
-
-Keep a string and its indices within one immutable snapshot or isolation domain.
-A range checked against actor-owned text can become stale if the actor mutates
-before applying it.
-
-For work outside isolation, capture the string value and derive indices from that
-snapshot. Before committing edits to newer state, revalidate against a version or
-transform positions according to the editing model.
-
-### Testing
-
-Test:
-
-- Empty, one-character, prefix, suffix, and full-string ranges.
-- Combining sequences, emoji, flags, and mixed scripts.
-- Movement exactly to `endIndex` and one element beyond the allowed limit.
-- Index use before and after mutations that change segmentation.
-- Successful and failed `NSRange` conversion at UTF-16 boundaries.
-- Temporary slice behavior and durable conversion at storage boundaries.
-- Large inputs that expose quadratic traversal or retained-memory problems.
-
-### Observability and Debugging
-
-Record the position unit, string version, and sanitized lengths when conversion
-fails. An integer without its encoding and source version is not useful diagnostic
-context.
-
-Use allocation and memory-graph tools to find long-lived substrings retaining
-large sources. Use performance traces to distinguish segmentation traversal from
-encoding conversion and Foundation bridging.
-
-### Compatibility and Migration
-
-Changing a persisted position from UTF-16 to UTF-8 or grapheme offsets requires a
-versioned migration; the numeric values aren't reinterpretations of one another.
-Content edits also require position rebasing or invalidation.
-
-When modernizing an Objective-C boundary, convert `NSRange` once at the adapter and
-expose `Range<String.Index>` or semantic results to native Swift code.
-
-## Staff and Principal Perspective
-
-### System Impact
-
-Text positions cross layers in annotations, search highlights, rich text, logs,
-media captions, and collaborative editing. A range contract without units and a
-content version is incomplete and eventually corrupts selections.
-
-### Decision Framework
-
-For shared text positions, define:
-
-1. Encoding or element unit.
-2. Inclusive or exclusive endpoint convention.
-3. Source content identity and version.
-4. Valid-boundary and malformed-range behavior.
-5. Edit rebasing or invalidation rules.
-6. Ownership and lifetime of sliced content.
-7. Conversion owner, metrics, rollout, and compatibility plan.
-
-### Organizational Impact
-
-Provide one checked range adapter per platform and shared fixtures containing
-multibyte and multi-scalar text. Keep UTF-16 legacy conventions at explicit
-Foundation boundaries. Give long-lived text-position schemas an owner because
-editing and Unicode evolution affect every producer and consumer.
-
-## Common Mistakes
-
-### “String.Index is an integer offset”
-
-**Why it is wrong:** It represents a valid boundary tied to string content, not a
-portable count from zero.
-
-**Better approach:** Derive native indices from the current string and declare
-units for external offsets.
-
-### “Substring is just a smaller String”
-
-**Why it is wrong:** It is a subsequence view that can retain the source's storage
-and indices.
-
-**Better approach:** Use it temporarily and convert to `String` at durable
-ownership boundaries.
-
-### “An NSRange can subscript a Swift string directly”
-
-**Why it is wrong:** Foundation ranges commonly use UTF-16 units that can end
-inside a Swift grapheme boundary.
-
-**Better approach:** Convert with `Range(nsRange, in: string)` and handle failure.
 
 ## References
 

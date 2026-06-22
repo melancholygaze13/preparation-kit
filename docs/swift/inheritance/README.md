@@ -2,8 +2,9 @@
 title: "Inheritance"
 domain: "Swift"
 page_type: topic-index
+interview_priority: situational
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Inheritance
@@ -24,7 +25,7 @@ inheritance decision depends on them.
 - [Properties](../properties/README.md)
 - [Subscripts](../subscripts/README.md)
 
-## Learning Path
+## Role-Specific Review
 
 1. [Subclassing and Override Semantics](subclassing-and-override-semantics/README.md)
 2. [Behavioral Contracts and Substitutability](behavioral-contracts-and-substitutability/README.md)
@@ -32,11 +33,11 @@ inheritance decision depends on them.
 
 ## Concepts
 
-| Concept | Summary | Level |
-|---|---|---|
-| [Subclassing and Override Semantics](subclassing-and-override-semantics/README.md) | Override methods, properties, and subscripts deliberately while preserving base behavior and extension controls. | Senior |
-| [Behavioral Contracts and Substitutability](behavioral-contracts-and-substitutability/README.md) | Require every subtype to honor the base type's invariants, failure behavior, effects, and concurrency contract. | Senior |
-| [Inheritance Boundaries and Framework Evolution](inheritance-boundaries-and-framework-evolution/README.md) | Choose inheritance only for stable is-a extension points and evolve open hierarchies as public protocols. | Staff |
+| Concept | Why it matters | Priority | Time |
+|---|---|---|---:|
+| [Subclassing and Override Semantics](subclassing-and-override-semantics/README.md) | Override methods, properties, and subscripts deliberately while preserving base behavior and extension controls. | Situational | 7 min |
+| [Behavioral Contracts and Substitutability](behavioral-contracts-and-substitutability/README.md) | Require every subtype to honor the base type's invariants, failure behavior, effects, and concurrency contract. | Situational | 7 min |
+| [Inheritance Boundaries and Framework Evolution](inheritance-boundaries-and-framework-evolution/README.md) | Choose inheritance only for stable is-a extension points and evolve open hierarchies as public protocols. | Situational | 8 min |
 
 ## Related Topics
 

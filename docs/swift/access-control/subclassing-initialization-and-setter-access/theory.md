@@ -4,24 +4,16 @@ domain: "Swift"
 topic: "Access Control"
 concept: "Subclassing, Initialization, and Setter Access"
 page_type: theory
+interview_priority: situational
+estimated_read_minutes: 2
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Subclassing, Initialization, and Setter Access: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> `public` permits external use; `open` opts classes and members into external subclassing/overriding.
-
-- A subclass cannot be more accessible than its superclass.
-- External subclassing requires an open class; external overriding requires an open member.
-- `final` closes inheritance/override even where access would otherwise permit it.
-- Synthesized initializers do not automatically become public for public structs/classes.
-- A setter can be less accessible than its getter, such as `public private(set)`.
 
 ## Mental Model
 
@@ -63,53 +55,10 @@ ordering, super-call, isolation, failure, and reentrancy contracts.
 - A required initializer must be at least as accessible as the class that requires it.
 - A synthesized memberwise initializer is limited by stored-property access and is not automatically public.
 
-## Failure Modes
-
-- A public struct has no public initializer.
-- Public mutable setters let callers violate state invariants.
-- An open method calls unknown overrides during partially initialized or inconsistent state.
-- A required initializer is too narrow for supported subclasses.
-- A class is marked open without compatibility tests for external override behavior.
-
 ## Engineering Judgment
 
 Prefer final/public types and protocol/composition extension points. Use open only for documented
 cross-module inheritance. Publish explicit validated initializers and narrow setters by default.
-
-## Production Considerations
-
-### Performance
-
-Open dispatch and resilience can limit optimization, but semantics lead. Benchmark and use final where
-the extension contract is intentionally closed.
-
-### Concurrency and Thread Safety
-
-Private setters do not synchronize state. Open hooks complicate isolation because unknown overrides
-run in base-class lifecycle; document actor/sendability requirements explicitly.
-
-### Testing
-
-Compile external subclasses, invalid setter calls, and construction fixtures. Test override ordering,
-super calls, reentrancy, initialization failure, and state invariants.
-
-### Compatibility and Migration
-
-Closing open API or narrowing initializers/setters is source-breaking. Introduce intent methods,
-deprecate direct mutation, migrate clients, and retain shims for supported releases.
-
-## Staff and Principal Perspective
-
-Open hierarchies distribute implementation across organizations. Require owners, downstream subclass
-fixtures, lifecycle contracts, and retirement policy; prefer smaller stable composition seams.
-
-## Common Mistakes
-
-### Using Open as More Public
-
-**Why it is wrong:** It grants external code control through subclassing/overriding and creates stronger compatibility obligations.
-
-**Better approach:** Use public for use; use open only for intentionally supported inheritance variation points.
 
 ## References
 

@@ -4,24 +4,16 @@ domain: "Swift"
 topic: "Concurrency"
 concept: "Sendability and Swift 6 Migration"
 page_type: theory
+interview_priority: core
+estimated_read_minutes: 5
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Sendability and Swift 6 Migration: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> `Sendable` means a value can cross isolation domains safely; it does not make operations atomic or synchronize shared mutation.
-
-- Value types are sendable only when their stored graph is safe; nested non-sendable references matter.
-- A sendable class must meet stricter immutability/isolation rules; `@unchecked Sendable` requires an audited synchronization proof.
-- `@Sendable` closures restrict captured state because the closure can cross concurrency domains.
-- Region-based isolation can prove safe transfer of a disconnected non-sendable graph; `sending` expresses ownership transfer at an API boundary.
-- Swift 6 adoption is per target/module; language mode, strict checking, default isolation, and dependency annotations can differ.
 
 ## Mental Model
 
@@ -70,14 +62,6 @@ unsafe code safe.
 - Region analysis is conservative and source-flow dependent; refactoring can change diagnostics.
 - Different modules can use different Swift modes and default isolation settings in one product.
 
-## Failure Modes
-
-- Marking a mutable class unchecked only to silence a diagnostic.
-- Assuming a struct is safe while it stores a mutable non-sendable reference.
-- Capturing mutable state in a sendable callback without an isolation owner.
-- Applying `@preconcurrency` broadly and losing useful diagnostics.
-- Enabling Swift 6 everywhere at once without dependency and boundary sequencing.
-
 ## Engineering Judgment
 
 ### When to Use It
@@ -104,7 +88,7 @@ or treat strict-concurrency warnings as compiler noise.
 Redesign a boundary around identifiers or immutable DTOs, keep non-sendable objects within
 one actor, or wrap legacy callbacks in an isolated adapter.
 
-## Production Considerations
+## Production Application
 
 ### Performance
 
@@ -148,14 +132,6 @@ and lowest-risk fix. Suppress only with an expiry and named proof owner.
 
 Set a diagnostics budget and target rollout order. Library owners publish isolation and
 sendability contracts; platform teams provide shared adapters and track suppression debt.
-
-## Common Mistakes
-
-### Equating Sendable with thread-safe operations
-
-**Why it is wrong:** Sendability permits transfer; it does not make compound access atomic.
-
-**Better approach:** Assign mutation to an actor/lock owner and send immutable values or explicit ownership transfers.
 
 ## References
 

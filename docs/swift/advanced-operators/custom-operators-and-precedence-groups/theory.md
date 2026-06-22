@@ -4,24 +4,16 @@ domain: "Swift"
 topic: "Advanced Operators"
 concept: "Custom Operators and Precedence Groups"
 page_type: theory
+interview_priority: reference
+estimated_read_minutes: 2
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Custom Operators and Precedence Groups: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> Declare custom prefix/postfix/infix symbols at file scope; infix operators use a precedence group that controls parsing and associativity.
-
-- Fixity is part of the declaration; prefix and postfix forms of one symbol are distinct.
-- Precedence determines grouping relative to other infix groups.
-- Associativity controls chains at the same precedence: left, right, or none.
-- `assignment: true` is reserved for assignment-like parsing behavior, including optional chaining interaction.
-- Precedence does not create short-circuiting, concurrency ordering, or documented side-effect policy.
 
 ## Mental Model
 
@@ -65,59 +57,6 @@ overflow policy. A named `power(exponent:)` API may be clearer when those polici
 - Prefix/postfix operators do not use infix precedence groups.
 - Whitespace around an operator participates in whether Swift parses unary or binary use.
 - Assignment and ternary conditional syntax cannot be replaced by ordinary overloads.
-
-## Failure Modes
-
-- A precedence change silently reparses downstream mixed expressions.
-- Nonassociative domain operations are declared left/right associative.
-- Unicode punctuation is hard to type/search or confusable in review.
-- Two packages publish the same symbol/group with incompatible meaning.
-- The operator appears pure but performs side effects or traps on ordinary domain input.
-
-## Engineering Judgment
-
-Prefer named APIs. Add a custom operator only when repeated domain expressions become materially
-clearer, the symbol is teachable/searchable, precedence is unsurprising, and an owner governs it.
-
-## Production Considerations
-
-### Performance
-
-Precedence affects parsing only. Operator calls follow ordinary optimization; benchmark implementation
-and avoid dense syntax that hides repeated expensive work.
-
-### Concurrency and Thread Safety
-
-Do not infer evaluation synchronization from visual grouping. Side-effectful operators over shared
-state need explicit actor/lock ownership and are usually better as named operations.
-
-### Testing
-
-Test unary/binary whitespace, same-operator chains, every mixed neighboring precedence, parentheses,
-generic overloads, imports with dependencies, and generated interfaces.
-
-### Observability and Debugging
-
-Parenthesize complex expressions during diagnosis and inspect the typed AST/compiler diagnostics.
-Telemetry should use named operations rather than punctuation as event identity.
-
-### Compatibility and Migration
-
-Treat symbol, fixity, precedence group, associativity, and overload set as public source API. Add a
-named equivalent, migrate call sites with explicit parentheses, then deprecate cautiously.
-
-## Staff and Principal Perspective
-
-Custom syntax is organization-wide language design. Central libraries should own a small vocabulary,
-lint imports/collisions, publish parse examples, and require downstream compilation before changes.
-
-## Common Mistakes
-
-### Treating Precedence as Cosmetic
-
-**Why it is wrong:** It determines the expression tree and can change overload selection, results, and side effects.
-
-**Better approach:** Specify and test implicit parenthesization for every mixed expression clients are expected to write.
 
 ## References
 

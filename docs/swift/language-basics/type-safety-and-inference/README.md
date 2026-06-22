@@ -5,31 +5,25 @@ topic: "Language Basics"
 page_type: concept-index
 levels:
   - senior
-  - staff
+interview_priority: high
+estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-06-20
-tags:
-  - static-typing
-  - type-inference
-  - api-design
-  - compiler-diagnostics
+last_reviewed: 2026-06-22
 ---
 
 # Type Safety and Type Inference
 
-> Swift checks value compatibility at compile time and can infer omitted types
-> from initializers and surrounding context. Inference removes annotations, not
-> static types.
+> Swift checks type compatibility at compile time. Type inference removes
+> repeated annotations; it does not remove static types.
+
+## Quick Recall
+
+- Every expression has a compile-time type.
+- Context can provide the expected type for literals and closures.
+- Inference may fail when overloads or generic relationships are ambiguous.
+- Add an annotation at the narrowest boundary that resolves the ambiguity.
 
 ## Study
 
 - [Theory](theory.md)
 - [Interview questions](interview.md)
-
-## Prerequisites
-
-- [Constants and Variables](../constants-and-variables/README.md)
-
-## Related Concepts
-
-- [Numeric Types and Conversions](../numeric-types-and-conversions/README.md)

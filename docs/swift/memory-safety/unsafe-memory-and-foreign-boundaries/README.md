@@ -3,14 +3,22 @@ title: "Unsafe Memory and Foreign Boundaries"
 domain: "Swift"
 topic: "Memory Safety"
 page_type: concept-index
+interview_priority: high
+estimated_read_minutes: 1
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Unsafe Memory and Foreign Boundaries
 
 > Unsafe APIs transfer proof of lifetime, bounds, initialization, binding, alignment, ownership, and synchronization from Swift to the programmer.
+
+## Quick Recall
+
+- A pointer must stay within its valid lifetime and bounds.
+- Memory must be correctly initialized, aligned, and bound to a type.
+- Hide unsafe work behind a small API that restores safe invariants.
 
 ## Study
 

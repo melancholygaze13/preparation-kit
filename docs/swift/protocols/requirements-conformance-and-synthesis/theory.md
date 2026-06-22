@@ -4,24 +4,16 @@ domain: "Swift"
 topic: "Protocols"
 concept: "Requirements, Conformance, and Synthesis"
 page_type: theory
+interview_priority: core
+estimated_read_minutes: 3
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Requirements, Conformance, and Synthesis: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> Protocols specify required capabilities; conforming declarations supply witnesses, but the compiler cannot prove most semantic laws.
-
-- Property requirements state name, type, get/set capability, and type/instance scope—not storage.
-- Mark mutating requirements when value-type conformers may change `self`; classes implement them without `mutating`.
-- Initializer requirements generally require `required` on nonfinal classes so subclasses preserve conformance.
-- Conformance can be declared in the type or an extension and may use eligible synthesized implementations.
-- `Equatable`, `Hashable`, `Codable`, and `Sendable` still require semantic review of all stored state.
 
 ## Mental Model
 
@@ -69,21 +61,13 @@ stored state may change synthesized equality, hashing, or coding behavior.
 - A conformance is global for the type/protocol pair, not local to one value.
 - Marker protocols can impose semantic requirements without callable members.
 
-## Failure Modes
-
-- Equality or hashing changes after adding a cached field.
-- A default/synthesized witness satisfies syntax but violates domain law.
-- A mutable requirement is omitted and excludes value-type implementations.
-- A nonfinal class initializer witness fails to preserve subclass construction.
-- Conformance is added only to unlock an API without accepting its full semantics.
-
 ## Engineering Judgment
 
 Use protocols for stable capabilities with multiple meaningful conformers or replaceable
 boundaries. Avoid one-implementation protocols, state bags, and contracts that expose an
 implementation's full surface without a consumer need.
 
-## Production Considerations
+## Production Application
 
 Test protocol laws across conformers, mutation, failure, and synthesized schema changes.
 Benchmark existential/generic use only on hot paths. Audit sendability and isolation of
@@ -93,14 +77,6 @@ witnesses; conformance does not add synchronization.
 
 Protocol ownership is platform ownership. Keep contracts minimal, publish semantic laws,
 provide conformance test suites, and treat new public requirements as coordinated migrations.
-
-## Common Mistakes
-
-### Equating Compiler Conformance with Behavioral Correctness
-
-**Why it is wrong:** The compiler verifies signatures, not domain laws such as equality consistency or idempotency.
-
-**Better approach:** Document laws and run shared conformance tests against every implementation.
 
 ## References
 

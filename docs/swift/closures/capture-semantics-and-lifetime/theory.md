@@ -4,11 +4,13 @@ domain: "Swift"
 topic: "Closures"
 concept: "Capture Semantics and Lifetime"
 page_type: theory
+interview_priority: core
+estimated_read_minutes: 9
 levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-20
+last_reviewed: 2026-06-22
 tags:
   - closures
   - captures
@@ -19,23 +21,6 @@ tags:
 # Capture Semantics and Lifetime: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> A closure captures the surrounding bindings it uses. Mutable captures can form
-> shared persistent state; capture lists can snapshot values or choose strong,
-> weak, and unowned ownership for references.
-
-- Escaping closures extend the lifetime of their capture context beyond the
-  creating scope.
-- Assigning one closure value to another variable preserves reference to the same
-  closure and captured mutable state.
-- `[value]` captures the value produced when the closure is created; ordinary use
-  of an outer variable can observe later mutation.
-- Strongly capturing an owner that strongly stores the closure can create a cycle.
-  Weak and unowned captures encode different lifetime guarantees.
-- `@Sendable` closure checking restricts unsafe captures, but shared global or
-  referenced state still needs actor isolation or synchronization.
 
 ## Mental Model
 
@@ -246,20 +231,6 @@ The closure can capture the actor reference and `await` its isolated operation.
   `self`.
 - Sendable capture checking is not full global-state synchronization.
 
-## Failure Modes
-
-- **Strong cycle through closure property:** Owner and closure never deallocate.
-- **Weak capture drops required work:** Callback silently returns after owner loss.
-- **Unowned lifetime assumption fails:** Late invocation traps.
-- **Value capture is stale:** Operation uses creation-time configuration when it
-  needed current state.
-- **Reference capture mistaken for snapshot:** Object mutations leak into delayed
-  work.
-- **Closure copy assumed independent:** Two call sites mutate the same capture.
-- **Large graph retained:** Small queued work keeps screens, caches, or payloads
-  alive.
-- **Mutable capture crosses tasks:** Produces a race or strict-concurrency error.
-
 ## Engineering Judgment
 
 ### Capture Decision Table
@@ -280,7 +251,7 @@ Weak capture breaks retention while introducing optional disappearance. Value
 snapshots isolate time but can become stale. Actor ownership provides concurrency
 safety at an asynchronous and reentrancy cost.
 
-## Production Considerations
+## Production Application
 
 ### Performance
 
@@ -337,24 +308,6 @@ Require observer and queue APIs to expose cancellation ownership. Include captur
 graphs in reviews of long-lived closures. Treat strict-concurrency and leak
 findings as architecture signals, and centralize patterns for one-shot callback
 release instead of relying on `[weak self]` as a universal convention.
-
-## Common Mistakes
-
-### Adding weak self Mechanically
-
-**Why it is wrong:** It changes the contract from “operation keeps owner alive” to
-“work may disappear,” which can lose required effects.
-
-**Better approach:** Model the lifetime graph and choose strong, weak, cancellation,
-or a separate operation owner deliberately.
-
-### Treating Capture Lists as Deep Copies
-
-**Why it is wrong:** Capturing a class-valued binding snapshots the reference, not
-the object graph.
-
-**Better approach:** Capture a value snapshot or immutable domain model when deep
-state isolation is required.
 
 ## References
 

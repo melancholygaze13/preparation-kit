@@ -3,14 +3,22 @@ title: "inout Writeback and Mutation APIs"
 domain: "Swift"
 topic: "Memory Safety"
 page_type: concept-index
+interview_priority: core
+estimated_read_minutes: 1
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # `inout` Writeback and Mutation APIs
 
 > `inout` grants scoped exclusive read-modify-write access with writeback semantics; it is not a durable alias or guaranteed pointer identity.
+
+## Quick Recall
+
+- `inout` grants temporary exclusive access.
+- The implementation may use copy-in and copy-out behavior.
+- Never store an `inout` access for later use.
 
 ## Study
 

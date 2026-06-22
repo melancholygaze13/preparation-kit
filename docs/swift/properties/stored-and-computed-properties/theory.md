@@ -4,11 +4,13 @@ domain: "Swift"
 topic: "Properties"
 concept: "Stored and Computed Properties"
 page_type: theory
+interview_priority: high
+estimated_read_minutes: 4
 levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 tags:
   - stored-properties
   - computed-properties
@@ -19,21 +21,6 @@ tags:
 # Stored and Computed Properties: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> Stored properties own representation; computed properties derive access behavior
-> without storing the exposed value.
-
-- `let` stored properties are assigned once; `var` stored properties can change.
-- A computed property has a getter and optionally a setter; a getter-only computed
-  property is read-only but may still perform work.
-- `lazy` defers a stored property's initializer until first access, requires `var`,
-  and is not a synchronization mechanism.
-- Cache derived data only when invalidation, memory cost, and concurrency ownership
-  are clearer than recomputation.
-- A property that performs I/O, throws, or has surprising side effects should make
-  that cost visible through naming, effects, or a method.
 
 ## Mental Model
 
@@ -144,70 +131,12 @@ objects long after construction.
 - Concurrent first access to an instance lazy property is not guaranteed single initialization.
 - Getter-only does not mean pure, cheap, immutable, or thread-safe.
 
-## Failure Modes
-
-- **Duplicated derived state:** Dependencies change without updating the stored copy.
-- **Expensive getter in a hot loop:** Field-like access hides repeated work.
-- **Ambiguous setter:** Assignment silently rewrites several unrelated facts.
-- **Lazy race:** Concurrent first access performs duplicate initialization or exposes unsafe state.
-- **Cache without invalidation:** Results no longer match dependencies.
-- **Retained lazy closure:** Captured services outlive their intended scope.
-
 ## Engineering Judgment
 
 Prefer computation when it is deterministic, cheap, and based on local authoritative
 state. Prefer storage when the value is itself authoritative. Use explicit caches
 only after measurement, with keys, invalidation, capacity, and isolation specified.
 Use a method when effects or cost are central to the operation.
-
-## Production Considerations
-
-### Performance
-
-Profile getter frequency and cost in optimized builds. Caching trades CPU for memory,
-invalidation, and synchronization. Lazy initialization can shift work onto a latency-
-sensitive first access; prewarm deliberately when that cost would violate a budget.
-
-### Concurrency and Thread Safety
-
-Computed properties execute in their enclosing isolation context. A property wrapper
-or `lazy` keyword does not make access atomic. Isolate mutable dependencies and caches
-with an actor, global actor, or an audited synchronized owner.
-
-### Testing and Observability
-
-Test derivations at boundaries, setter round trips, lazy first access, invalidation,
-failure, and concurrent ownership. Measure cache hit rate, initialization duration,
-memory, and getter latency without logging every routine property read.
-
-### Compatibility and Migration
-
-Changing a stored property to computed can preserve source syntax while changing
-cost, failure behavior, serialization, key paths, and binary representation. Treat
-it as an API review, introduce metrics, and avoid promising storage layout.
-
-## Staff and Principal Perspective
-
-Property choices become architectural when models cross modules or persistence.
-Define authoritative data, derived projections, cache ownership, consistency window,
-latency budget, and rollout strategy. Shared caches and expensive getters need named
-owners and operational signals, not local convenience alone.
-
-## Common Mistakes
-
-### Getter-Only Means Constant
-
-**Why it is wrong:** A getter can depend on mutable state, time, I/O, or shared references.
-
-**Better approach:** Document stability and effects; use immutable stored state or a
-method when callers must reason about change and cost.
-
-### Lazy Means Initialize Once Safely
-
-**Why it is wrong:** Concurrent first access to an instance lazy property has no
-single-initialization guarantee.
-
-**Better approach:** Isolate access or use explicitly synchronized initialization.
 
 ## References
 

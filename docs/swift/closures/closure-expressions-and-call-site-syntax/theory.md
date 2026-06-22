@@ -4,11 +4,13 @@ domain: "Swift"
 topic: "Closures"
 concept: "Closure Expressions and Call-Site Syntax"
 page_type: theory
+interview_priority: high
+estimated_read_minutes: 8
 levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-20
+last_reviewed: 2026-06-22
 tags:
   - closures
   - type-inference
@@ -19,23 +21,6 @@ tags:
 # Closure Expressions and Call-Site Syntax: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> A closure expression is an unnamed function value. Context can infer its
-> parameter and result types, but inference should remove noise rather than hide
-> argument roles or effects.
-
-- Full syntax is `{ parameters -> Result in body }`; contextual types can remove
-  annotations, and one-expression bodies can omit `return`.
-- `$0`, `$1`, and later shorthand names are best for short closures whose argument
-  roles remain obvious.
-- A matching operator or named function can be passed directly instead of wrapped
-  in a closure.
-- The first trailing closure omits its argument label; additional trailing
-  closures keep labels, making API naming critical.
-- Add explicit types or names when overload resolution, generic inference,
-  optionality, or several closures make the call ambiguous to readers or compiler.
 
 ## Mental Model
 
@@ -228,21 +213,6 @@ execution contract rather than relying on conventional names.
 - Closure syntax alone does not imply escaping, asynchronous, repeated, sendable,
   or actor-isolated execution.
 
-## Failure Modes
-
-- **Dense shorthand closure:** `$0` and `$1` obscure distinct domain roles.
-- **Inference cliff:** A small overload or generic change produces a large,
-  misleading diagnostic far from the real ambiguity.
-- **Trailing closure hides the parameter:** Readers infer the wrong callback role.
-- **Multiple trailing closures mimic control flow:** Call cardinality and lifetime
-  become invisible.
-- **Wrapper closure adds no semantics:** Extra syntax hides a reusable named
-  operation.
-- **Operator function is too implicit:** Readers cannot tell ordering, locale, or
-  domain policy.
-- **Brace syntax mistaken for timing:** Caller assumes deferred execution without
-  an API guarantee.
-
 ## Engineering Judgment
 
 ### Syntax Selection
@@ -263,7 +233,7 @@ types improve diagnostics and reviewability while increasing noise. Multiple
 trailing closures create fluent DSL-like calls but can make ordinary APIs appear
 to provide language-level branching guarantees they do not have.
 
-## Production Considerations
+## Production Application
 
 ### Performance
 
@@ -321,24 +291,6 @@ Set API review standards around call-site clarity and execution guarantees rathe
 than banning shorthand or trailing closures. Maintain downstream compile fixtures
 for foundational closure-heavy APIs and publish concurrency annotations with
 migration guidance.
-
-## Common Mistakes
-
-### Maximizing Syntax Compression
-
-**Why it is wrong:** The fewest characters can erase parameter roles and make
-future changes harder to diagnose.
-
-**Better approach:** Add names or types exactly where they improve semantic
-clarity or inference stability.
-
-### Reading Trailing Braces as Control Flow
-
-**Why it is wrong:** A trailing closure is an argument with only the guarantees
-the receiver provides.
-
-**Better approach:** Inspect and document timing, cardinality, isolation, and
-escape behavior explicitly.
 
 ## References
 

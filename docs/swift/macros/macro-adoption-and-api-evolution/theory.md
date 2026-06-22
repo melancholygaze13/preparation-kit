@@ -4,25 +4,17 @@ domain: "Swift"
 topic: "Macros"
 concept: "Macro Adoption and API Evolution"
 page_type: theory
+interview_priority: situational
+estimated_read_minutes: 1
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 tags: [macros, build-systems, api-evolution, platform-engineering]
 ---
 
 # Macro Adoption and API Evolution: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> A public macro versions two surfaces: invocation syntax and generated declarations.
-
-- Generated API affects source compatibility, overload resolution, access, Codable shape, isolation, and tooling.
-- Macro dependencies add compiler-plugin build, cache, supply-chain, and toolchain compatibility cost.
-- Compare expansion against a handwritten/protocol/property-wrapper alternative before adoption.
-- Roll out behind limited call sites with build-time and diagnostic telemetry.
-- Provide a migration path that does not require simultaneous upgrades across every module.
 
 ## Mental Model
 
@@ -45,31 +37,11 @@ behavior, security review, documentation, expansion inspection, and rollback.
 - Consumers can migrate incrementally.
 - One team owns compatibility and incident response.
 
-## Failure Modes
-
-- Minor macro update silently changes generated public API.
-- Plugin dependency invalidates broad incremental builds.
-- Generated Codable behavior changes stored data.
-- Teams cannot debug code they cannot see.
-- Toolchain upgrade blocks because macro versions are incompatible.
-
 ## Engineering Judgment
 
 Adopt when repetitive compile-time structure is large, stable, error-prone by hand,
 and centrally ownable. Reject when the expansion is tiny, changes frequently, or would
 hide business behavior. Require measurable build and maintenance budgets.
-
-## Production Considerations
-
-Track clean/incremental build time, plugin crashes, cache hits, diagnostic frequency,
-and adoption. Compile representative consumers in CI. Use deprecation and parallel
-macro versions for generated API migrations; keep rollback artifacts available.
-
-## Staff and Principal Perspective
-
-Create a macro governance model: approved use cases, dependency policy, semantic
-versioning, toolchain matrix, security review, generated-API review, support ownership,
-and retirement. Central leverage is valuable only with funded maintenance.
 
 ## References
 

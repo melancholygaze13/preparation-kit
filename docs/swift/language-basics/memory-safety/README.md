@@ -1,33 +1,33 @@
 ---
-title: "Memory Safety"
+title: "Memory Safety Fundamentals"
 domain: "Swift"
 topic: "Language Basics"
 page_type: concept-index
 levels:
   - senior
-  - staff
-  - principal
+interview_priority: high
+estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-06-20
-tags:
-  - memory-safety
-  - exclusive-access
-  - inout
-  - unsafe-code
+last_reviewed: 2026-06-22
 ---
 
-# Memory Safety
+# Memory Safety Fundamentals
 
-> Safe Swift prevents uninitialized reads, out-of-bounds access, use after
-> lifetime, and conflicting non-atomic access. Unsafe and unchecked boundaries
-> transfer responsibility for those guarantees to the engineer.
+> Safe Swift prevents invalid memory access through initialization, bounds,
+> lifetime, and exclusive-access rules. Unsafe APIs move part of that proof to you.
+
+## Quick Recall
+
+- Values must be initialized before use.
+- Safe collection access checks bounds.
+- Conflicting overlapping access to the same storage is not allowed.
+- Unsafe pointers require manual lifetime and bounds guarantees.
 
 ## Study
 
 - [Theory](theory.md)
 - [Interview questions](interview.md)
 
-## Prerequisites
+## Deeper Study
 
-- [Constants and Variables](../constants-and-variables/README.md)
-- [Type Safety and Type Inference](../type-safety-and-inference/README.md)
+- [Memory Safety](../../memory-safety/README.md)

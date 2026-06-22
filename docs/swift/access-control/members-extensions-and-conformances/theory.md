@@ -4,24 +4,16 @@ domain: "Swift"
 topic: "Access Control"
 concept: "Members, Extensions, and Conformances"
 page_type: theory
+interview_priority: situational
+estimated_read_minutes: 2
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Members, Extensions, and Conformances: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> A type's visibility does not publish its members automatically; every exposed signature and conformance must remain usable in its access domain.
-
-- Members default to `internal`, including members of public types.
-- A member cannot be effectively more visible than its containing type.
-- An access modifier on an extension supplies a default for eligible members.
-- An extension that declares protocol conformance cannot itself carry an access modifier for that conformance.
-- Requirement witnesses must be accessible wherever the type-protocol conformance is usable.
 
 ## Mental Model
 
@@ -67,53 +59,10 @@ details. The conformance's effective accessibility follows the accessible type a
 - Private members are available to same-file extensions of their declaration under Swift's private rules.
 - Typealiases do not hide the accessibility of their underlying types.
 
-## Failure Modes
-
-- A public type has no usable public initializer or members.
-- A witness is internal while an external conformance requires it publicly.
-- A public typealias exposes an internal implementation type.
-- A broad extension modifier publishes convenience helpers unintentionally.
-- A retroactive public conformance collides with another module or later owner conformance.
-
 ## Engineering Judgment
 
 Design the external interface first, then mark declarations explicitly. Group private helpers for
 locality, not to evade ownership. Treat public conformances as global ecosystem commitments.
-
-## Production Considerations
-
-### Performance
-
-Public access does not imply dynamic dispatch; protocol/existential and resilience choices do. Avoid
-making implementation symbols public as an optimization workaround.
-
-### Concurrency and Thread Safety
-
-Witness visibility does not satisfy isolation or sendability. Public conformances must also preserve
-their concurrency contract across all accessible callers.
-
-### Testing
-
-Compile external conformers/consumers, inspect generated interfaces, and test absence of forbidden
-members. Maintain shared conformance-law tests.
-
-### Compatibility and Migration
-
-Publishing members or conformances is difficult to retract. Deprecate, add adapters, migrate clients,
-and monitor collisions before narrowing/removing access.
-
-## Staff and Principal Perspective
-
-Extension and conformance visibility affects the whole dependency graph. Establish ownership policy,
-generated-interface review, and downstream source fixtures for shared packages/frameworks.
-
-## Common Mistakes
-
-### Assuming Public Type Means Public Members
-
-**Why it is wrong:** Members retain their own default/internal access unless explicitly published.
-
-**Better approach:** Declare and test the minimal public construction and behavior surface intentionally.
 
 ## References
 

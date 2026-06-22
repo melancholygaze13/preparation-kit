@@ -4,25 +4,16 @@ domain: "Swift"
 topic: "Generics"
 concept: "Generic API Design and Evolution"
 page_type: theory
+interview_priority: high
+estimated_read_minutes: 4
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Generic API Design and Evolution: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> A good generic API exposes relationships required by its contract while hiding
-> implementation choices that would burden inference, compatibility, and callers.
-
-- Every public type parameter and constraint is source-visible architecture.
-- Prefer semantic capability constraints over concrete implementation constraints.
-- Specialization is an optimization opportunity, not an API guarantee.
-- Adding overloads, conformances, or tighter constraints can change source behavior on recompilation.
-- Evaluate runtime, binary size, build time, diagnostics, and migration together.
 
 ## Mental Model
 
@@ -73,14 +64,6 @@ isolation; generic syntax alone provides neither.
 - Neither generic syntax nor `@inlinable` guarantees a specific machine-code shape.
 - Source compatibility must account for re-type-checking, not only binary linkage.
 
-## Failure Modes
-
-- Generic parameters leak a database, networking, or UI implementation into domain APIs.
-- Adding a convenient overload makes existing calls ambiguous or selects different behavior.
-- Excessive nested wrappers create long diagnostics and slow type checking.
-- `@inlinable` freezes implementation details into a public optimization contract.
-- Teams assume monomorphization and discover binary-size or performance regressions late.
-
 ## Engineering Judgment
 
 ### Decision Framework
@@ -100,7 +83,7 @@ isolation; generic syntax alone provides neither.
 | Concrete facade over generic core | Stable, approachable public API | More adapters and less caller customization | Application and feature boundaries |
 | Existential or closure boundary | Runtime substitution and reduced generic spread | Erased relationships and possible indirection | Dependency and plugin seams |
 
-## Production Considerations
+## Production Application
 
 ### Performance
 
@@ -144,16 +127,6 @@ cadence are aligned.
 Set policies for conformance ownership, toolchain baselines, `@inlinable`, performance
 evidence, and source-compatibility fixtures. Compiler complexity is an operational cost
 shared by every contributor and CI job.
-
-## Common Mistakes
-
-### Designing for Maximum Generality
-
-**Why it is wrong:** Unused flexibility creates constraints, overload choices, build cost,
-and migration obligations without delivering user value.
-
-**Better approach:** Generalize from demonstrated variation points and preserve a concrete
-facade when the system boundary benefits from stability.
 
 ## References
 

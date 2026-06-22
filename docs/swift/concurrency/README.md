@@ -2,17 +2,17 @@
 title: "Concurrency"
 domain: "Swift"
 page_type: topic-index
+interview_priority: core
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Concurrency
 
 ## Scope
 
-Swift's task and isolation model: suspension and execution, structured and
-unstructured lifetime, cancellation, asynchronous values, actor isolation,
-sendability, migration, testing, and operational control.
+Swift concurrency controls asynchronous work and protects shared state. This
+topic covers tasks, cancellation, actors, sendability, testing, and migration.
 
 ## Prerequisites
 
@@ -20,7 +20,7 @@ sendability, migration, testing, and operational control.
 - [Error Handling](../error-handling/README.md)
 - [Classes and Structures](../classes-and-structures/README.md)
 
-## Learning Path
+## Rapid Review
 
 1. [Async Functions, Suspension, and Executors](async-functions-suspension-and-executors/README.md)
 2. [Structured Concurrency and Task Groups](structured-concurrency-and-task-groups/README.md)
@@ -33,16 +33,16 @@ sendability, migration, testing, and operational control.
 
 ## Concepts
 
-| Concept | Summary | Level |
-|---|---|---|
-| [Async Functions, Suspension, and Executors](async-functions-suspension-and-executors/README.md) | Separate suspension from parallel execution and place CPU work on an intentional executor. | Senior |
-| [Structured Concurrency and Task Groups](structured-concurrency-and-task-groups/README.md) | Scope child lifetime, results, failure, cancellation, and capacity to an awaited parent. | Senior |
-| [Unstructured Tasks and Task Context](unstructured-tasks-and-task-context/README.md) | Own task handles and understand inherited versus detached execution context. | Senior |
-| [Cancellation, Timeouts, and Lifecycle](cancellation-timeouts-and-lifecycle/README.md) | Propagate cooperative cancellation and make deadlines, cleanup, and owner teardown explicit. | Senior |
-| [Async Sequences, Streams, and Continuations](async-sequences-streams-and-continuations/README.md) | Model asynchronous values and bridge callback APIs with explicit buffering and termination. | Senior |
-| [Actors, Global Actors, and Reentrancy](actors-global-actors-and-reentrancy/README.md) | Protect invariants while accounting for reentrancy, global isolation, and boundary cost. | Senior |
-| [Sendability and Swift 6 Migration](sendability-and-swift-6-migration/README.md) | Prove safe transfer and stage strict-concurrency adoption across module boundaries. | Staff |
-| [Concurrency Testing and Observability](concurrency-testing-and-observability/README.md) | Verify interleavings deterministically and operate concurrency using capacity and latency signals. | Staff |
+| Concept | Why it matters | Priority | Time |
+|---|---|---|---:|
+| [Async Functions, Suspension, and Executors](async-functions-suspension-and-executors/README.md) | Distinguishes suspension, blocking, and parallel work. | Core | 9 min |
+| [Structured Concurrency and Task Groups](structured-concurrency-and-task-groups/README.md) | Connects child lifetime, results, failure, and cancellation to a parent scope. | Core | 8 min |
+| [Unstructured Tasks and Task Context](unstructured-tasks-and-task-context/README.md) | Explains task ownership and when detached work is unsafe. | Core | 7 min |
+| [Cancellation, Timeouts, and Lifecycle](cancellation-timeouts-and-lifecycle/README.md) | Shows why cancellation is cooperative and who must stop work. | Core | 7 min |
+| [Actors, Global Actors, and Reentrancy](actors-global-actors-and-reentrancy/README.md) | Protects shared state without assuming an actor method is fully atomic. | Core | 10 min |
+| [Sendability and Swift 6 Migration](sendability-and-swift-6-migration/README.md) | Explains safe isolation transfer and strict-concurrency adoption. | Core | 9 min |
+| [Async Sequences, Streams, and Continuations](async-sequences-streams-and-continuations/README.md) | Covers values over time and safe callback bridging. | High | 7 min |
+| [Concurrency Testing and Observability](concurrency-testing-and-observability/README.md) | Makes timing-sensitive behavior testable and diagnosable. | High | 9 min |
 
 ## Source Section
 

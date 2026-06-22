@@ -2,16 +2,17 @@
 title: "Properties"
 domain: "Swift"
 page_type: topic-index
+interview_priority: high
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Properties
 
 ## Scope
 
-Swift properties as state and API boundaries: stored and computed representation,
-observation semantics, reusable property wrappers, and type-level storage.
+This topic covers stored, computed, observed, wrapped, and type properties. Focus
+on who owns state, when work runs, and what callers can observe.
 
 Detailed initialization, methods, concurrency, and memory management remain in
 their dedicated topics. This topic covers those mechanics only where they change a
@@ -22,7 +23,7 @@ property's correctness, ownership, or production behavior.
 - [Classes and Structures](../classes-and-structures/README.md)
 - [Closures](../closures/README.md)
 
-## Learning Path
+## Rapid Review
 
 1. [Stored and Computed Properties](stored-and-computed-properties/README.md)
 2. [Property Observers and Mutation Boundaries](property-observers-and-mutation-boundaries/README.md)
@@ -30,11 +31,11 @@ property's correctness, ownership, or production behavior.
 
 ## Concepts
 
-| Concept | Summary | Level |
-|---|---|---|
-| [Stored and Computed Properties](stored-and-computed-properties/README.md) | Choose storage, derivation, and lazy work from ownership, cost, consistency, and API requirements. | Senior |
-| [Property Observers and Mutation Boundaries](property-observers-and-mutation-boundaries/README.md) | Use observation as a synchronous mutation hook without mistaking it for validation, transactions, or synchronization. | Senior |
-| [Property Wrappers and Type Properties](property-wrappers-and-type-properties/README.md) | Centralize repeated property policy while keeping generated API, hidden storage, global state, and concurrency explicit. | Senior |
+| Concept | Why it matters | Priority | Time |
+|---|---|---|---:|
+| [Stored and Computed Properties](stored-and-computed-properties/README.md) | Chooses between authoritative storage and derived values. | High | 8 min |
+| [Property Wrappers and Type Properties](property-wrappers-and-type-properties/README.md) | Reuses storage policy while exposing generated and shared state. | High | 9 min |
+| [Property Observers and Mutation Boundaries](property-observers-and-mutation-boundaries/README.md) | Explains synchronous assignment hooks and their limits. | Situational | 7 min |
 
 ## Related Topics
 

@@ -5,28 +5,25 @@ topic: "Collection Types"
 page_type: concept-index
 levels:
   - senior
-  - staff
+interview_priority: high
+estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-06-20
-tags:
-  - arrays
-  - value-semantics
-  - copy-on-write
-  - collections
+last_reviewed: 2026-06-22
 ---
 
 # Arrays
 
-> `Array<Element>` is an ordered, random-access value collection. Its API is
-> simple, but correct production use depends on index validity, element semantics,
-> mutation complexity, copy-on-write, and storage lifetime.
+> `Array` is an ordered, random-access value collection. Copy-on-write can share
+> storage internally while preserving independent logical values.
+
+## Quick Recall
+
+- Array indices are valid only for the collection state that produced them.
+- Appending is amortized constant time; insertion near the front is linear.
+- Copying an array does not copy class instances stored inside it.
+- `ArraySlice` keeps the original indices and may retain the original storage.
 
 ## Study
 
 - [Theory](theory.md)
 - [Interview questions](interview.md)
-
-## Prerequisites
-
-- [Range Operators](../../basic-operators/range-operators/README.md)
-- [Assignment, Arithmetic, and Comparison](../../basic-operators/assignment-arithmetic-and-comparison/README.md)

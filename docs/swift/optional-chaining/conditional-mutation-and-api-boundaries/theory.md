@@ -4,26 +4,17 @@ domain: "Swift"
 topic: "Optional Chaining"
 concept: "Conditional Mutation and API Boundaries"
 page_type: theory
+interview_priority: situational
+estimated_read_minutes: 2
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 tags: [optionals, mutation, method-calls, api-design]
 ---
 
 # Conditional Mutation and API Boundaries: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> Chained assignment and calls execute only when the receiver path exists; their
-> optional `Void` result can tell whether execution occurred.
-
-- `object?.property = value` performs no assignment when the receiver is nil.
-- The right-hand side is not evaluated when the assignment cannot occur.
-- A chained method returning `Void` has result `Void?`: non-nil means the call ran.
-- `try?` plus optional chaining can collapse distinct absence and failure reasons; use deliberately.
-- Do not use silent conditional mutation for required business operations.
 
 ## Mental Model
 
@@ -65,39 +56,11 @@ receiver handling so skipped work is visible and actionable.
 - Actor isolation still governs access to isolated optional state.
 - Multiple optional/error operators can erase diagnostic distinctions.
 
-## Failure Modes
-
-- Required mutation silently does nothing.
-- Optional `Void` is treated as operation success.
-- `try?` erases an actionable error into nil.
-- Read and later chained write race across shared state.
-- Metrics count attempted rather than executed operations.
-
 ## Engineering Judgment
 
 Use chained commands for genuinely best-effort behavior. Use `guard` and explicit
 errors for required dependencies. Return domain outcomes from operations that can run
 but fail. Keep compound mutation in an actor or synchronized owner.
-
-## Production Considerations
-
-Test receiver-present, receiver-absent, skipped argument effects, operation failure,
-and concurrent ownership. Instrument explicit skipped-operation reasons at system
-boundaries. Migrating required state to optional requires rollout policy, not just `?.` fixes.
-
-## Staff and Principal Perspective
-
-Large-scale “optionalization” can turn incidents into silent no-ops. Require APIs to
-classify absence as benign, retryable, invariant violation, or user-visible failure;
-standardize telemetry and migrations for each category.
-
-## Common Mistakes
-
-### Optional Chaining Handles Failure
-
-**Why it is wrong:** It handles a missing receiver, not rejection or failure after execution.
-
-**Better approach:** Model operation outcomes separately with values or errors.
 
 ## References
 

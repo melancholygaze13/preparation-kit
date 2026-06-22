@@ -4,11 +4,13 @@ domain: "Swift"
 topic: "Closures"
 concept: "Escaping, Autoclosure, and API Boundaries"
 page_type: theory
+interview_priority: core
+estimated_read_minutes: 9
 levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-20
+last_reviewed: 2026-06-22
 tags:
   - closures
   - escaping
@@ -19,22 +21,6 @@ tags:
 # Escaping, Autoclosure, and API Boundaries: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> Closure parameters are nonescaping by default. `@escaping` expands their valid
-> lifetime; `@autoclosure` changes call syntax by wrapping an expression for
-> delayed evaluation.
-
-- Store or invoke a parameter after return only when its type is `@escaping`.
-- Escaping does not mean asynchronous, concurrent, or once-only; those are
-  separate execution-contract dimensions.
-- Escaping class captures require an explicit `self` use or capture-list choice,
-  keeping ownership visible.
-- An autoclosure takes no arguments and evaluates its wrapped expression only when
-  the callee invokes it—possibly never or more than once.
-- Use autoclosure only when the name and convention make lazy evaluation obvious,
-  such as assertions, logging, or fallback expressions.
 
 ## Mental Model
 
@@ -85,11 +71,10 @@ final class EventSource {
 }
 ```
 
-Asynchronous completions commonly escape, but storage is the defining property,
-not asynchronous execution. An escaping closure can still be called synchronously
-before the function returns, and a nonescaping closure can perform synchronous
-work on another implementation-controlled thread only if the surrounding API can
-still guarantee it does not outlive the call.
+Asynchronous completions commonly escape, but storage is the defining property.
+An escaping closure can still run before the function returns. A nonescaping
+closure may run elsewhere only when the API still guarantees that it does not
+outlive the call.
 
 ### Explicit self and Escaping Ownership
 
@@ -224,23 +209,6 @@ capturing secrets or large graphs longer than the call.
 - `@autoclosure @escaping` extends the wrapped expression's capture lifetime.
 - Neither attribute supplies sendability, actor isolation, or synchronization.
 
-## Failure Modes
-
-- **Escaping treated as async:** Synchronous callback reentrancy corrupts caller
-  state.
-- **No deregistration owner:** Stored callbacks and captured graphs leak.
-- **One-shot callback retained after use:** Creates avoidable cycles and late
-  duplicate delivery.
-- **Autoclosure repeats side effects:** State changes more than the caller expects.
-- **Autoclosure silently skips required work:** Diagnostic or fallback path does
-  not evaluate the expression.
-- **Escaping autoclosure hides lifetime:** An eager-looking argument retains data
-  or executes much later.
-- **Weak self silently drops required effect:** Lifetime policy is delegated to
-  incidental UI ownership.
-- **Callback contract omits cardinality:** Both caller and callee assume different
-  invocation counts.
-
 ## Engineering Judgment
 
 ### Boundary Decision Table
@@ -262,7 +230,7 @@ Escaping enables observers and asynchronous work while expanding ownership and
 concurrency risk. Autoclosure makes common lazy calls fluent but hides braces,
 evaluation count, and captures from the call site.
 
-## Production Considerations
+## Production Application
 
 ### Performance
 
@@ -325,24 +293,6 @@ Shared callback infrastructure should return cancellation ownership and define
 late-event policy. Limit autoclosure APIs to established lazy conventions and
 review side effects explicitly. Use structured concurrency migration to remove
 ambiguous one-shot callback contracts, not merely add async wrappers.
-
-## Common Mistakes
-
-### Equating escaping with asynchronous
-
-**Why it is wrong:** An escaping closure is permitted to outlive the call but may
-still be invoked inline, causing reentrancy.
-
-**Better approach:** Define timing separately and design callers for the promised
-reentrancy behavior.
-
-### Hiding Effectful Work in an Autoclosure
-
-**Why it is wrong:** The call looks like value passing while evaluation can be
-skipped, repeated, or delayed.
-
-**Better approach:** Use an explicit closure or named operation for side-effecting
-or lifecycle-sensitive work.
 
 ## References
 

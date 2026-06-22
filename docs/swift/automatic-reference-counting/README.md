@@ -2,17 +2,18 @@
 title: "Automatic Reference Counting"
 domain: "Swift"
 page_type: topic-index
+interview_priority: core
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Automatic Reference Counting
 
 ## Scope
 
-Class-instance lifetime under ARC, strong ownership graphs, weak and unowned references,
-closure/callback/task retention, resource lifecycle design, leak diagnosis, and ownership
-migration across production systems.
+This topic explains how Swift manages class-instance lifetime. It covers strong,
+weak, and unowned references, closure and task captures, retain cycles, and leak
+diagnosis.
 
 General class identity belongs to Classes and Structures; closure value-capture semantics
 belong to Closures; deinitializer rules belong to Deinitialization.
@@ -23,7 +24,7 @@ belong to Closures; deinitializer rules belong to Deinitialization.
 - [Closures](../closures/README.md)
 - [Deinitialization](../deinitialization/README.md)
 
-## Learning Path
+## Rapid Review
 
 1. [ARC Ownership and Object Lifetime](arc-ownership-and-object-lifetime/README.md)
 2. [Object Graph Cycles and Non-Owning References](object-graph-cycles-and-non-owning-references/README.md)
@@ -32,12 +33,12 @@ belong to Closures; deinitializer rules belong to Deinitialization.
 
 ## Concepts
 
-| Concept | Summary | Level |
-|---|---|---|
-| [ARC Ownership and Object Lifetime](arc-ownership-and-object-lifetime/README.md) | Reason from strong ownership and last-use lifetime without assuming lexical-scope deallocation. | Senior |
-| [Object Graph Cycles and Non-Owning References](object-graph-cycles-and-non-owning-references/README.md) | Break cycles with weak or unowned edges only when the domain lifetime relationship justifies them. | Senior |
-| [Closure, Callback, and Task Lifetimes](closure-callback-and-task-lifetimes/README.md) | Design capture, cancellation, and callback ownership so asynchronous work neither leaks nor disappears silently. | Senior |
-| [Lifecycle Architecture and Leak Diagnosis](lifecycle-architecture-and-leak-diagnosis/README.md) | Make lifetime ownership observable, testable, and migratable across subsystem and team boundaries. | Staff |
+| Concept | Why it matters | Priority | Time |
+|---|---|---|---:|
+| [ARC Ownership and Object Lifetime](arc-ownership-and-object-lifetime/README.md) | Explains what keeps an object alive and when it can be released. | Core | 8 min |
+| [Object Graph Cycles and Non-Owning References](object-graph-cycles-and-non-owning-references/README.md) | Distinguishes ownership from observation and prevents retain cycles. | Core | 8 min |
+| [Closure, Callback, and Task Lifetimes](closure-callback-and-task-lifetimes/README.md) | Connects captures, cancellation, and asynchronous lifetime. | Core | 8 min |
+| [Lifecycle Architecture and Leak Diagnosis](lifecycle-architecture-and-leak-diagnosis/README.md) | Shows how to prove a leak and find the retaining path. | Core | 8 min |
 
 ## Source Section
 

@@ -3,14 +3,24 @@ title: "Closure, Callback, and Task Lifetimes"
 domain: "Swift"
 topic: "Automatic Reference Counting"
 page_type: concept-index
+interview_priority: core
+estimated_read_minutes: 1
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Closure, Callback, and Task Lifetimes
 
-> Escaping closures and tasks own capture contexts; correct design aligns capture strength with callback cardinality, cancellation, and operation ownership.
+> Escaping closures and tasks retain their captured values. Capture strength must
+> match who owns the operation and how the operation ends.
+
+## Quick Recall
+
+- A stored closure can form a cycle with the object that stores it.
+- `[weak self]` is not a default rule; it changes whether work may continue.
+- Long-lived tasks need an owner and a cancellation point.
+- One-shot callbacks should release their captures after completion.
 
 ## Study
 

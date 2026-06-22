@@ -4,24 +4,16 @@ domain: "Swift"
 topic: "Concurrency"
 concept: "Structured Concurrency and Task Groups"
 page_type: theory
+interview_priority: core
+estimated_read_minutes: 4
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Structured Concurrency and Task Groups: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> A structured scope cannot return until its child tasks finish; this makes lifetime, cancellation, priority, errors, and results locally accountable.
-
-- Use `async let` for a fixed, small set of independent results.
-- Use a task group for dynamic homogeneous work or completion-order processing.
-- Group results arrive in completion order, not insertion order.
-- Throwing groups support fail-fast collection only when errors are observed; partial-result policy must be explicit.
-- Bound fan-out to the capacity of memory, sockets, rate limits, and downstream services.
 
 ## Mental Model
 
@@ -79,14 +71,6 @@ inside each child and return a typed outcome such as `(ID, Result<Value, Error>)
 - Cancelling a parent marks structured descendants cancelled; it does not forcibly stop them.
 - Task-group iteration is completion-ordered. The runtime does not guarantee start or finish order.
 
-## Failure Modes
-
-- Adding one child per element exhausts connections or memory.
-- Appending completion-order values silently violates input-order requirements.
-- A child error is converted to `nil`, producing accidental partial success.
-- The parent waits indefinitely because a cancelled child blocks or ignores cancellation.
-- Side-effect tasks accumulate unnecessary results in a regular group.
-
 ## Engineering Judgment
 
 ### When to Use It
@@ -113,7 +97,7 @@ group as a substitute for a durable job system whose work must survive process l
 Use sequential iteration for strict ordering or low volume, `AsyncSequence` for an
 open-ended feed, and a persisted queue for crash-resilient or cross-process work.
 
-## Production Considerations
+## Production Application
 
 ### Performance
 
@@ -156,14 +140,6 @@ selecting the structured primitive.
 
 Centralize dependency-specific concurrency budgets and overload policy; otherwise each
 feature independently chooses a locally reasonable limit that is globally unsafe.
-
-## Common Mistakes
-
-### Calling a task group bounded because it is structured
-
-**Why it is wrong:** Structure constrains lifetime, not the number of children.
-
-**Better approach:** Seed a fixed number and add one item as each result completes.
 
 ## References
 

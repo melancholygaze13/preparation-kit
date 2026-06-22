@@ -4,11 +4,13 @@ domain: "Swift"
 topic: "Properties"
 concept: "Property Observers and Mutation Boundaries"
 page_type: theory
+interview_priority: situational
+estimated_read_minutes: 3
 levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 tags:
   - property-observers
   - mutation
@@ -19,19 +21,6 @@ tags:
 # Property Observers and Mutation Boundaries: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> `willSet` runs before an assignment and `didSet` after it; both are synchronous
-> hooks around mutation, not validation or concurrency primitives.
-
-- `willSet` receives the incoming value; `didSet` receives the previous value.
-- Observers run on assignments even when the new value compares equal to the old value.
-- Initial assignment during initialization does not invoke the property's observers.
-- Passing an observed property as `inout` uses writeback, so observers run when the
-  call returns even if the callee made no effective change.
-- Keep observers bounded and local; use explicit mutation APIs for validation,
-  multi-property transactions, fallible work, and external side effects.
 
 ## Mental Model
 
@@ -101,15 +90,6 @@ normalization, debug assertions, and narrowly scoped notification.
 - Observers do not provide atomicity, rollback, failure propagation, or thread safety.
 - `willSet` cannot prevent assignment by throwing.
 
-## Failure Modes
-
-- **Validation in `didSet`:** Invalid state is assigned before repair.
-- **Observer cascade:** One write triggers synchronous writes and notifications across a graph.
-- **Duplicate expensive work:** Equal assignments still invoke the observer.
-- **`inout` surprise:** A no-op call triggers writeback effects.
-- **Reentrant callback:** Observer notification causes another mutation mid-transition.
-- **Concurrent writers:** Observer code runs in racing contexts and corrupts shared state.
-
 ## Engineering Judgment
 
 | Requirement | Better boundary |
@@ -120,54 +100,6 @@ normalization, debug assertions, and narrowly scoped notification.
 | Publish asynchronous event | Owner commits, then explicit async pipeline |
 | Observe framework-owned inherited state | Observer where lifecycle rules permit |
 | Synchronize concurrent access | Actor or encapsulated synchronization |
-
-## Production Considerations
-
-### Performance and Reliability
-
-Observers are paid on every assignment, including equal values and `inout` writeback.
-Do not perform disk, network, blocking locks, or unbounded fan-out inside them. Make
-notification ordering explicit and prevent callback cycles.
-
-### Concurrency and Thread Safety
-
-Observers execute in the context performing the write. They inherit actor isolation
-when the enclosing state is isolated, but do not establish it. For actor state, keep
-observers synchronous; route async work through an explicit operation and revalidate
-state after suspension.
-
-### Testing and Observability
-
-Test initialization, equal assignment, normalization boundaries, `inout`, callback
-reentrancy, and exact notification ordering. Instrument observer latency and cascade
-depth only where these hooks sit on critical production paths.
-
-### Compatibility and Migration
-
-Adding an observer can silently add cost and side effects to existing assignment
-syntax. Migrate high-impact behavior to named APIs, dual-publish notifications when
-needed, and verify callers that use key paths or `inout`.
-
-## Staff and Principal Perspective
-
-Observers should not become an implicit event bus. At system scale, define mutation
-owners, transaction boundaries, event schemas, delivery semantics, and reentrancy
-policy. Establish review rules that keep cross-module effects out of property hooks.
-
-## Common Mistakes
-
-### `didSet` Is a Validation Boundary
-
-**Why it is wrong:** The value has already been assigned, the observer cannot throw,
-and related properties are not updated atomically.
-
-**Better approach:** Validate inputs first in an initializer or explicit mutation API.
-
-### Observers Run Only When Values Differ
-
-**Why it is wrong:** Assignment triggers observers regardless of `Equatable` equality.
-
-**Better approach:** Compare deliberately inside the observer when deduplication is valid.
 
 ## References
 

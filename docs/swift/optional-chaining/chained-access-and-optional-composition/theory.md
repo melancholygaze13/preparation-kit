@@ -4,26 +4,17 @@ domain: "Swift"
 topic: "Optional Chaining"
 concept: "Chained Access and Optional Composition"
 page_type: theory
+interview_priority: situational
+estimated_read_minutes: 2
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 tags: [optionals, optional-chaining, composition, nil]
 ---
 
 # Chained Access and Optional Composition: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> `receiver?.member` performs member access only when `receiver` is non-nil and wraps
-> the overall result in an optional.
-
-- Chain properties, methods, and subscripts through any number of optional receivers.
-- If any optional link is nil, later expressions in that chain are not evaluated.
-- Chaining a nonoptional result produces an optional result.
-- Chaining an already optional result does not add another observable optional level.
-- Use `if let`, `guard let`, `map`, or `flatMap` when binding, transformation, or failure policy is clearer.
 
 ## Mental Model
 
@@ -74,39 +65,11 @@ Multiple chained receivers likewise do not stack a new optional layer per `?.`.
 - Chaining does not validate the nonoptional value or provide a default.
 - It does not distinguish among multiple nil-producing links.
 
-## Failure Modes
-
-- Long chains erase which dependency is missing.
-- Nil becomes normal control flow for a violated invariant.
-- A default after chaining fabricates misleading data.
-- Side effects in arguments are skipped unexpectedly.
-- Repeated chains traverse expensive computed properties multiple times.
-
 ## Engineering Judgment
 
 Use chaining for concise conditional queries where all missing links share one benign
 outcome. Bind explicitly for invariants, branching recovery, logging, or reuse. Prefer
 domain result/error types when absence needs categories.
-
-## Production Considerations
-
-Profile chains containing computed access or collection traversal. Test nil at every
-link and verify arguments are not evaluated after short-circuit. When changing a field
-from required to optional, treat new chained absence as a schema and observability change.
-
-## Staff and Principal Perspective
-
-Deep optional graphs often reveal unclear ownership or partially loaded models. Define
-which layer owns completeness, where absence is permitted, and how missing data crosses
-storage, network, and UI boundaries instead of standardizing silent chaining everywhere.
-
-## Common Mistakes
-
-### Every Chain Adds Another Optional Layer
-
-**Why it is wrong:** Swift flattens the access result according to the member's existing optionality.
-
-**Better approach:** Reason from the final member type and whether the path can fail.
 
 ## References
 

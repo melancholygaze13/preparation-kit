@@ -3,14 +3,24 @@ title: "Object Graph Cycles and Non-Owning References"
 domain: "Swift"
 topic: "Automatic Reference Counting"
 page_type: concept-index
+interview_priority: core
+estimated_read_minutes: 1
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Object Graph Cycles and Non-Owning References
 
-> Strong cycles require an ownership redesign or a justified non-owning edge; weak and unowned encode different lifetime contracts.
+> A strong cycle keeps objects alive after their real owner is gone. Break the
+> cycle by making an edge non-owning only when the lifetime model supports it.
+
+## Quick Recall
+
+- `weak` references are optional and become `nil` after deallocation.
+- `unowned` references assume the target is still alive when accessed.
+- Use `weak` when the observed object may end first.
+- Use `unowned` only when another invariant guarantees the lifetime.
 
 ## Study
 

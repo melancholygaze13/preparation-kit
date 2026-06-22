@@ -5,28 +5,25 @@ topic: "Language Basics"
 page_type: concept-index
 levels:
   - senior
-  - staff
+interview_priority: core
+estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-06-20
-tags:
-  - optionals
-  - nil
-  - absence
-  - api-design
+last_reviewed: 2026-06-22
 ---
 
 # Optionals
 
-> `Optional<Wrapped>` makes absence part of the static type. Correct optional
-> design starts by deciding whether absence is a valid state and what it means at
-> the owning boundary.
+> `Optional<Wrapped>` represents either a wrapped value or `nil`. Use it only
+> when absence is a valid state with clear meaning.
+
+## Quick Recall
+
+- Optional binding unwraps a value for one control-flow branch.
+- `guard` is useful when the value is required for the remaining scope.
+- Optional chaining propagates absence through member access.
+- Force unwrap only when a nearby invariant proves the value exists.
 
 ## Study
 
 - [Theory](theory.md)
 - [Interview questions](interview.md)
-
-## Prerequisites
-
-- [Type Safety and Type Inference](../type-safety-and-inference/README.md)
-- [Tuples](../tuples/README.md)

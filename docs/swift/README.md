@@ -1,85 +1,84 @@
 ---
 title: "Swift"
 page_type: domain-index
-status: draft
-last_reviewed: 2026-06-21
+status: reviewed
+last_reviewed: 2026-06-22
 ---
 
 # Swift
 
 ## Scope
 
-Swift language semantics and the engineering decisions that follow from them.
-This domain focuses on behavior a senior iOS engineer must reason about:
-correctness, ownership, API design, concurrency, performance, and evolution.
+This domain covers Swift knowledge used in senior iOS interviews. Focus on
+language behavior that affects ownership, concurrency, correctness, API design,
+and performance. Use lower-priority topics only when they match the role.
 
-Apple frameworks and platform-specific APIs belong in their own domains.
+## Rapid Review
+
+If the interview is close, study these topics first:
+
+1. [Concurrency](concurrency/README.md)
+2. [Automatic Reference Counting](automatic-reference-counting/README.md)
+3. [Closures](closures/README.md)
+4. [Classes and Structures](classes-and-structures/README.md)
+5. [Protocols](protocols/README.md)
+6. [Generics](generics/README.md)
+7. [Error Handling](error-handling/README.md)
+8. [Memory Safety](memory-safety/README.md)
+
+This path is ordered by interview value, not by the order of chapters in the
+Swift book. Use each topic's prerequisites when a concept is unfamiliar.
 
 ## Topics
 
-| Topic | Summary |
+### Core
+
+| Topic | Why it matters |
 |---|---|
-| [Language Basics](language-basics/README.md) | Foundational language rules viewed through correctness, state management, and API design. |
-| [Basic Operators](basic-operators/README.md) | Assignment, arithmetic, comparison, conditional, logical, and range semantics. |
-| [Strings and Characters](strings-and-characters/README.md) | Unicode text semantics, indexing, slicing, storage, comparison, and boundary conversion. |
-| [Collection Types](collection-types/README.md) | Ordered, unique, and keyed collections with value semantics, hashing, indexing, and mutation costs. |
-| [Control Flow](control-flow/README.md) | Branches, pattern matching, loops, early exits, cleanup, and runtime availability decisions. |
-| [Functions](functions/README.md) | Function signatures, argument semantics, higher-order behavior, and local abstraction boundaries. |
-| [Closures](closures/README.md) | Closure expression syntax, capture and lifetime semantics, escaping behavior, and delayed evaluation. |
-| [Enumerations](enumerations/README.md) | Finite state modeling, associated values, raw representations, recursion, and enum evolution. |
-| [Classes and Structures](classes-and-structures/README.md) | Type design, value and reference semantics, identity, aliasing, and mutation ownership. |
-| [Properties](properties/README.md) | Stored and computed state, observation hooks, property wrappers, and type-level storage. |
-| [Methods](methods/README.md) | Instance and type behavior, value mutation, state transitions, and method-level API design. |
-| [Subscripts](subscripts/README.md) | Indexed access, bounds and failure policy, overloading, type subscripts, and API evolution. |
-| [Initialization](initialization/README.md) | Stored-property safety, delegation, two-phase class initialization, failure, requirements, and API evolution. |
-| [Inheritance](inheritance/README.md) | Subclassing, overrides, behavioral substitutability, extension boundaries, and framework evolution. |
-| [Optional Chaining](optional-chaining/README.md) | Conditional member access, call and assignment semantics, composition, and missing-data policy. |
-| [Error Handling](error-handling/README.md) | Error modeling, throwing and propagation, recovery, cancellation, cleanup, and boundary evolution. |
-| [Type Casting](type-casting/README.md) | Runtime type checks, conditional and forced casts, heterogeneous storage, and boundary design. |
-| [Nested Types](nested-types/README.md) | Lexically scoped domain vocabulary, generic context, public naming, dependency boundaries, and API evolution. |
-| [Extensions](extensions/README.md) | Add behavior, conditional specialization, and conformances without changing stored representation or ownership boundaries. |
-| [Protocols](protocols/README.md) | Define capability contracts, model existential boundaries, provide defaults, and evolve conformances safely. |
-| [Generics](generics/README.md) | Express reusable algorithms and types with compile-time relationships, conditional capabilities, and scalable generic APIs. |
-| [Opaque and Boxed Protocol Types](opaque-and-boxed-protocol-types/README.md) | Hide implementation types with preserved identity or erase them deliberately at runtime abstraction boundaries. |
-| [Automatic Reference Counting](automatic-reference-counting/README.md) | Manage object lifetime, cycles, callback/task retention, cleanup ownership, and leak diagnosis. |
-| [Deinitialization](deinitialization/README.md) | Class teardown semantics, deterministic resource release, isolation, and lifecycle ownership. |
-| [Memory Safety](memory-safety/README.md) | Enforce exclusive access, design scoped mutation, prove disjoint storage, and contain unsafe memory boundaries. |
-| [Access Control](access-control/README.md) | Control visibility across scopes, files, modules, and packages while evolving supported APIs deliberately. |
-| [Advanced Operators](advanced-operators/README.md) | Apply bitwise and overflow arithmetic, overload operators, define precedence, and govern custom syntax safely. |
-| [Concurrency](concurrency/README.md) | Async execution, structured task ownership, cancellation, actors, isolation, and sendability. |
-| [Macros](macros/README.md) | Freestanding and attached expansion, implementation diagnostics, testing, build impact, and API evolution. |
+| [Concurrency](concurrency/README.md) | Tasks, cancellation, actors, isolation, and sendability are central to modern Swift. |
+| [Automatic Reference Counting](automatic-reference-counting/README.md) | Object lifetime, retain cycles, captures, and leaks appear in most iOS roles. |
+| [Closures](closures/README.md) | Captures, escaping work, and callback lifetime connect Swift syntax to ownership. |
+| [Classes and Structures](classes-and-structures/README.md) | Value and reference semantics affect state, copying, and architecture. |
+| [Protocols](protocols/README.md) | Protocol design tests abstraction, dispatch, API evolution, and dependency boundaries. |
+| [Generics](generics/README.md) | Generic constraints and type erasure are common API-design discussion points. |
+| [Error Handling](error-handling/README.md) | Good answers distinguish failure modeling, recovery, cancellation, and API boundaries. |
+| [Memory Safety](memory-safety/README.md) | Exclusive access and unsafe boundaries matter for correctness and performance. |
 
-## Suggested Learning Path
+### High Priority
 
-1. [Language Basics](language-basics/README.md)
-2. [Basic Operators](basic-operators/README.md)
-3. [Strings and Characters](strings-and-characters/README.md)
-4. [Collection Types](collection-types/README.md)
-5. [Control Flow](control-flow/README.md)
-6. [Functions](functions/README.md)
-7. [Closures](closures/README.md)
-8. [Enumerations](enumerations/README.md)
-9. [Classes and Structures](classes-and-structures/README.md)
-10. [Properties](properties/README.md)
-11. [Methods](methods/README.md)
-12. [Subscripts](subscripts/README.md)
-13. [Initialization](initialization/README.md)
-14. [Inheritance](inheritance/README.md)
-15. [Optional Chaining](optional-chaining/README.md)
-16. [Error Handling](error-handling/README.md)
-17. [Type Casting](type-casting/README.md)
-18. [Nested Types](nested-types/README.md)
-19. [Extensions](extensions/README.md)
-20. [Protocols](protocols/README.md)
-21. [Generics](generics/README.md)
-22. [Opaque and Boxed Protocol Types](opaque-and-boxed-protocol-types/README.md)
-23. [Automatic Reference Counting](automatic-reference-counting/README.md)
-24. [Deinitialization](deinitialization/README.md)
-25. [Memory Safety](memory-safety/README.md)
-26. [Access Control](access-control/README.md)
-27. [Advanced Operators](advanced-operators/README.md)
-28. [Concurrency](concurrency/README.md)
-29. [Macros](macros/README.md)
+| Topic | Why it matters |
+|---|---|
+| [Language Basics](language-basics/README.md) | Optionals, types, and assertions support almost every coding discussion. |
+| [Collection Types](collection-types/README.md) | Collection choice, hashing, indexing, and mutation affect correctness and cost. |
+| [Control Flow](control-flow/README.md) | Pattern matching, `guard`, cleanup, and availability checks appear in practical code. |
+| [Functions](functions/README.md) | Signatures and higher-order functions shape clear Swift APIs. |
+| [Enumerations](enumerations/README.md) | Associated values and exhaustive state modeling are important Swift strengths. |
+| [Properties](properties/README.md) | Stored, computed, observed, and wrapped properties define state boundaries. |
+| [Initialization](initialization/README.md) | Initialization rules protect valid state and matter in class hierarchies. |
+| [Strings and Characters](strings-and-characters/README.md) | Unicode and non-integer indexing are common correctness checks. |
+
+### Situational
+
+| Topic | Use it when |
+|---|---|
+| [Access Control](access-control/README.md) | The role covers modules, packages, SDKs, or large codebases. |
+| [Extensions](extensions/README.md) | The discussion covers conformance ownership or API organization. |
+| [Opaque and Boxed Protocol Types](opaque-and-boxed-protocol-types/README.md) | The role uses protocol-heavy APIs or SwiftUI-style abstractions. |
+| [Inheritance](inheritance/README.md) | The codebase uses UIKit subclassing or framework extension points. |
+| [Type Casting](type-casting/README.md) | Runtime types or heterogeneous Objective-C boundaries are relevant. |
+| [Optional Chaining](optional-chaining/README.md) | You need a short review of optional access and assignment behavior. |
+| [Macros](macros/README.md) | The role builds tooling, generated APIs, or modern Swift infrastructure. |
+| [Deinitialization](deinitialization/README.md) | Resource lifetime and teardown ownership are likely discussion areas. |
+| [Basic Operators](basic-operators/README.md) | You want to review overflow, equality, short-circuiting, or range boundaries. |
+
+### Reference
+
+| Topic | What to review |
+|---|---|
+| [Advanced Operators](advanced-operators/README.md) | Bitwise code, explicit wrapping, or custom operators when the role needs them. |
+| [Methods](methods/README.md) | `mutating`, type methods, and method-level API details. |
+| [Subscripts](subscripts/README.md) | Bounds policy and custom indexed access. |
+| [Nested Types](nested-types/README.md) | Scoped names and generic nesting. |
 
 ## Primary Reference
 

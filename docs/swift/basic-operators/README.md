@@ -2,26 +2,24 @@
 title: "Basic Operators"
 domain: "Swift"
 page_type: topic-index
-status: draft
-last_reviewed: 2026-06-20
+interview_priority: situational
+status: reviewed
+last_reviewed: 2026-06-22
 ---
 
 # Basic Operators
 
 ## Scope
 
-Swift's built-in assignment, arithmetic, comparison, conditional, logical, and
-range operators, with emphasis on type-directed behavior, overflow, evaluation,
-correctness contracts, and production failure modes.
+This topic covers Swift's built-in assignment, arithmetic, comparison, Boolean,
+and range operators. Most interviews do not test operator syntax by itself.
+They may use it to test value semantics, overflow, short-circuit evaluation, or
+safe collection access.
 
-Custom operators, precedence declarations, bitwise operations, and overflow
-operator implementation belong to the Advanced Operators topic.
+Custom operators, precedence declarations, and bitwise operations belong to
+[Advanced Operators](../advanced-operators/README.md).
 
-## Prerequisites
-
-- [Language Basics](../language-basics/README.md)
-
-## Learning Path
+## Rapid Review
 
 1. [Assignment, Arithmetic, and Comparison](assignment-arithmetic-and-comparison/README.md)
 2. [Conditional and Logical Operators](conditional-and-logical-operators/README.md)
@@ -29,18 +27,16 @@ operator implementation belong to the Advanced Operators topic.
 
 ## Concepts
 
-| Concept | Summary | Level |
-|---|---|---|
-| [Assignment, Arithmetic, and Comparison](assignment-arithmetic-and-comparison/README.md) | Understand how operators interact with type semantics, overflow, aliasing, and equality contracts. | Senior |
-| [Conditional and Logical Operators](conditional-and-logical-operators/README.md) | Control expression evaluation explicitly through ternary selection, short-circuiting, and readable Boolean logic. | Senior |
-| [Range Operators](range-operators/README.md) | Model inclusive and exclusive boundaries safely across iteration, slicing, and collection index spaces. | Senior |
+| Concept | Why it matters | Priority | Time |
+|---|---|---|---:|
+| [Assignment, Arithmetic, and Comparison](assignment-arithmetic-and-comparison/README.md) | Covers value versus reference assignment, overflow, and equality. | Situational | 7 min |
+| [Conditional and Logical Operators](conditional-and-logical-operators/README.md) | Explains short-circuit evaluation and readable Boolean conditions. | Reference | 5 min |
+| [Range Operators](range-operators/README.md) | Prevents boundary and collection-index errors. | Situational | 6 min |
 
-## Existing Related Coverage
+## Prerequisite
 
-- [Nil-coalescing and optional fallback](../language-basics/optionals/theory.md#providing-a-fallback)
-- [Numeric types and overflow](../language-basics/numeric-types-and-conversions/theory.md)
-- [Tuple comparison limitations](../language-basics/tuples/theory.md#comparison-and-protocol-limitations)
+- [Language Basics](../language-basics/README.md)
 
-## Source Section
+## Primary Source
 
-- [Basic Operators](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/basicoperators/)
+- [The Swift Programming Language: Basic Operators](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/basicoperators/)

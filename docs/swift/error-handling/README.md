@@ -2,16 +2,17 @@
 title: "Error Handling"
 domain: "Swift"
 page_type: topic-index
+interview_priority: core
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Error Handling
 
 ## Scope
 
-Swift error values, throwing functions, propagation, recovery, cleanup, cancellation,
-and translation across module and service boundaries.
+This topic covers error values, throwing functions, recovery, cleanup,
+cancellation, and error translation at system boundaries.
 
 Optional absence and control-flow `defer` fundamentals remain in their owning topics;
 concurrency is covered here only where cancellation changes error policy.
@@ -22,17 +23,17 @@ concurrency is covered here only where cancellation changes error policy.
 - [Functions](../functions/README.md)
 - [Optional Chaining](../optional-chaining/README.md)
 
-## Learning Path
+## Rapid Review
 
 1. [Error Modeling and Throwing APIs](error-modeling-and-throwing-apis/README.md)
 2. [Propagation, Recovery, and Boundary Policy](propagation-recovery-and-boundary-policy/README.md)
 
 ## Concepts
 
-| Concept | Summary | Level |
-|---|---|---|
-| [Error Modeling and Throwing APIs](error-modeling-and-throwing-apis/README.md) | Represent recoverable failures as meaningful values and expose effects without conflating absence or programmer defects. | Senior |
-| [Propagation, Recovery, and Boundary Policy](propagation-recovery-and-boundary-policy/README.md) | Catch only where policy exists, preserve cancellation, clean up deterministically, and translate errors at ownership boundaries. | Senior |
+| Concept | Why it matters | Priority | Time |
+|---|---|---|---:|
+| [Error Modeling and Throwing APIs](error-modeling-and-throwing-apis/README.md) | Separates recoverable failure, absence, and programmer error. | Core | 6 min |
+| [Propagation, Recovery, and Boundary Policy](propagation-recovery-and-boundary-policy/README.md) | Catches errors only where a recovery or translation policy exists. | Core | 7 min |
 
 ## Source Section
 

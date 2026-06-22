@@ -3,14 +3,22 @@ title: "Disjoint Storage and Value Mutation"
 domain: "Swift"
 topic: "Memory Safety"
 page_type: concept-index
+interview_priority: high
+estimated_read_minutes: 1
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Disjoint Storage and Value Mutation
 
 > Swift can permit simultaneous mutation of separate stored properties only when storage identity and non-aliasing are statically clear.
+
+## Quick Recall
+
+- Separate stored properties may have disjoint access.
+- Computed properties can hide aliasing and usually need wider protection.
+- Local values are easier for the compiler to prove disjoint.
 
 ## Study
 

@@ -4,11 +4,13 @@ domain: "Swift"
 topic: "Control Flow"
 concept: "Conditional Branching and Pattern Matching"
 page_type: theory
+interview_priority: high
+estimated_read_minutes: 6
 levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-20
+last_reviewed: 2026-06-22
 tags:
   - conditionals
   - switch
@@ -18,22 +20,6 @@ tags:
 # Conditional Branching and Pattern Matching: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> Use `if` for a small number of Boolean decisions and `switch` when the value's
-> states or structure should be matched exhaustively.
-
-- A switch is exhaustive, executes only the first matching case, and has no
-  implicit fallthrough.
-- Case order is semantic when patterns overlap; put specific patterns before
-  broad bindings, wildcards, or defaults.
-- Patterns can match values, intervals, tuples, enum cases, type casts, and
-  optional structure; bindings expose matched data only inside the branch.
-- `if` and `switch` expressions produce values; all value-producing branches need
-  compatible types, and an `if` expression needs an `else`.
-- A broad `default` can hide newly added enum states; exhaustive cases or
-  `@unknown default` preserve useful evolution signals where applicable.
 
 ## Mental Model
 
@@ -225,20 +211,6 @@ privacy-safe representation and avoid crash loops on forward-compatible input.
   not express.
 - `if case` and `for case` discard nonmatching values by design.
 
-## Failure Modes
-
-- **Broad case before specific case:** The specific behavior never runs.
-- **Default on an owned enum:** New states silently take generic behavior.
-- **No fallback policy for a resilient enum:** A future framework case crashes or
-  corrupts state.
-- **Deep Boolean chains:** Duplicate or contradictory conditions become hard to
-  audit.
-- **Pattern filtering where failures matter:** `if case` or `for case` silently
-  drops unexpected states.
-- **Huge switch with side effects:** State transition, I/O, and presentation
-  become coupled.
-- **Expression form with hidden effects:** Concision obscures control and testing.
-
 ## Engineering Judgment
 
 ### Decision Criteria
@@ -258,73 +230,6 @@ Exhaustive switches increase change friction intentionally: every consumer must
 consider a new case. Defaults reduce source churn but can hide semantic drift.
 Pattern-rich cases are compact, but complex nested patterns may be harder to read
 and instrument than an initial decomposition followed by simpler decisions.
-
-## Production Considerations
-
-### Performance
-
-Branch cost is normally secondary to work inside each case. Case ordering can
-matter for expensive `where` predicates, casts, or pattern operators, but optimize
-after measurement. Avoid repeating parsing or normalization across branches;
-perform stable preprocessing once when it preserves semantics.
-
-### Concurrency and State Machines
-
-An exhaustive switch over actor-isolated state can express allowed transitions,
-but any `await` inside a branch permits reentrancy. Revalidate state after
-suspension before committing a transition. Do not assume the matched state still
-holds merely because the branch began with it.
-
-### Testing and Observability
-
-Test every named case, overlap boundary, `where` true/false path, unknown/default
-policy, and expression result. For decision tables, table-driven tests make input,
-expected case, and output explicit. Record unexpected states and transition
-failures rather than only branch coverage.
-
-### Compatibility and Migration
-
-When adding enum states, inventory exhaustive consumers, persisted representations,
-wire decoders, and older clients. Roll out tolerant readers before new writers.
-Replacing `default` with named cases may expose previously hidden states; add
-telemetry before tightening behavior.
-
-## Staff and Principal Perspective
-
-### System Impact
-
-Large switches often reveal a missing state-machine boundary. If each feature
-independently interprets shared states, behavior drifts. Central transition logic
-can own invariants while presentation layers map already-valid states to output.
-
-### Decision Framework
-
-Identify who owns the state space, which cases are closed or resilient, whether
-overlap exists, what unknown input means, which branches have side effects, and
-how state evolution reaches old producers and consumers.
-
-### Organizational Impact
-
-Treat shared enum evolution as an API migration. Document cases and unknown-state
-policy, identify consumers, sequence compatible deployments, and provide
-telemetry for fallback paths. Avoid organization-wide “always use default” rules;
-the correct choice depends on resilience ownership.
-
-## Common Mistakes
-
-### Adding default to Silence Exhaustiveness
-
-**Why it is wrong:** It discards compiler help and may assign unsafe generic
-behavior to a new state.
-
-**Better approach:** Name owned cases, or use `@unknown default` with an explicit
-forward-compatibility policy for resilient external enums.
-
-### Treating Case Order as Formatting
-
-**Why it is wrong:** The first match wins when patterns overlap.
-
-**Better approach:** Order specific before general and test boundary overlap.
 
 ## References
 

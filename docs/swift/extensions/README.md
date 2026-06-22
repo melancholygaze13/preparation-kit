@@ -2,8 +2,9 @@
 title: "Extensions"
 domain: "Swift"
 page_type: topic-index
+interview_priority: situational
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Extensions
@@ -24,7 +25,7 @@ extending types across module boundaries.
 - [Initialization](../initialization/README.md)
 - [Nested Types](../nested-types/README.md)
 
-## Learning Path
+## Role-Specific Review
 
 1. [Extension Capabilities and Initialization](extension-capabilities-and-initialization/README.md)
 2. [Conditional Extensions and Specialization](conditional-extensions-and-specialization/README.md)
@@ -32,11 +33,11 @@ extending types across module boundaries.
 
 ## Concepts
 
-| Concept | Summary | Level |
-|---|---|---|
-| [Extension Capabilities and Initialization](extension-capabilities-and-initialization/README.md) | Add computed behavior and valid initializers without changing stored layout or overriding existing declarations. | Senior |
-| [Conditional Extensions and Specialization](conditional-extensions-and-specialization/README.md) | Expose generic behavior only where constraints make its implementation and semantics valid. | Senior |
-| [Conformance and Module Ownership](conformance-and-module-ownership/README.md) | Place conformances with a type or protocol owner and treat retroactive conformances as global compatibility commitments. | Staff |
+| Concept | Why it matters | Priority | Time |
+|---|---|---|---:|
+| [Extension Capabilities and Initialization](extension-capabilities-and-initialization/README.md) | Add computed behavior and valid initializers without changing stored layout or overriding existing declarations. | Situational | 8 min |
+| [Conditional Extensions and Specialization](conditional-extensions-and-specialization/README.md) | Expose generic behavior only where constraints make its implementation and semantics valid. | Situational | 7 min |
+| [Conformance and Module Ownership](conformance-and-module-ownership/README.md) | Place conformances with a type or protocol owner and treat retroactive conformances as global compatibility commitments. | Situational | 8 min |
 
 ## Source Section
 

@@ -4,11 +4,13 @@ domain: "Swift"
 topic: "Control Flow"
 concept: "Loops and Control Transfer"
 page_type: theory
+interview_priority: high
+estimated_read_minutes: 6
 levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-20
+last_reviewed: 2026-06-22
 tags:
   - loops
   - sequences
@@ -18,22 +20,6 @@ tags:
 # Loops and Control Transfer: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> Use `for`-`in` for sequence traversal, `while` for zero-or-more
-> condition-driven work, and `repeat`-`while` only when one execution is required.
-
-- `Sequence` permits single-pass or destructive iteration; only stronger
-  contracts such as `Collection` guarantee nondestructive repeated traversal.
-- `continue` ends the current iteration; `break` exits the targeted loop or
-  `switch`; labels disambiguate nested control flow.
-- `fallthrough` executes the next case body without checking its pattern and is
-  rarely the clearest way to share logic.
-- Every condition-driven loop needs a defensible progress and termination
-  invariant, including cancellation or retry limits for external work.
-- Mutating a traversed collection requires an algorithm whose index and iterator
-  validity is explicit.
 
 ## Mental Model
 
@@ -183,20 +169,6 @@ loop syntax preference.
 - Synchronous loops do not automatically observe task cancellation or yield
   cooperatively.
 
-## Failure Modes
-
-- **No progress invariant:** An unchanged condition causes an infinite loop.
-- **Unbounded retry:** Repeated external work amplifies load and ignores outage
-  budgets.
-- **Assuming every Sequence is repeatable:** A second pass loses or changes data.
-- **Mutating during traversal:** Invalidates indices or skips elements.
-- **Breaking the wrong scope:** Exits a nested switch while the outer loop keeps
-  running.
-- **Using repeat-while with an invalid first pass:** Performs work before checking
-  required state.
-- **Ignoring cancellation in CPU loops:** Makes tasks slow or impossible to stop.
-- **Depending on Set or Dictionary iteration order:** Produces unstable behavior.
-
 ## Engineering Judgment
 
 ### Selection Criteria
@@ -213,74 +185,6 @@ loop syntax preference.
 Higher-order algorithms are not automatically better. A loop can be clearer when
 it needs multiple exits, stateful parsing, error propagation, or careful
 instrumentation.
-
-## Production Considerations
-
-### Performance
-
-Traversal is normally O(n), but body cost, allocations, source laziness, and
-short-circuit behavior dominate. Avoid repeated linear scans that create O(n²)
-work. Use lazy pipelines only when deferred evaluation and source lifetime are
-understood; measure fused-looking code rather than assuming no intermediates.
-
-### Concurrency and Cancellation
-
-A synchronous CPU loop can monopolize an executor thread. For long work, chunk
-appropriately, check `Task.isCancelled` or `Task.checkCancellation()`, and avoid
-unbounded detached work. Do not mutate one collection variable concurrently from
-multiple tasks. A loop that awaits between reading and writing shared state must
-revalidate actor-isolated assumptions after suspension.
-
-### Testing and Observability
-
-Test zero, one, boundary, maximum, invalid, and cancellation cases. For retries,
-use a deterministic clock or injected policy and assert attempts, delays, and
-terminal errors. Record iteration counts, elapsed time, exit reason, retry count,
-and cancellation—not every element in a hot loop.
-
-### Compatibility and Migration
-
-When replacing a loop with a collection algorithm, verify evaluation order,
-short-circuiting, thrown errors, side effects, allocation, and source consumption.
-When parallelizing, prove that operations are independent and output ordering is
-defined; a syntactic refactor can otherwise change observable behavior.
-
-## Staff and Principal Perspective
-
-### System Impact
-
-Loops often encode queue draining, polling, retries, reconciliation, and batch
-processing. Their termination and backpressure policies affect service load,
-battery, memory, responsiveness, and incident recovery beyond the local function.
-
-### Decision Framework
-
-Define the source contract, progress metric, maximum work, cancellation point,
-error policy, ordering requirement, mutation owner, and observability before
-optimizing syntax.
-
-### Organizational Impact
-
-Centralize retry and polling policies instead of letting features invent loops.
-Provide reviewed primitives for backoff, jitter, cancellation, batch limits, and
-metrics. Treat changes to these policies as operational changes with rollout and
-rollback plans.
-
-## Common Mistakes
-
-### Treating Sequence as Collection
-
-**Why it is wrong:** `Sequence` permits destructive or single-pass traversal.
-
-**Better approach:** Require `Collection` for repeated passes or materialize once
-at an explicit ownership boundary.
-
-### Using fallthrough to Share Logic
-
-**Why it is wrong:** It skips the next pattern check and couples case order to
-behavior.
-
-**Better approach:** Use a compound case or call a shared function explicitly.
 
 ## References
 

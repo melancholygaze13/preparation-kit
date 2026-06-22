@@ -4,24 +4,16 @@ domain: "Swift"
 topic: "Opaque and Boxed Protocol Types"
 concept: "Opaque Type Identity and Underlying Types"
 page_type: theory
+interview_priority: situational
+estimated_read_minutes: 3
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Opaque Type Identity and Underlying Types: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> `some P` in result position means one concrete type chosen by the implementation, hidden behind constraints but preserved by the compiler.
-
-- Every reachable return path must produce the same underlying type.
-- Calls to the same opaque declaration preserve one opaque identity for the same generic substitutions.
-- Clients can use only stated constraints, not the hidden concrete API.
-- `some P` in a parameter declaration is shorthand for an unnamed generic parameter chosen by the caller.
-- Changing the constraints is an API change; changing a non-inlinable hidden implementation type can preserve the public abstraction.
 
 ## Mental Model
 
@@ -73,14 +65,6 @@ Each opaque occurrence still needs an inferable underlying type.
 - Opaque parameter syntax is supported on function, initializer, and subscript declarations, not arbitrary function types or type aliases.
 - Protocol requirements cannot directly declare opaque result types because each conformer must supply its own witness relationship.
 
-## Failure Modes
-
-- Different branches return different conforming concrete types.
-- A runtime configuration choice is incorrectly modeled as one opaque result.
-- Two independent `some P` parameters are assumed to have the same type.
-- Hidden concrete methods leak into callers through accidental inference assumptions.
-- `@inlinable` exposes implementation details that undermine the intended evolution boundary.
-
 ## Engineering Judgment
 
 ### When to Use It
@@ -102,50 +86,6 @@ heterogeneous results together, or the type parameter must appear in several sig
 | Named generic result | Explicit relationships and composition | Exposes more signature structure | Caller-visible generic pipeline |
 | Existential result | Runtime type variation | Erased identity and possible indirection | Configuration-selected implementation |
 | Concrete result | Clear API and diagnostics | Exposes representation | Stable domain type |
-
-## Production Considerations
-
-### Performance
-
-Opaque types permit static optimization but do not guarantee inlining or specialization.
-Benchmark shipped builds and consider code size as well as call overhead.
-
-### Concurrency and Thread Safety
-
-Add `Sendable` or isolation constraints when the opaque value crosses concurrency boundaries.
-Opacity neither proves transfer safety nor hides unsafe shared state from the compiler.
-
-### Testing
-
-Compile every return branch and representative generic substitution. Test public behavior
-through the stated protocols so tests do not couple to the hidden concrete type.
-
-### Observability and Debugging
-
-Use stable domain labels in telemetry instead of relying on the hidden type's reflected name.
-When diagnostics report mismatched underlying types, reduce branches to their concrete expressions.
-
-### Compatibility and Migration
-
-Opaque result types were implemented in Swift 5.1; structural opaque results and opaque parameter
-declarations were implemented in Swift 5.7. The opaque constraints are public API/ABI. A hidden
-underlying type can evolve behind a non-inlinable boundary, but `@inlinable` exposes its identity
-to client optimization and restricts compatible change. Migrating an existing concrete return to
-opaque is source-sensitive and must respect the supported compiler baseline.
-
-## Staff and Principal Perspective
-
-Opaque APIs let platform owners hide implementation graphs without forcing runtime erasure.
-Document which relationships remain stable, maintain external-client compile tests, and review
-inlining policy before treating the underlying type as replaceable.
-
-## Common Mistakes
-
-### Treating an Opaque Result as Runtime Polymorphism
-
-**Why it is wrong:** One opaque declaration must resolve to one underlying type for each generic substitution.
-
-**Better approach:** Use an existential or explicit type-erasing wrapper when runtime selection must change the stored concrete type.
 
 ## References
 

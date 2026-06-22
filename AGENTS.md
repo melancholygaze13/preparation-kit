@@ -1,22 +1,58 @@
-# Repository Authoring Guide
+# Interview Preparation Authoring Guide
 
 ## Purpose
 
-This repository is a Markdown knowledge base for engineers preparing for Senior,
-Staff, and Principal iOS engineering roles. It covers Swift, Apple frameworks,
-architecture, system design, performance, testing, platform engineering, and
-technical leadership.
+This repository is a time-efficient preparation system for Senior, Staff, and
+Principal iOS interviews. It is not an exhaustive Swift or Apple-platform
+reference.
 
 Optimize every page for:
 
-1. Fast revision.
-2. Accurate understanding.
-3. Production engineering judgment.
-4. Senior-level interview discussion.
+1. Recall under interview pressure.
+2. Coverage of questions that are likely for the target role.
+3. Correct engineering judgment and production trade-offs.
+4. Progressive depth: learn the essential answer first, then expand only when
+   the topic warrants it.
 
-Do not write beginner tutorials or generic API documentation. Explain mechanics
-only when they support correct decisions, debugging, system design, or interview
-reasoning.
+Prefer a smaller set of high-value concepts learned well over broad but shallow
+coverage. Do not write beginner tutorials, generic API documentation, or
+encyclopedic inventories. Mechanics belong only when they help a candidate
+explain behavior, choose a design, or diagnose a realistic problem.
+
+## Interview Priority
+
+Assign each topic and concept one priority based on realistic iOS interview
+value:
+
+| Priority | Meaning | Typical examples | Treatment |
+|---|---|---|---|
+| `core` | Expected in most interview loops | concurrency, memory management, architecture, testing | Full coverage and applied questions |
+| `high` | Common and role-relevant | Swift type system, networking, persistence, performance | Focused theory and questions |
+| `situational` | Depends on role, company, or project history | advanced graphics, package infrastructure, specialized frameworks | Concise coverage; expand only for a target role |
+| `reference` | Rarely worth dedicated preparation time | basic syntax details and narrow language features | Index summary or short reference; no forced bundle |
+
+Priority is not a claim that a question is guaranteed. Base it on frequency,
+role relevance, conceptual leverage, and the cost of not knowing it. When
+editing, spend detail in this order: `core`, `high`, `situational`, `reference`.
+Do not give a basic operator or isolated API more space than a major concurrency,
+architecture, or ownership concept.
+
+Topic indexes and concept pages must include `interview_priority`. Concept
+overviews, theory pages, and interview pages must also include
+`estimated_read_minutes`. Estimates cover a focused first read, not exercises.
+
+## Preparation Paths
+
+Domain and topic indexes must support selective study rather than imply that all
+content is mandatory. Order material by priority and dependency, and identify:
+
+- **Rapid review:** core concepts needed for an imminent interview.
+- **Standard preparation:** core and high-priority concepts.
+- **Role-specific depth:** situational material selected for a job description
+  or known interview format.
+
+Never require candidates to read reference material sequentially. Indexes should
+make skipping low-priority material an explicit, safe choice.
 
 ## Information Architecture
 
@@ -34,163 +70,132 @@ docs/
             └── interview.md
 ```
 
-Definitions:
+- **Domain:** broad knowledge area.
+- **Topic:** coherent group of related concepts.
+- **Concept:** smallest independently reviewable interview unit.
+- **Concept overview:** quick recall and navigation.
+- **Theory:** minimum depth needed for accurate reasoning.
+- **Interview:** rehearsal of likely questions for the same concept.
 
-- **Domain:** A broad knowledge area, such as Swift, frameworks, architecture,
-  performance, or engineering leadership.
-- **Topic:** A coherent group of related concepts within a domain.
-- **Concept:** The smallest independently reviewable unit of knowledge.
-- **Theory page:** The authoritative explanation of a concept.
-- **Interview page:** Questions and answers that evaluate the same concept.
+`core` and `high` concepts normally use the complete three-file bundle.
+`situational` concepts may use a shorter bundle. `reference` concepts should
+usually be summarized in the topic index or a single concept `README.md`.
+Do not create three files merely to satisfy a pattern.
 
-Keep interview material inside its concept directory. Do not create a global
-question bank and do not duplicate the same question across unrelated pages.
-High-level interview indexes may link to concept interview pages.
+Keep interview material with its concept. Do not duplicate questions across
+concepts or create a global question bank. High-level interview indexes may link
+to concept pages.
 
-## File and Directory Rules
+## Content Budgets
 
-- Use lowercase `kebab-case` for directory names.
-- Every domain, topic, and concept directory must contain a `README.md` index.
-- Every concept normally contains exactly `README.md`, `theory.md`, and
-  `interview.md`.
-- Split a page only when it has become difficult to scan or owns multiple
-  independently reviewable concepts.
-- Use relative Markdown links between repository pages.
-- Keep heading levels sequential; do not skip from `##` to `####`.
-- Use one H1 heading per page.
-- Prefer descriptive headings over clever or conversational headings.
-- Preserve existing naming and structure when editing established sections.
+Use these as limits, not targets:
 
-## Front Matter
+| Priority | Total first-read time | Theory | Interview questions |
+|---|---:|---:|---:|
+| `core` | 12–20 min | 1,200–2,000 words | 2–5 |
+| `high` | 7–12 min | 700–1,200 words | 2–5 |
+| `situational` | 3–7 min | 300–700 words | 2–4 |
+| `reference` | 1–3 min | Prefer no separate theory page | 2–3 short checks |
 
-All knowledge pages must begin with YAML front matter.
+Exceed a budget only when removing material would make a common answer
+incorrect or unsafe. If a page exceeds its budget:
 
-Allowed role levels are:
+1. Remove repetition, exhaustive enumeration, history, and low-value edge cases.
+2. Merge overlapping concepts.
+3. Move narrow facts to reference material only if they still have clear value.
+4. Split only when each result is independently interviewable.
 
-- `senior`
-- `staff`
-- `principal`
+Do not compress by making prose denser. Use short paragraphs, meaningful
+headings, tables for comparisons, and small examples for behavior that is hard
+to explain precisely.
 
-Allowed page statuses are:
+## File and Front Matter Rules
 
-- `draft`
-- `reviewed`
-- `needs-update`
+- Use lowercase `kebab-case` directory names.
+- Every domain and topic directory has a `README.md` index.
+- Every multi-page concept has a `README.md` linking its sibling pages.
+- Use relative links, one H1 per page, and sequential heading levels.
+- Preserve established naming when editing existing sections unless
+  consolidation is part of the task.
+- Remove empty sections instead of shipping placeholders.
 
-Use ISO 8601 dates in `YYYY-MM-DD` format. Tags must be lowercase kebab-case.
-Do not add empty metadata fields that have no immediate use.
+All knowledge pages begin with YAML front matter. Use only these role levels:
+`senior`, `staff`, and `principal`. Use only these statuses: `draft`, `reviewed`,
+and `needs-update`. Dates use `YYYY-MM-DD`; tags use lowercase kebab-case.
+
+Example concept metadata:
+
+```yaml
+---
+title: "Structured Concurrency"
+domain: "Swift"
+topic: "Concurrency"
+page_type: concept-index
+levels:
+  - senior
+  - staff
+interview_priority: core
+estimated_read_minutes: 2
+status: reviewed
+last_reviewed: YYYY-MM-DD
+---
+```
+
+Do not add empty metadata. Reassess the reading estimate after substantial
+editing; use roughly 200 words per minute plus time for code and tables.
 
 ## Writing Standards
 
-- Start with the answer or mental model, then add detail.
-- Keep quick-recall material short enough to review in under one minute.
-- Separate documented behavior from implementation assumptions.
-- State constraints, guarantees, failure modes, and trade-offs explicitly.
-- Prefer decision criteria over unconditional recommendations.
-- Connect implementation details to production consequences.
-- At Staff and Principal level, cover system boundaries, migration, ownership,
-  rollout risk, and organizational impact when relevant.
-- Use concrete examples only when they clarify behavior or judgment.
-- Avoid filler, trivia, unexplained jargon, and exhaustive API inventories.
-- Do not claim that an answer is the only correct approach when it depends on
-  context.
+- Start with the answer or mental model.
+- Put recall before detail and common cases before edge cases.
+- Keep the concept overview reviewable in one minute.
+- Use plain English that is clear to a non-native speaker.
+- Prefer common words, active voice, and one idea per sentence.
+- Keep most sentences below 25 words. Split long sentences instead of joining
+  several qualifications with commas.
+- Define a necessary technical term on first use. Do not replace a precise Swift
+  term with an inaccurate simpler word.
+- Avoid idioms, metaphors, clever headings, and abstract business language.
+- Separate language or framework guarantees from implementation assumptions.
+- State constraints and trade-offs only where they affect a decision or answer.
+- Connect mechanics to production consequences.
+- Prefer one representative example over several similar examples.
+- Use decision criteria instead of unconditional recommendations.
+- Avoid filler, trivia, repeated definitions, and generic Staff-level commentary.
+- Do not repeat theory in interview answers; reshape it into a spoken response.
+
+For Staff and Principal material, add broader scope only when the concept has a
+real system or organizational dimension. Useful concerns include boundaries,
+ownership, migration, rollout risk, observability, and cross-team standards.
+More API detail is not Staff-level depth.
 
 ## Source Standards
 
-- Prefer primary sources: Swift Evolution proposals, the Swift language and
-  standard library documentation, Apple documentation, and WWDC sessions.
-- Use secondary sources only when they add analysis not available from a primary
-  source.
-- Put references on the theory page, close to the claims they support when a
-  claim needs precise attribution.
-- Never invent API guarantees, performance characteristics, quotations, or
-  citations.
-- Record the review date whenever source verification materially changes a page.
+- Prefer Swift Evolution, Swift documentation, Apple documentation, and WWDC.
+- Use secondary sources only for analysis missing from primary sources.
+- Cite claims that depend on precise or changing behavior, close to the claim.
+- Never invent guarantees, performance characteristics, quotations, or sources.
+- Update `last_reviewed` when verification materially changes content.
 
-## Creating a New Concept
+References support correctness; they are not a reading list. Include only sources
+that substantively support the page.
 
-When asked to add a concept, create the complete concept bundle unless the user
-explicitly requests only one page:
+## Index Requirements
 
-```text
-<concept>/
-├── README.md
-├── theory.md
-└── interview.md
-```
-
-Update the parent topic index in the same change. Add links to prerequisites and
-related concepts only when those pages exist. Do not leave broken placeholder
-links in committed content.
-
-## Domain Index Template
+A topic index should let a candidate decide what to study in under a minute.
+Use a table like this:
 
 ```md
----
-title: "<Domain>"
-page_type: domain-index
-status: draft
-last_reviewed: YYYY-MM-DD
----
-
-# <Domain>
-
-## Scope
-
-<!-- Define the domain and its boundaries. -->
-
-## Topics
-
-| Topic | Summary |
-|---|---|
-| [<Topic>](<topic>/README.md) | <!-- One sentence. --> |
-
-## Suggested Learning Path
-
-1. [<Topic>](<topic>/README.md)
-
-## Related Domains
-
-- <!-- Link only to an existing domain. -->
+| Concept | Why it matters | Priority | Time |
+|---|---|---|---:|
+| [Structured Concurrency](structured-concurrency/README.md) | Explains task hierarchy, cancellation, and lifetime. | Core | 15 min |
 ```
 
-## Topic Index Template
+Its learning path should list core concepts first, respect prerequisites, and
+label optional role-specific depth. Do not include empty prerequisite or related
+sections.
 
-```md
----
-title: "<Topic>"
-domain: "<Domain>"
-page_type: topic-index
-status: draft
-last_reviewed: YYYY-MM-DD
----
-
-# <Topic>
-
-## Scope
-
-<!-- Define what belongs to this topic and its boundaries. -->
-
-## Prerequisites
-
-- <!-- Link only to an existing prerequisite. -->
-
-## Learning Path
-
-1. [<Concept>](<concept>/README.md)
-
-## Concepts
-
-| Concept | Summary | Level |
-|---|---|---|
-| [<Concept>](<concept>/README.md) | <!-- One sentence. --> | Senior |
-
-## Related Topics
-
-- <!-- Link only to an existing topic. -->
-```
-
-## Concept Index Template
+## Concept Overview Template
 
 ```md
 ---
@@ -200,30 +205,29 @@ topic: "<Topic>"
 page_type: concept-index
 levels:
   - senior
+interview_priority: <core|high|situational|reference>
+estimated_read_minutes: 1
 status: draft
 last_reviewed: YYYY-MM-DD
 ---
 
 # <Concept>
 
-> <!-- One- or two-sentence concept summary. -->
+> <!-- Interview-ready mental model in one or two sentences. -->
+
+## Quick Recall
+
+- <!-- Three to five facts or decisions worth retaining. -->
 
 ## Study
 
 - [Theory](theory.md)
 - [Interview questions](interview.md)
-
-## Prerequisites
-
-- <!-- Link only to an existing concept. -->
-
-## Related Concepts
-
-- <!-- Link only to an existing concept. -->
 ```
 
-Remove optional empty sections such as `Prerequisites`, `Related Concepts`, or
-`Related Domains` rather than shipping placeholder bullets.
+Add prerequisites or related concepts only when the links exist and materially
+improve the study path. For a reference-only concept, omit sibling links that do
+not exist.
 
 ## Theory Page Template
 
@@ -236,6 +240,8 @@ concept: "<Concept>"
 page_type: theory
 levels:
   - senior
+interview_priority: <core|high|situational>
+estimated_read_minutes: <number>
 status: draft
 last_reviewed: YYYY-MM-DD
 ---
@@ -244,103 +250,35 @@ last_reviewed: YYYY-MM-DD
 
 [Concept overview](README.md) · [Interview questions](interview.md)
 
-## Quick Recall
-
-> <!-- A precise definition or mental model. -->
-
-- <!-- No more than five essential points. -->
-
 ## Mental Model
 
-<!-- Explain the concept in the shortest accurate form. -->
+<!-- Shortest accurate explanation. -->
 
 ## How It Works
 
-<!-- Cover mechanics, lifecycle, ownership, or data flow. -->
+<!-- Only mechanics needed to reason correctly. -->
 
-### Core Invariants
+## Constraints and Guarantees
 
-- <!-- What must remain true? -->
+<!-- Distinguish documented behavior from assumptions. -->
 
-### Constraints and Guarantees
+## Engineering Decisions
 
-- <!-- Separate guarantees from assumptions. -->
+<!-- Selection criteria, alternatives, and important trade-offs. -->
 
-## Failure Modes
+## Production Application
 
-- <!-- Failure, symptom, cause, and relevant mitigation. -->
-
-## Engineering Judgment
-
-### When to Use It
-
-- <!-- Selection criteria. -->
-
-### When Not to Use It
-
-- <!-- Rejection criteria. -->
-
-### Trade-offs
-
-| Choice | Benefits | Costs | Best fit |
-|---|---|---|---|
-| <!-- --> | <!-- --> | <!-- --> | <!-- --> |
-
-### Alternatives
-
-- <!-- Alternative and comparison criteria. -->
-
-## Production Considerations
-
-### Performance
-
-<!-- Include only relevant time, memory, energy, startup, or I/O effects. -->
-
-### Concurrency and Thread Safety
-
-<!-- Include isolation, ordering, cancellation, and synchronization concerns. -->
-
-### Testing
-
-<!-- Cover valuable test boundaries and failure paths. -->
-
-### Observability and Debugging
-
-<!-- Cover useful signals, profiling, logs, and diagnostic tools. -->
-
-### Compatibility and Migration
-
-<!-- Cover availability, rollout, backward compatibility, and migration. -->
-
-## Staff and Principal Perspective
-
-### System Impact
-
-<!-- Discuss boundaries, dependencies, scalability, and maintainability. -->
-
-### Decision Framework
-
-<!-- Explain how to evaluate and communicate the decision. -->
-
-### Organizational Impact
-
-<!-- Discuss ownership, coordination, standards, and rollout when relevant. -->
-
-## Common Mistakes
-
-### <Mistake>
-
-**Why it is wrong:** <!-- Explanation. -->
-
-**Better approach:** <!-- Correction. -->
+<!-- Relevant performance, concurrency, testing, debugging, or migration concerns. -->
 
 ## References
 
 - [<Primary source>](<url>)
 ```
 
-Remove production or Staff/Principal subsections that genuinely do not apply.
-Do not fill them with generic observations merely to satisfy the template.
+Sections are conditional. Remove those that do not contribute to a plausible
+interview answer. Do not add standalone `Failure Modes` or `Common Mistakes`
+sections. Incorporate a failure or misconception at the exact point where it
+changes the mental model, decision, or production outcome.
 
 ## Interview Page Template
 
@@ -353,6 +291,8 @@ concept: "<Concept>"
 page_type: interview
 levels:
   - senior
+interview_priority: <core|high|situational>
+estimated_read_minutes: <number>
 status: draft
 last_reviewed: YYYY-MM-DD
 ---
@@ -365,78 +305,69 @@ last_reviewed: YYYY-MM-DD
 
 | Question | Level | Focus |
 |---|---|---|
-| [<Question>](#q1-question-slug) | Senior | <!-- Knowledge or judgment tested. --> |
+| [<Question>](#q1-question-slug) | Senior | <Knowledge or judgment tested> |
 
 ---
 
 <a id="q1-question-slug"></a>
 ## Q1: <Question>
 
-### What It Evaluates
-
-<!-- State the signal the interviewer is looking for. -->
-
 ### Short Answer
 
-<!-- A direct answer that can be delivered in 20–30 seconds. -->
+<!-- A direct, speakable answer for 20–30 seconds. -->
 
-### Detailed Answer
+### Expanded Answer
 
-<!-- Expand the reasoning without turning it into a theory-page duplicate. -->
+<!-- The reasoning, limits, and relevant mechanics. -->
 
-### Engineering Trade-offs
+### Trade-offs
 
-- <!-- Context-dependent choices and consequences. -->
+<!-- Include only for a context-dependent design decision. -->
 
-### Production Scenario
+### Example
 
-<!-- Show how the reasoning applies in a realistic situation. -->
-
-### Follow-up Questions
-
-- <!-- Likely deeper question. -->
-
-### Strong Answer Signals
-
-- <!-- Evidence of correct senior-level reasoning. -->
-
-### Weak Answer Signals
-
-- <!-- Missing reasoning, unsafe claims, or common misconceptions. -->
-
-### Related Theory
-
-- [<Relevant section>](theory.md#section-anchor)
+<!-- Optional compact production scenario or code example. -->
 ```
 
-## Interview Answer Rules
+Keep questions distinct and likely. Include two or three short questions even for
+easy topics; basic questions often appear as warm-ups or as part of a larger
+problem. Do not create artificial Staff-level questions for simple syntax. The
+short answer must stand alone. The expanded answer should model a strong
+interview response without duplicating the theory page. Omit `Trade-offs` and
+`Example` when they add no value.
 
-- Keep every question scoped to the owning concept.
-- Begin with a direct answer before qualifications and edge cases.
-- Make the short answer independently useful; do not write “see theory.”
-- Keep the detailed answer focused on interview reasoning and link to the theory
-  page for full mechanics.
-- Include trade-offs for design and decision questions.
-- Use production scenarios to test applied judgment, not storytelling ability.
-- Strong and weak signals must evaluate technical reasoning, not personality or
-  communication style unrelated to the role.
-- Add follow-up questions that deepen or challenge the original answer.
-- Use stable, explicit question anchors so indexes and external links survive
-  wording edits.
-- Number questions sequentially within a concept. Question numbers do not need to
-  be unique across the repository.
+Do not add `What It Evaluates`, `Follow-up Questions`, `Strong Answer Signals`,
+`Weak Answer Signals`, or `Related Theory`. These sections increase reading cost
+without improving the candidate's core rehearsal loop.
+
+Use stable explicit anchors and sequential question numbers so links survive
+wording changes.
+
+## Creating or Revising Content
+
+Before writing:
+
+1. Identify target roles and interview formats.
+2. Assign priority and a reading-time budget.
+3. Check for overlap with existing concepts.
+4. Decide whether the concept needs a full bundle, a single page, consolidation,
+   or removal.
+
+When adding a `core` or `high` concept, normally create the complete bundle and
+update the parent topic index. When revising existing content, preserve useful
+facts but do not preserve structure or length that conflicts with this guide.
 
 ## Quality Checklist
 
-Before considering a concept complete, verify that:
+Before considering content complete, verify that:
 
-- The topic index links to the concept.
-- The concept index links to both sibling pages.
-- Theory and interview pages link to each other.
-- Quick Recall can be reviewed in under one minute.
-- The theory distinguishes guarantees, assumptions, and trade-offs.
-- Interview answers have short and detailed layers.
-- Staff/Principal claims address broader impact rather than adding more API trivia.
-- All internal links resolve.
-- Claims are supported by current primary sources where appropriate.
-- Placeholder comments and empty sections have been removed.
+- Priority reflects realistic interview value and controls depth.
+- Reading time is within budget and front matter matches the content.
+- The first minute gives the candidate the essential mental model.
+- Every section contributes to recall, correct reasoning, or rehearsal.
+- Guarantees and assumptions are distinguished.
+- Interview short answers are direct and speakable.
+- Broader Staff/Principal claims address genuine system or organizational scope.
+- Parent and sibling links resolve; no placeholder content remains.
+- Important claims are supported by current primary sources.
+- Lower-priority detail has not displaced core preparation.

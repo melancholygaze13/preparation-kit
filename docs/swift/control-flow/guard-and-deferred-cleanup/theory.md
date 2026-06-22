@@ -4,11 +4,13 @@ domain: "Swift"
 topic: "Control Flow"
 concept: "Guard and Deferred Cleanup"
 page_type: theory
+interview_priority: high
+estimated_read_minutes: 5
 levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-20
+last_reviewed: 2026-06-22
 tags:
   - guard
   - defer
@@ -18,20 +20,6 @@ tags:
 # Guard and Deferred Cleanup: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> `guard` rejects an unmet requirement and must leave its enclosing scope;
-> `defer` runs registered synchronous cleanup when control leaves its scope.
-
-- Values bound by a successful guard remain available after the statement.
-- A guard `else` exits with `return`, `break`, `continue`, `throw`, or a
-  nonreturning function.
-- Register defer immediately after successful acquisition; registration is
-  reached at runtime, not automatically at scope entry.
-- Multiple defers in one scope execute last-in, first-out.
-- Defer runs for `return`, `throw`, `break`, and normal scope exit, but not when
-  the process terminates or crashes; async calls cannot occur in a defer body.
 
 ## Mental Model
 
@@ -180,23 +168,6 @@ lifetime APIs where release timing is operationally significant.
 - Defer does not run if execution never reaches its declaration.
 - Defer cannot guarantee cleanup after process termination and cannot await.
 
-## Failure Modes
-
-- **Guard used for a peer branch:** Hides valid alternate behavior as failure.
-- **Wrong exit semantics:** Returns silently where the caller needs a thrown
-  error or typed result.
-- **Defer declared before acquisition:** Cleanup assumes a resource that was
-  never obtained.
-- **Defer declared too late:** An intermediate throw leaks the resource.
-- **Wrong lexical scope:** Cleanup runs at the end of an inner block earlier than
-  intended.
-- **Cleanup hides the primary failure:** Logging or secondary errors obscure the
-  operation that failed.
-- **Assuming defer survives crashes:** Critical persistence or remote cleanup is
-  lost on termination.
-- **Fire-and-forget async cleanup:** Cancellation and completion become
-  unobservable.
-
 ## Engineering Judgment
 
 ### When to Use Each Construct
@@ -215,73 +186,6 @@ Guard flattens the success path but many guards can fragment validation and
 duplicate recovery. Defer centralizes exit coverage but can make cleanup timing
 less visible when declared far from scope end. Owning abstractions add code while
 making complex lifetime states testable and reusable.
-
-## Production Considerations
-
-### Performance
-
-Control-flow overhead is generally negligible. Focus on expensive guard
-conditions, lock hold time, cleanup latency, and accidental resource retention.
-Place acquisition as late and release as early as correctness permits.
-
-### Concurrency and Cancellation
-
-Use defer to release synchronous locks or restore local state, but never hold a
-blocking lock across `await`. Actor state may change across suspension, so guard
-checks before an await may need revalidation afterward. Cancellation throws can
-trigger defer, but synchronous cleanup must remain bounded and cancellation-safe.
-
-### Testing and Observability
-
-Test every guard failure independently and assert both returned behavior and
-side effects. Inject resources to verify cleanup on success, throw, early return,
-break, and cancellation paths. Record acquisition, release, duration, and cleanup
-failure with stable operation IDs.
-
-### Compatibility and Migration
-
-When replacing duplicated cleanup with defer, verify its lexical scope and
-reverse ordering. When changing silent guard returns to thrown errors, migrate
-callers and telemetry as an API behavior change. Resource-owner migrations need a
-period where double release and leak detection are observable.
-
-## Staff and Principal Perspective
-
-### System Impact
-
-Local early-exit and cleanup policy affects file descriptors, database
-transactions, locks, tracing, and request correctness. Repeated ad hoc patterns
-create inconsistent failure reporting and leak behavior across modules.
-
-### Decision Framework
-
-Identify the requirement, failure owner, acquired resource, exact lifetime,
-cleanup ordering, cancellation behavior, cleanup failure policy, and termination
-limitations. Escalate from defer to an owning abstraction when the lifecycle is
-no longer lexical.
-
-### Organizational Impact
-
-Provide shared transaction, tracing, and resource APIs that encode correct
-pairing. Define error translation boundaries and prohibit silent guard returns in
-operations where failure matters. Use leak, lock-duration, and unfinished-span
-telemetry to validate migrations.
-
-## Common Mistakes
-
-### Assuming defer Runs at Function Exit
-
-**Why it is wrong:** It runs at the end of the lexical scope where it appears.
-
-**Better approach:** Place it in the scope that truly owns the resource and test
-early exits from that scope.
-
-### Using guard to Reduce Indentation Everywhere
-
-**Why it is wrong:** Guard semantically declares a prerequisite, not merely a
-formatting preference.
-
-**Better approach:** Use it only when failure must leave the enclosing scope.
 
 ## References
 

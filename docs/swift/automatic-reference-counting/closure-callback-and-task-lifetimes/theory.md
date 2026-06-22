@@ -4,24 +4,16 @@ domain: "Swift"
 topic: "Automatic Reference Counting"
 concept: "Closure, Callback, and Task Lifetimes"
 page_type: theory
+interview_priority: core
+estimated_read_minutes: 4
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Closure, Callback, and Task Lifetimes: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> An escaping closure strongly captures referenced class instances by default; retention is correct or cyclic depending on who owns the closure and for how long.
-
-- Owner → stored closure → captured owner is a strong cycle until an edge is released.
-- A one-shot callback should release stored ownership when consumed; a multi-shot callback needs explicit cancellation/token ownership.
-- `[weak self]` means work may disappear; `[unowned self]` means later access must be provably safe.
-- Promoting weak `self` to strong keeps it alive for the promoted scope, including across suspension.
-- A task retains its operation context until completion; cancellation is cooperative and does not itself release captures immediately.
 
 ## Mental Model
 
@@ -76,15 +68,6 @@ task observes cancellation and eventually exits.
 - A weak-to-strong promotion extends lifetime for the strong binding's scope.
 - `@Sendable` checking and actor isolation govern data-race safety separately from ARC ownership.
 
-## Failure Modes
-
-- A stored callback captures its owner and is never cleared.
-- Weak capture silently drops a required completion, leaving state inconsistent.
-- `guard let self` before a long async loop retains the owner until the loop terminates.
-- `deinit` is expected to cancel a task that itself keeps the owner alive.
-- Cancellation is requested, but a loop never checks it and retains its graph indefinitely.
-- Callback replacement races with invocation and causes duplicate, missing, or use-after-release behavior.
-
 ## Engineering Judgment
 
 ### When to Use It
@@ -107,7 +90,7 @@ Do not use unowned in callbacks whose delivery time is controlled externally.
 | Unowned capture | Nonoptional access | Trap on delayed delivery | Structurally bounded owner-held closure |
 | Operation/task owner | Central cancellation and state | Additional lifecycle object | Long-running required work |
 
-## Production Considerations
+## Production Application
 
 ### Performance
 
@@ -139,14 +122,6 @@ adapter, define the single owner of completion, prevent double delivery, and mig
 Callback and task ownership is an architectural contract across UI, service, and platform layers.
 Standardize cancellation-token patterns, terminal-state telemetry, and review requirements for
 unbounded tasks and externally retained closures.
-
-## Common Mistakes
-
-### Using Weak Self as a Universal Fix
-
-**Why it is wrong:** It may break a cycle, but it can also discard required work and leave the real callback/task owner undefined.
-
-**Better approach:** Define cardinality, terminal release, operation ownership, and cancellation first; use weak only when disappearance is valid.
 
 ## References
 

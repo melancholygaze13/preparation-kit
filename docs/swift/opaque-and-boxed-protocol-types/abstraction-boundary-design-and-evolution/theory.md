@@ -4,24 +4,16 @@ domain: "Swift"
 topic: "Opaque and Boxed Protocol Types"
 concept: "Abstraction Boundary Design and Evolution"
 page_type: theory
+interview_priority: situational
+estimated_read_minutes: 3
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Abstraction Boundary Design and Evolution: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> Boundary choice follows type ownership: generic means caller-selected, opaque result means implementation-selected but fixed, existential means runtime-selected and erased.
-
-- Preserve relationships until they stop delivering value; erase at a deliberate ownership boundary.
-- Use `some` to hide representation, not to model runtime choice.
-- Use `any` for runtime substitution, not as a default protocol spelling.
-- Manual type erasure is justified when the required surface or semantics differ from the raw existential.
-- Evaluate source/ABI evolution, build time, binary size, runtime cost, diagnostics, concurrency, and rollout together.
 
 ## Mental Model
 
@@ -78,14 +70,6 @@ implementations at runtime, so existential semantics match its contract.
 - Existential erasure cannot later recreate relationships the boundary never recorded.
 - A manual eraser defines its own semantic laws and must maintain them across all wrapped conformers.
 
-## Failure Modes
-
-- `any` spreads through internal algorithms and forces casts or lost associated-type relationships.
-- `some` is used for a factory whose implementation genuinely changes by configuration.
-- Public generic parameters expose transport or persistence implementation details across modules.
-- A manual eraser forwards methods but mishandles value semantics, identity, cancellation, or isolation.
-- A migration benchmarks only call throughput and misses client compilation or binary growth.
-
 ## Engineering Judgment
 
 ### When to Use It
@@ -108,59 +92,6 @@ often more stable and comprehensible than a protocol plus erasure machinery.
 | Replace implementations at runtime | Existential | Erased operations, lifetime, dispatch |
 | Stabilize a custom minimal surface | Manual eraser | Laws, forwarding, value/reference semantics |
 | Stabilize a domain boundary | Concrete facade | Adapter and conversion ownership |
-
-## Production Considerations
-
-### Performance
-
-Benchmark representative release clients. Compare latency, throughput, allocation, code size,
-startup, incremental/clean builds, and instruction-cache behavior; no abstraction form wins all metrics.
-
-### Concurrency and Thread Safety
-
-An async protocol must define sendability, isolation, cancellation, reentrancy, and lifecycle.
-Select or erase implementations on the actor that owns configuration, and transfer only safe values.
-
-### Testing
-
-Maintain protocol-law tests across implementations, downstream compile fixtures for signature
-changes, negative type-check fixtures for forbidden relationships, and performance baselines.
-
-### Observability and Debugging
-
-Log stable boundary/implementation identifiers and operation outcomes. Do not couple dashboards to
-opaque or specialized reflected names. Preserve enough context to diagnose runtime selection.
-
-### Compatibility and Migration
-
-Introduce a facade or adapter before replacing a propagated type. Run old and new forms in parallel
-where behavior permits, compile every supported toolchain/client class, measure both, deprecate in
-stages, and retain a rollback path until adoption is observable.
-
-## Staff and Principal Perspective
-
-### System Impact
-
-Abstraction syntax determines dependency direction, build graph, binary shape, and runtime ownership.
-Optimize for the system boundary and release cadence, not the elegance of one declaration.
-
-### Decision Framework
-
-Record type chooser, runtime variability, retained equalities, ownership, compatibility, performance
-evidence, toolchain floor, observability, and migration cost in the design decision.
-
-### Organizational Impact
-
-Platform teams should govern conformance ownership, public `@inlinable` use, erasure boundaries,
-source fixtures, and benchmark budgets. Teams consuming the API bear much of its compiler cost.
-
-## Common Mistakes
-
-### Choosing by Presumed Speed
-
-**Why it is wrong:** Generic and opaque forms offer optimization opportunities, while existentials may reduce code propagation; actual results depend on context and compiler strategy.
-
-**Better approach:** Choose semantics first, then measure representative clients and optimize only proven bottlenecks.
 
 ## References
 

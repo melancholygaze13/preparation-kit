@@ -2,8 +2,9 @@
 title: "Advanced Operators"
 domain: "Swift"
 page_type: topic-index
+interview_priority: reference
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Advanced Operators
@@ -23,7 +24,7 @@ Basic Operators and Numeric Types.
 - [Numeric Types and Conversions](../language-basics/numeric-types-and-conversions/README.md)
 - [Methods](../methods/README.md)
 
-## Learning Path
+## Optional Review
 
 1. [Bitwise and Overflow Arithmetic](bitwise-and-overflow-arithmetic/README.md)
 2. [Operator Overloading and Compound Assignment](operator-overloading-and-compound-assignment/README.md)
@@ -32,12 +33,12 @@ Basic Operators and Numeric Types.
 
 ## Concepts
 
-| Concept | Summary | Level |
-|---|---|---|
-| [Bitwise and Overflow Arithmetic](bitwise-and-overflow-arithmetic/README.md) | Manipulate fixed-width bit patterns and choose trapping, wrapping, or reporting overflow deliberately. | Senior |
-| [Operator Overloading and Compound Assignment](operator-overloading-and-compound-assignment/README.md) | Implement familiar algebraic operations while preserving laws, mutation, and failure semantics. | Senior |
-| [Custom Operators and Precedence Groups](custom-operators-and-precedence-groups/README.md) | Define custom syntax only with explicit fixity, precedence, associativity, and unambiguous parsing. | Senior |
-| [Operator API Design and Evolution](operator-api-design-and-evolution/README.md) | Govern discoverability, collisions, complexity, compatibility, and organization-wide operator vocabulary. | Staff |
+| Concept | Why it matters | Priority | Time |
+|---|---|---|---:|
+| [Bitwise and Overflow Arithmetic](bitwise-and-overflow-arithmetic/README.md) | Manipulate fixed-width bit patterns and choose trapping, wrapping, or reporting overflow deliberately. | Reference | 5 min |
+| [Operator Overloading and Compound Assignment](operator-overloading-and-compound-assignment/README.md) | Implement familiar algebraic operations while preserving laws, mutation, and failure semantics. | Reference | 5 min |
+| [Custom Operators and Precedence Groups](custom-operators-and-precedence-groups/README.md) | Define custom syntax only with explicit fixity, precedence, associativity, and unambiguous parsing. | Reference | 5 min |
+| [Operator API Design and Evolution](operator-api-design-and-evolution/README.md) | Govern discoverability, collisions, complexity, compatibility, and organization-wide operator vocabulary. | Reference | 5 min |
 
 ## Source Section
 

@@ -4,12 +4,14 @@ domain: "Swift"
 topic: "Properties"
 concept: "Property Wrappers and Type Properties"
 page_type: theory
+interview_priority: high
+estimated_read_minutes: 4
 levels:
   - senior
   - staff
   - principal
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 tags:
   - property-wrappers
   - projected-values
@@ -20,21 +22,6 @@ tags:
 # Property Wrappers and Type Properties: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> A property wrapper separates reusable storage policy from a property's declaration;
-> a type property stores or computes state associated with the type rather than an instance.
-
-- A wrapper defines `wrappedValue`; an optional `projectedValue` is exposed with `$name`.
-- Compiler-generated backing storage is an implementation detail, while wrapped and
-  projected APIs can become part of the caller-visible contract.
-- Wrapper initialization syntax determines whether a declaration initializes the
-  wrapper itself or its wrapped value.
-- A wrapper does not automatically provide validation, atomic compound mutation,
-  observation ordering, persistence, or thread safety.
-- Stored type properties initialize lazily on first access and are initialized only
-  once, but later mutable access still requires isolation.
 
 ## Mental Model
 
@@ -130,73 +117,12 @@ state and should normally be immutable or actor-isolated.
 - Property wrappers do not inherently make compound read-modify-write operations atomic.
 - Module default isolation can affect static state; neighboring modules may differ.
 
-## Failure Modes
-
-- **Hidden reference semantics:** Copies of an enclosing struct share wrapper storage.
-- **False atomicity:** Individual access is locked but `value += 1` loses updates.
-- **Validation tied to one field:** Invalid raw values escape and travel elsewhere.
-- **Projected API leakage:** `$value` exposes mutable implementation details.
-- **Wrapper stack opacity:** Initialization and notification order becomes unclear.
-- **Mutable static singleton:** Tests, tasks, and features interfere through global state.
-
 ## Engineering Judgment
 
 Use a wrapper for repeated, local storage policy with a small stable interface. Use a
 domain type when invariants must follow the value. Use a service or actor when policy
 requires I/O, lifecycle, coordination, or asynchronous state. Use immutable type
 properties for constants and isolated owners for genuinely shared mutable state.
-
-## Production Considerations
-
-### Performance
-
-Wrappers can add allocations, reference counting, locking, persistence, or repeated
-transformation behind ordinary access. Inspect generated behavior and profile hot
-paths. Type-property first access may create a latency spike; prewarm only with an
-explicit startup budget.
-
-### Concurrency and Thread Safety
-
-The concurrency skill's relevant rule is direct: global and static mutable variables
-need explicit isolation. Prefer `@MainActor` for UI-owned state or an actor/service
-for other shared mutation. A wrapper must not claim general thread safety merely
-because its getter and setter each lock; compound operations require one atomic API.
-
-### Testing and Observability
-
-Test wrapper initialization forms, copy behavior, projection, boundary values,
-composition, and generated public API. For shared type state, test isolation and
-reset behavior without order-dependent global fixtures. Observe slow first access,
-contention, and persistence failures at the owning boundary.
-
-### Compatibility and Migration
-
-Adding or changing a public wrapper can alter initialization, key paths, reflection,
-serialization, ABI, and projected API. Introduce a new declaration or adapter when
-semantics change, migrate persisted formats explicitly, and keep generated storage
-out of external contracts.
-
-## Staff and Principal Perspective
-
-Wrappers can standardize telemetry, persistence, dependency access, or observation
-across a codebase, but that makes them platform infrastructure. Assign ownership,
-version their public semantics, constrain approved use cases, and provide migration
-and diagnostics. Treat mutable type properties as architecture-visible dependencies,
-not convenient namespaces.
-
-## Common Mistakes
-
-### A Locking Wrapper Makes Every Use Atomic
-
-**Why it is wrong:** A read followed by a write can release the lock between operations.
-
-**Better approach:** Expose one synchronized mutation operation or isolate the state.
-
-### Static Scope Is Not Global State
-
-**Why it is wrong:** One mutable type property is shared by all instances and callers.
-
-**Better approach:** Prefer immutable constants or inject an explicitly isolated owner.
 
 ## References
 

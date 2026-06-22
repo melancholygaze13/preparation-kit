@@ -4,24 +4,16 @@ domain: "Swift"
 topic: "Extensions"
 concept: "Extension Capabilities and Initialization"
 page_type: theory
+interview_priority: situational
+estimated_read_minutes: 4
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Extension Capabilities and Initialization: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> An extension adds declarations to an existing type; it does not create a subtype, wrapper, stored-layout change, or override layer.
-
-- Extensions can add computed properties, methods, type methods, initializers, subscripts, nested types, and protocol conformances.
-- They cannot add stored properties, property observers, deinitializers, or stored instance state.
-- Extensions cannot override existing functionality or add class designated initializers.
-- A class extension can add convenience initializers when normal delegation rules are satisfied.
-- An initializer for a value type from another module must delegate to an initializer from that defining module before using `self`.
 
 ## Mental Model
 
@@ -89,14 +81,6 @@ composition, protocol requirements, or an explicit wrapper when replacement is r
 - Access control and availability still apply to every added declaration.
 - Extension members can access declarations visible under normal lexical and access rules.
 
-## Failure Modes
-
-- A broadly named helper collides with a later SDK or dependency member.
-- An extension hides state in a process-global dictionary and leaks instances or races.
-- A convenience initializer bypasses expected validation at a higher-level API boundary.
-- Behavior is split across many files until invariant ownership becomes undiscoverable.
-- An apparently harmless public member becomes a source-compatibility commitment.
-
 ## Engineering Judgment
 
 ### When to Use It
@@ -123,59 +107,6 @@ or a distinct abstraction boundary is required. Prefer a wrapper or owned domain
 
 Use a dedicated namespace for related free functions, a protocol for an open capability,
 or composition when behavior needs dependencies or lifecycle separate from the type.
-
-## Production Considerations
-
-### Performance
-
-An extension has no inherent runtime dispatch cost beyond the declarations it adds.
-Computed members can still repeat expensive work, allocate, or trigger I/O; name and
-measure them according to behavior rather than property syntax.
-
-### Concurrency and Thread Safety
-
-Extensions inherit the type's isolation facts; they do not make shared mutation safe.
-Preserve actor annotations and sendability, and avoid global backing storage.
-
-### Testing
-
-Test behavior at public boundaries, initializer invariants, mutation semantics, collision-
-sensitive call sites, and concurrency isolation. Do not test based on file placement.
-
-### Observability and Debugging
-
-Keep expensive or effectful extension operations visible in names, traces, and profiles.
-Generated interfaces help determine which module contributed a member.
-
-### Compatibility and Migration
-
-Adding public members can create overload or name collisions for clients. Deprecate and
-rename with qualified alternatives, and compile representative downstream modules.
-
-## Staff and Principal Perspective
-
-### System Impact
-
-Extensions can make foreign or foundational types accumulate organization-specific API,
-coupling high-level domains to low-level vocabulary without an explicit dependency type.
-
-### Decision Framework
-
-Ask who owns the semantics, whether stored state is needed, whether the name could collide,
-and whether a wrapper would make the boundary and migration clearer.
-
-### Organizational Impact
-
-Define extension placement and naming conventions for shared modules. Require an owner
-for public extensions to SDK and third-party types and include them in compatibility review.
-
-## Common Mistakes
-
-### Simulating Stored Properties
-
-**Why it is wrong:** External maps or associated storage change lifetime and concurrency semantics the type does not declare.
-
-**Better approach:** Introduce a wrapper or owner that stores the state explicitly.
 
 ## References
 

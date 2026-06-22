@@ -4,24 +4,16 @@ domain: "Swift"
 topic: "Concurrency"
 concept: "Actors, Global Actors, and Reentrancy"
 page_type: theory
+interview_priority: core
+estimated_read_minutes: 5
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Actors, Global Actors, and Reentrancy: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> An actor serializes isolated access only within each synchronous segment; after `await`, other work may have changed its state.
-
-- Cross-actor isolated access is asynchronous and transferred values must satisfy isolation rules.
-- Revalidate read-await-write assumptions using generations, local results, or in-flight work state.
-- `@MainActor` and custom global actors isolate declarations to one global domain; they are not thread annotations.
-- `isolated` borrows an actor's isolation; `nonisolated` promises a declaration needs no isolated state.
-- Choose actors for asynchronous ownership of invariants and locks for small audited synchronous critical sections.
 
 ## Mental Model
 
@@ -83,14 +75,6 @@ explicit lifecycle API.
 - `@MainActor` ensures main-actor isolation; code can still run elsewhere during
   nonisolated or concurrent calls and while suspending in external APIs.
 
-## Failure Modes
-
-- A stale result overwrites data invalidated during an await.
-- Two callers duplicate expensive work after the same cache miss.
-- A chatty actor graph adds hops and splits one invariant among owners.
-- `nonisolated` is used to satisfy a compiler error while state remains actor-dependent.
-- `MainActor.run` patches individual accesses instead of expressing ownership on the API.
-
 ## Engineering Judgment
 
 ### When to Use It
@@ -117,7 +101,7 @@ or use `@MainActor` as a universal lock.
 Prefer value semantics and task-local ownership where sharing is unnecessary. Use
 audited synchronization for synchronous APIs that cannot become actor-isolated.
 
-## Production Considerations
+## Production Application
 
 ### Performance
 
@@ -160,14 +144,6 @@ budget. Choose the fewest owners that preserve useful independent concurrency.
 
 Assign ownership of global actors and shared actor APIs. Publish isolation contracts and
 migration sequencing so client teams do not add local workarounds.
-
-## Common Mistakes
-
-### Treating an actor method as atomic across await
-
-**Why it is wrong:** Reentrancy lets other actor work run while the method is suspended.
-
-**Better approach:** Revalidate state, use generation tokens, or model in-flight work before committing.
 
 ## References
 

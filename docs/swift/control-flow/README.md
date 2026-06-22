@@ -2,17 +2,17 @@
 title: "Control Flow"
 domain: "Swift"
 page_type: topic-index
+interview_priority: high
 status: reviewed
-last_reviewed: 2026-06-20
+last_reviewed: 2026-06-22
 ---
 
 # Control Flow
 
 ## Scope
 
-Swift's branching, iteration, pattern matching, control transfer, scope-exit
-cleanup, and API availability checks. The focus is correctness under evolving
-state, resource ownership, platform deployment, and production failure paths.
+This topic covers loops, pattern matching, early exits, scope cleanup, and API
+availability. Focus on clear control flow and correct boundary behavior.
 
 Function returns and thrown-error design are covered in their owning topics;
 this topic discusses them only where they transfer control from a branch or
@@ -24,7 +24,7 @@ scope.
 - [Basic Operators](../basic-operators/README.md)
 - [Collection Types](../collection-types/README.md)
 
-## Learning Path
+## Rapid Review
 
 1. [Loops and Control Transfer](loops-and-control-transfer/README.md)
 2. [Conditional Branching and Pattern Matching](conditional-branching-and-pattern-matching/README.md)
@@ -33,12 +33,12 @@ scope.
 
 ## Concepts
 
-| Concept | Summary | Level |
-|---|---|---|
-| [Loops and Control Transfer](loops-and-control-transfer/README.md) | Choose bounded or condition-driven iteration while making termination, sequence consumption, and nested exits explicit. | Senior |
-| [Conditional Branching and Pattern Matching](conditional-branching-and-pattern-matching/README.md) | Model exhaustive state decisions with ordered patterns, bindings, conditions, and expression forms. | Senior |
-| [Guard and Deferred Cleanup](guard-and-deferred-cleanup/README.md) | Establish preconditions early and pair acquired resources with scope-exit cleanup. | Senior |
-| [Availability Checking](availability-checking/README.md) | Separate compile-time API availability from runtime branching and deployment fallback policy. | Senior |
+| Concept | Why it matters | Priority | Time |
+|---|---|---|---:|
+| [Conditional Branching and Pattern Matching](conditional-branching-and-pattern-matching/README.md) | Uses exhaustive state decisions and precise patterns. | High | 13 min |
+| [Guard and Deferred Cleanup](guard-and-deferred-cleanup/README.md) | Keeps the success path clear and pairs resources with cleanup. | High | 12 min |
+| [Availability Checking](availability-checking/README.md) | Separates build-time availability from runtime capability. | High | 13 min |
+| [Loops and Control Transfer](loops-and-control-transfer/README.md) | Covers termination, sequence use, and targeted exits. | High | 13 min |
 
 ## Related Topics
 

@@ -4,24 +4,16 @@ domain: "Swift"
 topic: "Concurrency"
 concept: "Unstructured Tasks and Task Context"
 page_type: theory
+interview_priority: core
+estimated_read_minutes: 4
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Unstructured Tasks and Task Context: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> `Task {}` creates an unstructured task that inherits context; `Task.detached` deliberately discards most context and is rarely the right default.
-
-- Store a handle whenever the owner must await, cancel, or observe failure.
-- `Task {}` inherits actor isolation, priority, and task-local values; it is not a generic background queue.
-- Detached tasks do not inherit actor isolation, priority, or task-local values.
-- Unobserved throwing task values lose errors at the application boundary.
-- Task names and immediate-start APIs aid diagnostics or ordering, not lifetime correctness.
 
 ## Mental Model
 
@@ -84,14 +76,6 @@ unstructured after suspension; it should be chosen only when that start ordering
 - `Task {}` context inheritance does not create a lexical join.
 - Scheduling order, prompt start, and priority are not hard real-time guarantees.
 
-## Failure Modes
-
-- Fire-and-forget work outlives the screen or service that initiated it.
-- A throwing task's handle is discarded and its error disappears.
-- `Task {}` on the main actor performs heavy synchronous work and freezes UI.
-- Detached work loses trace context and accesses non-sendable state.
-- Strong captures create owner-task retain cycles until completion.
-
 ## Engineering Judgment
 
 ### When to Use It
@@ -117,7 +101,7 @@ mechanically with `Task {}`.
 Make the caller async, return a task handle from the boundary, use SwiftUI `.task` for
 view lifetime, or persist durable jobs outside process memory.
 
-## Production Considerations
+## Production Application
 
 ### Performance
 
@@ -160,14 +144,6 @@ resource budget for every unstructured task.
 
 Code review should reject unexplained discarded handles and detached tasks. Standardize
 sync-edge adapters and tracing propagation.
-
-## Common Mistakes
-
-### Using Task to dispatch to the background
-
-**Why it is wrong:** `Task {}` inherits actor context and has no background guarantee.
-
-**Better approach:** Use structured work or `@concurrent` for CPU offloading and retain task handles for lifetime control.
 
 ## References
 

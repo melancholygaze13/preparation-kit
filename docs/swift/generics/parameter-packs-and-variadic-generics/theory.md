@@ -4,25 +4,16 @@ domain: "Swift"
 topic: "Generics"
 concept: "Parameter Packs and Variadic Generics"
 page_type: theory
+interview_priority: situational
+estimated_read_minutes: 4
 levels: [staff, principal]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Parameter Packs and Variadic Generics: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> A type pack is a compile-time list of zero or more types; a value pack contains one
-> value for each type, and `repeat` expands an operation over their common shape.
-
-- Declare a type pack with `each T` and expand a type or expression pattern with `repeat`.
-- Pack length is variable across calls but fixed for a particular specialization.
-- Multiple packs used in one expansion must have compatible shape.
-- Pack iteration processes heterogeneous elements without tuple-index tricks or fixed-arity overloads.
-- Parameter packs improve scalability, not runtime-dynamic argument handling.
 
 ## Mental Model
 
@@ -80,14 +71,6 @@ let product = Product(42, "ready", true)
 - Variadic generic types can preserve a pack's heterogeneous structure in their type identity and supported stored representations.
 - Variadic generics do not replace runtime collections whose length and element membership are known only at runtime.
 
-## Failure Modes
-
-- Parallel packs lose their shape relationship and cannot be expanded together.
-- A zero-element call accidentally bypasses required validation.
-- The API exposes pack syntax where a tuple, collection, or builder would be clearer.
-- Side-effectful repetition creates ordering assumptions that reviewers cannot see easily.
-- Migrating overloads changes inference, labels, or availability for existing clients.
-
 ## Engineering Judgment
 
 ### When to Use It
@@ -110,7 +93,7 @@ let product = Product(42, "ready", true)
 | Fixed overloads | Familiar signatures and targeted availability | Repetition and capped arity | Small compatibility surface |
 | Runtime collection | Simple iteration and runtime sizing | Requires homogeneous element abstraction | Data-driven workloads |
 
-## Production Considerations
+## Production Application
 
 ### Performance
 
@@ -141,16 +124,6 @@ signature replacement. This is compiler-language availability, not an OS runtime
 Adopt packs when they delete a measurable maintenance surface. Establish a toolchain
 baseline, test generated interfaces and diagnostics, and monitor build-time and binary-size
 regressions across representative client modules.
-
-## Common Mistakes
-
-### Using a Pack for Runtime Variability
-
-**Why it is wrong:** Pack shape is part of the compile-time substitution; it cannot model a
-list whose length or members are discovered at runtime.
-
-**Better approach:** Use a runtime collection or existential container for runtime data,
-and packs for statically typed positional composition.
 
 ## References
 

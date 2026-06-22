@@ -4,11 +4,13 @@ domain: "Swift"
 topic: "Enumerations"
 concept: "Associated Values and Pattern Matching"
 page_type: theory
+interview_priority: high
+estimated_read_minutes: 6
 levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-20
+last_reviewed: 2026-06-22
 tags:
   - enumerations
   - associated-values
@@ -19,23 +21,6 @@ tags:
 # Associated Values and Pattern Matching: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> An associated value belongs to one enum instance and can have a different type
-> and value for each case. It is created with the case and extracted by pattern
-> matching.
-
-- Use associated values to couple payload validity to state, not as an unstructured
-  bag of optional fields.
-- Labels document payload roles and reduce mistakes when a case carries repeated
-  types.
-- An exhaustive switch is appropriate when every case needs policy; `if case`,
-  `guard case`, and `for case` intentionally focus on one pattern.
-- Replacing an enum variable's case replaces its old associated payload.
-- Synthesized equality, hashing, sendability, or encoding includes payload
-  semantics when the conformance is available; verify that this matches the
-  domain.
 
 ## Mental Model
 
@@ -228,24 +213,6 @@ should not become an undocumented protocol between independently deployed system
   their semantics.
 - Associated-value case changes can break downstream patterns and construction.
 
-## Failure Modes
-
-- **Optional payload bag inside one case:** Reintroduces invalid combinations the
-  enum should eliminate.
-- **Repeated unlabeled payload types:** Callers swap values while construction
-  still compiles.
-- **for case drops failures:** Filtering silently removes states requiring
-  observability.
-- **Reference payload mistaken for snapshot:** Copied enum values observe shared
-  mutation.
-- **Structural equality used as stable identity:** Diagnostic payload changes
-  alter identity unexpectedly.
-- **Catch-all Any payload:** Erases type safety and exhaustiveness.
-- **Large public tuple payload evolves:** Every constructor and pattern requires
-  coordinated source changes.
-- **Synthesized encoding treated as protocol:** Independently deployed readers
-  break when cases change.
-
 ## Engineering Judgment
 
 ### Payload Design
@@ -265,81 +232,6 @@ Associated values maximize state correctness and exhaustive handling but couple
 consumers to case payload shape. Named payloads add types while localizing
 evolution. Reference payloads can reduce copying and support identity at the cost
 of shared mutation; value payloads provide clearer snapshots.
-
-## Production Considerations
-
-### Performance
-
-The enum must represent its largest payload plus implementation-defined tagging
-and layout. Large or highly varied payloads can affect copying and memory. Measure
-before introducing boxes. A reference box changes value and concurrency semantics,
-so it is not a transparent performance tweak.
-
-### Concurrency and Thread Safety
-
-An associated-value enum can conform to `Sendable` when payloads are Sendable.
-Actor-isolate state transitions. If a reducer awaits effects, revalidate current
-state before applying their results because another event may have transitioned
-the actor during suspension.
-
-### Testing
-
-Test construction and extraction for every case, every refined pattern boundary,
-selective nonmatch behavior, valid and invalid transitions, equality projections,
-and reference-payload aliasing where used. Add compatibility fixtures for encoded
-case and payload changes.
-
-### Observability and Debugging
-
-Log stable case diagnostics and privacy-safe payload summaries. Record transition
-source, event, destination, and rejection reason. Avoid string reflection as a
-wire or metric key; define explicit codes so renaming source does not fragment
-telemetry.
-
-### Compatibility and Migration
-
-Introduce named payloads before a case's tuple shape becomes widely consumed.
-For external formats, add tolerant readers, version payloads, preserve unknown
-data where required, then emit new cases or fields. Characterization tests should
-cover old encoded fixtures and new round trips.
-
-## Staff and Principal Perspective
-
-### System Impact
-
-Event and state enums often become the grammar of reducers, workflows, and
-protocols. Their payload choices determine which invariants are local, which
-modules are coupled, and whether concurrency can transfer state safely.
-
-### Decision Framework
-
-Review case ownership, payload validity, labels, value/reference semantics,
-identity, equality, sendability, transition owner, selective-match loss, encoding,
-and expected evolution.
-
-### Organizational Impact
-
-Publish canonical event and state schemas with owners. Require compatibility
-review for public payload changes and shared telemetry codes. Keep feature-specific
-diagnostics out of cross-team identity payloads, and use generated or fixture-based
-compatibility tests where enums cross deployment boundaries.
-
-## Common Mistakes
-
-### Using Associated Values as an Untyped Extension Point
-
-**Why it is wrong:** `Any`, dictionaries, or generic strings move invalid states
-and casts back to runtime.
-
-**Better approach:** Add typed cases or use an explicit open protocol boundary
-when third-party extension is required.
-
-### Assuming if case Handles the State Space
-
-**Why it is wrong:** It handles one pattern and silently ignores every nonmatch.
-
-**Better approach:** Use switch when other cases require explicit policy or
-observability.
 
 ## References
 

@@ -3,14 +3,22 @@ title: "Access Duration and Exclusivity Enforcement"
 domain: "Swift"
 topic: "Memory Safety"
 page_type: concept-index
+interview_priority: core
+estimated_read_minutes: 1
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Access Duration and Exclusivity Enforcement
 
 > Conflicting access requires the same storage, overlapping duration, and at least one write; long-term access makes otherwise hidden overlap visible.
+
+## Quick Recall
+
+- A conflict needs the same storage and overlapping access duration.
+- At least one overlapping access must write.
+- Swift checks many conflicts statically and some at runtime.
 
 ## Study
 

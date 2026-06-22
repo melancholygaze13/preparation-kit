@@ -5,27 +5,25 @@ topic: "Language Basics"
 page_type: concept-index
 levels:
   - senior
-  - staff
+interview_priority: reference
+estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-06-20
-tags:
-  - tuples
-  - structural-types
-  - api-design
-  - pattern-matching
+last_reviewed: 2026-06-22
 ---
 
 # Tuples
 
-> A tuple is an anonymous structural grouping of values. It is effective for
-> small, local relationships but lacks the identity, invariants, conformances,
-> and evolution surface of a nominal type.
+> A tuple groups a few related values without creating a named type. It works
+> best for local, temporary data rather than a public domain model.
+
+## Quick Recall
+
+- Tuple elements can have different types and optional labels.
+- Destructuring separates tuple elements into local bindings.
+- Use a struct or enum when data needs invariants, methods, or API evolution.
+- Tuple equality does not make tuple types conform to `Equatable` or `Hashable`.
 
 ## Study
 
 - [Theory](theory.md)
 - [Interview questions](interview.md)
-
-## Prerequisites
-
-- [Type Safety and Type Inference](../type-safety-and-inference/README.md)

@@ -4,25 +4,16 @@ domain: "Swift"
 topic: "Generics"
 concept: "Generic Abstraction and Constraints"
 page_type: theory
+interview_priority: core
+estimated_read_minutes: 4
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Generic Abstraction and Constraints: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> A generic declaration is one implementation parameterized by types; constraints are
-> the compile-time evidence that permits operations on those types.
-
-- Type parameters preserve concrete type identity across inputs, outputs, and stored state.
-- Protocol and superclass constraints define available operations, not a runtime cast plan.
-- Inference solves type parameters from arguments and contextual result types; ambiguous APIs should expose more evidence.
-- Overloads are selected at the generic call site from statically known constraints.
-- A semantic contract such as ordering consistency matters even when the compiler checks only conformance.
 
 ## Mental Model
 
@@ -66,14 +57,6 @@ identity; Swift does not support static stored properties in generic types.
 - Static overload resolution does not rediscover a more-specific overload after a generic function has been instantiated.
 - The compiler checks declared requirements; it cannot generally verify semantic laws such as a valid equivalence relation.
 
-## Failure Modes
-
-- **Underconstrained body:** implementation needs equality, hashing, ordering, sendability, or isolation that the signature did not state.
-- **Overconstrained API:** callers are excluded even though the implementation uses only a smaller capability.
-- **Lost relationship:** returning `Any` or an existential hides a type equality callers need.
-- **Inference cliff:** several unconstrained parameters or overloaded closures leave too little evidence for a stable solution.
-- **Semantic violation:** a conformer compiles but breaks ordering, hashing, or collection laws and corrupts algorithm behavior.
-
 ## Engineering Judgment
 
 ### When to Use It
@@ -96,7 +79,7 @@ identity; Swift does not support static stored properties in generic types.
 | Existential boundary | Stable storage and runtime substitution | Erases some relationships and can add indirection | Heterogeneous collections and plugin boundaries |
 | Concrete overloads | Simple diagnostics for a small closed set | Duplication and poor scalability | Deliberately finite type families |
 
-## Production Considerations
+## Production Application
 
 ### Performance
 
@@ -127,16 +110,6 @@ diagnostics and reduce inference failures to the smallest generic signature.
 Generic constraints become architecture when they cross package boundaries. Standardize
 shared capability protocols, keep domain policy out of foundational generic utilities,
 and require performance claims to be backed by release-build benchmarks and size data.
-
-## Common Mistakes
-
-### Treating a Generic Parameter as an Existential
-
-**Why it is wrong:** A generic parameter represents one concrete type selected for a call;
-an existential box can hold different conforming types across values.
-
-**Better approach:** Choose generics to preserve relationships and `any` when runtime
-heterogeneity is the intended boundary.
 
 ## References
 

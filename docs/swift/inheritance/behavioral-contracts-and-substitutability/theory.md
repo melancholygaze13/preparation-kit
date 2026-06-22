@@ -4,26 +4,17 @@ domain: "Swift"
 topic: "Inheritance"
 concept: "Behavioral Contracts and Substitutability"
 page_type: theory
+interview_priority: situational
+estimated_read_minutes: 3
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 tags: [substitutability, contracts, polymorphism, invariants]
 ---
 
 # Behavioral Contracts and Substitutability: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> A subclass is correct only if any caller using the base contract remains correct
-> when given the subclass.
-
-- Do not strengthen accepted-input requirements or weaken promised results.
-- Preserve invariants, failure categories, side-effect ordering, idempotency, and complexity commitments.
-- Equality and hashing must remain coherent across a hierarchy used in sets or dictionaries.
-- Isolation, sendability, and suspension behavior are part of modern behavioral contracts.
-- If callers switch on concrete subtype to be safe, the base abstraction is not doing its job.
 
 ## Mental Model
 
@@ -75,48 +66,11 @@ subclasses. Overrides must not smuggle mutable state outside that isolation. Acr
 - Base references dispatch to supported overrides dynamically.
 - Unit tests cannot prove arbitrary external subclasses correct; open designs need defensive contracts.
 
-## Failure Modes
-
-- **Strengthened precondition:** A valid base input fails only for one subtype.
-- **Weakened postcondition:** A subtype returns incomplete or differently normalized data.
-- **Hidden effect:** An override blocks, performs I/O, or changes ordering unexpectedly.
-- **Asymmetric equality:** `a == b` differs from `b == a` across dynamic types.
-- **Subtype switch:** Clients downcast before every meaningful operation.
-- **Isolation escape:** Override exposes shared mutable state beyond the base actor boundary.
-
 ## Engineering Judgment
 
 Use inheritance only when one stable contract governs every subtype. Use protocols for
 capability composition, enums for closed alternatives, and strategy/decorator objects
 for replaceable behavior. Favor a final class when identity is needed but subclassing is not.
-
-## Production Considerations
-
-Build contract tests once and run them against all supported implementations. Include
-boundary inputs, failures, cancellation, ordering, equality, performance envelopes,
-and concurrency isolation. Observe behavior by contract outcome rather than assuming
-subtype names map permanently to product policy.
-
-## Staff and Principal Perspective
-
-Substitutability failures are system failures when base types cross team boundaries.
-Publish executable contract suites, compatibility budgets, ownership, and escalation
-paths. Review subtype additions for operational effects and rollout impact, not only API shape.
-
-## Common Mistakes
-
-### Same Signature Means Substitutable
-
-**Why it is wrong:** The compiler cannot verify domain invariants, latency, ordering,
-or hidden side effects.
-
-**Better approach:** Specify and execute behavioral contract tests.
-
-### Inheritance Is Code Reuse
-
-**Why it is wrong:** It creates a polymorphic promise and lifecycle coupling, not just reuse.
-
-**Better approach:** Use composition when shared implementation does not imply substitutability.
 
 ## References
 

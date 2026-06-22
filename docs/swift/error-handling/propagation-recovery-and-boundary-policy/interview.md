@@ -4,9 +4,11 @@ domain: "Swift"
 topic: "Error Handling"
 concept: "Propagation, Recovery, and Boundary Policy"
 page_type: interview
+interview_priority: core
+estimated_read_minutes: 3
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Propagation, Recovery, and Boundary Policy: Interview Questions
@@ -26,62 +28,32 @@ last_reviewed: 2026-06-21
 <a id="q1-catch-boundary"></a>
 ## Q1: Where Should an Error Be Caught?
 
-### What It Evaluates
-
-Whether catches correspond to actual policy ownership.
-
 ### Short Answer
 
 Catch at the nearest layer that can retry, fallback, compensate, translate, or present.
 If the current layer cannot make such a decision, propagate. Translate implementation
 errors at stable boundaries and avoid logging the same failure at every layer.
 
-### Detailed Answer
+### Expanded Answer
 
 Specific catch patterns precede general ones. Cleanup belongs in `defer` or explicit
 resource owners; catching solely to clean up and then silently continuing creates false success.
 
-### Engineering Trade-offs
+### Trade-offs
 
 - Early translation stabilizes callers but can discard context.
 - Late presentation retains context but must avoid leaking internals.
 - Central policy reduces duplicates while requiring clear ownership.
 
-### Production Scenario
+### Example
 
 A repository propagates database errors to a service, which translates “row missing”
 to a domain case; the UI alone decides presentation.
-
-### Follow-up Questions
-
-- When should an error be rethrown?
-- Where should logging occur?
-- What cleanup can `defer` perform?
-
-### Strong Answer Signals
-
-- Associates catch with a decision.
-- Translates once at an ownership boundary.
-- Avoids duplicate logging.
-
-### Weak Answer Signals
-
-- Catches and ignores near every throw.
-- Presents UI from infrastructure.
-- Logs sensitive raw errors at all layers.
-
-### Related Theory
-
-- [Boundary Translation](theory.md#boundary-translation)
 
 ---
 
 <a id="q2-cancellation-policy"></a>
 ## Q2: How Should Cancellation Interact with Error Handling?
-
-### What It Evaluates
-
-Swift concurrency correctness and lifecycle policy.
 
 ### Short Answer
 
@@ -90,52 +62,26 @@ structured children inherit it, and generic catch policy should preserve or sepa
 handle `CancellationError` rather than alerting or retrying. Bridge cancellation to
 underlying operations when they have their own cancel mechanism.
 
-### Detailed Answer
+### Expanded Answer
 
 An `await` does not guarantee the callee checks cancellation. CPU loops need explicit
 checks. Unstructured tasks need stored ownership and explicit cancellation.
 
-### Engineering Trade-offs
+### Trade-offs
 
 - Prompt checks save work but must occur at safe consistency points.
 - Cleanup may delay exit but protects invariants.
 - Treating cancellation as failure simplifies code while creating noise and wasted retries.
 
-### Production Scenario
+### Example
 
 A cancelled search request enters generic retry and displays an error. Filtering
 cancellation stops both while genuine network failure keeps its retry policy.
-
-### Follow-up Questions
-
-- Is cancellation automatic termination?
-- Where should CPU work check?
-- How is legacy cancellation bridged?
-
-### Strong Answer Signals
-
-- Calls cancellation cooperative.
-- Preserves it through catches.
-- Distinguishes structured and unstructured ownership.
-
-### Weak Answer Signals
-
-- Reports cancellation as every other error.
-- Assumes every await stops cancelled work.
-- Launches retries after cancellation.
-
-### Related Theory
-
-- [Cancellation](theory.md#cancellation)
 
 ---
 
 <a id="q3-system-error-policy"></a>
 ## Q3: How Should a System Govern Retries and Error Translation?
-
-### What It Evaluates
-
-Principal-level reliability and schema ownership.
 
 ### Short Answer
 
@@ -144,40 +90,18 @@ backoff, cancellation, redaction, translation owners, correlation, and alerting.
 near the operation owner only for classified transient failures. Evolve public error
 schemas with tolerant readers, telemetry, and rollback.
 
-### Detailed Answer
+### Expanded Answer
 
 Nonidempotent operations require keys or compensation before retry. One layer should
 own the failure event to prevent metric and alert amplification.
 
-### Engineering Trade-offs
+### Trade-offs
 
 - Retries improve transient availability but amplify load and duplicate effects.
 - Stable translation protects clients but requires versioning.
 - Rich diagnostics aid incidents but increase privacy risk.
 
-### Production Scenario
+### Example
 
 A payment timeout is blindly retried and charges twice. Idempotency keys, bounded retry,
 and stable “outcome unknown” policy make recovery safe.
-
-### Follow-up Questions
-
-- Who owns retry budgets?
-- How do old clients handle new categories?
-- Which context must be redacted?
-
-### Strong Answer Signals
-
-- Requires idempotency and bounded retries.
-- Assigns translation and observability owners.
-- Includes schema evolution and privacy.
-
-### Weak Answer Signals
-
-- Retries every error indefinitely.
-- Uses message text as stable identity.
-- Logs secrets for diagnosis.
-
-### Related Theory
-
-- [Staff and Principal Perspective](theory.md#staff-and-principal-perspective)

@@ -4,24 +4,16 @@ domain: "Swift"
 topic: "Memory Safety"
 concept: "Access Duration and Exclusivity Enforcement"
 page_type: theory
+interview_priority: core
+estimated_read_minutes: 3
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-21
+last_reviewed: 2026-06-22
 ---
 
 # Access Duration and Exclusivity Enforcement: Theory
 
 [Concept overview](README.md) · [Interview questions](interview.md)
-
-## Quick Recall
-
-> Swift requires modifying access to memory to be exclusive when overlapping access could observe or corrupt an incomplete mutation.
-
-- A conflict needs the same location, overlapping durations, and at least one write.
-- Ordinary direct reads/writes are usually instantaneous; `inout` and mutating `self` create long-term write access.
-- The compiler rejects provable conflicts; dynamic enforcement traps when aliasing is known only at runtime.
-- A trap is memory-safe failure, not recoverable control flow.
-- Exclusivity is not a lock, atomicity guarantee, or substitute for actor isolation.
 
 ## Mental Model
 
@@ -65,21 +57,13 @@ argument or invokes reentrant code while holding mutating access.
 - A mutating value-type method holds write access to `self` for the method call.
 - Safe exclusivity does not guarantee multi-operation transaction atomicity.
 
-## Failure Modes
-
-- The same variable reaches two `inout` parameters through aliases.
-- A global is read while passed `inout` to a helper that also references the global.
-- A mutating method invokes a callback that reenters the same value.
-- A runtime trap is misclassified as a multithreading-only problem.
-- Unsafe pointer aliases bypass enforcement and create undefined behavior or data races.
-
 ## Engineering Judgment
 
 Prefer result-returning transforms or one aggregate mutation when aliasing is plausible. Shorten
 access duration before calling arbitrary code. Use actors/locks for concurrency; do not infer them
 from exclusivity checks.
 
-## Production Considerations
+## Production Application
 
 ### Performance
 
@@ -110,14 +94,6 @@ previously valid-looking calls into conflicts. Compile downstream mutation patte
 
 Exclusivity failures often expose APIs that distribute mutation authority. Centralize state transitions,
 avoid reentrant mutation hooks, and make synchronization and ownership boundaries reviewable.
-
-## Common Mistakes
-
-### Treating Exclusivity as Thread Safety
-
-**Why it is wrong:** Exclusivity prevents overlapping access patterns under Swift's memory model; it neither serializes arbitrary tasks nor protects multi-step invariants.
-
-**Better approach:** Preserve exclusivity locally and use an actor, lock, transaction, or atomic algorithm for concurrent ownership.
 
 ## References
 

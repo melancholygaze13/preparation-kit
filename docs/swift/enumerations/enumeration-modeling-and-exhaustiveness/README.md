@@ -3,11 +3,13 @@ title: "Enumeration Modeling and Exhaustiveness"
 domain: "Swift"
 topic: "Enumerations"
 page_type: concept-index
+interview_priority: high
+estimated_read_minutes: 1
 levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-20
+last_reviewed: 2026-06-22
 tags:
   - enumerations
   - state-modeling
@@ -20,6 +22,13 @@ tags:
 > An enum defines one value chosen from a finite set of cases. Its main benefit is
 > not shorter syntax but making mutually exclusive states and exhaustive decisions
 > compiler-visible.
+
+## Quick Recall
+
+- One enum value holds exactly one case at a time.
+- An exhaustive `switch` forces handling of every known state.
+- Prefer an enum over several Booleans that permit invalid combinations.
+- `CaseIterable` is correct only when all cases can be listed without payloads.
 
 ## Study
 
