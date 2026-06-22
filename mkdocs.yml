@@ -464,6 +464,266 @@ nav:
               - Overview: swift/macros/macro-adoption-and-api-evolution/README.md
               - Theory: swift/macros/macro-adoption-and-api-evolution/theory.md
               - Interview Questions: swift/macros/macro-adoption-and-api-evolution/interview.md
+  - SwiftUI:
+      - Overview: swiftui/README.md
+      - View System and Rendering:
+          - Overview: swiftui/view-system-and-rendering/README.md
+          - Declarative View Descriptions:
+              - Overview: swiftui/view-system-and-rendering/declarative-view-descriptions/README.md
+              - Theory: swiftui/view-system-and-rendering/declarative-view-descriptions/theory.md
+              - Interview Questions: swiftui/view-system-and-rendering/declarative-view-descriptions/interview.md
+          - View Identity and Lifetime:
+              - Overview: swiftui/view-system-and-rendering/view-identity-and-lifetime/README.md
+              - Theory: swiftui/view-system-and-rendering/view-identity-and-lifetime/theory.md
+              - Interview Questions: swiftui/view-system-and-rendering/view-identity-and-lifetime/interview.md
+          - Dependency Tracking and Update Propagation:
+              - Overview: swiftui/view-system-and-rendering/dependency-tracking-and-update-propagation/README.md
+              - Theory: swiftui/view-system-and-rendering/dependency-tracking-and-update-propagation/theory.md
+              - Interview Questions: swiftui/view-system-and-rendering/dependency-tracking-and-update-propagation/interview.md
+          - Composition, Generics, and Type Erasure:
+              - Overview: swiftui/view-system-and-rendering/composition-generics-and-type-erasure/README.md
+              - Theory: swiftui/view-system-and-rendering/composition-generics-and-type-erasure/theory.md
+              - Interview Questions: swiftui/view-system-and-rendering/composition-generics-and-type-erasure/interview.md
+      - State and Data Flow:
+          - Overview: swiftui/state-and-data-flow/README.md
+          - Local State and Bindings:
+              - Overview: swiftui/state-and-data-flow/local-state-and-bindings/README.md
+              - Theory: swiftui/state-and-data-flow/local-state-and-bindings/theory.md
+              - Interview Questions: swiftui/state-and-data-flow/local-state-and-bindings/interview.md
+          - Observation and Model Ownership:
+              - Overview: swiftui/state-and-data-flow/observation-and-model-ownership/README.md
+              - Theory: swiftui/state-and-data-flow/observation-and-model-ownership/theory.md
+              - Interview Questions: swiftui/state-and-data-flow/observation-and-model-ownership/interview.md
+          - Environment and Dependency Injection:
+              - Overview: swiftui/state-and-data-flow/environment-and-dependency-injection/README.md
+              - Theory: swiftui/state-and-data-flow/environment-and-dependency-injection/theory.md
+              - Interview Questions: swiftui/state-and-data-flow/environment-and-dependency-injection/interview.md
+          - Derived State and Source of Truth:
+              - Overview: swiftui/state-and-data-flow/derived-state-and-source-of-truth/README.md
+              - Theory: swiftui/state-and-data-flow/derived-state-and-source-of-truth/theory.md
+              - Interview Questions: swiftui/state-and-data-flow/derived-state-and-source-of-truth/interview.md
+      - Layout and View Composition:
+          - Overview: swiftui/layout-and-view-composition/README.md
+          - Layout Proposal and Response:
+              - Overview: swiftui/layout-and-view-composition/layout-proposal-and-response/README.md
+              - Theory: swiftui/layout-and-view-composition/layout-proposal-and-response/theory.md
+              - Interview Questions: swiftui/layout-and-view-composition/layout-proposal-and-response/interview.md
+          - Stacks, Grids, and Safe Areas:
+              - Overview: swiftui/layout-and-view-composition/stacks-grids-and-safe-areas/README.md
+              - Theory: swiftui/layout-and-view-composition/stacks-grids-and-safe-areas/theory.md
+              - Interview Questions: swiftui/layout-and-view-composition/stacks-grids-and-safe-areas/interview.md
+          - Alignment, Geometry, and Preferences:
+              - Overview: swiftui/layout-and-view-composition/alignment-geometry-and-preferences/README.md
+              - Theory: swiftui/layout-and-view-composition/alignment-geometry-and-preferences/theory.md
+              - Interview Questions: swiftui/layout-and-view-composition/alignment-geometry-and-preferences/interview.md
+          - Custom Layouts and Adaptive Composition:
+              - Overview: swiftui/layout-and-view-composition/custom-layouts-and-adaptive-composition/README.md
+              - Theory: swiftui/layout-and-view-composition/custom-layouts-and-adaptive-composition/theory.md
+              - Interview Questions: swiftui/layout-and-view-composition/custom-layouts-and-adaptive-composition/interview.md
+      - Navigation and Presentation:
+          - Overview: swiftui/navigation-and-presentation/README.md
+          - NavigationStack and Paths:
+              - Overview: swiftui/navigation-and-presentation/navigation-stack-and-paths/README.md
+              - Theory: swiftui/navigation-and-presentation/navigation-stack-and-paths/theory.md
+              - Interview Questions: swiftui/navigation-and-presentation/navigation-stack-and-paths/interview.md
+          - Destinations, Deep Links, and Restoration:
+              - Overview: swiftui/navigation-and-presentation/destinations-deep-links-and-restoration/README.md
+              - Theory: swiftui/navigation-and-presentation/destinations-deep-links-and-restoration/theory.md
+              - Interview Questions: swiftui/navigation-and-presentation/destinations-deep-links-and-restoration/interview.md
+          - Sheets, Popovers, and Dialogs:
+              - Overview: swiftui/navigation-and-presentation/sheets-popovers-and-dialogs/README.md
+              - Theory: swiftui/navigation-and-presentation/sheets-popovers-and-dialogs/theory.md
+              - Interview Questions: swiftui/navigation-and-presentation/sheets-popovers-and-dialogs/interview.md
+          - NavigationSplitView and Multicolumn Flows:
+              - Overview: swiftui/navigation-and-presentation/navigation-split-view-and-multicolumn-flows/README.md
+              - Theory: swiftui/navigation-and-presentation/navigation-split-view-and-multicolumn-flows/theory.md
+              - Interview Questions: swiftui/navigation-and-presentation/navigation-split-view-and-multicolumn-flows/interview.md
+      - Concurrency and View Lifecycle:
+          - Overview: swiftui/concurrency-and-view-lifecycle/README.md
+          - Task Modifier and View Lifetime:
+              - Overview: swiftui/concurrency-and-view-lifecycle/task-modifier-and-view-lifetime/README.md
+              - Theory: swiftui/concurrency-and-view-lifecycle/task-modifier-and-view-lifetime/theory.md
+              - Interview Questions: swiftui/concurrency-and-view-lifecycle/task-modifier-and-view-lifetime/interview.md
+          - MainActor and UI State:
+              - Overview: swiftui/concurrency-and-view-lifecycle/main-actor-and-ui-state/README.md
+              - Theory: swiftui/concurrency-and-view-lifecycle/main-actor-and-ui-state/theory.md
+              - Interview Questions: swiftui/concurrency-and-view-lifecycle/main-actor-and-ui-state/interview.md
+          - Cancellation, Stale Results, and Races:
+              - Overview: swiftui/concurrency-and-view-lifecycle/cancellation-stale-results-and-races/README.md
+              - Theory: swiftui/concurrency-and-view-lifecycle/cancellation-stale-results-and-races/theory.md
+              - Interview Questions: swiftui/concurrency-and-view-lifecycle/cancellation-stale-results-and-races/interview.md
+          - Async Loading, Refresh, and Streams:
+              - Overview: swiftui/concurrency-and-view-lifecycle/async-loading-refresh-and-streams/README.md
+              - Theory: swiftui/concurrency-and-view-lifecycle/async-loading-refresh-and-streams/theory.md
+              - Interview Questions: swiftui/concurrency-and-view-lifecycle/async-loading-refresh-and-streams/interview.md
+      - Architecture and Dependencies:
+          - Overview: swiftui/architecture-and-dependencies/README.md
+          - Feature Boundaries and View Modeling:
+              - Overview: swiftui/architecture-and-dependencies/feature-boundaries-and-view-modeling/README.md
+              - Theory: swiftui/architecture-and-dependencies/feature-boundaries-and-view-modeling/theory.md
+              - Interview Questions: swiftui/architecture-and-dependencies/feature-boundaries-and-view-modeling/interview.md
+          - Unidirectional Data Flow:
+              - Overview: swiftui/architecture-and-dependencies/unidirectional-data-flow/README.md
+              - Theory: swiftui/architecture-and-dependencies/unidirectional-data-flow/theory.md
+              - Interview Questions: swiftui/architecture-and-dependencies/unidirectional-data-flow/interview.md
+          - Side Effects and Dependency Boundaries:
+              - Overview: swiftui/architecture-and-dependencies/side-effects-and-dependency-boundaries/README.md
+              - Theory: swiftui/architecture-and-dependencies/side-effects-and-dependency-boundaries/theory.md
+              - Interview Questions: swiftui/architecture-and-dependencies/side-effects-and-dependency-boundaries/interview.md
+          - Modularization, Migration, and Ownership:
+              - Overview: swiftui/architecture-and-dependencies/modularization-migration-and-ownership/README.md
+              - Theory: swiftui/architecture-and-dependencies/modularization-migration-and-ownership/theory.md
+              - Interview Questions: swiftui/architecture-and-dependencies/modularization-migration-and-ownership/interview.md
+      - Performance and Diagnostics:
+          - Overview: swiftui/performance-and-diagnostics/README.md
+          - Invalidation and Body Recomputation:
+              - Overview: swiftui/performance-and-diagnostics/invalidation-and-body-recomputation/README.md
+              - Theory: swiftui/performance-and-diagnostics/invalidation-and-body-recomputation/theory.md
+              - Interview Questions: swiftui/performance-and-diagnostics/invalidation-and-body-recomputation/interview.md
+          - Expensive Work and Caching:
+              - Overview: swiftui/performance-and-diagnostics/expensive-work-and-caching/README.md
+              - Theory: swiftui/performance-and-diagnostics/expensive-work-and-caching/theory.md
+              - Interview Questions: swiftui/performance-and-diagnostics/expensive-work-and-caching/interview.md
+          - Lazy Containers and Scroll Performance:
+              - Overview: swiftui/performance-and-diagnostics/lazy-containers-and-scroll-performance/README.md
+              - Theory: swiftui/performance-and-diagnostics/lazy-containers-and-scroll-performance/theory.md
+              - Interview Questions: swiftui/performance-and-diagnostics/lazy-containers-and-scroll-performance/interview.md
+          - Profiling, Hitches, and Memory:
+              - Overview: swiftui/performance-and-diagnostics/profiling-hitches-and-memory/README.md
+              - Theory: swiftui/performance-and-diagnostics/profiling-hitches-and-memory/theory.md
+              - Interview Questions: swiftui/performance-and-diagnostics/profiling-hitches-and-memory/interview.md
+      - Collections and Scrolling:
+          - Overview: swiftui/collections-and-scrolling/README.md
+          - List, ForEach, and Data Identity:
+              - Overview: swiftui/collections-and-scrolling/list-for-each-and-data-identity/README.md
+              - Theory: swiftui/collections-and-scrolling/list-for-each-and-data-identity/theory.md
+              - Interview Questions: swiftui/collections-and-scrolling/list-for-each-and-data-identity/interview.md
+          - Scroll Position and Programmatic Scrolling:
+              - Overview: swiftui/collections-and-scrolling/scroll-position-and-programmatic-scrolling/README.md
+              - Theory: swiftui/collections-and-scrolling/scroll-position-and-programmatic-scrolling/theory.md
+              - Interview Questions: swiftui/collections-and-scrolling/scroll-position-and-programmatic-scrolling/interview.md
+          - Pagination, Refresh, and Search:
+              - Overview: swiftui/collections-and-scrolling/pagination-refresh-and-search/README.md
+              - Theory: swiftui/collections-and-scrolling/pagination-refresh-and-search/theory.md
+              - Interview Questions: swiftui/collections-and-scrolling/pagination-refresh-and-search/interview.md
+          - Selection, Editing, and Hierarchical Data:
+              - Overview: swiftui/collections-and-scrolling/selection-editing-and-hierarchical-data/README.md
+              - Theory: swiftui/collections-and-scrolling/selection-editing-and-hierarchical-data/theory.md
+              - Interview Questions: swiftui/collections-and-scrolling/selection-editing-and-hierarchical-data/interview.md
+      - Component Design and Styling:
+          - Overview: swiftui/component-design-and-styling/README.md
+          - Modifier Order and View Transforms:
+              - Overview: swiftui/component-design-and-styling/modifier-order-and-view-transforms/README.md
+              - Theory: swiftui/component-design-and-styling/modifier-order-and-view-transforms/theory.md
+              - Interview Questions: swiftui/component-design-and-styling/modifier-order-and-view-transforms/interview.md
+          - Reusable Components and View Modifiers:
+              - Overview: swiftui/component-design-and-styling/reusable-components-and-view-modifiers/README.md
+              - Theory: swiftui/component-design-and-styling/reusable-components-and-view-modifiers/theory.md
+              - Interview Questions: swiftui/component-design-and-styling/reusable-components-and-view-modifiers/interview.md
+          - Styles, Environment, and Design Tokens:
+              - Overview: swiftui/component-design-and-styling/styles-environment-and-design-tokens/README.md
+              - Theory: swiftui/component-design-and-styling/styles-environment-and-design-tokens/theory.md
+              - Interview Questions: swiftui/component-design-and-styling/styles-environment-and-design-tokens/interview.md
+          - Controls, Forms, Focus, and Keyboard:
+              - Overview: swiftui/component-design-and-styling/controls-forms-focus-and-keyboard/README.md
+              - Theory: swiftui/component-design-and-styling/controls-forms-focus-and-keyboard/theory.md
+              - Interview Questions: swiftui/component-design-and-styling/controls-forms-focus-and-keyboard/interview.md
+      - Animation and Interaction:
+          - Overview: swiftui/animation-and-interaction/README.md
+          - Implicit and Explicit Animation:
+              - Overview: swiftui/animation-and-interaction/implicit-and-explicit-animation/README.md
+              - Theory: swiftui/animation-and-interaction/implicit-and-explicit-animation/theory.md
+              - Interview Questions: swiftui/animation-and-interaction/implicit-and-explicit-animation/interview.md
+          - Transitions, Transactions, and Phase Animation:
+              - Overview: swiftui/animation-and-interaction/transitions-transactions-and-phase-animation/README.md
+              - Theory: swiftui/animation-and-interaction/transitions-transactions-and-phase-animation/theory.md
+              - Interview Questions: swiftui/animation-and-interaction/transitions-transactions-and-phase-animation/interview.md
+          - Animatable Data and Matched Geometry:
+              - Overview: swiftui/animation-and-interaction/animatable-data-and-matched-geometry/README.md
+              - Theory: swiftui/animation-and-interaction/animatable-data-and-matched-geometry/theory.md
+              - Interview Questions: swiftui/animation-and-interaction/animatable-data-and-matched-geometry/interview.md
+          - Gestures, Hit Testing, and Event Composition:
+              - Overview: swiftui/animation-and-interaction/gestures-hit-testing-and-event-composition/README.md
+              - Theory: swiftui/animation-and-interaction/gestures-hit-testing-and-event-composition/theory.md
+              - Interview Questions: swiftui/animation-and-interaction/gestures-hit-testing-and-event-composition/interview.md
+      - Accessibility and Adaptive UI:
+          - Overview: swiftui/accessibility-and-adaptive-ui/README.md
+          - Accessibility Tree, Labels, and Actions:
+              - Overview: swiftui/accessibility-and-adaptive-ui/accessibility-tree-labels-and-actions/README.md
+              - Theory: swiftui/accessibility-and-adaptive-ui/accessibility-tree-labels-and-actions/theory.md
+              - Interview Questions: swiftui/accessibility-and-adaptive-ui/accessibility-tree-labels-and-actions/interview.md
+          - Dynamic Type and Content Sizing:
+              - Overview: swiftui/accessibility-and-adaptive-ui/dynamic-type-and-content-sizing/README.md
+              - Theory: swiftui/accessibility-and-adaptive-ui/dynamic-type-and-content-sizing/theory.md
+              - Interview Questions: swiftui/accessibility-and-adaptive-ui/dynamic-type-and-content-sizing/interview.md
+          - Adaptive Layout, Size Classes, and Input:
+              - Overview: swiftui/accessibility-and-adaptive-ui/adaptive-layout-size-classes-and-input/README.md
+              - Theory: swiftui/accessibility-and-adaptive-ui/adaptive-layout-size-classes-and-input/theory.md
+              - Interview Questions: swiftui/accessibility-and-adaptive-ui/adaptive-layout-size-classes-and-input/interview.md
+          - Localization, Right-to-Left, and Reduced Motion:
+              - Overview: swiftui/accessibility-and-adaptive-ui/localization-right-to-left-and-reduced-motion/README.md
+              - Theory: swiftui/accessibility-and-adaptive-ui/localization-right-to-left-and-reduced-motion/theory.md
+              - Interview Questions: swiftui/accessibility-and-adaptive-ui/localization-right-to-left-and-reduced-motion/interview.md
+      - Testing SwiftUI Features:
+          - Overview: swiftui/testing-swiftui-features/README.md
+          - Testing State and Presentation Logic:
+              - Overview: swiftui/testing-swiftui-features/testing-state-and-presentation-logic/README.md
+              - Theory: swiftui/testing-swiftui-features/testing-state-and-presentation-logic/theory.md
+              - Interview Questions: swiftui/testing-swiftui-features/testing-state-and-presentation-logic/interview.md
+          - Testing Navigation and Async Lifecycles:
+              - Overview: swiftui/testing-swiftui-features/testing-navigation-and-async-lifecycles/README.md
+              - Theory: swiftui/testing-swiftui-features/testing-navigation-and-async-lifecycles/theory.md
+              - Interview Questions: swiftui/testing-swiftui-features/testing-navigation-and-async-lifecycles/interview.md
+          - UI and Accessibility Testing:
+              - Overview: swiftui/testing-swiftui-features/ui-and-accessibility-testing/README.md
+              - Theory: swiftui/testing-swiftui-features/ui-and-accessibility-testing/theory.md
+              - Interview Questions: swiftui/testing-swiftui-features/ui-and-accessibility-testing/interview.md
+          - Snapshot Testing and Visual Regressions:
+              - Overview: swiftui/testing-swiftui-features/snapshot-testing-and-visual-regressions/README.md
+              - Theory: swiftui/testing-swiftui-features/snapshot-testing-and-visual-regressions/theory.md
+              - Interview Questions: swiftui/testing-swiftui-features/snapshot-testing-and-visual-regressions/interview.md
+      - App, Scene, and System Integration:
+          - Overview: swiftui/app-scene-and-system-integration/README.md
+          - App, Scene, and Window Lifecycle:
+              - Overview: swiftui/app-scene-and-system-integration/app-scene-and-window-lifecycle/README.md
+              - Theory: swiftui/app-scene-and-system-integration/app-scene-and-window-lifecycle/theory.md
+              - Interview Questions: swiftui/app-scene-and-system-integration/app-scene-and-window-lifecycle/interview.md
+          - Scene Storage, State Restoration, and Documents:
+              - Overview: swiftui/app-scene-and-system-integration/scene-storage-state-restoration-and-documents/README.md
+              - Theory: swiftui/app-scene-and-system-integration/scene-storage-state-restoration-and-documents/theory.md
+              - Interview Questions: swiftui/app-scene-and-system-integration/scene-storage-state-restoration-and-documents/interview.md
+          - Commands, Settings, Widgets, and System Actions:
+              - Overview: swiftui/app-scene-and-system-integration/commands-settings-widgets-and-system-actions/README.md
+              - Theory: swiftui/app-scene-and-system-integration/commands-settings-widgets-and-system-actions/theory.md
+              - Interview Questions: swiftui/app-scene-and-system-integration/commands-settings-widgets-and-system-actions/interview.md
+      - UIKit Interoperability and Migration:
+          - Overview: swiftui/uikit-interoperability-and-migration/README.md
+          - UIViewRepresentable and Coordinators:
+              - Overview: swiftui/uikit-interoperability-and-migration/ui-view-representable-and-coordinators/README.md
+              - Theory: swiftui/uikit-interoperability-and-migration/ui-view-representable-and-coordinators/theory.md
+              - Interview Questions: swiftui/uikit-interoperability-and-migration/ui-view-representable-and-coordinators/interview.md
+          - Hosting SwiftUI in UIKit:
+              - Overview: swiftui/uikit-interoperability-and-migration/hosting-swiftui-in-uikit/README.md
+              - Theory: swiftui/uikit-interoperability-and-migration/hosting-swiftui-in-uikit/theory.md
+              - Interview Questions: swiftui/uikit-interoperability-and-migration/hosting-swiftui-in-uikit/interview.md
+          - Incremental Migration and Framework Boundaries:
+              - Overview: swiftui/uikit-interoperability-and-migration/incremental-migration-and-framework-boundaries/README.md
+              - Theory: swiftui/uikit-interoperability-and-migration/incremental-migration-and-framework-boundaries/theory.md
+              - Interview Questions: swiftui/uikit-interoperability-and-migration/incremental-migration-and-framework-boundaries/interview.md
+      - Drawing, Graphics, and Effects:
+          - Overview: swiftui/drawing-graphics-and-effects/README.md
+          - Shapes, Paths, and Canvas:
+              - Overview: swiftui/drawing-graphics-and-effects/shapes-paths-and-canvas/README.md
+              - Theory: swiftui/drawing-graphics-and-effects/shapes-paths-and-canvas/theory.md
+              - Interview Questions: swiftui/drawing-graphics-and-effects/shapes-paths-and-canvas/interview.md
+          - Materials, Shaders, and Visual Effects:
+              - Overview: swiftui/drawing-graphics-and-effects/materials-shaders-and-visual-effects/README.md
+              - Theory: swiftui/drawing-graphics-and-effects/materials-shaders-and-visual-effects/theory.md
+              - Interview Questions: swiftui/drawing-graphics-and-effects/materials-shaders-and-visual-effects/interview.md
+          - Image Rendering and Export:
+              - Overview: swiftui/drawing-graphics-and-effects/image-rendering-and-export/README.md
+              - Theory: swiftui/drawing-graphics-and-effects/image-rendering-and-export/theory.md
+              - Interview Questions: swiftui/drawing-graphics-and-effects/image-rendering-and-export/interview.md
 
 docs_dir: docs
 site_dir: site
@@ -479,7 +739,6 @@ theme:
   features:
     - content.code.copy
     - navigation.indexes
-    - navigation.sections
     - navigation.top
     - search.highlight
     - search.suggest

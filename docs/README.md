@@ -15,6 +15,7 @@ Review important concepts, practise direct answers, and build the engineering
 judgment expected in Senior, Staff, and Principal interviews.
 
 [Start with Swift](swift/README.md){ .md-button .md-button--primary }
+[Review SwiftUI](swiftui/README.md){ .md-button }
 [View on GitHub](https://github.com/melancholygaze13/preparation-kit){ .md-button }
 
 <div class="home-levels">
@@ -44,6 +45,15 @@ out loud.
   <span class="domain-card__body">
     <strong>Swift</strong>
     <small>Language semantics, ownership, API design, concurrency, and performance.</small>
+  </span>
+  <span class="domain-card__arrow">→</span>
+</a>
+
+<a class="domain-card" href="swiftui/">
+  <span class="domain-card__icon">UI</span>
+  <span class="domain-card__body">
+    <strong>SwiftUI</strong>
+    <small>Rendering, state, layout, navigation, architecture, accessibility, and performance.</small>
   </span>
   <span class="domain-card__arrow">→</span>
 </a>
