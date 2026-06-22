@@ -169,6 +169,27 @@ real system or organizational dimension. Useful concerns include boundaries,
 ownership, migration, rollout risk, observability, and cross-team standards.
 More API detail is not Staff-level depth.
 
+## Schemas and Diagrams
+
+Use a schema or Mermaid diagram only when it materially simplifies the topic.
+Good candidates include architecture boundaries, ownership, task hierarchies,
+state transitions, data flow, and interactions between several components.
+
+- Keep the mental model and key conclusion understandable without the diagram.
+- Prefer a table for exact comparisons or mappings and a code block for a
+  literal data or API schema. Use Mermaid when relationships or sequence are
+  the important part.
+- Choose the smallest suitable Mermaid form, such as `flowchart`,
+  `sequenceDiagram`, `stateDiagram-v2`, or `classDiagram`.
+- Use short, precise labels and explain Swift-specific constraints in nearby
+  prose instead of crowding the diagram.
+- Do not add decorative diagrams or repeat the same information in prose, a
+  table, and a diagram.
+- Keep diagrams focused enough to review under interview pressure. Split or
+  remove a diagram when it needs substantial narration to be understood.
+- Verify that Mermaid syntax renders and include diagram review time in
+  `estimated_read_minutes`.
+
 ## Source Standards
 
 - Prefer Swift Evolution, Swift documentation, Apple documentation, and WWDC.
