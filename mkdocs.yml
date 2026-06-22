@@ -724,6 +724,284 @@ nav:
               - Overview: swiftui/drawing-graphics-and-effects/image-rendering-and-export/README.md
               - Theory: swiftui/drawing-graphics-and-effects/image-rendering-and-export/theory.md
               - Interview Questions: swiftui/drawing-graphics-and-effects/image-rendering-and-export/interview.md
+  - UIKit:
+      - Overview: uikit/README.md
+      - View Controller Lifecycle and Containment:
+          - Overview: uikit/view-controller-lifecycle-and-containment/README.md
+          - View Controller Responsibilities and Ownership:
+              - Overview: uikit/view-controller-lifecycle-and-containment/view-controller-responsibilities-and-ownership/README.md
+              - Theory: uikit/view-controller-lifecycle-and-containment/view-controller-responsibilities-and-ownership/theory.md
+              - Interview Questions: uikit/view-controller-lifecycle-and-containment/view-controller-responsibilities-and-ownership/interview.md
+          - View Loading, Appearance, and Disappearance:
+              - Overview: uikit/view-controller-lifecycle-and-containment/view-loading-appearance-and-disappearance/README.md
+              - Theory: uikit/view-controller-lifecycle-and-containment/view-loading-appearance-and-disappearance/theory.md
+              - Interview Questions: uikit/view-controller-lifecycle-and-containment/view-loading-appearance-and-disappearance/interview.md
+          - Containment and Child View Controllers:
+              - Overview: uikit/view-controller-lifecycle-and-containment/containment-and-child-view-controllers/README.md
+              - Theory: uikit/view-controller-lifecycle-and-containment/containment-and-child-view-controllers/theory.md
+              - Interview Questions: uikit/view-controller-lifecycle-and-containment/containment-and-child-view-controllers/interview.md
+          - Lifecycle, State Restoration, and System Events:
+              - Overview: uikit/view-controller-lifecycle-and-containment/lifecycle-state-restoration-and-system-events/README.md
+              - Theory: uikit/view-controller-lifecycle-and-containment/lifecycle-state-restoration-and-system-events/theory.md
+              - Interview Questions: uikit/view-controller-lifecycle-and-containment/lifecycle-state-restoration-and-system-events/interview.md
+      - Views, Layers, and Rendering:
+          - Overview: uikit/views-layers-and-rendering/README.md
+          - View Hierarchy, Coordinate Spaces, and Hit Testing:
+              - Overview: uikit/views-layers-and-rendering/view-hierarchy-coordinate-spaces-and-hit-testing/README.md
+              - Theory: uikit/views-layers-and-rendering/view-hierarchy-coordinate-spaces-and-hit-testing/theory.md
+              - Interview Questions: uikit/views-layers-and-rendering/view-hierarchy-coordinate-spaces-and-hit-testing/interview.md
+          - Frame, Bounds, Center, and Transforms:
+              - Overview: uikit/views-layers-and-rendering/frame-bounds-center-and-transforms/README.md
+              - Theory: uikit/views-layers-and-rendering/frame-bounds-center-and-transforms/theory.md
+              - Interview Questions: uikit/views-layers-and-rendering/frame-bounds-center-and-transforms/interview.md
+          - Layout, Display, and Run Loop Updates:
+              - Overview: uikit/views-layers-and-rendering/layout-display-and-run-loop-updates/README.md
+              - Theory: uikit/views-layers-and-rendering/layout-display-and-run-loop-updates/theory.md
+              - Interview Questions: uikit/views-layers-and-rendering/layout-display-and-run-loop-updates/interview.md
+          - CALayer Backing and Rendering:
+              - Overview: uikit/views-layers-and-rendering/calayer-backing-and-rendering/README.md
+              - Theory: uikit/views-layers-and-rendering/calayer-backing-and-rendering/theory.md
+              - Interview Questions: uikit/views-layers-and-rendering/calayer-backing-and-rendering/interview.md
+      - Auto Layout and Adaptive Layout:
+          - Overview: uikit/auto-layout-and-adaptive-layout/README.md
+          - Constraints, Anchors, and Priorities:
+              - Overview: uikit/auto-layout-and-adaptive-layout/constraints-anchors-and-priorities/README.md
+              - Theory: uikit/auto-layout-and-adaptive-layout/constraints-anchors-and-priorities/theory.md
+              - Interview Questions: uikit/auto-layout-and-adaptive-layout/constraints-anchors-and-priorities/interview.md
+          - Intrinsic Content Size, Hugging, and Compression:
+              - Overview: uikit/auto-layout-and-adaptive-layout/intrinsic-content-size-hugging-and-compression/README.md
+              - Theory: uikit/auto-layout-and-adaptive-layout/intrinsic-content-size-hugging-and-compression/theory.md
+              - Interview Questions: uikit/auto-layout-and-adaptive-layout/intrinsic-content-size-hugging-and-compression/interview.md
+          - Layout Guides, Safe Areas, and Margins:
+              - Overview: uikit/auto-layout-and-adaptive-layout/layout-guides-safe-areas-and-margins/README.md
+              - Theory: uikit/auto-layout-and-adaptive-layout/layout-guides-safe-areas-and-margins/theory.md
+              - Interview Questions: uikit/auto-layout-and-adaptive-layout/layout-guides-safe-areas-and-margins/interview.md
+          - Trait Collections, Size Changes, and Adaptation:
+              - Overview: uikit/auto-layout-and-adaptive-layout/trait-collections-size-changes-and-adaptation/README.md
+              - Theory: uikit/auto-layout-and-adaptive-layout/trait-collections-size-changes-and-adaptation/theory.md
+              - Interview Questions: uikit/auto-layout-and-adaptive-layout/trait-collections-size-changes-and-adaptation/interview.md
+      - Navigation and Presentation:
+          - Overview: uikit/navigation-and-presentation/README.md
+          - Navigation Controller Stack and Ownership:
+              - Overview: uikit/navigation-and-presentation/navigation-controller-stack-and-ownership/README.md
+              - Theory: uikit/navigation-and-presentation/navigation-controller-stack-and-ownership/theory.md
+              - Interview Questions: uikit/navigation-and-presentation/navigation-controller-stack-and-ownership/interview.md
+          - Modal Presentation, Dismissal, and Ownership:
+              - Overview: uikit/navigation-and-presentation/modal-presentation-dismissal-and-ownership/README.md
+              - Theory: uikit/navigation-and-presentation/modal-presentation-dismissal-and-ownership/theory.md
+              - Interview Questions: uikit/navigation-and-presentation/modal-presentation-dismissal-and-ownership/interview.md
+          - Split View Controller and Adaptive Navigation:
+              - Overview: uikit/navigation-and-presentation/split-view-controller-and-adaptive-navigation/README.md
+              - Theory: uikit/navigation-and-presentation/split-view-controller-and-adaptive-navigation/theory.md
+              - Interview Questions: uikit/navigation-and-presentation/split-view-controller-and-adaptive-navigation/interview.md
+          - Presentation Context, Popovers, and Sheets:
+              - Overview: uikit/navigation-and-presentation/presentation-context-popovers-and-sheets/README.md
+              - Theory: uikit/navigation-and-presentation/presentation-context-popovers-and-sheets/theory.md
+              - Interview Questions: uikit/navigation-and-presentation/presentation-context-popovers-and-sheets/interview.md
+      - Lists and Collection Views:
+          - Overview: uikit/lists-and-collection-views/README.md
+          - Table, Collection, and Cell Reuse:
+              - Overview: uikit/lists-and-collection-views/table-collection-and-cell-reuse/README.md
+              - Theory: uikit/lists-and-collection-views/table-collection-and-cell-reuse/theory.md
+              - Interview Questions: uikit/lists-and-collection-views/table-collection-and-cell-reuse/interview.md
+          - Diffable Data Sources and Snapshots:
+              - Overview: uikit/lists-and-collection-views/diffable-data-sources-and-snapshots/README.md
+              - Theory: uikit/lists-and-collection-views/diffable-data-sources-and-snapshots/theory.md
+              - Interview Questions: uikit/lists-and-collection-views/diffable-data-sources-and-snapshots/interview.md
+          - Compositional Layouts and List Configuration:
+              - Overview: uikit/lists-and-collection-views/compositional-layouts-and-list-configuration/README.md
+              - Theory: uikit/lists-and-collection-views/compositional-layouts-and-list-configuration/theory.md
+              - Interview Questions: uikit/lists-and-collection-views/compositional-layouts-and-list-configuration/interview.md
+          - Prefetching, Pagination, and Update Consistency:
+              - Overview: uikit/lists-and-collection-views/prefetching-pagination-and-update-consistency/README.md
+              - Theory: uikit/lists-and-collection-views/prefetching-pagination-and-update-consistency/theory.md
+              - Interview Questions: uikit/lists-and-collection-views/prefetching-pagination-and-update-consistency/interview.md
+      - State, Architecture, and Dependencies:
+          - Overview: uikit/state-architecture-and-dependencies/README.md
+          - MVC and View Controller Boundaries:
+              - Overview: uikit/state-architecture-and-dependencies/mvc-and-view-controller-boundaries/README.md
+              - Theory: uikit/state-architecture-and-dependencies/mvc-and-view-controller-boundaries/theory.md
+              - Interview Questions: uikit/state-architecture-and-dependencies/mvc-and-view-controller-boundaries/interview.md
+          - Unidirectional State and Rendering:
+              - Overview: uikit/state-architecture-and-dependencies/unidirectional-state-and-rendering/README.md
+              - Theory: uikit/state-architecture-and-dependencies/unidirectional-state-and-rendering/theory.md
+              - Interview Questions: uikit/state-architecture-and-dependencies/unidirectional-state-and-rendering/interview.md
+          - Delegation, Closures, Notifications, and Ownership:
+              - Overview: uikit/state-architecture-and-dependencies/delegation-closures-notifications-and-ownership/README.md
+              - Theory: uikit/state-architecture-and-dependencies/delegation-closures-notifications-and-ownership/theory.md
+              - Interview Questions: uikit/state-architecture-and-dependencies/delegation-closures-notifications-and-ownership/interview.md
+          - Dependency Injection and Feature Modularization:
+              - Overview: uikit/state-architecture-and-dependencies/dependency-injection-and-feature-modularization/README.md
+              - Theory: uikit/state-architecture-and-dependencies/dependency-injection-and-feature-modularization/theory.md
+              - Interview Questions: uikit/state-architecture-and-dependencies/dependency-injection-and-feature-modularization/interview.md
+      - Concurrency and UI Lifecycle:
+          - Overview: uikit/concurrency-and-ui-lifecycle/README.md
+          - MainActor and UI Thread Confinement:
+              - Overview: uikit/concurrency-and-ui-lifecycle/main-actor-and-ui-thread-confinement/README.md
+              - Theory: uikit/concurrency-and-ui-lifecycle/main-actor-and-ui-thread-confinement/theory.md
+              - Interview Questions: uikit/concurrency-and-ui-lifecycle/main-actor-and-ui-thread-confinement/interview.md
+          - Async Work, Cancellation, and View Reuse:
+              - Overview: uikit/concurrency-and-ui-lifecycle/async-work-cancellation-and-view-reuse/README.md
+              - Theory: uikit/concurrency-and-ui-lifecycle/async-work-cancellation-and-view-reuse/theory.md
+              - Interview Questions: uikit/concurrency-and-ui-lifecycle/async-work-cancellation-and-view-reuse/interview.md
+          - Image Loading, Deduplication, and Caching:
+              - Overview: uikit/concurrency-and-ui-lifecycle/image-loading-deduplication-and-caching/README.md
+              - Theory: uikit/concurrency-and-ui-lifecycle/image-loading-deduplication-and-caching/theory.md
+              - Interview Questions: uikit/concurrency-and-ui-lifecycle/image-loading-deduplication-and-caching/interview.md
+          - Background Work and Result Ordering:
+              - Overview: uikit/concurrency-and-ui-lifecycle/background-work-and-result-ordering/README.md
+              - Theory: uikit/concurrency-and-ui-lifecycle/background-work-and-result-ordering/theory.md
+              - Interview Questions: uikit/concurrency-and-ui-lifecycle/background-work-and-result-ordering/interview.md
+      - Performance, Memory, and Diagnostics:
+          - Overview: uikit/performance-memory-and-diagnostics/README.md
+          - Retain Cycles, Delegates, and Closure Lifetimes:
+              - Overview: uikit/performance-memory-and-diagnostics/retain-cycles-delegates-and-closure-lifetimes/README.md
+              - Theory: uikit/performance-memory-and-diagnostics/retain-cycles-delegates-and-closure-lifetimes/theory.md
+              - Interview Questions: uikit/performance-memory-and-diagnostics/retain-cycles-delegates-and-closure-lifetimes/interview.md
+          - Scrolling Performance and Cell Configuration:
+              - Overview: uikit/performance-memory-and-diagnostics/scrolling-performance-and-cell-configuration/README.md
+              - Theory: uikit/performance-memory-and-diagnostics/scrolling-performance-and-cell-configuration/theory.md
+              - Interview Questions: uikit/performance-memory-and-diagnostics/scrolling-performance-and-cell-configuration/interview.md
+          - Layout, Rendering, and Offscreen Cost:
+              - Overview: uikit/performance-memory-and-diagnostics/layout-rendering-and-offscreen-cost/README.md
+              - Theory: uikit/performance-memory-and-diagnostics/layout-rendering-and-offscreen-cost/theory.md
+              - Interview Questions: uikit/performance-memory-and-diagnostics/layout-rendering-and-offscreen-cost/interview.md
+          - Instruments, Hangs, Hitches, and Memory:
+              - Overview: uikit/performance-memory-and-diagnostics/instruments-hangs-hitches-and-memory/README.md
+              - Theory: uikit/performance-memory-and-diagnostics/instruments-hangs-hitches-and-memory/theory.md
+              - Interview Questions: uikit/performance-memory-and-diagnostics/instruments-hangs-hitches-and-memory/interview.md
+      - Controls, Events, Gestures, and Focus:
+          - Overview: uikit/controls-events-gestures-and-focus/README.md
+          - Responder Chain and Event Delivery:
+              - Overview: uikit/controls-events-gestures-and-focus/responder-chain-and-event-delivery/README.md
+              - Theory: uikit/controls-events-gestures-and-focus/responder-chain-and-event-delivery/theory.md
+              - Interview Questions: uikit/controls-events-gestures-and-focus/responder-chain-and-event-delivery/interview.md
+          - Target-Action, Controls, and Primary Actions:
+              - Overview: uikit/controls-events-gestures-and-focus/target-action-controls-and-primary-actions/README.md
+              - Theory: uikit/controls-events-gestures-and-focus/target-action-controls-and-primary-actions/theory.md
+              - Interview Questions: uikit/controls-events-gestures-and-focus/target-action-controls-and-primary-actions/interview.md
+          - Gesture Recognizer Coordination:
+              - Overview: uikit/controls-events-gestures-and-focus/gesture-recognizer-coordination/README.md
+              - Theory: uikit/controls-events-gestures-and-focus/gesture-recognizer-coordination/theory.md
+              - Interview Questions: uikit/controls-events-gestures-and-focus/gesture-recognizer-coordination/interview.md
+          - Focus, Pointer, Keyboard, and Menu Interactions:
+              - Overview: uikit/controls-events-gestures-and-focus/focus-pointer-keyboard-and-menu-interactions/README.md
+              - Theory: uikit/controls-events-gestures-and-focus/focus-pointer-keyboard-and-menu-interactions/theory.md
+              - Interview Questions: uikit/controls-events-gestures-and-focus/focus-pointer-keyboard-and-menu-interactions/interview.md
+      - Text Input, Keyboard, and Forms:
+          - Overview: uikit/text-input-keyboard-and-forms/README.md
+          - Text Fields, Text Views, and Delegate Boundaries:
+              - Overview: uikit/text-input-keyboard-and-forms/text-fields-text-views-and-delegate-boundaries/README.md
+              - Theory: uikit/text-input-keyboard-and-forms/text-fields-text-views-and-delegate-boundaries/theory.md
+              - Interview Questions: uikit/text-input-keyboard-and-forms/text-fields-text-views-and-delegate-boundaries/interview.md
+          - Keyboard Avoidance and Scroll Coordination:
+              - Overview: uikit/text-input-keyboard-and-forms/keyboard-avoidance-and-scroll-coordination/README.md
+              - Theory: uikit/text-input-keyboard-and-forms/keyboard-avoidance-and-scroll-coordination/theory.md
+              - Interview Questions: uikit/text-input-keyboard-and-forms/keyboard-avoidance-and-scroll-coordination/interview.md
+          - Focus, Validation, and Form State:
+              - Overview: uikit/text-input-keyboard-and-forms/focus-validation-and-form-state/README.md
+              - Theory: uikit/text-input-keyboard-and-forms/focus-validation-and-form-state/theory.md
+              - Interview Questions: uikit/text-input-keyboard-and-forms/focus-validation-and-form-state/interview.md
+          - Secure Input, AutoFill, and Content Types:
+              - Overview: uikit/text-input-keyboard-and-forms/secure-input-autofill-and-content-types/README.md
+              - Theory: uikit/text-input-keyboard-and-forms/secure-input-autofill-and-content-types/theory.md
+              - Interview Questions: uikit/text-input-keyboard-and-forms/secure-input-autofill-and-content-types/interview.md
+      - Accessibility and Adaptive UI:
+          - Overview: uikit/accessibility-and-adaptive-ui/README.md
+          - Accessibility Elements, Labels, Traits, and Actions:
+              - Overview: uikit/accessibility-and-adaptive-ui/accessibility-elements-labels-traits-and-actions/README.md
+              - Theory: uikit/accessibility-and-adaptive-ui/accessibility-elements-labels-traits-and-actions/theory.md
+              - Interview Questions: uikit/accessibility-and-adaptive-ui/accessibility-elements-labels-traits-and-actions/interview.md
+          - Dynamic Type and Self-Sizing Content:
+              - Overview: uikit/accessibility-and-adaptive-ui/dynamic-type-and-self-sizing-content/README.md
+              - Theory: uikit/accessibility-and-adaptive-ui/dynamic-type-and-self-sizing-content/theory.md
+              - Interview Questions: uikit/accessibility-and-adaptive-ui/dynamic-type-and-self-sizing-content/interview.md
+          - Localization, Right-to-Left, and Layout Direction:
+              - Overview: uikit/accessibility-and-adaptive-ui/localization-right-to-left-and-layout-direction/README.md
+              - Theory: uikit/accessibility-and-adaptive-ui/localization-right-to-left-and-layout-direction/theory.md
+              - Interview Questions: uikit/accessibility-and-adaptive-ui/localization-right-to-left-and-layout-direction/interview.md
+          - Reduce Motion, Contrast, and Input Adaptation:
+              - Overview: uikit/accessibility-and-adaptive-ui/reduce-motion-contrast-and-input-adaptation/README.md
+              - Theory: uikit/accessibility-and-adaptive-ui/reduce-motion-contrast-and-input-adaptation/theory.md
+              - Interview Questions: uikit/accessibility-and-adaptive-ui/reduce-motion-contrast-and-input-adaptation/interview.md
+      - Animation, Transitions, and Interaction:
+          - Overview: uikit/animation-transitions-and-interaction/README.md
+          - Property Animators and Animation Options:
+              - Overview: uikit/animation-transitions-and-interaction/property-animators-and-animation-options/README.md
+              - Theory: uikit/animation-transitions-and-interaction/property-animators-and-animation-options/theory.md
+              - Interview Questions: uikit/animation-transitions-and-interaction/property-animators-and-animation-options/interview.md
+          - View Controller Transitions and Coordinators:
+              - Overview: uikit/animation-transitions-and-interaction/view-controller-transitions-and-coordinators/README.md
+              - Theory: uikit/animation-transitions-and-interaction/view-controller-transitions-and-coordinators/theory.md
+              - Interview Questions: uikit/animation-transitions-and-interaction/view-controller-transitions-and-coordinators/interview.md
+          - Interactive Animations and Interruption:
+              - Overview: uikit/animation-transitions-and-interaction/interactive-animations-and-interruption/README.md
+              - Theory: uikit/animation-transitions-and-interaction/interactive-animations-and-interruption/theory.md
+              - Interview Questions: uikit/animation-transitions-and-interaction/interactive-animations-and-interruption/interview.md
+          - Drag and Drop, Context Menus, and Haptics:
+              - Overview: uikit/animation-transitions-and-interaction/drag-drop-context-menus-and-haptics/README.md
+              - Theory: uikit/animation-transitions-and-interaction/drag-drop-context-menus-and-haptics/theory.md
+              - Interview Questions: uikit/animation-transitions-and-interaction/drag-drop-context-menus-and-haptics/interview.md
+      - Testing UIKit Features:
+          - Overview: uikit/testing-uikit-features/README.md
+          - Testing Presentation and View Model Logic:
+              - Overview: uikit/testing-uikit-features/testing-presentation-and-view-model-logic/README.md
+              - Theory: uikit/testing-uikit-features/testing-presentation-and-view-model-logic/theory.md
+              - Interview Questions: uikit/testing-uikit-features/testing-presentation-and-view-model-logic/interview.md
+          - Testing View Controller Lifecycle and Navigation:
+              - Overview: uikit/testing-uikit-features/testing-view-controller-lifecycle-and-navigation/README.md
+              - Theory: uikit/testing-uikit-features/testing-view-controller-lifecycle-and-navigation/theory.md
+              - Interview Questions: uikit/testing-uikit-features/testing-view-controller-lifecycle-and-navigation/interview.md
+          - UI, Accessibility, and Interaction Testing:
+              - Overview: uikit/testing-uikit-features/ui-accessibility-and-interaction-testing/README.md
+              - Theory: uikit/testing-uikit-features/ui-accessibility-and-interaction-testing/theory.md
+              - Interview Questions: uikit/testing-uikit-features/ui-accessibility-and-interaction-testing/interview.md
+          - Snapshot Testing and Visual Regressions:
+              - Overview: uikit/testing-uikit-features/snapshot-testing-and-visual-regressions/README.md
+              - Theory: uikit/testing-uikit-features/snapshot-testing-and-visual-regressions/theory.md
+              - Interview Questions: uikit/testing-uikit-features/snapshot-testing-and-visual-regressions/interview.md
+      - App, Scene, Window, and System Integration:
+          - Overview: uikit/app-scene-window-and-system-integration/README.md
+          - Application, Scene, and Window Lifecycle:
+              - Overview: uikit/app-scene-window-and-system-integration/application-scene-and-window-lifecycle/README.md
+              - Theory: uikit/app-scene-window-and-system-integration/application-scene-and-window-lifecycle/theory.md
+              - Interview Questions: uikit/app-scene-window-and-system-integration/application-scene-and-window-lifecycle/interview.md
+          - Multiwindow, State Restoration, and Handoff:
+              - Overview: uikit/app-scene-window-and-system-integration/multiwindow-state-restoration-and-handoff/README.md
+              - Theory: uikit/app-scene-window-and-system-integration/multiwindow-state-restoration-and-handoff/theory.md
+              - Interview Questions: uikit/app-scene-window-and-system-integration/multiwindow-state-restoration-and-handoff/interview.md
+          - Appearance, Bars, Status, and System Chrome:
+              - Overview: uikit/app-scene-window-and-system-integration/appearance-bars-status-and-system-chrome/README.md
+              - Theory: uikit/app-scene-window-and-system-integration/appearance-bars-status-and-system-chrome/theory.md
+              - Interview Questions: uikit/app-scene-window-and-system-integration/appearance-bars-status-and-system-chrome/interview.md
+      - SwiftUI Interoperability and Migration:
+          - Overview: uikit/swiftui-interoperability-and-migration/README.md
+          - Hosting SwiftUI in UIKit:
+              - Overview: uikit/swiftui-interoperability-and-migration/hosting-swiftui-in-uikit/README.md
+              - Theory: uikit/swiftui-interoperability-and-migration/hosting-swiftui-in-uikit/theory.md
+              - Interview Questions: uikit/swiftui-interoperability-and-migration/hosting-swiftui-in-uikit/interview.md
+          - Embedding UIKit in SwiftUI:
+              - Overview: uikit/swiftui-interoperability-and-migration/embedding-uikit-in-swiftui/README.md
+              - Theory: uikit/swiftui-interoperability-and-migration/embedding-uikit-in-swiftui/theory.md
+              - Interview Questions: uikit/swiftui-interoperability-and-migration/embedding-uikit-in-swiftui/interview.md
+          - Incremental Migration and Ownership Boundaries:
+              - Overview: uikit/swiftui-interoperability-and-migration/incremental-migration-and-ownership-boundaries/README.md
+              - Theory: uikit/swiftui-interoperability-and-migration/incremental-migration-and-ownership-boundaries/theory.md
+              - Interview Questions: uikit/swiftui-interoperability-and-migration/incremental-migration-and-ownership-boundaries/interview.md
+      - Custom Drawing, Graphics, and Media:
+          - Overview: uikit/custom-drawing-graphics-and-media/README.md
+          - Core Graphics Drawing and Shape Layers:
+              - Overview: uikit/custom-drawing-graphics-and-media/core-graphics-drawing-and-shape-layers/README.md
+              - Theory: uikit/custom-drawing-graphics-and-media/core-graphics-drawing-and-shape-layers/theory.md
+              - Interview Questions: uikit/custom-drawing-graphics-and-media/core-graphics-drawing-and-shape-layers/interview.md
+          - Image Decoding, Rendering, and Resizing:
+              - Overview: uikit/custom-drawing-graphics-and-media/image-decoding-rendering-and-resizing/README.md
+              - Theory: uikit/custom-drawing-graphics-and-media/image-decoding-rendering-and-resizing/theory.md
+              - Interview Questions: uikit/custom-drawing-graphics-and-media/image-decoding-rendering-and-resizing/interview.md
+          - Blur, Material Effects, and Advanced Compositing:
+              - Overview: uikit/custom-drawing-graphics-and-media/blur-material-effects-and-advanced-compositing/README.md
+              - Theory: uikit/custom-drawing-graphics-and-media/blur-material-effects-and-advanced-compositing/theory.md
+              - Interview Questions: uikit/custom-drawing-graphics-and-media/blur-material-effects-and-advanced-compositing/interview.md
 
 docs_dir: docs
 site_dir: site
