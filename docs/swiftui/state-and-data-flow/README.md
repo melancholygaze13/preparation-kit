@@ -3,11 +3,18 @@ title: "State and Data Flow"
 domain: "SwiftUI"
 page_type: topic-index
 interview_priority: core
-status: draft
-last_reviewed: 2026-06-22
+status: reviewed
+last_reviewed: 2026-06-23
 ---
 
 # State and Data Flow
+
+## Preparation Paths
+
+- **Rapid review:** Study local state, model ownership, and derived state.
+- **Standard preparation:** Complete all four concepts in learning-path order.
+- **Role-specific depth:** Emphasize environment governance and dependency
+  boundaries for modular, design-system, or platform-team roles.
 
 ## Learning Path
 
@@ -20,7 +27,7 @@ last_reviewed: 2026-06-22
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [Local State and Bindings](local-state-and-bindings/README.md) | Distinguishes owned state from writable access. | Core | 1 min |
-| [Observation and Model Ownership](observation-and-model-ownership/README.md) | Defines observable model lifetime and ownership. | Core | 1 min |
-| [Environment and Dependency Injection](environment-and-dependency-injection/README.md) | Places shared values and services at explicit boundaries. | Core | 1 min |
-| [Derived State and Source of Truth](derived-state-and-source-of-truth/README.md) | Prevents duplicated state and synchronization bugs. | Core | 1 min |
+| [Local State and Bindings](local-state-and-bindings/README.md) | Distinguishes owned state from writable access. | Core | 14 min |
+| [Observation and Model Ownership](observation-and-model-ownership/README.md) | Defines observable model lifetime and ownership. | Core | 15 min |
+| [Environment and Dependency Injection](environment-and-dependency-injection/README.md) | Places shared values and services at explicit boundaries. | Core | 14 min |
+| [Derived State and Source of Truth](derived-state-and-source-of-truth/README.md) | Prevents duplicated state and synchronization bugs. | Core | 14 min |

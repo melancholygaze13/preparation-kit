@@ -1,8 +1,9 @@
 ---
 title: "SwiftUI"
 page_type: domain-index
+interview_priority: core
 status: draft
-last_reviewed: 2026-06-22
+last_reviewed: 2026-06-23
 ---
 
 # SwiftUI
@@ -26,6 +27,19 @@ last_reviewed: 2026-06-22
 5. [Concurrency and View Lifecycle](concurrency-and-view-lifecycle/README.md)
 6. [Architecture and Dependencies](architecture-and-dependencies/README.md)
 7. [Performance and Diagnostics](performance-and-diagnostics/README.md)
+
+## Standard Preparation
+
+Complete the rapid-review path, then add these high-priority topics:
+
+1. [Collections and Scrolling](collections-and-scrolling/README.md)
+2. [Component Design and Styling](component-design-and-styling/README.md)
+3. [Animation and Interaction](animation-and-interaction/README.md)
+4. [Accessibility and Adaptive UI](accessibility-and-adaptive-ui/README.md)
+5. [Testing SwiftUI Features](testing-swiftui-features/README.md)
+
+Choose role-specific topics only when they match the job description, product,
+or known interview format. They are not prerequisites for the core path.
 
 ## Topics
 
