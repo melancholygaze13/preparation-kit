@@ -1311,7 +1311,7 @@ hooks:
   - hooks/progress.py
 
 extra_css:
-  - stylesheets/extra.css?v=3
+  - stylesheets/extra.css?v=4
 
 extra_javascript:
-  - javascripts/progress.js?v=1
+  - javascripts/progress.js?v=2

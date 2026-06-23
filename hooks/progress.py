@@ -10,7 +10,7 @@ from mkdocs.config.defaults import MkDocsConfig
 from mkdocs.structure.pages import Page
 
 
-TRACKED_PAGE_TYPES = {"concept-index", "theory", "interview"}
+TRACKED_PAGE_TYPES = {"theory", "interview"}
 DOMAIN_ORDER = {"Swift": 0, "SwiftUI": 1, "UIKit": 2, "Architecture": 3}
 _tracked_pages: list[dict[str, Any]] = []
 

@@ -35,6 +35,11 @@
     );
   }
 
+  function clearCompletedPages() {
+    localStorage.removeItem(storageKey);
+    window.dispatchEvent(new CustomEvent("study-progress-changed"));
+  }
+
   function setPageCompleted(pageId, isCompleted) {
     const completed = loadCompletedPages();
     if (isCompleted) completed.add(pageId);
@@ -211,9 +216,15 @@
 
     container.innerHTML = `
       <section class="study-overall" aria-label="Overall study progress">
-        <div>
-          <span>Overall progress</span>
-          <strong>${overall.percent}%</strong>
+        <div class="study-overall__header">
+          <div>
+            <span>Overall progress</span>
+            <strong>${overall.percent}%</strong>
+          </div>
+          <button class="md-button" type="button" data-clear-progress
+                  ${overall.completed ? "" : "disabled"}>
+            Clear all progress
+          </button>
         </div>
         ${progressBar(overall, "Overall progress")}
         <small>${overall.completed} of ${overall.total} pages studied</small>
@@ -224,6 +235,12 @@
       checkbox.addEventListener("change", () => {
         setPageCompleted(checkbox.dataset.pageId, checkbox.checked);
       });
+    });
+
+    container.querySelector("[data-clear-progress]").addEventListener("click", () => {
+      if (window.confirm("Clear all study progress stored in this browser?")) {
+        clearCompletedPages();
+      }
     });
   }
 
