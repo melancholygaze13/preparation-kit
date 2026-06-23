@@ -1314,4 +1314,4 @@ extra_css:
   - stylesheets/extra.css?v=4
 
 extra_javascript:
-  - javascripts/progress.js?v=2
+  - javascripts/progress.js?v=3

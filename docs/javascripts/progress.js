@@ -3,8 +3,10 @@
 
   const scriptUrl = new URL(document.currentScript.src);
   const manifestUrl = new URL("progress-manifest.json", scriptUrl);
+  manifestUrl.search = scriptUrl.search;
   const siteRootUrl = new URL("../", manifestUrl);
   const storageKey = "preparation-kit.study-progress.v1";
+  const trackedPageTypes = new Set(["theory", "interview"]);
   let manifestPromise;
 
   function loadManifest() {
@@ -14,7 +16,9 @@
           if (!response.ok) throw new Error(`Manifest request failed: ${response.status}`);
           return response.json();
         })
-        .then((manifest) => manifest.pages || []);
+        .then((manifest) =>
+          (manifest.pages || []).filter((page) => trackedPageTypes.has(page.pageType))
+        );
     }
     return manifestPromise;
   }
