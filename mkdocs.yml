@@ -8,6 +8,7 @@ edit_uri: edit/main/docs/
 # Keep topic and concept order aligned with each index's learning path.
 nav:
   - Home: README.md
+  - Progress: progress.md
   - Swift:
       - Overview: swift/README.md
       - Language Basics:
@@ -1306,5 +1307,11 @@ markdown_extensions:
 plugins:
   - search
 
+hooks:
+  - hooks/progress.py
+
 extra_css:
-  - stylesheets/extra.css?v=2
+  - stylesheets/extra.css?v=3
+
+extra_javascript:
+  - javascripts/progress.js?v=1

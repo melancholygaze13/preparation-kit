@@ -193,6 +193,229 @@
   font-weight: 650;
 }
 
+/* Study progress */
+
+.study-page-control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 3rem;
+  padding: 1.15rem;
+  border: 1px solid var(--kit-border);
+  border-radius: 1rem;
+  background: var(--kit-card);
+  box-shadow: var(--kit-shadow);
+}
+
+.study-page-control div {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.study-page-control span,
+.study-overall small,
+.study-domain summary > small {
+  color: var(--md-default-fg-color--light);
+  font-size: 0.7rem;
+}
+
+.study-page-control .md-button {
+  flex: none;
+  margin: 0;
+}
+
+.study-progress {
+  margin-top: 1.5rem;
+}
+
+.study-overall {
+  padding: 1.25rem;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, #171a2a, #31243a);
+  box-shadow: var(--kit-shadow);
+  color: #fff;
+}
+
+.study-overall > div,
+.study-domain__heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.study-overall strong {
+  font-size: 1.55rem;
+}
+
+.study-overall small {
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.study-progress-bar {
+  height: 0.45rem;
+  margin: 0.65rem 0 0.5rem;
+  overflow: hidden;
+  border-radius: 99rem;
+  background: rgba(127, 127, 127, 0.2);
+}
+
+.study-progress-bar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--kit-orange);
+  transition: width 180ms ease;
+}
+
+.study-progress__domains {
+  display: grid;
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.study-domain,
+.study-topic,
+.study-concept {
+  border: 1px solid var(--kit-border);
+  border-radius: 0.8rem;
+  background: var(--kit-card);
+}
+
+.study-domain > summary,
+.study-topic > summary,
+.study-concept > summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+.study-domain > summary::-webkit-details-marker,
+.study-topic > summary::-webkit-details-marker,
+.study-concept > summary::-webkit-details-marker {
+  display: none;
+}
+
+.study-domain > summary {
+  padding: 1rem 1.15rem;
+}
+
+.study-domain__heading strong {
+  font-size: 1rem;
+}
+
+.study-domain__heading span {
+  color: var(--kit-orange);
+  font-size: 1.15rem;
+  font-weight: 750;
+}
+
+.study-domain__content {
+  display: grid;
+  gap: 0.65rem;
+  padding: 0 1rem 1rem;
+}
+
+.study-topic > summary,
+.study-concept > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem 0.9rem;
+}
+
+.study-topic > summary::before,
+.study-concept > summary::before {
+  color: var(--md-default-fg-color--light);
+  content: "›";
+  font-size: 1rem;
+  transition: transform 150ms ease;
+}
+
+.study-topic[open] > summary::before,
+.study-concept[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+.study-topic > summary > span,
+.study-concept > summary > span:not(.study-status-dot) {
+  flex: 1;
+}
+
+.study-topic summary small,
+.study-concept summary small {
+  color: var(--md-default-fg-color--light);
+  font-size: 0.65rem;
+}
+
+.study-topic__content {
+  display: grid;
+  gap: 0.45rem;
+  padding: 0 0.7rem 0.7rem;
+}
+
+.study-status-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  flex: none;
+  border: 2px solid var(--md-default-fg-color--lighter);
+  border-radius: 50%;
+}
+
+.study-concept--partial .study-status-dot {
+  border-color: var(--kit-orange);
+  background: linear-gradient(90deg, var(--kit-orange) 50%, transparent 50%);
+}
+
+.study-concept--complete .study-status-dot {
+  border-color: var(--kit-orange);
+  background: var(--kit-orange);
+}
+
+.study-concept ul {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0 0.9rem 0.8rem 2.8rem;
+  list-style: none;
+}
+
+.study-concept li,
+.study-concept label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.study-concept li {
+  justify-content: space-between;
+}
+
+.study-concept input {
+  accent-color: var(--kit-orange);
+}
+
+.study-concept a {
+  font-size: 0.65rem;
+}
+
+@media screen and (max-width: 44.984375em) {
+  .study-page-control {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .study-page-control .md-button {
+    text-align: center;
+  }
+
+  .study-topic > summary,
+  .study-concept > summary {
+    align-items: flex-start;
+  }
+}
+
 .domain-grid,
 .study-grid {
   display: grid;
