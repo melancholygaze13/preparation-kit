@@ -7,8 +7,26 @@
       : "default";
   }
 
+  function convertCodeBlocks() {
+    document
+      .querySelectorAll("pre > code.language-mermaid, pre > code.mermaid")
+      .forEach((code) => {
+        const source = code.textContent.trim();
+        if (!source) return;
+
+        const diagram = document.createElement("div");
+        diagram.className = "mermaid";
+        diagram.textContent = source;
+
+        const wrapper = code.closest(".highlight") || code.parentElement;
+        wrapper.replaceWith(diagram);
+      });
+  }
+
   function renderMermaid() {
     if (!window.mermaid) return;
+
+    convertCodeBlocks();
 
     const diagrams = document.querySelectorAll(".mermaid:not([data-processed])");
     if (!diagrams.length) return;
