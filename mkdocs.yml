@@ -1320,6 +1320,11 @@ markdown_extensions:
   - attr_list
   - md_in_html
   - tables
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - toc:
       permalink: true
 
@@ -1333,4 +1338,6 @@ extra_css:
   - stylesheets/extra.css?v=4
 
 extra_javascript:
+  - https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js
+  - javascripts/mermaid.js?v=1
   - javascripts/progress.js?v=3
