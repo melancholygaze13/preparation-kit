@@ -39,6 +39,17 @@ programmatic navigation, deep linking, testing, and restoration possible.
 
 ### Framework-Owned and App-Owned State
 
+```mermaid
+stateDiagram-v2
+    [*] --> Root
+    Root --> Product: append .product(id)
+    Product --> Reviews: append .reviews(id)
+    Reviews --> Product: remove last route
+    Product --> Root: pop to root
+    Root --> Reviews: replace path from deep link
+    Reviews --> Root: invalid route or missing data clears path
+```
+
 Without a path binding, SwiftUI manages pushes and pops internally. This is enough
 for a small local flow that only uses direct destination links. The application
 cannot inspect that view-based history as a route collection.

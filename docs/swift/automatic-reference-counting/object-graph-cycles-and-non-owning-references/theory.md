@@ -5,7 +5,7 @@ topic: "Automatic Reference Counting"
 concept: "Object Graph Cycles and Non-Owning References"
 page_type: theory
 interview_priority: core
-estimated_read_minutes: 4
+estimated_read_minutes: 5
 levels: [senior, staff]
 status: reviewed
 last_reviewed: 2026-06-22
@@ -22,6 +22,24 @@ means yes. Weak means no and absence is valid. Unowned means no, but presence is
 the edge is used. A cycle is a modeling error when every participant claims ownership of another.
 
 ## How It Works
+
+```mermaid
+flowchart LR
+    A["Parent"] -- "strong" --> B["Child"]
+    B -- "strong" --> A
+    C["Owner"] -- "strong" --> D["Delegate or child"]
+    D -- "weak or unowned" --> C
+
+    subgraph Cycle["Leaking ownership cycle"]
+        A
+        B
+    end
+
+    subgraph Broken["Non-owning back-reference"]
+        C
+        D
+    end
+```
 
 ```swift
 final class Parent {

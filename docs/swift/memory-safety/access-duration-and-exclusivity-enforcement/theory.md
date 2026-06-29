@@ -5,7 +5,7 @@ topic: "Memory Safety"
 concept: "Access Duration and Exclusivity Enforcement"
 page_type: theory
 interview_priority: core
-estimated_read_minutes: 3
+estimated_read_minutes: 4
 levels: [senior, staff]
 status: reviewed
 last_reviewed: 2026-06-22
@@ -22,6 +22,19 @@ can touch that location before the first access ends. Syntax can look different 
 and separate-looking properties can hide arbitrary code or whole-value access.
 
 ## How It Works
+
+```mermaid
+stateDiagram-v2
+    [*] --> Idle
+    Idle --> ReadAccess: begin read
+    Idle --> WriteAccess: begin write
+    ReadAccess --> ReadAccess: overlapping read allowed
+    ReadAccess --> Conflict: overlapping write
+    WriteAccess --> Conflict: overlapping read or write
+    ReadAccess --> Idle: end read
+    WriteAccess --> Idle: end write
+    Conflict --> [*]: compile error or runtime trap
+```
 
 ```swift
 func balance(_ first: inout Int, _ second: inout Int) {

@@ -59,4 +59,5 @@ last_reviewed: 2026-06-22
 |---|---|
 | [VIPER](viper/README.md) | Provides role-specific preparation for highly separated iOS feature modules and routing. |
 | [RIBs](ribs/README.md) | Provides role-specific preparation for business-driven trees, scoped lifecycles, and large mobile teams. |
+| [Plugin, Platform, and SDK Architecture](plugin-platform-and-sdk-architecture/README.md) | Covers extension points, SDK API surfaces, governance, and developer experience. |
 | [Large-Scale Architecture and Governance](large-scale-architecture-and-governance/README.md) | Adds Principal-level depth for standards, platform ownership, and operational boundaries. |

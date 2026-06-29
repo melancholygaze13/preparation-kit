@@ -39,6 +39,17 @@ local state and other identity-scoped resources end with it.
 
 ### Value, Identity, and Lifetime Are Different
 
+```mermaid
+flowchart TD
+    A["Body produces new view value"] --> B{"Same identity as existing element?"}
+    B -- "Yes" --> C["Update existing element"]
+    C --> D["Reuse identity-scoped state"]
+    B -- "No" --> E["Remove old element"]
+    E --> F["End local state and tasks"]
+    F --> G["Insert new element"]
+    G --> H["Create new identity-scoped state"]
+```
+
 A view value is one description produced for the current inputs. SwiftUI can
 replace that value during the next update while treating both values as the same
 view. This continuity is what lets a text field retain its edit state or a toggle

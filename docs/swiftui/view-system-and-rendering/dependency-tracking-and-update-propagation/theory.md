@@ -40,6 +40,16 @@ mutation does not imply an immediate full-screen redraw.
 
 ### Where Dependencies Come From
 
+```mermaid
+flowchart TD
+    A["Body reads input, environment, or observable property"] --> B["SwiftUI records dependency"]
+    B --> C["Dependency mutates"]
+    C --> D["Affected graph work is invalidated"]
+    D --> E["Dynamic properties refresh"]
+    E --> F["Affected body values may run"]
+    F --> G["Children reconcile, layout, and draw as needed"]
+```
+
 A child view depends on the value its parent produces for it:
 
 ```swift

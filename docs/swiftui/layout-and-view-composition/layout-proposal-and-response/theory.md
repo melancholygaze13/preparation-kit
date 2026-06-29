@@ -38,6 +38,20 @@ imperative frame assignment.
 
 ### Proposal, Response, Placement
 
+```mermaid
+sequenceDiagram
+    participant P as Parent
+    participant C as Child
+    participant G as Grandchild
+
+    P->>C: propose size
+    C->>G: propose child size
+    G-->>C: report chosen size
+    C-->>P: report chosen size
+    P->>C: place within bounds
+    C->>G: place within child bounds
+```
+
 A parent begins with space offered by its own parent. It proposes some or all of
 that space to a child. The child calculates a concrete size and reports it. The
 parent then chooses where to place the child within the parent's bounds.

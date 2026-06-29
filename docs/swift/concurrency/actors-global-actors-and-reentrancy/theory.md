@@ -5,7 +5,7 @@ topic: "Concurrency"
 concept: "Actors, Global Actors, and Reentrancy"
 page_type: theory
 interview_priority: core
-estimated_read_minutes: 5
+estimated_read_minutes: 6
 levels: [senior, staff, principal]
 status: reviewed
 last_reviewed: 2026-06-22
@@ -26,6 +26,23 @@ later against potentially different state. Actor topology should mirror invarian
 External access to actor-isolated mutable state requires actor execution. A synchronous
 actor method runs without interleaving until it returns; an async method can be reentered
 whenever it suspends.
+
+```mermaid
+sequenceDiagram
+    participant A as Caller A
+    participant Actor as Cache actor
+    participant Loader as Loader
+    participant B as Caller B
+
+    A->>Actor: refresh(key)
+    Actor->>Actor: read generation
+    Actor->>Loader: await load(key)
+    Note over Actor: Actor is available while suspended
+    B->>Actor: invalidateAll()
+    Actor->>Actor: increment generation
+    Loader-->>Actor: loaded value resumes
+    Actor->>Actor: revalidate generation before commit
+```
 
 ```swift
 actor Cache {

@@ -5,7 +5,7 @@ topic: "Concurrency"
 concept: "Structured Concurrency and Task Groups"
 page_type: theory
 interview_priority: core
-estimated_read_minutes: 4
+estimated_read_minutes: 5
 levels: [senior, staff, principal]
 status: reviewed
 last_reviewed: 2026-06-22
@@ -25,6 +25,20 @@ ownership visible so capacity, error, and result policies can be implemented del
 
 `async let` creates child tasks for a statically known topology. Task groups add a
 dynamic number of children and expose results asynchronously as each child completes.
+
+```mermaid
+flowchart TD
+    A["Parent task enters structured scope"] --> B["Add child tasks"]
+    B --> C["Children run concurrently"]
+    C --> D{"Child result"}
+    D -- "Success" --> E["Parent consumes result"]
+    D -- "Throws or parent cancels" --> F["Siblings are marked cancelled"]
+    E --> G{"More work within budget?"}
+    G -- "Yes" --> B
+    G -- "No" --> H["Scope waits for remaining children"]
+    F --> H
+    H --> I["Parent exits scope with defined result or error"]
+```
 
 ```swift
 func fetchAll(_ ids: [ID], limit: Int) async throws -> [Record] {

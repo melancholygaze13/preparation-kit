@@ -1023,6 +1023,7 @@ nav:
               - Overview: architecture/architectural-foundations-and-trade-offs/choosing-proportional-architecture/README.md
               - Theory: architecture/architectural-foundations-and-trade-offs/choosing-proportional-architecture/theory.md
               - Interview Questions: architecture/architectural-foundations-and-trade-offs/choosing-proportional-architecture/interview.md
+          - Model-View and Missing Boundaries: architecture/architectural-foundations-and-trade-offs/model-view-and-missing-boundaries/README.md
       - MVVM:
           - Overview: architecture/mvvm/README.md
           - View, View Model, and Model Responsibilities:
@@ -1249,6 +1250,24 @@ nav:
               - Overview: architecture/ribs/testability-tooling-and-adoption/README.md
               - Theory: architecture/ribs/testability-tooling-and-adoption/theory.md
               - Interview Questions: architecture/ribs/testability-tooling-and-adoption/interview.md
+      - Plugin, Platform, and SDK Architecture:
+          - Overview: architecture/plugin-platform-and-sdk-architecture/README.md
+          - Extension Points and Plugin Contracts:
+              - Overview: architecture/plugin-platform-and-sdk-architecture/extension-points-and-plugin-contracts/README.md
+              - Theory: architecture/plugin-platform-and-sdk-architecture/extension-points-and-plugin-contracts/theory.md
+              - Interview Questions: architecture/plugin-platform-and-sdk-architecture/extension-points-and-plugin-contracts/interview.md
+          - SDK API Surface and Evolution:
+              - Overview: architecture/plugin-platform-and-sdk-architecture/sdk-api-surface-and-evolution/README.md
+              - Theory: architecture/plugin-platform-and-sdk-architecture/sdk-api-surface-and-evolution/theory.md
+              - Interview Questions: architecture/plugin-platform-and-sdk-architecture/sdk-api-surface-and-evolution/interview.md
+          - Factories, Builders, and SDK Configuration:
+              - Overview: architecture/plugin-platform-and-sdk-architecture/factories-builders-and-sdk-configuration/README.md
+              - Theory: architecture/plugin-platform-and-sdk-architecture/factories-builders-and-sdk-configuration/theory.md
+              - Interview Questions: architecture/plugin-platform-and-sdk-architecture/factories-builders-and-sdk-configuration/interview.md
+          - Adoption, Governance, and Developer Experience:
+              - Overview: architecture/plugin-platform-and-sdk-architecture/adoption-governance-and-developer-experience/README.md
+              - Theory: architecture/plugin-platform-and-sdk-architecture/adoption-governance-and-developer-experience/theory.md
+              - Interview Questions: architecture/plugin-platform-and-sdk-architecture/adoption-governance-and-developer-experience/interview.md
       - Large-Scale Architecture and Governance:
           - Overview: architecture/large-scale-architecture-and-governance/README.md
           - Architecture Decisions, Standards, and Exceptions:
