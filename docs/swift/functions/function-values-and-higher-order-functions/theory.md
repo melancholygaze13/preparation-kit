@@ -5,12 +5,12 @@ topic: "Functions"
 concept: "Function Values and Higher-Order Functions"
 page_type: theory
 interview_priority: high
-estimated_read_minutes: 6
+estimated_read_minutes: 7
 levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-06-30
 tags:
   - function-types
   - higher-order-functions
@@ -38,7 +38,7 @@ cancellation, and ownership.
 
 ### Function Types
 
-Every function has a type made from parameter types and its result:
+Every function type has parameter types and a result:
 
 ```swift
 func compare(_ lhs: Item, _ rhs: Item) -> Bool
@@ -53,7 +53,7 @@ position.
 
 Effect markers constrain substitution. A synchronous nonthrowing function can be
 used where fewer effects are acceptable, while callers of throwing or async
-function values must handle those effects. Actor isolation and `@Sendable` can
+values must handle those effects. Actor isolation and `@Sendable` can
 also be part of modern concurrency-facing function contracts.
 
 ### Passing Functions as Parameters
@@ -99,6 +99,19 @@ arrow type looks simple.
 Prefer a named strategy type when the returned behavior needs inspection,
 configuration, equality, serialization, multiple operations, or explicit
 ownership.
+
+### Key Paths as Property-Access Values
+
+A key path is a typed value that selects a property:
+
+```swift
+let names = users.map(\.displayName)
+```
+
+Use it for projection, sorting inputs, dynamic member access, or APIs that need
+to name a property. Use a closure for control flow, validation, I/O, errors, or
+async work. Writable key paths still follow normal exclusivity, actor isolation,
+and access-control rules.
 
 ### Nonescaping and Escaping Parameters
 
@@ -203,6 +216,7 @@ methods can prevent accidental interchange and provide documentation.
 - `@Sendable` is a transfer and capture-checking contract, not a scheduler or lock.
 - Type aliases do not create nominally distinct callback types.
 - Function values do not expose stable equality or persistence identity.
+- Key paths do not bypass access control, exclusivity, actor isolation, or API ownership.
 
 ## Engineering Judgment
 
@@ -216,6 +230,7 @@ methods can prevent accidental interchange and provide documentation.
 | Stable identity or registration | Token/owner type |
 | Simple test seam | Function value or small protocol |
 | Cross-actor operation | `@Sendable` and explicit isolation |
+| Property projection | Key path |
 
 ### Trade-offs
 
@@ -228,6 +243,7 @@ non-Sendable dependencies requiring architectural work.
 ## References
 
 - [The Swift Programming Language: Function Types](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/functions/#Function-Types)
+- [The Swift Programming Language: Key-Path Expression](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/expressions/#Key-Path-Expression)
 - [The Swift Programming Language: Closures](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/closures/)
 - [SE-0103: Make Nonescaping Closures the Default](https://github.com/swiftlang/swift-evolution/blob/main/proposals/0103-make-noescape-default.md)
 - [SE-0302: Sendable and @Sendable Closures](https://github.com/swiftlang/swift-evolution/blob/main/proposals/0302-concurrent-value-and-concurrent-closures.md)

@@ -8,9 +8,9 @@ levels:
   - senior
   - staff
 interview_priority: high
-estimated_read_minutes: 5
+estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-06-30
 ---
 
 # Testing State and Presentation Logic: Theory
@@ -27,6 +27,7 @@ without constructing a view:
 | Validation, filtering, formatting policy | Pure function or value type |
 | Loading and error state transitions | Observable model or feature store |
 | Sheet or alert eligibility | Presentation state |
+| Preview scenarios | Deterministic fixtures and dependency overrides |
 | Environment wiring | Small integration test or UI test |
 | Layout, semantics, and interaction | UI, accessibility, or snapshot test |
 
@@ -128,6 +129,21 @@ Derived display data does not always need separate storage. Test the source stat
 the derivation. Duplicating derived values only to make assertions convenient creates
 the same synchronization risks in production that SwiftUI data flow should avoid.
 
+## Use Previews as Fast Scenario Coverage
+
+Previews are not test assertions, but they are high-value review fixtures. Build them
+from the same deterministic dependencies used by tests, not from live networking,
+shared persistence, or the signed-in developer account.
+
+Cover states an interviewer expects a senior engineer to remember: loading, empty,
+error, partial data, long localized text, large Dynamic Type, dark mode, right-to-left
+layout, disabled controls, and modal presentation. If a preview cannot construct the
+screen without starting real side effects, the feature boundary is probably too hidden.
+
+Use previews to inspect layout and accessibility behavior quickly, then rely on tests
+for contracts that must fail the build. A preview can show that the error state exists;
+a model test proves which failure produces that state.
+
 ## Engineering Decisions
 
 Use a small portfolio rather than maximizing one test type:
@@ -147,3 +163,4 @@ nondeterministic.
 - [Swift Testing](https://developer.apple.com/documentation/testing)
 - [WWDC24: Meet Swift Testing](https://developer.apple.com/videos/play/wwdc2024/10179/)
 - [Observation](https://developer.apple.com/documentation/observation)
+- [Previewing your app's interface in Xcode](https://developer.apple.com/documentation/xcode/previewing-your-apps-interface-in-xcode)

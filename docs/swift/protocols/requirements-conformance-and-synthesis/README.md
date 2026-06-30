@@ -7,7 +7,7 @@ interview_priority: core
 estimated_read_minutes: 1
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-06-30
 ---
 
 # Requirements, Conformance, and Synthesis
@@ -18,6 +18,8 @@ last_reviewed: 2026-06-22
 
 - Requirements describe capability, not storage.
 - A conformance must satisfy behavior rules as well as type signatures.
+- `Equatable`, `Hashable`, `Identifiable`, and `Comparable` encode identity or
+  ordering policy, not just convenience syntax.
 - Synthesis is useful only when generated behavior matches domain meaning.
 
 ## Study

@@ -4,12 +4,12 @@ domain: "Swift"
 topic: "Functions"
 page_type: concept-index
 interview_priority: high
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-06-30
 tags:
   - function-types
   - higher-order-functions
@@ -27,6 +27,8 @@ tags:
 ## Quick Recall
 
 - A function type includes parameters, result, and supported effect markers.
+- A key path is a typed property-access value, useful for selection and projection
+  when no custom behavior is needed.
 - An escaping function value can outlive the call that receives it.
 - `@Sendable` checks transferable captures; it does not make shared state safe.
 - Use a closure for one behavior and a protocol for a broader capability contract.

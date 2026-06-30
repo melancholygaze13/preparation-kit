@@ -5,10 +5,10 @@ topic: "Protocols"
 concept: "Requirements, Conformance, and Synthesis"
 page_type: theory
 interview_priority: core
-estimated_read_minutes: 3
+estimated_read_minutes: 4
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-06-30
 ---
 
 # Requirements, Conformance, and Synthesis: Theory
@@ -46,12 +46,30 @@ Synthesized conformance is available only under language-defined conditions. It 
 boilerplate but can encode the wrong domain identity or wire schema. Adding/reordering
 stored state may change synthesized equality, hashing, or coding behavior.
 
+### Equality, Hashing, and Identity Protocols
+
+Common protocol questions often hide an identity decision. `Equatable` says when two
+values are the same for this domain. `Hashable` adds a lookup contract: equal values
+must produce the same hash during one program execution. `Identifiable` supplies a
+stable identity value for diffing and selection, but it does not say all visible
+fields are equal. `Comparable` defines an ordering, which must stay consistent enough
+for sorting and range decisions.
+
+These protocols should be based on stable domain fields. Do not include cached,
+localized, time-varying, or mutable display fields unless changing them truly changes
+identity. For class instances used as dictionary keys or set elements, mutating a
+hash-relevant property while the instance is stored can make lookup incorrect.
+Swift's hash values are intentionally not persistence keys; store a real identifier
+when data must survive launches or cross a process boundary.
+
 ### Core Invariants
 
 - Every requirement has one valid witness for the conformance.
 - Witness semantics preserve the protocol's documented laws.
 - Mutation and initialization requirements remain valid for value and class conformers.
 - Synthesis does not accidentally define persistence or business identity.
+- Equality, hashing, identity, and ordering are consistent with each other where
+  the domain requires it.
 - Conformance ownership is explicit and globally compatible.
 
 ### Constraints and Guarantees
@@ -66,6 +84,11 @@ stored state may change synthesized equality, hashing, or coding behavior.
 Use protocols for stable capabilities with multiple meaningful conformers or replaceable
 boundaries. Avoid one-implementation protocols, state bags, and contracts that expose an
 implementation's full surface without a consumer need.
+
+For standard protocols, write down the domain policy before accepting synthesis. A
+database row may be `Identifiable` by primary key, `Equatable` by all meaningful fields,
+and sorted by a display date. Those are three different contracts. Reusing one field
+for all of them is correct only when the product behavior really matches that rule.
 
 ## Production Application
 
@@ -82,3 +105,5 @@ provide conformance test suites, and treat new public requirements as coordinate
 
 - [The Swift Programming Language: Protocols](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/protocols/)
 - [The Swift Programming Language: Declarations](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/declarations/)
+- [Swift `Hashable`](https://developer.apple.com/documentation/swift/hashable)
+- [Swift `Identifiable`](https://developer.apple.com/documentation/swift/identifiable)

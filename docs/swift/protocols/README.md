@@ -4,15 +4,15 @@ domain: "Swift"
 page_type: topic-index
 interview_priority: core
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-06-30
 ---
 
 # Protocols
 
 ## Scope
 
-This topic covers protocol requirements, conformance, existentials, delegation,
-extension dispatch, API evolution, and concurrency isolation.
+This topic covers protocol requirements, conformance, standard identity protocols,
+existentials, delegation, extension dispatch, API evolution, and concurrency isolation.
 
 ## Prerequisites
 
@@ -31,7 +31,7 @@ extension dispatch, API evolution, and concurrency isolation.
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [Requirements, Conformance, and Synthesis](requirements-conformance-and-synthesis/README.md) | Defines clear capability contracts. | Core | 6 min |
+| [Requirements, Conformance, and Synthesis](requirements-conformance-and-synthesis/README.md) | Defines clear capability, equality, hashing, and identity contracts. | Core | 8 min |
 | [Existentials, Composition, and Delegation](existentials-composition-and-delegation/README.md) | Chooses between generic and runtime-polymorphic boundaries. | Core | 6 min |
 | [Protocol Extensions and Dispatch](protocol-extensions-and-dispatch/README.md) | Prevents incorrect assumptions about which implementation runs. | Core | 5 min |
 | [Protocol API Evolution and Isolation](protocol-api-evolution-and-isolation/README.md) | Handles public evolution and concurrency contracts. | High | 5 min |
