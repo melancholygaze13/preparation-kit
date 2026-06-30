@@ -31,7 +31,7 @@ behavior, security review, documentation, expansion inspection, and rollback.
 
 ### Core Invariants
 
-- Generated API has explicit semantic versioning.
+- Generated API has explicit versioning rules.
 - Builds remain reproducible and diagnosable.
 - Persisted formats are not coupled accidentally to expansion details.
 - Consumers can migrate incrementally.

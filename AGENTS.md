@@ -149,8 +149,23 @@ editing; use roughly 200 words per minute plus time for code and tables.
 - Start with the answer or mental model.
 - Put recall before detail and common cases before edge cases.
 - Keep the concept overview reviewable in one minute.
-- Use plain English that is clear to a non-native speaker.
-- Prefer common words, active voice, and one idea per sentence.
+- Use plain English that is clear to a non-native speaker. Treat this as a
+  hard requirement, not a style preference.
+- Prefer common words, active voice, and one idea per sentence. If a simpler
+  word keeps the meaning, use it.
+- Avoid dense abstract words when a plain phrase works. Prefer:
+  - "use" over "utilize" or "leverage"
+  - "before" over "prior to"
+  - "later" over "subsequent"
+  - "behavior" over "semantics" when exact Swift terminology is not needed
+  - "rule that must stay true" or "required rule" over unexplained "invariant"
+  - "mixed-type" over "heterogeneous" when the exact term is not being taught
+- Keep necessary Swift and engineering terms when they are interview vocabulary,
+  but explain them in plain language the first time they appear. Do not replace
+  a precise technical term with a simpler word if that changes the meaning.
+- During review, actively rewrite sentences that sound like architecture notes,
+  academic prose, or native-speaker shorthand. A strong sentence should be easy
+  to say aloud in an interview.
 - Keep most sentences below 25 words. Split long sentences instead of joining
   several qualifications with commas.
 - Define a necessary technical term on first use. Do not replace a precise Swift
@@ -169,6 +184,12 @@ real system or organizational dimension. Useful concerns include boundaries,
 ownership, migration, rollout risk, observability, and cross-team standards.
 More API detail is not Staff-level depth.
 
+For Architecture pages about an architectural approach, pattern, or framework,
+include clear pros and cons. Use plain labels such as `Pros and Cons`,
+`Benefits and Costs`, or a decision table. Cover when the approach fits, when it
+does not fit, and what extra cost it adds. Do not present any architecture as a
+default choice for all iOS apps.
+
 ## Schemas and Diagrams
 
 Use a schema or Mermaid diagram only when it materially simplifies the topic.
@@ -183,6 +204,13 @@ state transitions, data flow, and interactions between several components.
   `sequenceDiagram`, `stateDiagram-v2`, or `classDiagram`.
 - Use short, precise labels and explain Swift-specific constraints in nearby
   prose instead of crowding the diagram.
+- Design Mermaid diagrams for readable placement, not only correct syntax.
+  Use `flowchart TD` for step-by-step flows and `flowchart LR` for ownership or
+  boundary relationships. Add `subgraph` blocks when grouping makes ownership,
+  lifecycle, or responsibility clearer.
+- Avoid layouts with long back-edges, crossing arrows, or many branches from one
+  crowded node. Split the diagram, change direction, or add named groups when
+  placement makes the result hard to scan.
 - Do not add decorative diagrams or repeat the same information in prose, a
   table, and a diagram.
 - Keep diagrams focused enough to review under interview pressure. Split or
@@ -201,6 +229,21 @@ state transitions, data flow, and interactions between several components.
 References support correctness; they are not a reading list. Include only sources
 that substantively support the page.
 
+## Commit Messages
+
+When asked for a commit message, provide one line by default using the repo's
+Conventional Commit style:
+
+```text
+<type>(optional-scope): <imperative summary under 72 characters>
+```
+
+Use the common repo types already present in history, such as `docs`, `feat`,
+and `fix`. Add a scope when it clarifies the area, such as `docs(swiftui):`.
+Do not use vague summaries such as `docs: update docs`. Base the message on the
+staged or uncommitted diff. Include a multi-line commit body only when the user
+explicitly asks for a detailed commit message.
+
 ## Index Requirements
 
 A topic index should let a candidate decide what to study in under a minute.
@@ -215,6 +258,10 @@ Use a table like this:
 Its learning path should list core concepts first, respect prerequisites, and
 label optional role-specific depth. Do not include empty prerequisite or related
 sections.
+
+Keep generated study views, including the progress dashboard, in the same order
+as the left navigation in `mkdocs.yml`. Do not sort topics or concepts
+alphabetically when the menu defines a deliberate learning order.
 
 ## Concept Overview Template
 
@@ -374,6 +421,13 @@ Before writing:
 4. Decide whether the concept needs a full bundle, a single page, consolidation,
    or removal.
 
+For Architecture content, also check whether the pattern is common in current
+iOS work. Keep common choices such as MVVM, Model-View in SwiftUI, coordinators,
+dependency injection, modularization, repositories, and pragmatic unidirectional
+state visible. Keep narrower frameworks or older heavily separated patterns,
+such as VIPER and RIBs, as role-specific depth unless the target interview
+clearly calls for them.
+
 When adding a `core` or `high` concept, normally create the complete bundle and
 update the parent topic index. When revising existing content, preserve useful
 facts but do not preserve structure or length that conflicts with this guide.
@@ -388,6 +442,8 @@ Before considering content complete, verify that:
 - Every section contributes to recall, correct reasoning, or rehearsal.
 - Guarantees and assumptions are distinguished.
 - Interview short answers are direct and speakable.
+- Architecture approach pages include pros and cons, fit criteria, and adoption
+  cost.
 - Broader Staff/Principal claims address genuine system or organizational scope.
 - Parent and sibling links resolve; no placeholder content remains.
 - Important claims are supported by current primary sources.

@@ -70,11 +70,11 @@ or define a domain-specific eraser with explicit equality semantics.
 ### Trade-offs
 
 - Generic equality preserves the standard same-type law.
-- Domain erasure supports heterogeneous storage but must define cross-type behavior.
+- Domain erasure supports mixed-type storage but must define cross-type behavior.
 
 ### Example
 
-A heterogeneous filter model needs equality for diffing. The team defines stable domain IDs rather
+A mixed-type filter model needs equality for diffing. The team defines stable domain IDs rather
 than force-casting boxed payloads or inventing implicit cross-type equality.
 
 ---

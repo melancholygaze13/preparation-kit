@@ -135,7 +135,7 @@ as one state transition. If a project or child item no longer exists, keep the
 longest valid prefix and show an intentional empty or unavailable state.
 
 Restore selections and paths as stable IDs. Restore column visibility only when it
-represents a meaningful user preference; automatic behavior is often more robust
+represents a meaningful user preference; automatic behavior is often more reliable
 across a different device or window size. Revalidate every selection after loading
 current data.
 

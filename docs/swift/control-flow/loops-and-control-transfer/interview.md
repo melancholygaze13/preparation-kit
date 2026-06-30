@@ -80,7 +80,7 @@ No. `Sequence` guarantees that it can produce an iterator, but it does not
 guarantee nondestructive or repeatable traversal. A second loop may restart,
 resume, be empty, or otherwise depend on the concrete sequence. Require
 `Collection` when multiple passes are part of the algorithm, or materialize the
-sequence once when the memory and lifetime trade-off is acceptable.
+sequence once when the memory and lifetime cost is acceptable.
 
 ### Expanded Answer
 

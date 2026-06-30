@@ -12,12 +12,12 @@ last_reviewed: 2026-06-22
 
 # Heterogeneous Values and Boundary Design
 
-> `Any` and `AnyObject` are escape hatches for heterogeneous or interoperable data;
+> `Any` and `AnyObject` are escape hatches for mixed-type or interoperable data;
 > validate once at the boundary and convert into typed domain representations.
 
 ## Quick Recall
 
-- Use heterogeneous containers only when the boundary is genuinely open or interoperable.
+- Use mixed-type containers only when the boundary is genuinely open or interoperable.
 - Cast and validate into domain types immediately; do not propagate `[String: Any]` through business logic.
 - An optional can be stored in `Any`, but implicit optional-to-`Any` conversion warns because nil intent is ambiguous.
 - Objective-C bridging can make values appear through `AnyObject`; do not infer native reference semantics from that boundary alone.

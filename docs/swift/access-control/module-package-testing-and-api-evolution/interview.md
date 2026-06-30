@@ -88,7 +88,7 @@ build and binary effects. Keep rollback until the old surface is removed.
 ### Expanded Answer
 
 Internal references become cross-module and may need package/public visibility, but blindly widening
-everything recreates a monolith. Move semantic contracts to stable modules and keep implementation
+everything recreates a monolith. Move behavior contracts to stable modules and keep implementation
 details behind package or private adapters.
 
 ### Trade-offs

@@ -68,7 +68,7 @@ alive together or can share an in-memory singleton.
 
 Interactive widget buttons and toggles execute App Intents. The intent validates its
 parameters, performs a bounded operation, persists the result, and returns an outcome.
-The widget then displays data from a subsequent entry; it does not own a long-lived
+The widget then displays data from a later entry; it does not own a long-lived
 mutable view model.
 
 ## App Intents and Environment Actions

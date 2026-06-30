@@ -98,7 +98,7 @@ push a destination after the user has left the flow.
 Use a typed array when one route enum can describe the flow. The compiler then
 checks every path mutation, and tests can compare expected routes directly.
 
-`NavigationPath` is a type-erased collection for heterogeneous `Hashable` values.
+`NavigationPath` is a type-erased collection for mixed-type `Hashable` values.
 It is useful when independently owned features register distinct route types. Type
 erasure costs static exhaustiveness and makes inspection harder. It should solve a
 real composition need, not replace a route model by default.
@@ -179,7 +179,7 @@ not on observing each transition callback.
 
 - A stack's root remains present; path elements describe destinations above it.
 - A typed bound path must be a mutable random-access collection of `Hashable` values.
-- `NavigationPath` accepts heterogeneous `Hashable` elements.
+- `NavigationPath` accepts mixed-type `Hashable` elements.
 - A destination modifier must be visible to the stack and should not be inside a
   lazy container.
 - A path mutation describes desired navigation state; destination construction and

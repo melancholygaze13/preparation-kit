@@ -95,7 +95,7 @@ while still being aliased, and a value can omit equality entirely.
 - Shared backing storage is not exposed as shared mutable behavior.
 - Reference aliases observe one deliberate instance and lifecycle.
 - Equality and identity are not substituted for one another.
-- Optimization preserves the documented semantic contract.
+- Optimization preserves the documented behavior contract.
 
 ### Constraints and Guarantees
 

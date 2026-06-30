@@ -12,7 +12,7 @@ last_reviewed: 2026-06-22
 
 # Parameter Packs and Variadic Generics
 
-> Type and value packs let one declaration abstract over a heterogeneous list whose
+> Type and value packs let one declaration abstract over a mixed-type list whose
 > length is known at compile time but is not fixed by the declaration.
 
 ## Quick Recall

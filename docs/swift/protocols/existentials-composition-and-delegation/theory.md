@@ -36,7 +36,7 @@ struct RuntimeScreen {
 ```
 
 Choose `Screen<R>` when the concrete renderer participates in static composition. Choose
-the existential for runtime configuration or heterogeneous collections. Type erasure is
+the existential for runtime configuration or mixed-type collections. Type erasure is
 an API decision, not merely spelling.
 
 Delegation models one object forwarding decisions/events to a collaborator. A weak

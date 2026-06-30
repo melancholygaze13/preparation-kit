@@ -2,7 +2,7 @@
 title: "SwiftUI"
 page_type: domain-index
 interview_priority: core
-status: draft
+status: reviewed
 last_reviewed: 2026-06-23
 ---
 

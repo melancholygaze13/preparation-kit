@@ -63,7 +63,7 @@ conformance itself.
 ### Expanded Answer
 
 An extension that adds conformance cannot use an extension access modifier for the conformance.
-Conformance publication also exposes semantic behavior globally for that type/protocol pair.
+Conformance publication also exposes behavior globally for that type/protocol pair.
 
 ### Trade-offs
 
@@ -89,7 +89,7 @@ ownership, downstream compilation, and migration policy.
 ### Expanded Answer
 
 Prefer the type/protocol owner for conformances. Keep feature conveniences internal/package-scoped,
-inspect generated interfaces, and publish only stable semantic contracts.
+inspect generated interfaces, and publish only stable behavior contracts.
 
 ### Trade-offs
 

@@ -43,7 +43,7 @@ they do not use.
 ### Trade-offs
 
 - Associated types preserve coherent families and static checking.
-- They can increase constraint propagation and complicate heterogeneous storage.
+- They can increase constraint propagation and complicate mixed-type storage.
 
 ### Example
 

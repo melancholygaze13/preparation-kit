@@ -13,7 +13,7 @@ last_reviewed: 2026-06-22
 # Generic Abstraction and Constraints
 
 > Generics share one implementation across concrete types while constraints state the
-> operations and semantic contracts that implementation may rely on.
+> operations and behavior contracts that implementation may rely on.
 
 ## Quick Recall
 

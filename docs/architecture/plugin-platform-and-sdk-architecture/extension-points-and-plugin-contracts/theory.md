@@ -30,15 +30,25 @@ registered capabilities rather than runtime-loaded binaries.
 ## Contract Shape
 
 ```mermaid
-flowchart TD
-    A["Host platform"] --> B["Extension point protocol"]
-    B --> C["Plugin implementation"]
-    C --> D["Declared capabilities"]
-    C --> E["Declared dependencies"]
-    A --> F["Lifecycle and policy owner"]
-    F --> C
-    C --> G["Result, event, or contribution"]
-    G --> A
+flowchart LR
+    subgraph Host["Host platform owns"]
+        Entry["Extension point protocol"]
+        Policy["Lifecycle and policy"]
+        Validate["Validate contribution"]
+    end
+
+    subgraph Plugin["Plugin owns"]
+        Impl["Implementation"]
+        Caps["Declared capabilities"]
+        Deps["Declared dependencies"]
+    end
+
+    Entry --> Impl
+    Policy --> Impl
+    Impl --> Caps
+    Impl --> Deps
+    Impl --> Result["Result, event, or contribution"]
+    Result --> Validate
 ```
 
 Good extension points are narrow. They expose the minimum context a plugin needs
@@ -90,4 +100,3 @@ and when old contracts are removed.
 
 - [Swift API Design Guidelines](https://www.swift.org/documentation/api-design-guidelines/)
 - [Creating a Swift package](https://developer.apple.com/documentation/xcode/creating-a-swift-package)
-

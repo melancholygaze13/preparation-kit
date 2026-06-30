@@ -19,7 +19,7 @@ last_reviewed: 2026-06-22
 
 - A `where` clause states extra relationships between types.
 - Conditional conformance exists only when its conditions are true.
-- The implementation must satisfy the full semantic contract.
+- The implementation must satisfy the full behavior contract.
 
 ## Study
 

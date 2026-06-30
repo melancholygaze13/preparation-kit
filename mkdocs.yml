@@ -1023,7 +1023,7 @@ nav:
               - Overview: architecture/architectural-foundations-and-trade-offs/choosing-proportional-architecture/README.md
               - Theory: architecture/architectural-foundations-and-trade-offs/choosing-proportional-architecture/theory.md
               - Interview Questions: architecture/architectural-foundations-and-trade-offs/choosing-proportional-architecture/interview.md
-          - Model-View and Missing Boundaries: architecture/architectural-foundations-and-trade-offs/model-view-and-missing-boundaries/README.md
+          - Model-View and SwiftUI State Ownership: architecture/architectural-foundations-and-trade-offs/model-view-and-missing-boundaries/README.md
       - MVVM:
           - Overview: architecture/mvvm/README.md
           - View, View Model, and Model Responsibilities:

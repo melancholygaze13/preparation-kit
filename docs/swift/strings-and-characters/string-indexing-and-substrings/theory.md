@@ -174,7 +174,7 @@ if let space = message.firstIndex(of: " ") {
 }
 ```
 
-After mutation, derive any subsequent index from the new string. Batch edits need
+After mutation, derive any later index from the new string. Batch edits need
 a deliberate coordinate strategy: apply validated nonoverlapping edits from the
 end toward the beginning, or update ranges after each mutation. The correct policy
 depends on whether positions refer to original or evolving content.

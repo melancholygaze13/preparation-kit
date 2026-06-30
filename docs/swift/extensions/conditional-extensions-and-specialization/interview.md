@@ -69,7 +69,7 @@ changing overload resolution without a direct edit at the call site.
 
 ### Trade-offs
 
-- Specialized overloads can improve ergonomics or performance.
+- Specialized overloads can improve ease of use or performance.
 - Distinct names are more explicit and resilient.
 
 ### Example
@@ -85,7 +85,7 @@ A dependency adds conformance and downstream inference changes; client fixtures 
 ### Short Answer
 
 Declare conditional conformance when every specialization satisfying the constraints
-can meet all protocol requirements and semantic laws. If only one helper is valid, add
+can meet all protocol requirements and behavior rules. If only one helper is valid, add
 a constrained member instead of promising the complete conformance.
 
 ### Expanded Answer

@@ -12,7 +12,7 @@ last_reviewed: 2026-06-22
 ## Scope
 
 Runtime type inspection and casting across class hierarchies, protocol existentials,
-`Any`, and `AnyObject`, with production guidance for heterogeneous boundaries.
+`Any`, and `AnyObject`, with production guidance for mixed-type boundaries.
 
 Generic constraints, opaque types, protocol design, and Objective-C interoperability
 are covered only where they affect casting decisions.

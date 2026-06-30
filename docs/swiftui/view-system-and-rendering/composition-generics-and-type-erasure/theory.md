@@ -183,11 +183,11 @@ tooling-related erasure that does not represent optimized production behavior.
 ### When Erasure Is Justified
 
 Type erasure can be appropriate when the set of concrete view types is truly open
-at runtime, such as a plugin registry, heterogeneous stored factory, or a legacy
+at runtime, such as a plugin registry, mixed-type stored factory, or a legacy
 interface that cannot be generic. Keep the erased boundary narrow and restore
 stable domain identity outside it.
 
-Before erasing, ask whether the problem is actually heterogeneous data. Often an
+Before erasing, ask whether the problem is actually mixed-type data. Often an
 enum or protocol-based domain model plus one builder switch gives better ownership
 and testability than storing arbitrary views. Store data and actions for navigation
 or persistence, not view values that capture transient environment and state.

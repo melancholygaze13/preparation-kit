@@ -28,16 +28,18 @@ dynamic number of children and expose results asynchronously as each child compl
 
 ```mermaid
 flowchart TD
-    A["Parent task enters structured scope"] --> B["Add child tasks"]
-    B --> C["Children run concurrently"]
-    C --> D{"Child result"}
-    D -- "Success" --> E["Parent consumes result"]
-    D -- "Throws or parent cancels" --> F["Siblings are marked cancelled"]
-    E --> G{"More work within budget?"}
-    G -- "Yes" --> B
-    G -- "No" --> H["Scope waits for remaining children"]
-    F --> H
-    H --> I["Parent exits scope with defined result or error"]
+    Start["Parent enters structured scope"] --> Add["Add child tasks"]
+    Add --> Run["Children run concurrently"]
+    Run --> Result{"Next child result"}
+
+    Result -- "success" --> Consume["Parent consumes result"]
+    Consume --> More{"More work allowed?"}
+    More -- "yes" --> Add
+    More -- "no" --> Wait["Wait for remaining children"]
+
+    Result -- "throws" --> Cancel["Mark siblings cancelled"]
+    Cancel --> Wait
+    Wait --> Exit["Parent exits with result or error"]
 ```
 
 ```swift
@@ -101,7 +103,7 @@ group as a substitute for a durable job system whose work must survive process l
 
 | Choice | Benefits | Costs | Best fit |
 |---|---|---|---|
-| `async let` | Concise, heterogeneous results | Fixed topology | Small fixed fan-out |
+| `async let` | Concise, mixed-type results | Fixed topology | Small fixed fan-out |
 | Throwing group | Dynamic, fail-fast | Cooperative shutdown can delay return | All-or-nothing batch |
 | Per-child `Result` | Preserves partial outcomes | More aggregation policy | Best-effort batch |
 | Bounded group | Protects dependencies | Lower peak throughput | Finite resources |

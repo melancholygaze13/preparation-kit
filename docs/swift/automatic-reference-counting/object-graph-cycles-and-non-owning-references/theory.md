@@ -25,19 +25,16 @@ the edge is used. A cycle is a modeling error when every participant claims owne
 
 ```mermaid
 flowchart LR
-    A["Parent"] -- "strong" --> B["Child"]
-    B -- "strong" --> A
-    C["Owner"] -- "strong" --> D["Delegate or child"]
-    D -- "weak or unowned" --> C
-
     subgraph Cycle["Leaking ownership cycle"]
-        A
-        B
+        direction LR
+        ParentA["Parent"] -- "strong" --> ChildA["Child"]
+        ChildA -- "strong" --> ParentA
     end
 
-    subgraph Broken["Non-owning back-reference"]
-        C
-        D
+    subgraph Healthy["Non-owning back-reference"]
+        direction LR
+        Owner["Owner"] -- "strong" --> ChildB["Delegate or child"]
+        ChildB -- "weak or unowned" --> Owner
     end
 ```
 

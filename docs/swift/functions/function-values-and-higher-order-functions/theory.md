@@ -24,10 +24,10 @@ tags:
 
 ## Mental Model
 
-A higher-order function separates stable orchestration from injected behavior:
+A higher-order function separates stable coordination from injected behavior:
 
 ```text
-orchestrator + callable policy -> result and effects
+higher-order function + callable policy -> result and effects
 ```
 
 The arrow type is necessary but incomplete. A production callback contract also
@@ -72,7 +72,7 @@ func firstMatch<S: Sequence>(
 }
 ```
 
-The orchestrator owns traversal and short-circuiting; the caller owns the
+The higher-order function owns traversal and short-circuiting; the caller owns the
 predicate. `rethrows` communicates that this function throws only when the
 provided operation throws. Detailed error design belongs to error handling, but
 the effect remains part of the higher-order API.

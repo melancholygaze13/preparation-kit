@@ -93,7 +93,7 @@ enum Limits {
 Use `static` for type properties. Classes can use `class` for overridable computed
 type properties. Stored type properties are lazily initialized on first access and
 Swift guarantees their initialization occurs only once, even with simultaneous access;
-they do not need `lazy`. This guarantee does not make subsequent mutation atomic.
+they do not need `lazy`. This guarantee does not make later mutation atomic.
 
 Global constants and variables are also initialized lazily. Local variables are not.
 Namespace syntax does not create ownership: a mutable static property is shared global

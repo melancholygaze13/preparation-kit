@@ -59,7 +59,7 @@ stored state may change synthesized equality, hashing, or coding behavior.
 - Protocols cannot provide stored instance state.
 - Requirements cannot declare default parameter values.
 - A conformance is global for the type/protocol pair, not local to one value.
-- Marker protocols can impose semantic requirements without callable members.
+- Marker protocols can impose behavior requirements without callable members.
 
 ## Engineering Judgment
 
@@ -75,7 +75,7 @@ witnesses; conformance does not add synchronization.
 
 ## Staff and Principal Perspective
 
-Protocol ownership is platform ownership. Keep contracts minimal, publish semantic laws,
+Protocol ownership is platform ownership. Keep contracts minimal, publish behavior rules,
 provide conformance test suites, and treat new public requirements as coordinated migrations.
 
 ## References

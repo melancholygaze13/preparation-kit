@@ -30,7 +30,7 @@ last_reviewed: 2026-06-22
 ### Short Answer
 
 The compiler guarantees matching witnesses for requirements and applicable isolation/type
-rules. It usually cannot prove semantic laws, complexity, idempotency, equality consistency,
+rules. It usually cannot prove behavior rules, complexity, idempotency, equality consistency,
 or lifecycle behavior; those need documentation and shared conformance tests.
 
 ### Expanded Answer

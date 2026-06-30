@@ -139,7 +139,7 @@ or features do not share mutable theme state accidentally.
 
 - Environment values flow downward and the closest write wins for descendants.
 - Styles customize a control family but platform rendering can vary by environment.
-- Tokens improve consistency only when names and ownership preserve semantic meaning.
+- Tokens improve consistency only when names and ownership preserve behavior.
 - Asset and system semantic styles adapt; exact appearance is not identical across platforms.
 - A public design-system change has broad compatibility and rollout cost.
 

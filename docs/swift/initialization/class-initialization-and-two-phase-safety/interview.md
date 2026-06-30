@@ -42,7 +42,7 @@ Initializer inheritance is conditional, so subclasses must not assume all base e
 ### Trade-offs
 
 - Few designated paths simplify invariants.
-- Convenience forms improve ergonomics but expand API surface.
+- Convenience forms improve ease of use but expand API surface.
 - Factories fit asynchronous or subtype-selecting construction.
 
 ### Example

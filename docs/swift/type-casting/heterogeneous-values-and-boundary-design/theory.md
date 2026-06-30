@@ -9,7 +9,7 @@ estimated_read_minutes: 2
 levels: [senior, staff, principal]
 status: reviewed
 last_reviewed: 2026-06-22
-tags: [any, anyobject, heterogeneous-data, boundary-design]
+tags: [any, anyobject, mixed-type-data, boundary-design]
 ---
 
 # Heterogeneous Values and Boundary Design: Theory
@@ -41,7 +41,7 @@ domain validation still follows.
 
 A purpose-built erased wrapper preserves one protocol's capabilities while hiding the
 concrete type. `Any` preserves none. Use `Any` for truly unconstrained payloads and a
-typed eraser for heterogeneous implementations of one semantic contract.
+typed eraser for mixed-type implementations of one behavior contract.
 
 ### Core Invariants
 
@@ -62,7 +62,7 @@ typed eraser for heterogeneous implementations of one semantic contract.
 
 Use `Any` for narrow Objective-C, reflection, logging, or intentionally open metadata
 boundaries. Prefer Codable or explicit parsers for wire data, protocols/type erasure for
-capabilities, and enums for closed heterogeneous states.
+capabilities, and enums for closed mixed-type states.
 
 ## References
 

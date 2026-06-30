@@ -19,7 +19,7 @@ last_reviewed: 2026-06-22
 - Existing operators need no new declaration; custom symbols do.
 - Prefix, postfix, and infix forms are distinct declarations.
 - Compound assignment conventionally mutates `inout` left-hand storage and returns `Void`.
-- Equality, ordering, and arithmetic overloads must preserve documented semantic laws.
+- Equality, ordering, and arithmetic overloads must preserve documented behavior rules.
 - Familiar syntax should not hide surprising I/O, blocking, failure, or nonlinear cost.
 
 ## Study

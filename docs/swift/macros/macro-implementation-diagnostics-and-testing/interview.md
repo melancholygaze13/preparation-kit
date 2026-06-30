@@ -64,7 +64,7 @@ and review snapshot changes semantically rather than updating them mechanically.
 
 ### Expanded Answer
 
-Unit-test semantic analysis helpers separately from syntax emission. Expansion snapshots
+Unit-test behavior analysis helpers separately from syntax emission. Expansion snapshots
 make generated API diffs visible; integration catches behavior the syntax fixture cannot.
 
 ### Trade-offs

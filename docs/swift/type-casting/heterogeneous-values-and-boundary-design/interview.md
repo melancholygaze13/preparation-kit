@@ -42,13 +42,13 @@ value differs from the absence of a container element. Make the intent explicit.
 
 ### Trade-offs
 
-- Any supports truly heterogeneous boundaries.
+- Any supports truly mixed-type boundaries.
 - AnyObject serves reference-constrained interoperability.
 - Typed wrappers preserve capabilities and compiler checking.
 
 ### Example
 
-An Objective-C API returns heterogeneous values as objects. An adapter validates and
+An Objective-C API returns mixed-type values as objects. An adapter validates and
 bridges them into Swift domain values before concurrency or persistence use.
 
 ---

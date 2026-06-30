@@ -81,7 +81,7 @@ point until the test resumes it. The test can then establish this sequence:
 
 This proves stale-result handling. It is distinct from cancellation. Cancellation is
 cooperative: an operation must observe cancellation or reach a throwing suspension
-point. A robust feature often uses both cancellation and a request identity check,
+point. A reliable feature often uses both cancellation and a request identity check,
 because an uncooperative dependency may still return a value.
 
 Prefer an `async` operation that the caller can await. If production code creates an

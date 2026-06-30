@@ -150,7 +150,7 @@ boundaries, not individual properties, and account for module isolation settings
 ### System Impact
 
 Actor boundaries define transaction and scalability boundaries. Several actors cannot
-provide atomicity across remote effects; orchestration needs idempotency and compensation.
+provide atomicity across remote effects; coordination needs idempotency and compensation.
 
 ### Decision Framework
 

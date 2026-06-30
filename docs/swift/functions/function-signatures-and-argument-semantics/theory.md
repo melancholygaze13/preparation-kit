@@ -179,7 +179,7 @@ overload is added.
 
 Avoid overloads distinguished only by subtle return context or nearly equivalent
 generic constraints. Prefer distinct names when operations have different cost,
-effects, failure, or semantic meaning. Test representative calls without excessive
+effects, failure, or behavior. Test representative calls without excessive
 type annotations before publishing an overload family.
 
 ### Effect Markers

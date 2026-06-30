@@ -96,7 +96,7 @@ request "s" finishes last and overwrites the UI
 ```
 
 Main-actor isolation serializes assignments but does not make their order match user
-intent. `.task(id: query)` cancels the old view task, but a robust model also compares
+intent. `.task(id: query)` cancels the old view task, but a reliable model also compares
 the requested query or generation before commit.
 
 ```swift

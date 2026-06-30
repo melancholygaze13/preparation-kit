@@ -168,7 +168,7 @@ needs without creating another mutable source of truth.
 ### Determinism and Observability
 
 Pure transitions are easy to test: given state and event, assert new state and
-requested effects. Async integration tests verify the orchestration and cancellation
+requested effects. Async integration tests verify the coordination and cancellation
 boundary. Record normalized event and transition names without logging sensitive state.
 
 Deterministic does not mean replaying every external side effect. Analytics,

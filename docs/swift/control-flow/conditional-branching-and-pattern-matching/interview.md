@@ -46,7 +46,7 @@ pattern.
 ### Expanded Answer
 
 Exhaustiveness can come from naming every enum case, a catch-all binding, or
-`default`. Naming cases gives the compiler leverage when a closed model evolves.
+`default`. Naming cases gives the compiler help when a closed model evolves.
 For integers, strings, and other open-ended values, a fallback is normally
 required.
 

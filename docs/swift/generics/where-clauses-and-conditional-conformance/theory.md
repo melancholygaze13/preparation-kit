@@ -49,7 +49,7 @@ without relying on an undocumented uniqueness precondition.
 ### Core Invariants
 
 - Conditions are no stronger than necessary and sufficient for the implementation.
-- Conditional conformances preserve all semantic laws for every eligible type argument.
+- Conditional conformances preserve all behavior rules for every eligible type argument.
 - No duplicate keys or other hidden preconditions are smuggled into supposedly total helpers.
 - Public overload families have a deterministic, documented selection story.
 

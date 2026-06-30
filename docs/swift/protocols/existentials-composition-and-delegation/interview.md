@@ -30,7 +30,7 @@ last_reviewed: 2026-06-22
 ### Short Answer
 
 Use a generic or `some P` when one concrete type and its input/output relationships must
-be preserved. Use `any P` for heterogeneous storage, runtime replacement, or a deliberate
+be preserved. Use `any P` for mixed-type storage, runtime replacement, or a deliberate
 module boundary where concrete identity is not part of the contract.
 
 ### Expanded Answer

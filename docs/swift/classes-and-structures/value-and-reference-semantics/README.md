@@ -21,7 +21,7 @@ last_reviewed: 2026-06-22
 
 - Assigning a value type creates an independent logical value.
 - Assigning a class reference shares one instance.
-- Copy-on-write is an optimization, not a different value-semantic contract.
+- Copy-on-write is an optimization, not a different value semantics contract.
 
 ## Study
 

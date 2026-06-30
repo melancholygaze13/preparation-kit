@@ -61,7 +61,7 @@ The declared name contract, collision diagnostic, and expansion test catch it be
 A macro is wrong when a function, generic, protocol, property wrapper, or small amount
 of handwritten code expresses the behavior clearly; when behavior is fundamentally
 runtime policy; or when expansion hides ownership and effects. Use macros for stable,
-repetitive compile-time structure with meaningful correctness leverage.
+repetitive compile-time structure with meaningful correctness value.
 
 ### Expanded Answer
 

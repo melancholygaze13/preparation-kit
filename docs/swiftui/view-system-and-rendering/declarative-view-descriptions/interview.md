@@ -124,7 +124,7 @@ lifecycle callback.
 ### Trade-offs
 
 Prefer opaque types, builders, and generic composition when structure is known at
-compile time. Use `AnyView` only when a real heterogeneous boundary requires type
+compile time. Use `AnyView` only when a real mixed-type boundary requires type
 erasure; it hides structural type information and can make reasoning and
 optimization harder.
 

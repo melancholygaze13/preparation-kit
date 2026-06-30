@@ -94,7 +94,7 @@ timeout or persistence schedule.
 
 Animations can inherit velocity during retargeting depending on the animation and
 context. Test repeated taps and reversals; an animation that looks correct only from
-rest is not robust interaction design.
+rest is not reliable interaction design.
 
 ### State Scope
 

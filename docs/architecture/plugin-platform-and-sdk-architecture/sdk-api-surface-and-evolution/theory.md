@@ -32,13 +32,31 @@ configure -> request capability -> observe result -> handle error -> diagnose
 ## API Surface
 
 ```mermaid
-flowchart LR
-    A["Client app"] --> B["Public facade"]
-    B --> C["Stable public models"]
-    B --> D["Capability protocols"]
-    B --> E["Error and diagnostics model"]
-    B --> F["Internal implementation"]
-    F --> G["Network, storage, device, or vendor SDKs"]
+flowchart TD
+    Client["Client app"] --> Facade["Public facade"]
+
+    subgraph PublicAPI["Stable API clients can depend on"]
+        direction LR
+        Models["Public models"]
+        Capabilities["Capability APIs"]
+        Errors["Errors and diagnostics"]
+    end
+
+    subgraph Internals["Hidden implementation details"]
+        direction LR
+        Internal["Internal implementation"]
+        Network["Network"]
+        Storage["Storage"]
+        Device["Device or vendor SDK"]
+    end
+
+    Facade --> Models
+    Facade --> Capabilities
+    Facade --> Errors
+    Facade --> Internal
+    Internal --> Network
+    Internal --> Storage
+    Internal --> Device
 ```
 
 The public facade should describe what the client can do. It should not expose
@@ -102,4 +120,3 @@ not enough to prove the public API is usable.
 
 - [Swift API Design Guidelines](https://www.swift.org/documentation/api-design-guidelines/)
 - [Creating a Swift package](https://developer.apple.com/documentation/xcode/creating-a-swift-package)
-

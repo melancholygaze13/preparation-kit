@@ -13,11 +13,14 @@ from mkdocs.structure.pages import Page
 TRACKED_PAGE_TYPES = {"theory", "interview"}
 DOMAIN_ORDER = {"Swift": 0, "SwiftUI": 1, "UIKit": 2, "Architecture": 3}
 _tracked_pages: list[dict[str, Any]] = []
+_nav_order: dict[str, int] = {}
 
 
 def on_pre_build(*, config: MkDocsConfig) -> None:
     """Reset state before every build, including development-server rebuilds."""
     _tracked_pages.clear()
+    _nav_order.clear()
+    _nav_order.update(_build_nav_order(config.nav))
 
 
 def on_page_markdown(
@@ -65,6 +68,7 @@ def on_post_build(*, config: MkDocsConfig) -> None:
     pages = sorted(
         _tracked_pages,
         key=lambda page: (
+            _nav_order.get(page["id"], len(_nav_order)),
             DOMAIN_ORDER.get(page["domain"], len(DOMAIN_ORDER)),
             page["domain"].casefold(),
             page["topic"].casefold(),
@@ -80,3 +84,29 @@ def on_post_build(*, config: MkDocsConfig) -> None:
 
 def _page_type_order(page_type: str) -> int:
     return {"concept-index": 0, "theory": 1, "interview": 2}.get(page_type, 3)
+
+
+def _build_nav_order(nav: Any) -> dict[str, int]:
+    """Return each source path's position in the configured left-menu order."""
+    paths: list[str] = []
+
+    def visit(item: Any) -> None:
+        if isinstance(item, str):
+            paths.append(item)
+            return
+
+        if isinstance(item, dict):
+            for value in item.values():
+                visit(value)
+            return
+
+        if isinstance(item, list):
+            for child in item:
+                visit(child)
+
+    visit(nav)
+    return {_normalize_src_path(path): index for index, path in enumerate(paths)}
+
+
+def _normalize_src_path(path: str) -> str:
+    return path.removeprefix("docs/")

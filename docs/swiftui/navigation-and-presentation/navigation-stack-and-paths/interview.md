@@ -66,14 +66,14 @@ registration creates `OrderScreen(id: orderID)` when SwiftUI resolves that route
 
 I prefer `[Route]` when one route type can model the flow. It preserves exhaustive
 switching, straightforward equality, and easy tests. I use `NavigationPath` when a
-single stack genuinely needs heterogeneous route types, often from independently
+single stack genuinely needs mixed-type route types, often from independently
 owned features.
 
 ### Expanded Answer
 
 `NavigationPath` provides type erasure and codable representation when its elements
 support encoding. The cost is weaker compile-time visibility into the path. A route
-enum often handles heterogeneous screens without heterogeneous element types, so I
+enum often handles mixed-type screens without mixed-type element types, so I
 do not choose `NavigationPath` merely because the screens differ.
 
 For either choice, route values remain small and stable. Storing mutable model

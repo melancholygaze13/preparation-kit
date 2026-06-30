@@ -24,7 +24,7 @@ ownership facts explicit across every module boundary.
 
 ## How It Works
 
-`Sendable` is a marker protocol with semantic requirements. Internal value types can
+`Sendable` is a marker protocol with behavior requirements. Internal value types can
 often infer conformance when every stored value is sendable. Public and resilient API
 surfaces should state the intended contract explicitly. Actors and global-actor-isolated
 types are safe to send because access remains isolated.

@@ -37,7 +37,7 @@ func pairwiseEqual<each Element: Equatable>(
 
 The two value packs have the same `Element` shape, so each iteration compares values of
 the same concrete `Equatable` type. Pack shapes can be empty, contain one element, or
-contain many heterogeneous positions; this is compile-time generic structure, not an
+contain many mixed-type positions; this is compile-time generic structure, not an
 array of `Any`.
 
 Generic types can also abstract over packs and store an expansion inside a supported
@@ -68,7 +68,7 @@ let product = Product(42, "ready", true)
 - Pack expansion preserves positional type information.
 - A pack expansion expression evaluates its pattern for every element in left-to-right order; it cannot short-circuit.
 - Pack iteration uses `for ... in repeat` and can return or throw from the enclosing function.
-- Variadic generic types can preserve a pack's heterogeneous structure in their type identity and supported stored representations.
+- Variadic generic types can preserve a pack's mixed-type structure in their type identity and supported stored representations.
 - Variadic generics do not replace runtime collections whose length and element membership are known only at runtime.
 
 ## Engineering Judgment
@@ -89,7 +89,7 @@ let product = Product(42, "ready", true)
 
 | Choice | Benefits | Costs | Best fit |
 |---|---|---|---|
-| Parameter pack | Unbounded typed arity, no overload ladder | Advanced diagnostics and toolchain floor | Framework-level heterogeneous composition |
+| Parameter pack | Unbounded typed arity, no overload ladder | Advanced diagnostics and toolchain floor | Framework-level mixed-type composition |
 | Fixed overloads | Familiar signatures and targeted availability | Repetition and capped arity | Small compatibility surface |
 | Runtime collection | Simple iteration and runtime sizing | Requires homogeneous element abstraction | Data-driven workloads |
 

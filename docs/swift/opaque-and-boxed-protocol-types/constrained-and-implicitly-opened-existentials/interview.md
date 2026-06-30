@@ -41,7 +41,7 @@ associated type. It does not instantiate a generic protocol or make all boxes sh
 
 ### Trade-offs
 
-- Preserved domain type makes heterogeneous producers interoperable.
+- Preserved domain type makes mixed-type producers interoperable.
 - Concrete identity and unconstrained associated types remain erased.
 
 ### Example
@@ -91,7 +91,7 @@ bound it can express; relationships absent from that bound are lost.
 
 A constrained existential can preserve primary associated-type equalities such as `Output == Int`.
 More complex or unconstrained relationships may erase to `any P`, `Any`, or another representable
-bound. Put dependent operations inside one generic helper if subsequent steps require the identity.
+bound. Put dependent operations inside one generic helper if later steps require the identity.
 
 ### Trade-offs
 

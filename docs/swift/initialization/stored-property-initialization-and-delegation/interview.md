@@ -56,14 +56,14 @@ a validated ID prevents invalid cache keys from escaping.
 
 ### Short Answer
 
-Delegate convenience input forms to a small canonical initializer that owns validation
+Delegate convenience input forms to a small main initializer that owns validation
 and assignment. Avoid copying validation across overloads. For value types use
 `self.init`; class convenience initializers delegate across and ultimately reach a
 designated initializer.
 
 ### Expanded Answer
 
-Public entry points should express caller intent, while canonical construction prevents
+Public entry points should express caller intent, while main construction path prevents
 rules drifting. Effectful variants should be factories that produce validated inputs.
 
 ### Trade-offs
@@ -75,4 +75,4 @@ rules drifting. Effectful variants should be factories that produce validated in
 ### Example
 
 Three parsing initializers normalize names differently. They are replaced by parsers
-that produce one validated argument set for the canonical initializer.
+that produce one validated argument set for the main initializer.

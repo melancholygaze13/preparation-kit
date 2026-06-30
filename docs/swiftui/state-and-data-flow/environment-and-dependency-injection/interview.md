@@ -142,5 +142,5 @@ implementation without exposing credentials.
 
 A central dependency catalog can speed initial wiring but creates hidden coupling
 and organization-wide migration risk. Focused entries require more design work but
-let teams evolve capabilities, test failure modes, and migrate ownership
+let teams evolve capabilities, test failure cases, and migrate ownership
 incrementally.

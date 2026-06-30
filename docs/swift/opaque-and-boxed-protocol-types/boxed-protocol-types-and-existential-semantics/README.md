@@ -17,7 +17,7 @@ last_reviewed: 2026-06-22
 ## Quick Recall
 
 - The container carries a value, dynamic type metadata, and protocol conformance witnesses conceptually.
-- Erasure permits heterogeneous storage and runtime replacement but loses some same-type relationships.
+- Erasure permits mixed-type storage and runtime replacement but loses some same-type relationships.
 - The existential type `any P` generally does not itself conform to `P`.
 - Only operations valid without knowing the hidden type are available directly.
 - Representation, allocation, dispatch, and specialization are compiler/runtime decisions—measure rather than assume.

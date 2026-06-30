@@ -59,7 +59,7 @@ concrete type, while `Equatable.==` requires both operands to have one `Self` ty
 - Every stored value conforms to the existential's protocol composition.
 - Code does not assume independently boxed values share a concrete type.
 - Erased associated-type information is either unnecessary or constrained explicitly.
-- Runtime replacement preserves the protocol's semantic contract.
+- Runtime replacement preserves the protocol's behavior contract.
 - Ownership and transfer safety remain explicit despite erased representation.
 
 ### Constraints and Guarantees
@@ -74,7 +74,7 @@ concrete type, while `Equatable.==` requires both operands to have one `Self` ty
 
 ### When to Use It
 
-Use existentials for runtime-selected implementations, heterogeneous collections, plugin seams,
+Use existentials for runtime-selected implementations, mixed-type collections, plugin seams,
 and stable boundaries where consumers need protocol capabilities but not concrete relationships.
 
 ### When Not to Use It
@@ -86,7 +86,7 @@ or the existential would spread casts and unavailable operations through every c
 
 | Choice | Benefits | Costs | Best fit |
 |---|---|---|---|
-| `any P` | Runtime substitution and heterogeneous storage | Erased relationships and possible indirection | Plugin/configuration boundary |
+| `any P` | Runtime substitution and mixed-type storage | Erased relationships and possible indirection | Plugin/configuration boundary |
 | `some P` | Hidden representation with preserved identity | One underlying type | Implementation-owned result |
 | Generic `<T: P>` | Full static relationships | Type propagation into callers | Algorithms and static composition |
 | Manual type eraser | Custom surface and semantics | Boilerplate and maintenance | Unsupported relationship or compatibility facade |

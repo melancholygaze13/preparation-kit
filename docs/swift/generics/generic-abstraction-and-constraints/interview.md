@@ -20,7 +20,7 @@ last_reviewed: 2026-06-22
 | Question | Level | Focus |
 |---|---|---|
 | [How does a generic parameter differ from an existential?](#q1-generic-versus-existential) | Senior | Type relationships and runtime heterogeneity |
-| [How should you choose constraints for a reusable algorithm?](#q2-constraint-selection) | Staff | Minimal capability and semantic laws |
+| [How should you choose constraints for a reusable algorithm?](#q2-constraint-selection) | Staff | Minimal capability and behavior rules |
 
 ---
 
@@ -48,7 +48,7 @@ dispatch, API propagation, and substitution rather than being syntax preference.
 
 ### Example
 
-A feature stores heterogeneous analytics exporters, so `[any Exporter]` is appropriate.
+A feature stores mixed-type analytics exporters, so `[any Exporter]` is appropriate.
 Its encoding helper remains generic because input and encoded output types must stay related.
 
 ---

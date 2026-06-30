@@ -64,7 +64,7 @@ ownership, value semantics, and compatibility behavior.
 ### Expanded Answer
 
 The wrapper may capture closures or hold a private box and publish only supported operations. It owns
-semantic laws that the compiler cannot synthesize: copying, equality, cancellation, sendability,
+behavior rules that the compiler cannot synthesize: copying, equality, cancellation, sendability,
 lifetime, and error policy. If plain `any P<Constraint>` works, prefer the language feature.
 
 ### Trade-offs

@@ -63,7 +63,7 @@ Initializer inheritance is conditional; do not assume a subclass receives every 
 
 ## Engineering Judgment
 
-Keep designated initializers few and complete. Use convenience initializers for ergonomic
+Keep designated initializers few and complete. Use convenience initializers for easy to use
 input forms only. Move asynchronous I/O and external registration into explicit factories
 or start methods so failure, cancellation, and cleanup are visible.
 

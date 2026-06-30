@@ -40,7 +40,7 @@ force-cast expected syntax or silently ignore unsupported declarations.
 
 ## Engineering Judgment
 
-Keep transformation logic small and separate semantic analysis from syntax emission.
+Keep transformation logic small and separate behavior analysis from syntax emission.
 Test helpers independently, then expansion fixtures and compile-level integration.
 Prefer a clear diagnostic over guessing developer intent.
 

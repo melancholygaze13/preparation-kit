@@ -13,7 +13,7 @@ last_reviewed: 2026-06-22
 # Macro Adoption and API Evolution
 
 > Generated declarations are real API and build inputs; adopt macros only when their
-> semantic leverage exceeds debugging, dependency, compatibility, and compile-time cost.
+> benefit exceeds debugging, dependency, compatibility, and compile-time cost.
 
 ## Quick Recall
 

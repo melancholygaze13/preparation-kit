@@ -113,7 +113,7 @@ objects long after construction.
 | Computed value | Cheap deterministic derivation | Hidden repeated cost |
 | Lazy stored value | Optional one-time expensive setup | Races and retained dependencies |
 | Explicit cache | Expensive repeatable derivation | Invalidation and memory growth |
-| Method | Operation, effects, parameters, or costly work | Less field-like ergonomics |
+| Method | Operation, effects, parameters, or costly work | Less like field access |
 
 ### Core Invariants
 

@@ -26,7 +26,7 @@ tags:
 ## Quick Recall
 
 - Prefer value-based navigation when code must inspect or change the stack.
-- Use `[Route]` for one typed route model; use `NavigationPath` for heterogeneous values.
+- Use `[Route]` for one typed route model; use `NavigationPath` for mixed-type values.
 - A path stores navigation data, not destination views or full domain models.
 - Register destinations outside lazy containers and within the stack hierarchy.
 - The owner of the flow should own the path; leaf views should request navigation.

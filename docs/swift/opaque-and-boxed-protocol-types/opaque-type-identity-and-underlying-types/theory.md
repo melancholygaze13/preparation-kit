@@ -76,7 +76,7 @@ for a simple one-use generic parameter whose name is not needed in relationships
 ### When Not to Use It
 
 Do not use an opaque result when the concrete type must vary at runtime, callers must store
-heterogeneous results together, or the type parameter must appear in several signature positions.
+mixed-type results together, or the type parameter must appear in several signature positions.
 
 ### Trade-offs
 

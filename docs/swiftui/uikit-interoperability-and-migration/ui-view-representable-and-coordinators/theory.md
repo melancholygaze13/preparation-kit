@@ -30,17 +30,19 @@ must live with it, such as delegate callbacks or target-action wiring.
 
 ```mermaid
 flowchart TD
-    A["SwiftUI evaluates representable value"] --> B{"Needs UIKit view?"}
-    B -- "Yes" --> C["makeCoordinator() if used"]
-    C --> D["makeUIView(context:)"]
-    B -- "No" --> E["Reuse existing UIView"]
-    D --> F["updateUIView(_:context:)"]
-    E --> F
-    F --> G["UIKit displays current state"]
-    G --> H["Delegate, target, or data source callback"]
-    H --> I["Coordinator translates event"]
-    I --> J["Parent SwiftUI state changes"]
-    J --> A
+    Eval["SwiftUI evaluates representable"] --> Needs{"Need a UIKit view?"}
+    Needs -- "yes" --> MakeCoord["makeCoordinator() if used"]
+    MakeCoord --> MakeView["makeUIView(context:)"]
+    Needs -- "no" --> Reuse["Reuse existing UIView"]
+
+    MakeView --> Update["updateUIView(_:context:)"]
+    Reuse --> Update
+    Update --> Display["UIKit displays current state"]
+
+    Display --> Callback["UIKit callback"]
+    Callback --> Coord["Coordinator translates event"]
+    Coord --> State["Parent SwiftUI state changes"]
+    State -. "next update" .-> Eval
 ```
 
 `makeUIView` creates and configures stable UIKit structure. Set delegate objects,

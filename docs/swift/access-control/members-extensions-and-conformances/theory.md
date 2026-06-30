@@ -18,7 +18,7 @@ last_reviewed: 2026-06-22
 ## Mental Model
 
 Access applies to a graph of declarations, not isolated keywords. A public member exposes its types;
-a conformance exposes witnesses and semantic laws; an extension changes lookup for every consumer in
+a conformance exposes witnesses and behavior rules; an extension changes lookup for every consumer in
 scope. Review the complete generated interface.
 
 ## How It Works

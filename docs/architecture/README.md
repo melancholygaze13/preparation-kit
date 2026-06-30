@@ -21,13 +21,14 @@ last_reviewed: 2026-06-22
 ## Rapid Review
 
 1. [Architectural Foundations and Trade-offs](architectural-foundations-and-trade-offs/README.md)
-2. [MVVM](mvvm/README.md)
-3. [Unidirectional Data Flow](unidirectional-data-flow/README.md)
-4. [Clean Architecture and Ports and Adapters](clean-architecture-and-ports-adapters/README.md)
-5. [Coordinator and Navigation Architecture](coordinator-and-navigation-architecture/README.md)
-6. [Dependency Injection and Composition](dependency-injection-and-composition/README.md)
-7. [Modularization and Feature Boundaries](modularization-and-feature-boundaries/README.md)
-8. [Architecture Testing and Testability](architecture-testing-and-testability/README.md)
+2. [Model-View and SwiftUI State Ownership](architectural-foundations-and-trade-offs/model-view-and-missing-boundaries/README.md)
+3. [MVVM](mvvm/README.md)
+4. [Unidirectional Data Flow](unidirectional-data-flow/README.md)
+5. [Clean Architecture and Ports and Adapters](clean-architecture-and-ports-adapters/README.md)
+6. [Coordinator and Navigation Architecture](coordinator-and-navigation-architecture/README.md)
+7. [Dependency Injection and Composition](dependency-injection-and-composition/README.md)
+8. [Modularization and Feature Boundaries](modularization-and-feature-boundaries/README.md)
+9. [Architecture Testing and Testability](architecture-testing-and-testability/README.md)
 
 ## Topics
 
@@ -49,6 +50,7 @@ last_reviewed: 2026-06-22
 | Topic | Why it matters |
 |---|---|
 | [The Composable Architecture (TCA)](composable-architecture-tca/README.md) | Covers a widely used Swift implementation of composable unidirectional state management. |
+| [Model-View and SwiftUI State Ownership](architectural-foundations-and-trade-offs/model-view-and-missing-boundaries/README.md) | Covers a common lightweight SwiftUI architecture choice and its limits. |
 | [Data Layer, Repositories, and Offline State](data-layer-repositories-and-offline-state/README.md) | Defines boundaries across domain policy, remote services, persistence, caching, and synchronization. |
 | [Concurrency, State, and Side Effects](concurrency-state-and-side-effects/README.md) | Connects actor isolation, task ownership, cancellation, ordering, and architectural boundaries. |
 | [Architecture Evolution and Migration](architecture-evolution-and-migration/README.md) | Covers incremental change, compatibility boundaries, rollout, measurement, and organizational ownership. |

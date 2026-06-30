@@ -126,7 +126,7 @@ not make global state local.
 
 ### Expanded Answer
 
-Stored type-property initialization is lazy and once-only, but subsequent access is
+Stored type-property initialization is lazy and once-only, but later access is
 not automatically safe. Module default isolation may differ, so exported contracts
 should be explicit where callers depend on isolation.
 

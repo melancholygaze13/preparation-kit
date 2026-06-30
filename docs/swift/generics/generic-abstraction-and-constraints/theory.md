@@ -48,14 +48,14 @@ identity; Swift does not support static stored properties in generic types.
 - The signature states every operation required by the implementation.
 - Type parameters represent meaningful relationships rather than decorative flexibility.
 - Return types retain information promised by the signature.
-- Generic algorithms honor the semantic laws and complexity expectations of their constraints.
+- Generic algorithms honor the behavior rules and complexity expectations of their constraints.
 
 ### Constraints and Guarantees
 
 - Constraints are checked at compile time, including protocol, superclass, same-type, and layout requirements supported by the language.
 - Swift does not promise that every generic call is specialized or inlined.
 - Static overload resolution does not rediscover a more-specific overload after a generic function has been instantiated.
-- The compiler checks declared requirements; it cannot generally verify semantic laws such as a valid equivalence relation.
+- The compiler checks declared requirements; it cannot generally verify behavior rules such as a valid equivalence relation.
 
 ## Engineering Judgment
 

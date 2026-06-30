@@ -12,7 +12,7 @@ last_reviewed: 2026-06-22
 
 # Operator API Design and Evolution
 
-> Operators are global source-language surface; govern them through semantic laws, discoverability, collision analysis, client compilation, and staged migration.
+> Operators are global source-language surface; govern them through behavior rules, discoverability, collision analysis, client compilation, and staged migration.
 
 ## Quick Recall
 

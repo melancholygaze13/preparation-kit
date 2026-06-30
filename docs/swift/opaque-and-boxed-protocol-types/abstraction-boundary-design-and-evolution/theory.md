@@ -68,7 +68,7 @@ implementations at runtime, so existential semantics match its contract.
 - Replacing concrete, generic, opaque, and existential signatures is source-sensitive even when protocol requirements match.
 - Opaque constraints are public while non-inlinable underlying representation can remain hidden.
 - Existential erasure cannot later recreate relationships the boundary never recorded.
-- A manual eraser defines its own semantic laws and must maintain them across all wrapped conformers.
+- A manual eraser defines its own behavior rules and must maintain them across all wrapped conformers.
 
 ## Engineering Judgment
 

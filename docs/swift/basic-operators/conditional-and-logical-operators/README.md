@@ -18,7 +18,7 @@ tags:
 # Conditional and Logical Operators
 
 > `&&`, `||`, and the ternary operator evaluate only the expressions needed for
-> the result. Operand order can therefore affect cost, safety, and side effects.
+> the result. Operand order can affect cost, safety, and side effects.
 
 ## Quick Recall
 

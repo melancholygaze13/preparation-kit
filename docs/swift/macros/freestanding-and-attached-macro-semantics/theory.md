@@ -40,7 +40,7 @@ code still obeys access control, type checking, isolation, availability, and ove
 
 ### Core Invariants
 
-- Invocation and expansion have one documented semantic meaning.
+- Invocation and expansion have one documented behavior.
 - Generated names are predictable and collision-safe.
 - Expansion preserves access, isolation, and availability expectations.
 - Callers do not need hidden ordering between unrelated macros.

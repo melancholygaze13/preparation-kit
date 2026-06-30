@@ -62,7 +62,7 @@ isolation failures, and beta-SDK conformance collisions.
 
 ## Staff and Principal Perspective
 
-Assign protocol owners, semantic versioning, conformance certification, diagnostics policy,
+Assign protocol owners, versioning rules, conformance certification, diagnostics policy,
 and retirement plans. Split organizational interfaces before they become release trains.
 
 ## References

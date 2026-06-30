@@ -29,6 +29,22 @@ If the interview is close, study these topics first:
 This path is ordered by interview value, not by the order of chapters in the
 Swift book. Use each topic's prerequisites when a concept is unfamiliar.
 
+## Plain Language Key
+
+Swift interviews use some terms that are precise but easy to overuse. Read them
+this way:
+
+| Term | Plain meaning |
+|---|---|
+| Semantics | The behavior callers can observe. |
+| Invariant | A rule that must stay true. |
+| Isolation | The rule for who may touch shared mutable state. |
+| Lifetime | How long a value, object, task, or resource stays valid. |
+| Ownership | The code responsible for keeping something alive and cleaning it up. |
+| Boundary | The edge between two parts of a system or API. |
+| Dispatch | The rule Swift uses to choose which implementation runs. |
+| Conformance | A type's promise to satisfy a protocol. |
+
 ## Topics
 
 ### Core
@@ -65,7 +81,7 @@ Swift book. Use each topic's prerequisites when a concept is unfamiliar.
 | [Extensions](extensions/README.md) | The discussion covers conformance ownership or API organization. |
 | [Opaque and Boxed Protocol Types](opaque-and-boxed-protocol-types/README.md) | The role uses protocol-heavy APIs or SwiftUI-style abstractions. |
 | [Inheritance](inheritance/README.md) | The codebase uses UIKit subclassing or framework extension points. |
-| [Type Casting](type-casting/README.md) | Runtime types or heterogeneous Objective-C boundaries are relevant. |
+| [Type Casting](type-casting/README.md) | Runtime types or mixed-type Objective-C boundaries are relevant. |
 | [Optional Chaining](optional-chaining/README.md) | You need a short review of optional access and assignment behavior. |
 | [Macros](macros/README.md) | The role builds tooling, generated APIs, or modern Swift infrastructure. |
 | [Deinitialization](deinitialization/README.md) | Resource lifetime and teardown ownership are likely discussion areas. |
