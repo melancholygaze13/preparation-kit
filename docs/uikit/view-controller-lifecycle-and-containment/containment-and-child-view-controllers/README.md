@@ -6,11 +6,24 @@ page_type: concept-index
 levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 1
-status: draft
-last_reviewed: 2026-06-22
+status: reviewed
+last_reviewed: 2026-06-30
 ---
 
 # Containment and Child View Controllers
+
+> Containment lets one controller own and coordinate other controllers. Correct
+> containment keeps parent-child lifetime, view hierarchy, and appearance
+> callbacks in sync.
+
+## Quick Recall
+
+- Call `addChild(_:)`, add the child view, then call `didMove(toParent:)`.
+- For removal, call `willMove(toParent: nil)`, remove the view, then call
+  `removeFromParent()`.
+- The parent owns the child controller after containment is established.
+- Use containment for reusable screen regions with their own lifecycle.
+- Avoid child controllers when a simple view is enough.
 
 ## Study
 
