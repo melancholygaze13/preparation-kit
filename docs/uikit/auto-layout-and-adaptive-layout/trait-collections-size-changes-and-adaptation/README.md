@@ -3,14 +3,31 @@ title: "Trait Collections, Size Changes, and Adaptation"
 domain: "UIKit"
 topic: "Auto Layout and Adaptive Layout"
 page_type: concept-index
-levels: [senior, staff, principal]
-interview_priority: core
+levels:
+  - senior
+  - staff
+  - principal
+interview_priority: high
 estimated_read_minutes: 1
-status: draft
-last_reviewed: 2026-06-22
+status: reviewed
+last_reviewed: 2026-07-01
 ---
 
 # Trait Collections, Size Changes, and Adaptation
+
+> Adaptive UIKit layouts respond to environment changes such as size class,
+> display scale, interface style, content size category, and window size. Traits
+> describe context; constraints and view state express the response.
+
+## Quick Recall
+
+- Trait collections describe environment, not just device type.
+- Size classes are coarse signals; exact available size still matters.
+- Use `viewWillTransition(to:with:)` for size changes that need coordinated
+  updates.
+- Use trait-change registration or `traitCollectionDidChange(_:)` where
+  available for trait-specific updates.
+- Prefer adaptive layouts over branching only on iPhone or iPad.
 
 ## Study
 
