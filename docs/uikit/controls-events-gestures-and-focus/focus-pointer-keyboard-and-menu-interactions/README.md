@@ -6,11 +6,24 @@ page_type: concept-index
 levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 1
-status: draft
-last_reviewed: 2026-06-22
+status: reviewed
+last_reviewed: 2026-07-05
 ---
 
 # Focus, Pointer, Keyboard, and Menu Interactions
+
+> UIKit is not only touch. Strong iOS apps expose the same intent through focus,
+> pointer, keyboard, and menu systems where the device and context support them.
+
+## Quick Recall
+
+- Focus selects the currently active element for keyboard, remote, or game
+  controller navigation.
+- Pointer interactions add hover feedback on pointer-capable devices.
+- Keyboard commands should route to the active context and avoid stealing text
+  input.
+- Menus expose commands and alternate actions without crowding the screen.
+- Non-touch input should reuse the same intent layer as touch controls.
 
 ## Study
 

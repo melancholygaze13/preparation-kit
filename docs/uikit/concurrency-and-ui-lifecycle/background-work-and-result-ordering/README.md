@@ -6,11 +6,23 @@ page_type: concept-index
 levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 1
-status: draft
-last_reviewed: 2026-06-22
+status: reviewed
+last_reviewed: 2026-07-05
 ---
 
 # Background Work and Result Ordering
+
+> Async results do not finish in the order users create them. UIKit code must
+> accept only the result that still matches current screen state, then publish
+> UI changes on the main actor.
+
+## Quick Recall
+
+- Background work should produce data, not mutate UIKit directly.
+- Use generation tokens, request IDs, or model identity to reject stale results.
+- Prefer structured concurrency for batches of related work.
+- Limit concurrency when many requests could overload memory, network, or CPU.
+- Build UI snapshots from accepted state, not from arbitrary callback order.
 
 ## Study
 

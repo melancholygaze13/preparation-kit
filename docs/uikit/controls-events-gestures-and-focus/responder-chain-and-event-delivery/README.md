@@ -6,11 +6,26 @@ page_type: concept-index
 levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 1
-status: draft
-last_reviewed: 2026-06-22
+status: reviewed
+last_reviewed: 2026-07-05
 ---
 
 # Responder Chain and Event Delivery
+
+> UIKit first finds the view that should receive an input event. For actions
+> that do not name a target, UIKit then walks the responder chain until an object
+> can handle the selector.
+
+## Quick Recall
+
+- Hit testing starts at the window and selects the frontmost eligible view.
+- `UIResponder` objects form a chain through views, view controllers, windows,
+  scenes, and the application.
+- The first responder is the starting point for keyboard input and many commands.
+- Targetless actions use the responder chain to find an object that implements
+  the action.
+- Custom event routing should be local and explainable; broad overrides are hard
+  to debug.
 
 ## Study
 
