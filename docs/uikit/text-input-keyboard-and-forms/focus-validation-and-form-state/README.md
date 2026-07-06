@@ -6,11 +6,26 @@ page_type: concept-index
 levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 1
-status: draft
-last_reviewed: 2026-06-22
+status: reviewed
+last_reviewed: 2026-07-06
 ---
 
 # Focus, Validation, and Form State
+
+> Focus and validation are form orchestration problems. UIKit controls edit
+> values, while the screen owner decides field order, error timing, and submit
+> readiness.
+
+## Quick Recall
+
+- The first responder owns active keyboard focus.
+- `becomeFirstResponder()` and `resignFirstResponder()` are requests, not a
+  durable form state model.
+- Validate at the right time: permissive while typing, stricter on blur or
+  submit.
+- Keep error state and submit readiness in a form model or view model.
+- Do not make reusable fields decide navigation, persistence, or global form
+  policy.
 
 ## Study
 
