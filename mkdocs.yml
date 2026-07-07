@@ -1296,9 +1296,7 @@ theme:
     repo: fontawesome/brands/github
   features:
     - content.code.copy
-    - navigation.expand
     - navigation.indexes
-    - navigation.sections
     - navigation.top
     - navigation.tracking
     - toc.follow
