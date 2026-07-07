@@ -187,7 +187,7 @@
     return `<details class="study-topic">
       <summary>
         <span>${escapeHtml(name)}</span>
-        <small>${stats.percent}% · ${stats.completed}/${stats.total} pages</small>
+        <small>${stats.percent}% studied, ${stats.completed}/${stats.total} pages</small>
       </summary>
       <div class="study-topic__content">${conceptsHtml}</div>
     </details>`;
@@ -197,15 +197,19 @@
     const completed = loadCompletedPages();
     const domains = groupPages(pages);
     const overall = completion(pages, completed);
+    const firstOpenPage = pages.find((page) => !completed.has(page.id));
+    let hasOpenedDomain = false;
 
     const domainsHtml = Array.from(domains.entries()).map(([domainName, topics]) => {
       const domainPages = flattenTopics(topics);
       const stats = completion(domainPages, completed);
+      const isOpen = stats.percent < 100 && !hasOpenedDomain;
+      if (isOpen) hasOpenedDomain = true;
       const topicsHtml = Array.from(topics.entries())
         .map(([topicName, concepts]) => renderTopic(topicName, concepts, completed))
         .join("");
 
-      return `<details class="study-domain">
+      return `<details class="study-domain" ${isOpen ? "open" : ""}>
         <summary>
           <div class="study-domain__heading">
             <strong>${escapeHtml(domainName)}</strong>
@@ -225,6 +229,7 @@
             <span>Overall progress</span>
             <strong>${overall.percent}%</strong>
           </div>
+          ${firstOpenPage ? `<a class="md-button md-button--primary" href="${escapeHtml(pageUrl(firstOpenPage))}">Continue studying</a>` : ""}
           <button class="md-button" type="button" data-clear-progress
                   ${overall.completed ? "" : "disabled"}>
             Clear all progress
@@ -241,10 +246,19 @@
       });
     });
 
-    container.querySelector("[data-clear-progress]").addEventListener("click", () => {
-      if (window.confirm("Clear all study progress stored in this browser?")) {
+    container.querySelector("[data-clear-progress]").addEventListener("click", (event) => {
+      const button = event.currentTarget;
+      if (button.dataset.confirmClear === "true") {
         clearCompletedPages();
+        return;
       }
+
+      button.dataset.confirmClear = "true";
+      button.textContent = "Confirm clear";
+      window.setTimeout(() => {
+        button.dataset.confirmClear = "false";
+        button.textContent = "Clear all progress";
+      }, 3200);
     });
   }
 
