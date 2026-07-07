@@ -18,7 +18,7 @@ engineering judgment expected at Senior, Staff, and Principal level.
 
 <div class="home-actions" markdown>
 
-[Start rapid review](swift/concurrency/README.md){ .md-button .md-button--primary }
+[Start with theory](swift/concurrency/structured-concurrency-and-task-groups/theory.md){ .md-button .md-button--primary }
 [Track progress](progress.md){ .md-button }
 
 </div>
@@ -34,18 +34,18 @@ engineering judgment expected at Senior, Staff, and Principal level.
 </div>
 
 <aside class="home-rapid-path" aria-label="Rapid review path">
-  <span>Rapid review path</span>
-  <a href="swift/concurrency/">
+  <span>Direct theory path</span>
+  <a href="swift/concurrency/structured-concurrency-and-task-groups/theory/">
     <strong>Concurrency</strong>
-    <small>Tasks, actors, cancellation</small>
+    <small>Open structured concurrency theory</small>
   </a>
-  <a href="swift/automatic-reference-counting/">
+  <a href="swift/automatic-reference-counting/arc-ownership-and-object-lifetime/theory/">
     <strong>ARC and ownership</strong>
-    <small>Lifetime, cycles, captures</small>
+    <small>Open object lifetime theory</small>
   </a>
-  <a href="architecture/mvvm/">
+  <a href="architecture/mvvm/view-view-model-and-model-responsibilities/theory/">
     <strong>Architecture trade-offs</strong>
-    <small>Boundaries, state, testing</small>
+    <small>Open MVVM responsibilities theory</small>
   </a>
 </aside>
 

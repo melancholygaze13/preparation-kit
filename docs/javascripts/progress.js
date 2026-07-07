@@ -158,23 +158,22 @@
     const status = stats.completed === stats.total ? "complete" : stats.completed ? "partial" : "pending";
     const pageItems = pages.map((page) => {
       const checked = completed.has(page.id);
-      return `<li>
-        <label>
+      return `<li class="study-page-link">
+        <label title="Mark ${escapeHtml(pageLabel(page))} as studied">
           <input type="checkbox" data-page-id="${escapeHtml(page.id)}" ${checked ? "checked" : ""}>
-          <span>${escapeHtml(pageLabel(page))}</span>
         </label>
-        <a href="${escapeHtml(pageUrl(page))}">Open</a>
+        <a href="${escapeHtml(pageUrl(page))}">${escapeHtml(pageLabel(page))}</a>
       </li>`;
     }).join("");
 
-    return `<details class="study-concept study-concept--${status}">
-      <summary>
+    return `<article class="study-concept study-concept--${status}">
+      <div class="study-concept__header">
         <span class="study-status-dot" aria-hidden="true"></span>
-        <span>${escapeHtml(name)}</span>
+        <strong>${escapeHtml(name)}</strong>
         <small>${stats.completed}/${stats.total}</small>
-      </summary>
+      </div>
       <ul>${pageItems}</ul>
-    </details>`;
+    </article>`;
   }
 
   function renderTopic(name, concepts, completed) {
@@ -184,7 +183,7 @@
       .map(([conceptName, conceptPages]) => renderConcept(conceptName, conceptPages, completed))
       .join("");
 
-    return `<details class="study-topic">
+    return `<details class="study-topic" open>
       <summary>
         <span>${escapeHtml(name)}</span>
         <small>${stats.percent}% studied, ${stats.completed}/${stats.total} pages</small>
