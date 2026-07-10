@@ -3,14 +3,30 @@ title: "Appearance, Bars, Status, and System Chrome"
 domain: "UIKit"
 topic: "App, Scene, Window, and System Integration"
 page_type: concept-index
-levels: [senior, staff, principal]
+levels:
+  - senior
+  - staff
 interview_priority: situational
 estimated_read_minutes: 1
-status: draft
-last_reviewed: 2026-06-22
+status: reviewed
+last_reviewed: 2026-07-10
 ---
 
 # Appearance, Bars, Status, and System Chrome
+
+> System bars are navigation and control surfaces, not decoration. Prefer
+> standard UIKit components, customize them through appearance objects, and let
+> the active controller express status-bar and system-gesture preferences.
+
+## Quick Recall
+
+- Configure standard, compact, and scroll-edge states with bar appearance objects.
+- Prefer standard bars and semantic colors so new platform materials and
+  accessibility settings adapt automatically.
+- Route status-bar style through the visible child controller and call the
+  matching invalidation method when the preference changes.
+- Treat home-indicator hiding and system-gesture deferral as requests, not
+  guarantees.
 
 ## Study
 

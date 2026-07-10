@@ -2,7 +2,7 @@
 title: "UIKit"
 page_type: domain-index
 status: draft
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-10
 ---
 
 # UIKit
@@ -52,11 +52,11 @@ last_reviewed: 2026-06-22
 | [Accessibility and Adaptive UI](accessibility-and-adaptive-ui/README.md) | Ensures UIKit interfaces remain semantic and usable across content sizes, locales, and preferences. |
 | [Animation, Transitions, and Interaction](animation-transitions-and-interaction/README.md) | Covers interruptible property animation, controller transitions, and interactive system behaviors. |
 | [Testing UIKit Features](testing-uikit-features/README.md) | Separates deterministic logic, lifecycle integration, accessibility flows, and visual regression testing. |
+| [App, Scene, Window, and System Integration](app-scene-window-and-system-integration/README.md) | Separates process and scene ownership for the required scene-based lifecycle. |
 
 ### Role-Specific Depth
 
 | Topic | Use it when |
 |---|---|
-| [App, Scene, Window, and System Integration](app-scene-window-and-system-integration/README.md) | Covers process and scene lifecycle, multiwindow restoration, and system chrome. |
 | [SwiftUI Interoperability and Migration](swiftui-interoperability-and-migration/README.md) | Covers hosting, representable boundaries, and staged migration ownership. |
 | [Custom Drawing, Graphics, and Media](custom-drawing-graphics-and-media/README.md) | Provides role-specific depth for drawing, image pipelines, and advanced composition. |
