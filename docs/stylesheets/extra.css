@@ -409,6 +409,24 @@ summary:focus-visible {
 
 /* Home */
 
+body:has(.home-hero) .md-sidebar--primary,
+body:has(.home-hero) .md-sidebar--secondary {
+  display: none;
+}
+
+body:has(.home-hero) .md-main__inner {
+  display: block;
+}
+
+body:has(.home-hero) .md-content {
+  width: min(100%, 64rem);
+  margin: 0 auto;
+}
+
+body:has(.home-hero) .md-content__inner {
+  margin: 0;
+}
+
 .home-hero {
   display: grid;
   grid-template-columns: minmax(0, 1.55fr) minmax(13rem, 0.65fr);
@@ -422,7 +440,7 @@ summary:focus-visible {
     radial-gradient(circle at 2% 0%, rgba(225, 106, 81, 0.33), transparent 26rem),
     radial-gradient(circle at 92% 110%, rgba(94, 108, 152, 0.22), transparent 23rem),
     #171a24;
-  box-shadow: 0 28px 70px rgba(20, 18, 18, 0.2);
+  box-shadow: 0 24px 58px rgba(20, 18, 18, 0.16);
   color: #f7f5ef;
 }
 
@@ -461,13 +479,13 @@ summary:focus-visible {
 }
 
 .md-typeset .home-hero h1 {
-  max-width: 13ch;
+  max-width: 14ch;
   margin: 0.42rem 0 0.72rem;
   color: #fbfaf6;
-  font-size: clamp(2.25rem, 4.6vw, 4.25rem);
+  font-size: clamp(2.25rem, 4.2vw, 3.6rem);
   font-weight: 740;
-  letter-spacing: -0.058em;
-  line-height: 0.98;
+  letter-spacing: -0.052em;
+  line-height: 1;
 }
 
 .home-hero__content > p {
@@ -528,13 +546,15 @@ summary:focus-visible {
   backdrop-filter: blur(12px);
 }
 
-.home-hero__aside dl {
+.home-hero__stats {
   display: grid;
   gap: 0;
   margin: 0.8rem 0 0;
+  padding: 0;
+  list-style: none;
 }
 
-.home-hero__aside dl div {
+.home-hero__stats li {
   display: grid;
   grid-template-columns: 2.1rem minmax(0, 1fr);
   align-items: baseline;
@@ -543,7 +563,7 @@ summary:focus-visible {
   border-top: 1px solid rgba(255, 255, 255, 0.11);
 }
 
-.home-hero__aside dt {
+.home-hero__stats strong {
   color: #fff;
   font-size: 1.5rem;
   font-weight: 720;
@@ -551,8 +571,7 @@ summary:focus-visible {
   letter-spacing: -0.05em;
 }
 
-.home-hero__aside dd {
-  margin: 0;
+.home-hero__stats span {
   color: rgba(247, 245, 239, 0.63);
   font-size: 0.66rem;
   line-height: 1.45;
@@ -669,7 +688,6 @@ summary:focus-visible {
 
 .study-grid {
   grid-template-columns: minmax(0, 1fr);
-  max-width: 46rem;
   gap: 0;
   border-top: 1px solid var(--kit-border);
 }
@@ -1226,12 +1244,12 @@ summary:focus-visible {
     border-left: 0;
   }
 
-  .home-hero__aside dl {
+  .home-hero__stats {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0.8rem;
   }
 
-  .home-hero__aside dl div {
+  .home-hero__stats li {
     display: grid;
     grid-template-columns: 1fr;
     gap: 0.25rem;
@@ -1261,8 +1279,6 @@ summary:focus-visible {
   }
 
   .home-hero {
-    margin-right: -0.35rem;
-    margin-left: -0.35rem;
     border-radius: 0.82rem;
   }
 
@@ -1279,12 +1295,12 @@ summary:focus-visible {
     padding: 1.1rem 1.2rem 1.25rem;
   }
 
-  .home-hero__aside dl {
+  .home-hero__stats {
     grid-template-columns: 1fr;
     gap: 0;
   }
 
-  .home-hero__aside dl div {
+  .home-hero__stats li {
     grid-template-columns: 2rem minmax(0, 1fr);
     gap: 0.65rem;
   }

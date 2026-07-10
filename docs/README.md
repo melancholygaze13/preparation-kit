@@ -5,51 +5,31 @@ status: reviewed
 last_reviewed: 2026-06-22
 ---
 
-<div class="home-hero" markdown>
-
-<div class="home-hero__content" markdown>
-
+<section class="home-hero">
+<div class="home-hero__content">
 <span class="home-eyebrow">iOS interview preparation</span>
-
-# Prepare for senior iOS interviews
-
-Review the concepts that matter, practise direct answers, and build the
-engineering judgment expected at Senior, Staff, and Principal level.
-
-<div class="home-actions" markdown>
-
-[Start with theory](swift/concurrency/structured-concurrency-and-task-groups/theory.md){ .md-button .md-button--primary }
-[Track progress](progress.md){ .md-button }
-
-</div>
-
+<h1>Prepare for senior iOS interviews</h1>
+<p>Review the concepts that matter, practise direct answers, and build the
+engineering judgment expected at Senior, Staff, and Principal level.</p>
+<nav class="home-actions" aria-label="Start preparing">
+  <a class="md-button md-button--primary" href="swift/concurrency/structured-concurrency-and-task-groups/theory/">Start with theory</a>
+  <a class="md-button" href="progress/">Track progress</a>
+</nav>
 <div class="home-levels">
   <span>Senior</span>
   <span>Staff</span>
   <span>Principal</span>
 </div>
-
+</div>
 <aside class="home-hero__aside" aria-label="Preparation kit overview">
   <span class="home-hero__aside-label">Built for selective study</span>
-  <dl>
-    <div>
-      <dt>4</dt>
-      <dd>engineering domains</dd>
-    </div>
-    <div>
-      <dt>3</dt>
-      <dd>depth-based paths</dd>
-    </div>
-    <div>
-      <dt>1</dt>
-      <dd>focused answer at a time</dd>
-    </div>
-  </dl>
+  <ul class="home-hero__stats">
+    <li><strong>4</strong><span>engineering domains</span></li>
+    <li><strong>3</strong><span>depth-based paths</span></li>
+    <li><strong>1</strong><span>focused answer at a time</span></li>
+  </ul>
 </aside>
-
-</div>
-
-</div>
+</section>
 
 <aside class="home-rapid-path" aria-label="Rapid review path">
   <span>Direct theory path</span>

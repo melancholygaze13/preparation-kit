@@ -1347,7 +1347,7 @@ hooks:
   - hooks/progress.py
 
 extra_css:
-  - stylesheets/extra.css?v=6
+  - stylesheets/extra.css?v=7
 
 extra_javascript:
   - https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js
