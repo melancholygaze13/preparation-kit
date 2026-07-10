@@ -12,5 +12,10 @@ when you close the site or return after a site update. It is not synchronized
 with other browsers or devices.
 
 <div id="study-progress-dashboard" class="study-progress" aria-live="polite">
-  <p>Loading your study progress…</p>
+  <div class="study-progress__loading" role="status">
+    <p>Loading your study progress…</p>
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+  </div>
 </div>

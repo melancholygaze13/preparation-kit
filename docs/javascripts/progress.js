@@ -277,7 +277,10 @@
     } catch (error) {
       const dashboard = document.getElementById("study-progress-dashboard");
       if (dashboard) {
-        dashboard.innerHTML = "<p>Progress could not be loaded. Reload the page to try again.</p>";
+        dashboard.innerHTML = `<div class="study-progress__error" role="alert">
+          <strong>Progress could not be loaded</strong>
+          <span>Reload the page to try again.</span>
+        </div>`;
       }
       console.error("Study progress initialization failed", error);
     }

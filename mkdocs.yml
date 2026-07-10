@@ -1292,11 +1292,16 @@ theme:
   language: en
   font: false
   icon:
-    logo: material/apple
     repo: fontawesome/brands/github
+  logo: assets/mark.svg
+  favicon: assets/favicon.svg
   features:
     - content.code.copy
+    - navigation.footer
     - navigation.indexes
+    - navigation.sections
+    - navigation.tabs
+    - navigation.tabs.sticky
     - navigation.top
     - navigation.tracking
     - toc.follow
@@ -1342,9 +1347,9 @@ hooks:
   - hooks/progress.py
 
 extra_css:
-  - stylesheets/extra.css?v=5
+  - stylesheets/extra.css?v=6
 
 extra_javascript:
   - https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js
   - javascripts/mermaid.js?v=2
-  - javascripts/progress.js?v=4
+  - javascripts/progress.js?v=5

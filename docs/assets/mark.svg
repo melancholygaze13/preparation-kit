@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-labelledby="title">
+  <title id="title">Preparation Kit mark</title>
+  <rect width="48" height="48" rx="12" fill="#f4f1ea"/>
+  <path d="M15 14h14.5c5.25 0 8.5 2.85 8.5 7.2 0 4.5-3.25 7.45-8.5 7.45H21v6.85h-6V14Zm6 5v4.75h8.05c1.85 0 2.95-.9 2.95-2.4 0-1.45-1.1-2.35-2.95-2.35H21Z" fill="#171a24"/>
+  <path d="M31.5 28.65 39 35.5h-7.45L24.3 28.65h7.2Z" fill="#d4573f"/>
+</svg>

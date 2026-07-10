@@ -29,6 +29,24 @@ engineering judgment expected at Senior, Staff, and Principal level.
   <span>Principal</span>
 </div>
 
+<aside class="home-hero__aside" aria-label="Preparation kit overview">
+  <span class="home-hero__aside-label">Built for selective study</span>
+  <dl>
+    <div>
+      <dt>4</dt>
+      <dd>engineering domains</dd>
+    </div>
+    <div>
+      <dt>3</dt>
+      <dd>depth-based paths</dd>
+    </div>
+    <div>
+      <dt>1</dt>
+      <dd>focused answer at a time</dd>
+    </div>
+  </dl>
+</aside>
+
 </div>
 
 </div>
@@ -49,7 +67,7 @@ engineering judgment expected at Senior, Staff, and Principal level.
   </a>
 </aside>
 
-## What This Kit Is For
+## A focused preparation system
 
 This kit is a preparation tool, not a complete language reference. It gives more
 space to common interview areas, such as concurrency, ownership, architecture,
@@ -101,11 +119,11 @@ out loud.
 
 </div>
 
-## How to Study
+## A simple rehearsal loop
 
 <div class="study-grid" markdown>
 
-<div class="study-card" markdown>
+<div class="study-card" data-step="01" markdown>
 
 ### Select core topics
 
@@ -114,7 +132,7 @@ situational topics only when they match the role or interview format.
 
 </div>
 
-<div class="study-card" markdown>
+<div class="study-card" data-step="02" markdown>
 
 ### Recall the model
 
@@ -123,7 +141,7 @@ main decisions without looking at the page.
 
 </div>
 
-<div class="study-card" markdown>
+<div class="study-card" data-step="03" markdown>
 
 ### Rehearse out loud
 
