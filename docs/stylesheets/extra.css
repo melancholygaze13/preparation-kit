@@ -27,6 +27,8 @@
   --kit-radius-lg: 1.05rem;
   --kit-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --kit-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --md-sidebar-width: 16rem;
+  --md-sidebar-width--wide: 17rem;
   --md-text-font: "Avenir Next", Avenir, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --md-code-font: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
@@ -1133,8 +1135,8 @@ body:has(.home-hero) .md-content__inner {
   padding: 0.34rem 0.48rem;
   border-radius: var(--kit-radius-sm);
   color: var(--md-default-fg-color--light);
-  font-size: 0.68rem;
-  line-height: 1.42;
+  font-size: 0.62rem;
+  line-height: 1.36;
   transition: background-color 160ms var(--kit-ease-out), color 160ms var(--kit-ease-out), transform 160ms var(--kit-ease-out);
 }
 
