@@ -3,14 +3,31 @@ title: "Core Graphics Drawing and Shape Layers"
 domain: "UIKit"
 topic: "Custom Drawing, Graphics, and Media"
 page_type: concept-index
-levels: [senior, staff, principal]
+levels:
+  - senior
+  - staff
 interview_priority: situational
 estimated_read_minutes: 1
-status: draft
-last_reviewed: 2026-06-22
+status: reviewed
+last_reviewed: 2026-07-10
 ---
 
 # Core Graphics Drawing and Shape Layers
+
+> Use `draw(_:)` for custom pixels that can be regenerated from state. Use
+> `CAShapeLayer` when a path should remain in the layer tree and animate through
+> layer properties. In both cases, keep the model separate from rendering.
+
+## Quick Recall
+
+- UIKit calls `draw(_:)` during a display pass; request another pass with
+  `setNeedsDisplay()` instead of calling `draw(_:)` yourself.
+- Rebuild drawing from current state. Do not treat the graphics context as stored
+  app state.
+- A `CAShapeLayer` retains a path and exposes fill, stroke, and animation
+  properties. Update its path when layout changes.
+- Use `UIGraphicsImageRenderer` for an offscreen bitmap that will be reused.
+- Measure before replacing a clear UIKit solution with a lower-level renderer.
 
 ## Study
 
