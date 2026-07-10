@@ -99,8 +99,13 @@ that system navigation and presentations cannot express.
 ### Expanded Answer
 
 I prefer system sheets, popovers, and navigation because they already handle
-adaptation, gestures, and accessibility. A custom transition adds cancellation,
-rotation, resizing, backgrounding, focus, and Reduce Motion cases.
+adaptation, gestures, and accessibility. On iOS 18 and later, I also check whether
+the system zoom transition can express the source-to-detail relationship. It is
+continuously interactive and avoids a custom animator, but its source provider must
+resolve a current view from stable identity.
+
+A custom transition adds cancellation, rotation, resizing, backgrounding, focus,
+and Reduce Motion cases.
 
 For shared adoption, I would prototype on target devices, test system-gesture
 compatibility, instrument performance, and roll out to a small feature first.

@@ -6,7 +6,7 @@ page_type: concept-index
 levels:
   - senior
   - staff
-interview_priority: high
+interview_priority: situational
 estimated_read_minutes: 1
 status: reviewed
 last_reviewed: 2026-07-10

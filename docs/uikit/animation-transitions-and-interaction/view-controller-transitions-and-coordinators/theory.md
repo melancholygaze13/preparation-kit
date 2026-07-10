@@ -36,6 +36,25 @@ already handle adaptation, accessibility, gestures, and platform consistency. Ad
 custom transition only when it communicates a relationship the system transition
 cannot express.
 
+## Prefer a System Fluid Transition
+
+On iOS 18 and later, set a destination controller's `preferredTransition` to a
+system zoom transition when a source cell or preview expands into its detail. The
+system provides continuous interaction and lifecycle integration without a custom
+animator:
+
+```swift
+editor.preferredTransition = .zoom { context in
+    let editor = context.zoomedViewController as? EditorViewController
+    return editor.flatMap { self.cell(for: $0.documentID) }
+}
+```
+
+UIKit calls the source-view provider for presentation and dismissal. Capture stable
+identity and resolve the current view each time because a collection cell can be
+reused or move offscreen. Use a custom transition only when the system transition
+cannot represent the required relationship or interaction.
+
 ## Transition Responsibilities
 
 For a custom modal transition, set `modalPresentationStyle` to `.custom` and assign a
@@ -178,6 +197,8 @@ plan because one defect can affect every adopting feature.
 ## References
 
 - [View controller transitions](https://developer.apple.com/documentation/uikit/view-controller-transitions)
+- [`UIViewController.preferredTransition`](https://developer.apple.com/documentation/uikit/uiviewcontroller/preferredtransition)
+- [WWDC24: Enhance your UI animations and transitions](https://developer.apple.com/videos/play/wwdc2024/10145/)
 - [`UIViewControllerAnimatedTransitioning`](https://developer.apple.com/documentation/uikit/uiviewcontrolleranimatedtransitioning)
 - [`interruptibleAnimator(using:)`](https://developer.apple.com/documentation/uikit/uiviewcontrolleranimatedtransitioning/interruptibleanimator(using:))
 - [`UIViewControllerTransitionCoordinator`](https://developer.apple.com/documentation/uikit/uiviewcontrollertransitioncoordinator)

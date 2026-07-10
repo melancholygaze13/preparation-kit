@@ -1135,8 +1135,8 @@ body:has(.home-hero) .md-content__inner {
   padding: 0.34rem 0.48rem;
   border-radius: var(--kit-radius-sm);
   color: var(--md-default-fg-color--light);
-  font-size: 0.62rem;
-  line-height: 1.36;
+  font-size: 0.66rem;
+  line-height: 1.42;
   transition: background-color 160ms var(--kit-ease-out), color 160ms var(--kit-ease-out), transform 160ms var(--kit-ease-out);
 }
 

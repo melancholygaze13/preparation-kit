@@ -7,8 +7,8 @@ page_type: interview
 levels:
   - senior
   - staff
-interview_priority: high
-estimated_read_minutes: 4
+interview_priority: situational
+estimated_read_minutes: 3
 status: reviewed
 last_reviewed: 2026-07-10
 ---
@@ -52,14 +52,14 @@ destination checks size, decoding, authorization, and current state.
 
 ### Short Answer
 
-I validate and insert at the destination before removing the source. I commit the
-model once, then render the UI from stable identity.
+For an allowed in-app move, I validate and insert at the destination before removing
+the source. Cross-app data is copied, not moved.
 
 ### Expanded Answer
 
-A drag can cancel or leave the app, so I do not delete at drag start. The destination
-first accepts the proposal, loads the value, and persists it. Only a committed move
-removes the source.
+A drag can cancel or leave the app, so I do not delete at drag start. UIKit permits
+move only within the same app when the session allows it. The destination accepts
+and persists the value before the source delegate removes the original.
 
 Index paths may change during the interaction. I resolve items by identity and reject
 a stale or unauthorized destination. Failure must leave a consistent source and

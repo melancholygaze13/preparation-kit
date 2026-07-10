@@ -7,8 +7,8 @@ page_type: theory
 levels:
   - senior
   - staff
-interview_priority: high
-estimated_read_minutes: 5
+interview_priority: situational
+estimated_read_minutes: 4
 status: reviewed
 last_reviewed: 2026-07-10
 ---
@@ -19,9 +19,8 @@ last_reviewed: 2026-07-10
 
 ## Mental Model
 
-A visual regression test renders a known UIKit state, captures its output, and
-compares it with a reviewed baseline. A difference proves that rendering changed.
-It does not prove whether the old or new image is correct.
+A visual regression test renders a known UIKit state and compares it with a reviewed
+baseline. A difference proves that rendering changed, not which image is correct.
 
 Snapshots complement other tests:
 
@@ -53,9 +52,8 @@ Load the controller, give its view an explicit size, install any required child
 hierarchy, and complete layout before capture. Avoid global `UIAppearance` state that
 leaks between tests. Bundle fixture images and fonts instead of fetching them.
 
-UIKit provides rendering and screenshot APIs, but it does not define baseline
-storage, image comparison, or approval policy. Teams usually choose a test utility
-or build a small adapter around a renderer and diff tool.
+UIKit can render and capture output, but teams still need a test utility or adapter
+for baseline storage, comparison, and approval.
 
 For example, a chosen snapshot library may integrate with Swift Testing:
 
@@ -113,8 +111,7 @@ automatic mass acceptance.
 
 ## Production Strategy
 
-Keep snapshot coverage intentionally small. Track runtime, repository growth, and
-failure rate. Separate product changes from rendering-environment churn.
+Keep snapshot coverage small. Track runtime, repository growth, and failure rate.
 
 Snapshot tests add dependency, storage, and review costs. They pay for themselves
 when a visual contract is important and deterministic enough to maintain. They fit

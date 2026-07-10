@@ -7,8 +7,8 @@ page_type: interview
 levels:
   - senior
   - staff
-interview_priority: high
-estimated_read_minutes: 4
+interview_priority: situational
+estimated_read_minutes: 2
 status: reviewed
 last_reviewed: 2026-07-10
 ---

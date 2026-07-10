@@ -20,8 +20,8 @@ last_reviewed: 2026-07-10
 
 ## Quick Recall
 
-- Prefer built-in navigation, sheet, and presentation transitions unless custom
-  motion communicates a real relationship.
+- Prefer built-in navigation, sheet, zoom, and presentation transitions unless
+  custom motion communicates a relationship the system cannot express.
 - Read controllers, views, frames, and cancellation from the transition context.
 - Always call `completeTransition` with the correct cancellation result.
 - Use the transition coordinator for alongside animations and cancellation-aware

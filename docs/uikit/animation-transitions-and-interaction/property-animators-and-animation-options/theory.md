@@ -30,6 +30,7 @@ Choose the smallest API that provides the control you need:
 | One-shot property or layout change | `UIView.animate` |
 | Simple spring to a fixed destination | Spring `UIView.animate` overload |
 | Pause, scrub, reverse, or retarget | `UIViewPropertyAnimator` |
+| Shared SwiftUI timing or continuous retargeting on iOS 18+ | `UIView.animate` with a SwiftUI `Animation` |
 | Several timed visual stages | `UIView.animateKeyframes` |
 | Disable incidental animation | `UIView.performWithoutAnimation` |
 
@@ -144,6 +145,13 @@ Use keyframes for a deliberate, finite visual sequence. They fit staged emphasis
 several coordinated properties. They fit poorly when a person can rapidly reverse
 the state because restarting a sequence can jump or repeat old phases.
 
+On iOS 18 and later, UIKit can animate view changes with a SwiftUI `Animation`.
+This is useful when UIKit and SwiftUI surfaces should share a spring, or when
+repeated interactive updates should retarget with continuous velocity. It requires
+importing SwiftUI and does not work with `UIViewPropertyAnimator` or UIKit keyframe
+animations. Keep the property animator when you need explicit pause, scrub,
+reversal, or lifecycle state.
+
 ## Correctness, Accessibility, and Performance
 
 Do not use an animation duration as a business timer. A transition may be disabled,
@@ -176,4 +184,5 @@ performance signposts. They should not hide animator state behind a decorative D
 - [`UIViewAnimating`](https://developer.apple.com/documentation/uikit/uiviewanimating)
 - [`UIView.AnimationOptions.beginFromCurrentState`](https://developer.apple.com/documentation/uikit/uiview/animationoptions/beginfromcurrentstate)
 - [`UISpringTimingParameters.initialVelocity`](https://developer.apple.com/documentation/uikit/uispringtimingparameters/initialvelocity)
+- [Unifying your app's animations](https://developer.apple.com/documentation/swiftui/unifying-your-app-s-animations)
 - [Human Interface Guidelines: Motion](https://developer.apple.com/design/human-interface-guidelines/motion)
