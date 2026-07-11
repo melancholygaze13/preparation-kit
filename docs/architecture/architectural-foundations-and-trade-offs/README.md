@@ -4,7 +4,7 @@ domain: "Architecture"
 page_type: topic-index
 interview_priority: core
 status: draft
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-11
 ---
 
 # Architectural Foundations and Trade-offs
@@ -21,7 +21,7 @@ last_reviewed: 2026-06-22
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [Quality Attributes and Product Constraints](quality-attributes-and-product-constraints/README.md) | Connects architecture choices to concrete product and engineering needs. | Core | 1 min |
+| [Quality Attributes and Product Constraints](quality-attributes-and-product-constraints/README.md) | Connects architecture choices to concrete product and engineering needs. | Core | 14 min |
 | [Boundaries, Dependency Direction, and Coupling](boundaries-dependency-direction-and-coupling/README.md) | Explains how change propagates across components. | Core | 1 min |
 | [State Ownership and Source of Truth](state-ownership-and-source-of-truth/README.md) | Defines authoritative state and mutation responsibility. | Core | 1 min |
 | [Model-View and SwiftUI State Ownership](model-view-and-missing-boundaries/README.md) | Treats MV as a valid SwiftUI choice when ownership and side effects stay explicit. | High | 4 min |

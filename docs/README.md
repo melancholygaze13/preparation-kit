@@ -2,7 +2,7 @@
 title: "iOS Engineering Preparation Kit"
 page_type: domain-index
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-11
 ---
 
 <section class="home-hero">
@@ -26,6 +26,7 @@ engineering judgment expected at Senior, Staff, and Principal level.</p>
   <ul class="home-hero__stats">
     <li><strong>4</strong><span>engineering domains</span></li>
     <li><strong>3</strong><span>depth-based paths</span></li>
+    <li><strong>2</strong><span>study and rehearsal modes</span></li>
     <li><strong>1</strong><span>focused answer at a time</span></li>
   </ul>
 </aside>

@@ -60,6 +60,7 @@
 }
 
 html {
+  font-size: 93.75%;
   scroll-behavior: smooth;
   scroll-padding-top: 5.6rem;
 }
@@ -214,7 +215,7 @@ body {
 
 .md-typeset {
   color: var(--md-default-fg-color);
-  font-size: 0.84rem;
+  font-size: 0.81rem;
 }
 
 .md-typeset > :where(p, ul, ol, blockquote) {
@@ -232,7 +233,7 @@ body {
 .md-typeset h1 {
   max-width: 18ch;
   margin: 0 0 0.78em;
-  font-size: clamp(2.15rem, 3.5vw, 3.35rem);
+  font-size: clamp(2rem, 3.35vw, 3.1rem);
   font-weight: 760;
   letter-spacing: -0.052em;
   line-height: 1.02;
@@ -241,7 +242,7 @@ body {
 .md-typeset h2 {
   margin-top: 2.7em;
   padding-top: 0.2em;
-  font-size: clamp(1.42rem, 2.1vw, 1.72rem);
+  font-size: clamp(1.32rem, 2vw, 1.6rem);
   font-weight: 720;
   letter-spacing: -0.035em;
   line-height: 1.17;
@@ -260,7 +261,7 @@ body {
 
 .md-typeset h3 {
   margin-top: 2em;
-  font-size: 1.04rem;
+  font-size: 0.98rem;
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.28;
@@ -314,6 +315,10 @@ summary:focus-visible {
 }
 
 .md-typeset .md-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
   min-height: 2.35rem;
   padding: 0.62rem 0.95rem;
   border-radius: 0.58rem;
@@ -321,8 +326,16 @@ summary:focus-visible {
   font-weight: 720;
   letter-spacing: -0.005em;
   line-height: 1.2;
+  text-align: center;
+  vertical-align: middle;
   transform-origin: center;
   transition: background-color 170ms var(--kit-ease-out), border-color 170ms var(--kit-ease-out), box-shadow 170ms var(--kit-ease-out), color 170ms var(--kit-ease-out), transform 150ms var(--kit-ease-out);
+}
+
+.md-typeset .md-button > :where(svg, img, .twemoji) {
+  width: 1em;
+  height: 1em;
+  flex: none;
 }
 
 .md-typeset .md-button:active {
@@ -529,6 +542,9 @@ body:has(.home-hero) .md-content__inner {
 }
 
 .home-levels span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 0.24rem 0.54rem;
   border: 1px solid rgba(255, 255, 255, 0.13);
   border-radius: 99rem;
@@ -663,6 +679,7 @@ body:has(.home-hero) .md-content__inner {
   font-size: 0.82rem;
   font-weight: 760;
   letter-spacing: -0.025em;
+  line-height: 1;
 }
 
 .domain-card__body {
@@ -683,8 +700,11 @@ body:has(.home-hero) .md-content__inner {
 }
 
 .domain-card__arrow {
+  display: inline-grid;
+  place-items: center;
   color: var(--kit-accent);
   font-size: 1rem;
+  line-height: 1;
   transition: transform 170ms var(--kit-ease-out);
 }
 
@@ -1003,11 +1023,15 @@ body:has(.home-hero) .md-content__inner {
 }
 
 .study-topic > summary::before {
+  display: grid;
+  flex: none;
+  place-items: center;
   width: 1.1rem;
   color: var(--md-default-fg-color--light);
   content: "+";
   font-family: var(--md-code-font);
   font-size: 0.75rem;
+  line-height: 1;
   text-align: center;
 }
 
@@ -1100,12 +1124,19 @@ body:has(.home-hero) .md-content__inner {
   border: 1px solid var(--kit-border);
   border-radius: 0.42rem;
   background: var(--kit-surface-muted);
+  line-height: 1;
   transition: background-color 160ms var(--kit-ease-out), border-color 160ms var(--kit-ease-out);
+}
+
+.study-page-link label {
+  justify-content: center;
+  line-height: 1;
 }
 
 .study-concept input {
   width: 0.76rem;
   height: 0.76rem;
+  margin: 0;
   flex: none;
   accent-color: var(--kit-accent);
 }
@@ -1247,7 +1278,7 @@ body:has(.home-hero) .md-content__inner {
   }
 
   .home-hero__stats {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 0.8rem;
   }
 
@@ -1268,7 +1299,7 @@ body:has(.home-hero) .md-content__inner {
   }
 
   .md-typeset {
-    font-size: 0.81rem;
+    font-size: 0.78rem;
   }
 
   .md-typeset h1 {
