@@ -27,8 +27,9 @@
   --kit-radius-lg: 1.05rem;
   --kit-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --kit-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-  --md-sidebar-width: 16rem;
-  --md-sidebar-width--wide: 17rem;
+  --md-sidebar-width: 19rem;
+  --md-sidebar-width--wide: 19rem;
+  --kit-sidebar-width: 19rem;
   --md-text-font: "Avenir Next", Avenir, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --md-code-font: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
@@ -125,6 +126,7 @@ body {
 }
 
 .md-header__title {
+  font-size: 0.76rem;
   font-weight: 680;
   letter-spacing: -0.018em;
 }
@@ -162,7 +164,7 @@ body {
   margin-top: 0;
   padding: 0.75rem 0.62rem 0.58rem;
   color: rgba(255, 255, 255, 0.66);
-  font-size: 0.62rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.045em;
   opacity: 1;
@@ -1169,6 +1171,38 @@ body:has(.home-hero) .md-content__inner {
   font-size: 0.66rem;
   line-height: 1.42;
   transition: background-color 160ms var(--kit-ease-out), color 160ms var(--kit-ease-out), transform 160ms var(--kit-ease-out);
+}
+
+@media screen and (min-width: 76.25em) {
+  .md-sidebar--primary {
+    width: var(--kit-sidebar-width);
+  }
+
+  [dir="ltr"] .md-sidebar--primary .md-sidebar__inner {
+    padding-right: 0.6rem;
+  }
+
+  [dir="rtl"] .md-sidebar--primary .md-sidebar__inner {
+    padding-left: 0.6rem;
+  }
+
+  [dir="ltr"] .md-nav--primary .md-nav__list {
+    padding-left: 0.42rem;
+  }
+
+  [dir="rtl"] .md-nav--primary .md-nav__list {
+    padding-right: 0.42rem;
+  }
+
+  .md-nav--primary .md-nav__link {
+    margin-top: 0.06rem;
+    padding: 0.22rem 0.42rem;
+    line-height: 1.32;
+  }
+
+  .md-nav--primary .md-nav__item--section {
+    margin: 0.48rem 0;
+  }
 }
 
 .md-sidebar .md-nav__item--active > .md-nav__link,
