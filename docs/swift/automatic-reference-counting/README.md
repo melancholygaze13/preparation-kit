@@ -4,7 +4,7 @@ domain: "Swift"
 page_type: topic-index
 interview_priority: core
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Automatic Reference Counting
@@ -36,9 +36,9 @@ belong to Closures; deinitializer rules belong to Deinitialization.
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
 | [ARC Ownership and Object Lifetime](arc-ownership-and-object-lifetime/README.md) | Explains what keeps an object alive and when it can be released. | Core | 8 min |
-| [Object Graph Cycles and Non-Owning References](object-graph-cycles-and-non-owning-references/README.md) | Distinguishes ownership from observation and prevents retain cycles. | Core | 8 min |
-| [Closure, Callback, and Task Lifetimes](closure-callback-and-task-lifetimes/README.md) | Connects captures, cancellation, and asynchronous lifetime. | Core | 8 min |
-| [Lifecycle Architecture and Leak Diagnosis](lifecycle-architecture-and-leak-diagnosis/README.md) | Shows how to prove a leak and find the retaining path. | Core | 8 min |
+| [Object Graph Cycles and Non-Owning References](object-graph-cycles-and-non-owning-references/README.md) | Distinguishes ownership from observation and prevents retain cycles. | Core | 9 min |
+| [Closure, Callback, and Task Lifetimes](closure-callback-and-task-lifetimes/README.md) | Connects captures, cancellation, and asynchronous lifetime. | High | 8 min |
+| [Lifecycle Architecture and Leak Diagnosis](lifecycle-architecture-and-leak-diagnosis/README.md) | Shows how to prove a leak and find the retaining path. | High | 8 min |
 
 ## Source Section
 

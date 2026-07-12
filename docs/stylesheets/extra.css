@@ -285,6 +285,22 @@ body {
   font-weight: 700;
 }
 
+.md-typeset .mermaid {
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+}
+
+.md-typeset .mermaid svg {
+  display: block;
+  height: auto;
+  margin-inline: auto;
+}
+
+.md-typeset .mermaid--scroll svg {
+  margin-inline: 0;
+}
+
 .md-typeset a:not(.md-button):not(.domain-card):not(.headerlink):not(.study-page-link a) {
   color: var(--md-typeset-a-color);
 }

@@ -9,25 +9,32 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-06-29
+last_reviewed: 2026-07-12
+tags:
+  - platform-adoption
+  - governance
+  - developer-experience
 ---
 
 # Adoption, Governance, and Developer Experience
 
-> A platform succeeds only if product teams can adopt it safely. Architecture
-> quality includes documentation, migration path, diagnostics, support ownership,
-> and rules for exceptions.
+> A shared platform succeeds when its supported path is safer and cheaper than local
+> alternatives. Its product includes APIs, documentation, diagnostics, migration,
+> support ownership, feedback, and a bounded exception path.
 
 ## Quick Recall
 
-- Adoption is a product problem, not only a code-sharing problem.
-- Platform APIs need examples, templates, diagnostics, and migration guides.
-- Governance should define defaults, supported exceptions, and removal policy.
-- Measure adoption, integration defects, runtime health, and support cost.
-- Principal-level answers should connect architecture standards to team behavior.
+- Choose platform capabilities from repeated consumer pain, risk, and scarce expertise.
+  Reuse alone is not enough.
+- Make the common path self-service with clear APIs, examples, templates, diagnostics,
+  compatibility policy, and migration support.
+- Govern contracts and outcomes. Avoid central approval for ordinary implementation
+  choices.
+- Give exceptions an owner, reason, scope, review date, and path back to support.
+- Measure integration lead time, defects, reliability, support causes, exceptions, and
+  duplicate local paths. Adoption count alone can hide a mandate that does not help.
 
 ## Study
 
 - [Theory](theory.md)
 - [Interview questions](interview.md)
-

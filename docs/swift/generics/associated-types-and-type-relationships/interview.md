@@ -4,11 +4,11 @@ domain: "Swift"
 topic: "Generics"
 concept: "Associated Types and Type Relationships"
 page_type: interview
-interview_priority: core
-estimated_read_minutes: 2
+interview_priority: high
+estimated_read_minutes: 3
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Associated Types and Type Relationships: Interview Questions
@@ -21,6 +21,7 @@ last_reviewed: 2026-06-22
 |---|---|---|
 | [When should a protocol use an associated type?](#q1-associated-type-selection) | Senior | Conformance-owned type families |
 | [What do primary associated types change?](#q2-primary-associated-types) | Staff | Constraint syntax and API design |
+| [How do generics and constrained existentials preserve different facts?](#q3-preserving-type-facts) | Staff | Erasure boundary |
 
 ---
 
@@ -77,3 +78,20 @@ choices, and the underlying associated-type constraints still determine valid co
 A framework exposes image fetchers constrained to one image representation while keeping
 the concrete fetcher generic. Existing unconstrained consumers continue to use the protocol
 according to their boundary needs.
+
+---
+
+<a id="q3-preserving-type-facts"></a>
+## Q3: How Do Generics and Constrained Existentials Preserve Different Facts?
+
+### Short Answer
+
+A generic parameter preserves one complete concrete type and all relationships expressed
+through it. A constrained existential preserves only the protocol capabilities and named
+associated-type facts in its constraint. Use the generic form when later operations need
+the concrete relationship; erase at a real runtime storage or module boundary.
+
+### Example
+
+A generic pipeline keeps an encoder's exact input type. A registry stores
+`any ImageFetching<UIImage>` because callers need the image type but not the fetcher's identity.

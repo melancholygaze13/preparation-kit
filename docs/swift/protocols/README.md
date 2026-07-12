@@ -2,9 +2,9 @@
 title: "Protocols"
 domain: "Swift"
 page_type: topic-index
-interview_priority: core
+interview_priority: high
 status: reviewed
-last_reviewed: 2026-06-30
+last_reviewed: 2026-07-12
 ---
 
 # Protocols
@@ -31,10 +31,10 @@ existentials, delegation, extension dispatch, API evolution, and concurrency iso
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [Requirements, Conformance, and Synthesis](requirements-conformance-and-synthesis/README.md) | Defines clear capability, equality, hashing, and identity contracts. | Core | 8 min |
-| [Existentials, Composition, and Delegation](existentials-composition-and-delegation/README.md) | Chooses between generic and runtime-polymorphic boundaries. | Core | 6 min |
-| [Protocol Extensions and Dispatch](protocol-extensions-and-dispatch/README.md) | Prevents incorrect assumptions about which implementation runs. | Core | 5 min |
-| [Protocol API Evolution and Isolation](protocol-api-evolution-and-isolation/README.md) | Handles public evolution and concurrency contracts. | High | 5 min |
+| [Requirements, Conformance, and Synthesis](requirements-conformance-and-synthesis/README.md) | Defines clear capability, equality, hashing, and identity contracts. | High | 8 min |
+| [Existentials, Composition, and Delegation](existentials-composition-and-delegation/README.md) | Chooses between generic and runtime-polymorphic boundaries. | High | 8 min |
+| [Protocol Extensions and Dispatch](protocol-extensions-and-dispatch/README.md) | Prevents incorrect assumptions about which implementation runs. | High | 8 min |
+| [Protocol API Evolution and Isolation](protocol-api-evolution-and-isolation/README.md) | Handles public evolution and concurrency contracts. | Situational | 5 min |
 
 ## Source Section
 

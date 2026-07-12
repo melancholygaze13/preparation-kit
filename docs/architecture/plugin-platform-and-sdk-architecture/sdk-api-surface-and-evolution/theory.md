@@ -8,9 +8,13 @@ levels:
   - staff
   - principal
 interview_priority: situational
-estimated_read_minutes: 5
+estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-06-29
+last_reviewed: 2026-07-12
+tags:
+  - sdk-design
+  - api-evolution
+  - compatibility
 ---
 
 # SDK API Surface and Evolution: Theory
@@ -19,14 +23,14 @@ last_reviewed: 2026-06-29
 
 ## Mental Model
 
-An SDK is architecture at an API boundary. Clients should understand the public
-surface without learning the SDK's internal layering. The SDK should evolve
-without forcing client rewrites for ordinary implementation changes.
+An SDK is a supported boundary between teams, releases, and sometimes organizations.
+Clients should understand its workflows without learning its internal layers. The SDK
+should change implementation freely while changing its published contract deliberately.
 
 Good SDK design starts from supported workflows:
 
 ```text
-configure -> request capability -> observe result -> handle error -> diagnose
+configure -> check capability -> perform work -> handle result -> diagnose
 ```
 
 ## API Surface
@@ -59,9 +63,9 @@ flowchart TD
     Internal --> Device
 ```
 
-The public facade should describe what the client can do. It should not expose
-transport objects, persistence entities, internal queues, or implementation
-classes unless clients genuinely need that control.
+The facade describes client capabilities. Do not expose transport clients, persistence
+entities, queues, concrete services, or vendor SDK types only because the implementation
+uses them. Every public declaration becomes compatibility and support work.
 
 | Surface area | Design question |
 |---|---|
@@ -69,10 +73,29 @@ classes unless clients genuinely need that control.
 | Capability API | What actions or streams does the SDK support? |
 | Result model | What does success mean in client terms? |
 | Error model | Which failures are recoverable, retryable, or developer mistakes? |
-| Concurrency | Which actor or callback context delivers results? |
+| Concurrency | Which actor owns calls and results, and how do cancellation and overlap work? |
 | Diagnostics | How can clients and SDK owners debug production issues? |
+| Data policy | What is collected, retained, redacted, and safe to log? |
 
-## Evolution
+Document behavior as carefully as signatures. Changing callback order, actor isolation,
+error categories, retry policy, persistence, or data collection can break clients even
+when source still compiles.
+
+## Separate Compatibility Promises
+
+- **Source compatibility:** existing client source still compiles.
+- **Binary compatibility:** an already-built client can use a separately built library.
+- **Behavior compatibility:** documented outcomes and timing rules remain valid.
+- **Distribution compatibility:** the artifact supports the client's platforms,
+  architectures, toolchain, and integration method.
+
+For source packages built with their clients, focus on public source and behavior. For a
+binary Swift framework distributed separately, decide module stability and library
+evolution before the first supported release. Swift's library-evolution mode is intended
+for libraries updated separately from clients; it changes layout and evolution rules and
+has performance costs. It is not a default setting for every internal package.
+
+## Evolve the Contract
 
 Stable SDKs prefer additive changes. Add new types, overloads, optional
 capabilities, or defaulted behavior before changing existing contracts. When a
@@ -88,35 +111,49 @@ stateDiagram-v2
     Stable --> Stable: additive change
 ```
 
-Versioning should reflect compatibility, but semantic version numbers alone do
-not make an SDK safe. Clients also need release notes, migration examples,
-deprecation annotations, and a way to test integration before rollout.
+Prefer additive evolution, but verify that an addition is safe for the actual contract.
+For example, adding an enum case can affect exhaustive client switches, and changing a
+default argument may leave already-compiled callers using the old value. Semantic version
+numbers describe intent; they do not create source, binary, or behavior compatibility.
+
+A deprecation needs a supported replacement, migration notes, an observation window, and
+a stated removal policy. For a costly migration, add an adapter or compatibility layer and
+measure supported-version use before removal.
 
 ## Engineering Decisions
 
-Prefer a small facade over exposing many low-level services. Internally, the SDK
-can still use Clean Architecture, ports and adapters, repositories, actors, or
-feature modules. Externally, clients should see a coherent product capability.
+Use protocols when clients need to supply behavior, such as authentication or logging.
+Do not publish internal abstraction protocols as customization points. Keep experimental
+API clearly outside the stable promise, and avoid informal SPI that clients will treat as
+public once it solves a real need.
 
-Use protocols for client-provided dependencies only when clients need to supply
-behavior. Do not expose protocols merely because the SDK implementation uses
-protocols internally.
+Choose source distribution when transparency, portability, and client compilation are
+acceptable. Binary XCFramework distribution can protect implementation and reduce source
+exposure, but it limits supported platforms to the included variants and adds artifact,
+toolchain, symbol, and compatibility work.
 
-For binary or package distribution, decide what is source-stable, binary-stable,
-internal, experimental, and SPI. The team must know which promises are supported
-before publishing APIs broadly.
+## Benefits and Costs
+
+| Benefits | Costs and risks |
+|---|---|
+| A small facade hides internal replacement | Every public type limits future change |
+| Stable workflows reduce client integration cost | Compatibility tests multiply across supported versions |
+| Additive APIs allow gradual client migration | Old paths increase implementation and support load |
+| Binary distribution can hide implementation | Artifacts, symbols, platforms, and toolchains need support |
 
 ## Production Application
 
-SDKs need diagnostics by design. Include version, configuration state, capability
-availability, request identifiers, error categories, and integration warnings.
-Without this, every client failure becomes a support investigation.
+Expose version, configuration validation, capability availability, request identifiers,
+stable error categories, and redacted logging hooks. Do not require access to internal
+logs to diagnose an ordinary integration failure.
 
-Test the SDK like a client. Maintain sample apps, integration tests, API
-compatibility checks, and migration tests. A unit test for the internal service is
-not enough to prove the public API is usable.
+Test through the public product in a sample app. Compile representative clients against
+the current and previous supported releases. Add migration and binary checks when those
+promises apply. Internal unit tests cannot prove that packaging, documentation,
+concurrency behavior, or the public workflow works for a client.
 
 ## References
 
 - [Swift API Design Guidelines](https://www.swift.org/documentation/api-design-guidelines/)
-- [Creating a Swift package](https://developer.apple.com/documentation/xcode/creating-a-swift-package)
+- [Library Evolution in Swift](https://www.swift.org/blog/library-evolution/)
+- [Distributing binary frameworks as Swift packages](https://developer.apple.com/documentation/xcode/distributing-binary-frameworks-as-swift-packages)

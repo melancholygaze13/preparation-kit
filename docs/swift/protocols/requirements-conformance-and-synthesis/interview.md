@@ -4,11 +4,11 @@ domain: "Swift"
 topic: "Protocols"
 concept: "Requirements, Conformance, and Synthesis"
 page_type: interview
-interview_priority: core
+interview_priority: high
 estimated_read_minutes: 3
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-30
+last_reviewed: 2026-07-12
 ---
 
 # Requirements, Conformance, and Synthesis: Interview Questions

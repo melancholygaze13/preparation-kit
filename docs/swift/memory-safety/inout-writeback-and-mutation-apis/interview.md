@@ -4,11 +4,11 @@ domain: "Swift"
 topic: "Memory Safety"
 concept: "inout Writeback and Mutation APIs"
 page_type: interview
-interview_priority: core
+interview_priority: high
 estimated_read_minutes: 3
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # `inout` Writeback and Mutation APIs: Interview Questions

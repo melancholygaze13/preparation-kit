@@ -7,9 +7,9 @@ page_type: theory
 levels:
   - senior
 interview_priority: high
-estimated_read_minutes: 2
+estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Dictionaries: Theory
@@ -58,6 +58,32 @@ small ordered data or when duplicates and position matter.
 
 Dictionaries have value semantics and usually use copy-on-write. This does not
 make simultaneous mutation of one shared variable safe.
+
+## Constraints and Guarantees
+
+A dictionary key is a lookup identity, not merely a convenient field. It should
+remain stable for as long as the entry is stored. If a mutable class instance is
+used as a key and its equality-relevant state changes, later lookup or removal can
+fail even though the object is still in storage.
+
+The default-value subscript creates a value only when needed for mutation. It is
+useful for counters and grouping, but the chosen default must be a true identity
+value for the operation. A default that hides missing required configuration turns
+an input error into plausible but incorrect data.
+
+Copy-on-write preserves independent dictionary values, not deep copies of reference
+values. Two dictionary copies may still contain references to the same mutable objects.
+
+## Production Application
+
+Treat merge behavior as part of the boundary contract. For cached data, “new wins”
+may be valid. For configuration or financial records, duplicate keys may require a
+hard error with source information. Preserve enough context to explain the conflict.
+
+Sort keys before deterministic encoding, signing, or snapshot comparison. Test
+missing keys, present optional values, duplicate inputs, and mutation after a
+dictionary copy. Protect shared dictionary variables with an actor or appropriate
+synchronization when several tasks can access them.
 
 ## References
 

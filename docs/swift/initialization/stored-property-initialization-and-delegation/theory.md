@@ -5,10 +5,10 @@ topic: "Initialization"
 concept: "Stored-Property Initialization and Delegation"
 page_type: theory
 interview_priority: high
-estimated_read_minutes: 2
+estimated_read_minutes: 4
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Stored-Property Initialization and Delegation: Theory
@@ -42,6 +42,14 @@ declared in the original structure declaration, synthesized memberwise behavior 
 change; place supplemental initializers in extensions when the language rules and API
 design require preserving synthesis.
 
+Definite initialization proves that storage has a value. It does not prove that an
+email is valid, a range is ordered, or two fields agree. Put those related checks in
+one construction boundary so no public initializer can create a weaker state.
+
+Property defaults are evaluated as part of creating each instance. A default closure
+can allocate or perform expensive synchronous work even when the call site looks
+simple. Prefer explicit inputs or lazy, owned work when the cost or failure matters.
+
 ### Core Invariants
 
 - Successful construction returns a complete valid value.
@@ -64,11 +72,19 @@ Use defaults for universally valid policy, explicit initializers for required in
 failable/throwing construction for validation, and factories for effectful or cached work.
 Keep I/O out of synchronous initializers when cancellation and recovery matter.
 
+Separate parsing from validated construction when raw input has many failure reasons.
+The parser can return detailed errors; the initializer can remain the small boundary
+that accepts only values capable of satisfying the type's rules.
+
 ## Production Application
 
 Profile construction volume, allocations, and expensive default closures. Test every
 boundary and verify failed construction leaves no registration or external side effect.
 Changing defaults or synthesized initializer availability is an API migration.
+
+For public value types, inspect the generated interface after adding a stored property,
+default, or custom initializer. Source clients may depend on an explicit initializer
+even when the type's stored representation is not intended to be public API.
 
 ## References
 

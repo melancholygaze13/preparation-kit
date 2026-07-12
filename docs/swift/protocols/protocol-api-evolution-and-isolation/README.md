@@ -3,11 +3,11 @@ title: "Protocol API Evolution and Isolation"
 domain: "Swift"
 topic: "Protocols"
 page_type: concept-index
-interview_priority: high
+interview_priority: situational
 estimated_read_minutes: 1
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Protocol API Evolution and Isolation

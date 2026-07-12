@@ -4,11 +4,11 @@ domain: "Swift"
 topic: "Memory Safety"
 concept: "Unsafe Memory and Foreign Boundaries"
 page_type: interview
-interview_priority: high
+interview_priority: situational
 estimated_read_minutes: 3
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Unsafe Memory and Foreign Boundaries: Interview Questions

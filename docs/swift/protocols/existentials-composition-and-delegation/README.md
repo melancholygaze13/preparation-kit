@@ -3,11 +3,11 @@ title: "Existentials, Composition, and Delegation"
 domain: "Swift"
 topic: "Protocols"
 page_type: concept-index
-interview_priority: core
+interview_priority: high
 estimated_read_minutes: 1
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Existentials, Composition, and Delegation

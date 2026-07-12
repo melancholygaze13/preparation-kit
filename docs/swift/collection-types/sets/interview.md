@@ -7,9 +7,9 @@ page_type: interview
 levels:
   - senior
 interview_priority: high
-estimated_read_minutes: 2
+estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Sets: Interview Questions
@@ -45,6 +45,12 @@ candidate is the same element because different values can share a hash.
 Equal values must have equal hashes during one execution. Equality should also be
 reflexive, symmetric, and transitive. Hash collisions between unequal values are valid.
 
+### Expanded Answer
+
+Hash the same fields used by equality. Do not persist `hashValue` or assume it is
+stable between launches. The domain must define identity before synthesis or a custom
+implementation can be judged correct.
+
 ---
 
 <a id="q3-why-is-mutable-hash-state-dangerous"></a>
@@ -55,6 +61,11 @@ reflexive, symmetric, and transitive. Hash collisions between unequal values are
 If an element's hash changes while stored, the set may search the wrong bucket
 and fail to find or remove that element.
 
+### Expanded Answer
+
+This is most risky with mutable class instances used as elements. Prefer immutable
+identity. Otherwise remove the value, update it, and reinsert it under controlled ownership.
+
 ---
 
 <a id="q4-when-should-you-use-a-set-instead-of-an-array"></a>
@@ -64,3 +75,9 @@ and fail to find or remove that element.
 
 Use a set when uniqueness, membership tests, or set algebra matter more than
 order and duplicates. Use an array when order is part of the model.
+
+### Trade-offs
+
+- A set makes uniqueness explicit but does not preserve presentation order.
+- An array is simpler for small ordered data but needs a separate duplicate policy.
+- Rejecting duplicate imports preserves conflict information that plain insertion can hide.

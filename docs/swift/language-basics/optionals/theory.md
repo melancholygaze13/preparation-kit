@@ -6,10 +6,10 @@ concept: "Optionals"
 page_type: theory
 levels:
   - senior
-interview_priority: core
-estimated_read_minutes: 2
+interview_priority: high
+estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Optionals: Theory
@@ -47,6 +47,10 @@ meaning; do not hide missing required data with an arbitrary default.
 Use `map` to transform a present value. Use `flatMap` when the transformation
 already returns an optional and you want one optional layer.
 
+Unwrap at the boundary that owns the absence decision. Repeatedly passing an
+optional inward makes every later operation reconsider the same question. Validate
+required data early, then use a nonoptional value inside the valid path.
+
 ## Nested and Implicitly Unwrapped Optionals
 
 `T??` can represent three states: no outer value, an outer value containing
@@ -63,11 +67,35 @@ interoperability or lifecycle tool, not a way to avoid modeling absence.
 reviewable invariant proves presence and recovery would indicate a programming
 error. Prefer making the invariant structural through initialization or types.
 
+## Constraints and Guarantees
+
+Optional chaining short-circuits access, but it does not explain which link was
+missing. This is useful when skipped work is valid. It is a poor fit when the caller
+must diagnose incomplete state, record a metric, or distinguish several failures.
+
+Nil-coalescing evaluates its fallback lazily. The fallback still becomes part of
+the domain behavior. An empty string, zero, or empty array is safe only when it
+truly means the same thing as absence for that operation.
+
+Unwrapping does not change ownership. A wrapped class instance is still the same
+reference, and making it nonoptional does not make shared mutation safe across tasks.
+
 ## API Design
 
 Use an optional when absence is expected and needs no further explanation. Use a
 result or thrown error when callers need the reason. Avoid optional Boolean
 values unless `true`, `false`, and unknown are three real domain states.
+
+For collections, decide whether “no element,” “empty collection,” and “not loaded”
+are different states. Collapsing them can simplify an API, but it can also erase
+loading, authorization, or data-quality information that later policy needs.
+
+## Production Application
+
+Record required-data failures before converting them to a fallback. Test the nil
+path as a first-class outcome, including chains with more than one missing link.
+During migration, make a new nonoptional rule true at decoding and persistence
+boundaries before removing optional handling from consumers.
 
 ## References
 

@@ -4,11 +4,11 @@ domain: "Swift"
 topic: "Automatic Reference Counting"
 concept: "Lifecycle Architecture and Leak Diagnosis"
 page_type: theory
-interview_priority: core
+interview_priority: high
 estimated_read_minutes: 4
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Lifecycle Architecture and Leak Diagnosis: Theory

@@ -7,9 +7,9 @@ page_type: interview
 levels:
   - senior
 interview_priority: high
-estimated_read_minutes: 2
+estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Arrays: Interview Questions
@@ -50,6 +50,12 @@ mechanism and code should not depend on storage identity.
 No. When elements are class references, the new array contains copies of those
 references. Both arrays can still refer to the same instances.
 
+### Expanded Answer
+
+The array value is independent, but the referenced objects keep their own identity.
+Mutating the array structure affects only that array. Mutating a shared object can be
+observed through both arrays. Deep copying, when the domain needs it, is a separate policy.
+
 ---
 
 <a id="q3-what-should-you-know-about-array-slice"></a>
@@ -59,6 +65,11 @@ references. Both arrays can still refer to the same instances.
 
 It is a view that keeps the original indices and may retain the original storage.
 Convert it to `Array` for zero-based indices or independent long-term storage.
+
+### Example
+
+A parser returns ten elements from a very large temporary array. Keeping that slice
+may retain the full buffer, so a long-lived result should usually own a new array.
 
 ---
 
@@ -70,3 +81,9 @@ Convert it to `Array` for zero-based indices or independent long-term storage.
 Use a set when uniqueness and membership dominate. Use a dictionary for frequent
 key-based lookup. Use a different data structure when frequent front insertion
 or stable positional identity is required.
+
+### Expanded Answer
+
+Choose from the operations and guarantees the domain needs. An array remains a good
+choice for small data even when a theoretically faster structure exists. Change it
+only when order, identity, or measured cost no longer fits.

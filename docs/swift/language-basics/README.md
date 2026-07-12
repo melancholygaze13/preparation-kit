@@ -4,7 +4,7 @@ domain: "Swift"
 page_type: topic-index
 interview_priority: high
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Language Basics
@@ -27,10 +27,10 @@ Then select the remaining concepts as short role-specific checks.
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [Optionals](optionals/README.md) | Models absence and safe control flow. | Core | 5 min |
-| [Type Safety and Type Inference](type-safety-and-inference/README.md) | Explains compiler context and ambiguous expressions. | High | 5 min |
-| [Error Handling Fundamentals](error-handling/README.md) | Introduces propagation and recovery ownership. | High | 5 min |
-| [Memory Safety Fundamentals](memory-safety/README.md) | Introduces lifetime, bounds, and exclusive access. | High | 4 min |
+| [Optionals](optionals/README.md) | Models absence and safe control flow. | High | 8 min |
+| [Type Safety and Type Inference](type-safety-and-inference/README.md) | Explains compiler context and ambiguous expressions. | Situational | 5 min |
+| [Error Handling Fundamentals](error-handling/README.md) | Introduces propagation and recovery ownership. | Situational | 5 min |
+| [Memory Safety Fundamentals](memory-safety/README.md) | Introduces lifetime, bounds, and exclusive access. | Situational | 4 min |
 | [Numeric Types and Conversions](numeric-types-and-conversions/README.md) | Prevents range and precision errors. | Situational | 5 min |
 | [Assertions and Preconditions](assertions-and-preconditions/README.md) | Separates programmer contracts from recoverable failure. | Situational | 5 min |
 | [Constants and Variables](constants-and-variables/README.md) | Clarifies binding mutation and reference mutability. | Reference | 5 min |

@@ -4,7 +4,7 @@ domain: "Swift"
 page_type: topic-index
 interview_priority: core
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Concurrency
@@ -35,11 +35,11 @@ topic covers tasks, cancellation, actors, sendability, testing, and migration.
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [Async Functions, Suspension, and Executors](async-functions-suspension-and-executors/README.md) | Distinguishes suspension, blocking, and parallel work. | Core | 9 min |
-| [Structured Concurrency and Task Groups](structured-concurrency-and-task-groups/README.md) | Connects child lifetime, results, failure, and cancellation to a parent scope. | Core | 8 min |
-| [Unstructured Tasks and Task Context](unstructured-tasks-and-task-context/README.md) | Explains task ownership and when detached work is unsafe. | Core | 7 min |
+| [Async Functions, Suspension, and Executors](async-functions-suspension-and-executors/README.md) | Distinguishes suspension, blocking, and parallel work. | Core | 10 min |
+| [Structured Concurrency and Task Groups](structured-concurrency-and-task-groups/README.md) | Connects child lifetime, results, failure, and cancellation to a parent scope. | Core | 9 min |
+| [Unstructured Tasks and Task Context](unstructured-tasks-and-task-context/README.md) | Explains task ownership and when detached work is unsafe. | High | 7 min |
 | [Cancellation, Timeouts, and Lifecycle](cancellation-timeouts-and-lifecycle/README.md) | Shows why cancellation is cooperative and who must stop work. | Core | 7 min |
-| [Actors, Global Actors, and Reentrancy](actors-global-actors-and-reentrancy/README.md) | Protects shared state without assuming an actor method is fully atomic. | Core | 10 min |
+| [Actors, Global Actors, and Reentrancy](actors-global-actors-and-reentrancy/README.md) | Protects shared state without assuming an actor method is fully atomic. | Core | 11 min |
 | [Sendability and Swift 6 Migration](sendability-and-swift-6-migration/README.md) | Explains safe isolation transfer and strict-concurrency adoption. | Core | 9 min |
 | [Async Sequences, Streams, and Continuations](async-sequences-streams-and-continuations/README.md) | Covers values over time and safe callback bridging. | High | 7 min |
 | [Concurrency Testing and Observability](concurrency-testing-and-observability/README.md) | Makes timing-sensitive behavior testable and diagnosable. | High | 9 min |

@@ -5,10 +5,10 @@ topic: "Language Basics"
 page_type: concept-index
 levels:
   - senior
-interview_priority: core
+interview_priority: high
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Optionals

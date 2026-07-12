@@ -1,8 +1,9 @@
 ---
 title: "Architecture"
 page_type: domain-index
-status: draft
-last_reviewed: 2026-06-22
+interview_priority: core
+status: reviewed
+last_reviewed: 2026-07-12
 ---
 
 # Architecture
@@ -29,6 +30,18 @@ last_reviewed: 2026-06-22
 7. [Dependency Injection and Composition](dependency-injection-and-composition/README.md)
 8. [Modularization and Feature Boundaries](modularization-and-feature-boundaries/README.md)
 9. [Architecture Testing and Testability](architecture-testing-and-testability/README.md)
+
+## Standard Preparation
+
+Complete the rapid-review path, then add these high-priority topics:
+
+1. [The Composable Architecture (TCA)](composable-architecture-tca/README.md)
+2. [Data Layer, Repositories, and Offline State](data-layer-repositories-and-offline-state/README.md)
+3. [Concurrency, State, and Side Effects](concurrency-state-and-side-effects/README.md)
+4. [Architecture Evolution and Migration](architecture-evolution-and-migration/README.md)
+
+Choose role-specific topics only when they match the job description, product, or known
+interview format. They are not prerequisites for the core path.
 
 ## Topics
 

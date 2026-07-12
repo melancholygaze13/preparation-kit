@@ -9,27 +9,33 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-06-29
+last_reviewed: 2026-07-12
+tags:
+  - plugin-architecture
+  - extension-points
+  - contracts
 ---
 
 # Extension Points and Plugin Contracts
 
-> A plugin architecture is a contract-first design. The host owns lifecycle,
-> policy, and safety; plugins contribute behavior through explicit extension
-> points without depending on host internals.
+> A plugin architecture lets independently owned contributors add behavior through a
+> host-defined contract. The host keeps control of lifecycle and policy; each plugin sees
+> only the capability and context it needs.
 
 ## Quick Recall
 
-- Define the host/plugin boundary before designing registration mechanics.
-- Prefer narrow capability protocols over giving plugins access to global app
-  state.
-- The host should own lifecycle, ordering, isolation, error handling, and
-  observability.
-- Plugins should declare capabilities, dependencies, and supported contexts.
-- Contract tests are more valuable than tests that know the host implementation.
+- First decide whether the variation needs a plugin at all. A normal dependency or
+  strategy is cheaper when one team owns all implementations.
+- In-process Swift modules, SwiftPM build plugins, and OS app extensions are different
+  models. Do not use one model's guarantees for another.
+- Prefer narrow capability protocols and stable value models over host services or
+  mutable global state.
+- Define discovery, lifecycle, ordering, concurrency, cancellation, failure, and version
+  policy as part of the contract.
+- Test the published contract from both sides: host tests use fakes, and contributors run
+  a shared conformance suite.
 
 ## Study
 
 - [Theory](theory.md)
 - [Interview questions](interview.md)
-

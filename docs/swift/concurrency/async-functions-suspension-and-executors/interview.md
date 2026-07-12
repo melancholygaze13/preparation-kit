@@ -5,10 +5,10 @@ topic: "Concurrency"
 concept: "Async Functions, Suspension, and Executors"
 page_type: interview
 interview_priority: core
-estimated_read_minutes: 3
+estimated_read_minutes: 4
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Async Functions, Suspension, and Executors: Interview Questions
@@ -21,6 +21,7 @@ last_reviewed: 2026-06-22
 |---|---|---|
 | [What is the difference between suspension and blocking?](#q1-suspension-versus-blocking) | Senior | Task and thread use |
 | [How do executor inheritance and @concurrent affect execution?](#q2-executor-inheritance) | Staff | Swift 6.2 placement |
+| [When should async operations run sequentially or concurrently?](#q3-sequential-or-concurrent) | Senior | Dependency and capacity |
 
 ---
 
@@ -78,3 +79,31 @@ with safe inputs/results, not for ordinary I/O that already suspends in framewor
 
 An app target defaults to `MainActor`, while a library does not. A shared helper behaves
 differently across boundaries; the team records settings and annotates the CPU API explicitly.
+
+---
+
+<a id="q3-sequential-or-concurrent"></a>
+## Q3: When Should Async Operations Run Sequentially or Concurrently?
+
+### Short Answer
+
+Await operations sequentially when one depends on the previous result or when order is
+part of correctness. Use structured child tasks when the work is independent and the
+resource budget allows overlap. `async` alone does not make consecutive calls concurrent.
+
+### Expanded Answer
+
+Start from data dependencies, failure policy, and downstream capacity. `async let` fits
+a fixed small set of independent results. A bounded task group fits dynamic fan-out.
+Keep sequential code when overlap would violate ordering, rate limits, or mutation rules.
+
+### Trade-offs
+
+- Concurrency can reduce latency but adds task, memory, and dependency pressure.
+- Sequential work is easier to reason about but can leave independent latency unhidden.
+- Unbounded fan-out can reduce total throughput after a dependency saturates.
+
+### Example
+
+Load a profile before requesting its account-specific activity. Load independent avatar
+and feature flags concurrently, with a limit if the same pattern expands to many accounts.

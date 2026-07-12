@@ -4,7 +4,7 @@ domain: "Swift"
 page_type: topic-index
 interview_priority: core
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Classes and Structures
@@ -33,9 +33,9 @@ make sound type and ownership decisions.
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [Type Design and Initialization](type-design-and-initialization/README.md) | Selects a type from domain behavior, not habit. | Core | 12 min |
+| [Type Design and Initialization](type-design-and-initialization/README.md) | Selects a type from domain behavior, not habit. | High | 12 min |
 | [Value and Reference Semantics](value-and-reference-semantics/README.md) | Predicts copying and mutation after assignment. | Core | 12 min |
-| [Identity, Aliasing, and Mutation Ownership](identity-aliasing-and-mutation-ownership/README.md) | Places shared state behind a clear owner. | Core | 13 min |
+| [Identity, Aliasing, and Mutation Ownership](identity-aliasing-and-mutation-ownership/README.md) | Places shared state behind a clear owner. | High | 13 min |
 
 ## Related Topics
 

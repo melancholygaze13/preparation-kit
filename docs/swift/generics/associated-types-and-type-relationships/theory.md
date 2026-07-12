@@ -4,11 +4,11 @@ domain: "Swift"
 topic: "Generics"
 concept: "Associated Types and Type Relationships"
 page_type: theory
-interview_priority: core
-estimated_read_minutes: 3
+interview_priority: high
+estimated_read_minutes: 4
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Associated Types and Type Relationships: Theory
@@ -39,6 +39,11 @@ brackets. That syntax supports constrained uses such as `some Repository<User>` 
 `any Repository<User>`, while the conformance still chooses the associated type. The
 generic function preserves the equalities among its argument, identifier, and result.
 
+An existential can store a runtime-selected conformer, but erasure may hide a relationship
+the next operation needs. Constraining a primary associated type preserves selected facts;
+a generic parameter preserves the complete concrete relationship for the duration of the
+call. Choose the boundary from what the caller must prove, not from shorter syntax.
+
 ### Core Invariants
 
 - A conformance has one coherent witness for each associated type.
@@ -62,6 +67,10 @@ conformance, should select the type independently for each use.
 Prefer the weakest relationship that proves correctness. Split protocols when different
 clients need independent capabilities; do not add same-type constraints only to silence a
 local compiler error.
+
+When several associated types are always chosen together, confirm that one protocol
+really owns that family. If clients use independent subsets, split the protocol so they
+do not inherit unrelated constraints and witness obligations.
 
 ## Production Application
 

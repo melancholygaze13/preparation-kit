@@ -7,9 +7,9 @@ page_type: theory
 levels:
   - senior
 interview_priority: high
-estimated_read_minutes: 2
+estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Sets: Theory
@@ -45,12 +45,39 @@ guarantees.
 Iteration order is not part of the contract. Sort at a presentation or encoding
 boundary when deterministic order is required.
 
+## Constraints and Guarantees
+
+Hashing narrows the search; equality decides identity. A collision is therefore
+normal and must not change correctness. A poor hash can reduce performance, but a
+hash value must never be used as a persistent identifier or equality substitute.
+
+Synthesized `Hashable` uses the stored properties that participate in synthesis.
+That is correct only when those properties match the domain's identity rule. For
+an entity whose display name can change, hashing the name may be the wrong model.
+Prefer a stable immutable ID, or store immutable value snapshots in the set.
+
+Set algebra returns values whose ordering is unspecified. If a result crosses a
+network, persistence, snapshot-test, or signature boundary, sort using an explicit
+stable key. Do not depend on the order observed in one run.
+
 ## Engineering Decisions
 
 Use a set when uniqueness, membership, or set algebra is central. Use an array
 when order or duplicates matter. Use a dictionary when each key owns a value.
 Like other Swift collections, a set has value semantics but shared mutation of
 one variable still needs synchronization.
+
+Decide what a duplicate means before inserting. Silently dropping a second value
+is correct for mathematical membership, but can hide conflicting records during
+an import. When conflicts matter, detect the existing element and return or log a
+domain result instead of treating insertion as unconditional success.
+
+## Production Application
+
+Test the laws of equality and hashing with values that differ in mutable,
+nonidentity fields. Also test deterministic serialization separately from set
+membership. If lookup performance matters, measure realistic data distributions;
+average constant time is not a latency guarantee for every input.
 
 ## References
 

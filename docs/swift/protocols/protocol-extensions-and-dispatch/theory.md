@@ -4,11 +4,11 @@ domain: "Swift"
 topic: "Protocols"
 concept: "Protocol Extensions and Dispatch"
 page_type: theory
-interview_priority: core
-estimated_read_minutes: 2
+interview_priority: high
+estimated_read_minutes: 4
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Protocol Extensions and Dispatch: Theory
@@ -43,6 +43,16 @@ Calling `describe()` through `any Describable` uses `Item`'s witness. Calling
 `debugLabel()` through that static protocol view uses the extension member because it is
 not a requirement. If polymorphism is intended, declare it in the protocol.
 
+The declaration creates the customization point. A same-named method added by a
+conforming type does not retroactively turn an extension-only helper into a requirement.
+Concrete tests can therefore pass while generic or existential production code observes
+the extension implementation.
+
+Constrained extensions add another selection dimension. A more specific default can be
+available when `Self` meets extra constraints, but overlapping defaults make behavior
+hard to predict and evolve. Prefer one obvious default or separate named capabilities
+when policies differ.
+
 ### Core Invariants
 
 - Polymorphic behavior is represented by a requirement.
@@ -62,11 +72,18 @@ Use defaults for universal behavior derivable from requirements. Require explici
 implementation when policy, performance, security, or lifecycle differs by conformer.
 Keep convenience helpers extension-only only when static dispatch is intentional.
 
+Do not put security, persistence, retry, or lifecycle policy in a default merely to save
+boilerplate. A universal-looking default becomes the behavior of every new conformer.
+Require an explicit witness when each conformer must make a decision.
+
 ## Production Application
 
 Test calls through concrete, generic, and existential views. Benchmark defaults where
 complexity differs. Audit isolation: synchronous requirements cannot be satisfied by
 actor-isolated witnesses unless the protocol/conformance expresses that isolation.
+
+When evolving a public protocol, compile a conformer that uses each default and one that
+supplies its own witness. Concrete-only tests are insufficient for dispatch behavior.
 
 ## Staff and Principal Perspective
 

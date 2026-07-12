@@ -88,17 +88,21 @@ to concept pages.
 
 ## Content Budgets
 
-Use these as limits, not targets:
+Use these as planning ranges and soft limits, not targets. Slightly exceed a
+range when the added explanation materially improves understanding, recall, or
+engineering judgment.
 
 | Priority | Total first-read time | Theory | Interview questions |
 |---|---:|---:|---:|
-| `core` | 12–20 min | 1,200–2,000 words | 2–5 |
-| `high` | 7–12 min | 700–1,200 words | 2–5 |
-| `situational` | 3–7 min | 300–700 words | 2–4 |
+| `core` | 14–22 min | 1,400–2,200 words | 2–5 |
+| `high` | 8–14 min | 800–1,400 words | 2–5 |
+| `situational` | 4–8 min | 400–800 words | 2–4 |
 | `reference` | 1–3 min | Prefer no separate theory page | 2–3 short checks |
 
-Exceed a budget only when removing material would make a common answer
-incorrect or unsafe. If a page exceeds its budget:
+Exceed a budget when removing material would make a likely interview answer
+incorrect, misleading, difficult to explain, or too shallow for the target
+role. A compact example, important contrast, or production consequence may
+justify the extra reading time. If a page exceeds its budget:
 
 1. Remove repetition, exhaustive enumeration, history, and low-value edge cases.
 2. Merge overlapping concepts.
@@ -148,7 +152,9 @@ editing; use roughly 200 words per minute plus time for code and tables.
 
 - Start with the answer or mental model.
 - Put recall before detail and common cases before edge cases.
-- Keep the concept overview reviewable in one minute.
+- Keep the essential mental model and Quick Recall reviewable in one minute.
+  Supporting navigation or decision guidance may extend the full overview
+  slightly.
 - Use plain English that is clear to a non-native speaker. Treat this as a
   hard requirement, not a style preference.
 - Prefer common words, active voice, and one idea per sentence. If a simpler
@@ -174,7 +180,13 @@ editing; use roughly 200 words per minute plus time for code and tables.
 - Separate language or framework guarantees from implementation assumptions.
 - State constraints and trade-offs only where they affect a decision or answer.
 - Connect mechanics to production consequences.
-- Prefer one representative example over several similar examples.
+- Add explanation when it clarifies why behavior occurs, distinguishes similar
+  concepts, connects a rule to a production consequence, or gives the candidate
+  language they can use in an interview. Do not add wording that only restates
+  the same conclusion.
+- Prefer one representative example. Add a second only when it exposes a
+  different failure, trade-off, or design decision that the first example
+  cannot show clearly.
 - Use decision criteria instead of unconditional recommendations.
 - Avoid filler, trivia, repeated definitions, and generic Staff-level commentary.
 - Do not repeat theory in interview answers; reshape it into a spoken response.
@@ -445,6 +457,9 @@ Before considering content complete, verify that:
 - Architecture approach pages include pros and cons, fit criteria, and adoption
   cost.
 - Broader Staff/Principal claims address genuine system or organizational scope.
+- When shortening content, the page still explains both what happens and why it
+  matters. Concision does not force the candidate to infer an important
+  reasoning step.
 - Parent and sibling links resolve; no placeholder content remains.
 - Important claims are supported by current primary sources.
 - Lower-priority detail has not displaced core preparation.

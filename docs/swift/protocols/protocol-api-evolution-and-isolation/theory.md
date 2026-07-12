@@ -4,11 +4,11 @@ domain: "Swift"
 topic: "Protocols"
 concept: "Protocol API Evolution and Isolation"
 page_type: theory
-interview_priority: high
+interview_priority: situational
 estimated_read_minutes: 2
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Protocol API Evolution and Isolation: Theory

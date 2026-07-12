@@ -4,11 +4,11 @@ domain: "Swift"
 topic: "Memory Safety"
 concept: "Disjoint Storage and Value Mutation"
 page_type: theory
-interview_priority: high
+interview_priority: situational
 estimated_read_minutes: 3
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Disjoint Storage and Value Mutation: Theory

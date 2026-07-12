@@ -9,28 +9,31 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-06-29
+last_reviewed: 2026-07-12
+tags:
+  - sdk-configuration
+  - factories
+  - builders
 ---
 
 # Factories, Builders, and SDK Configuration
 
-> SDK construction patterns exist to make valid setup easy and invalid setup hard.
-> Factories, builders, and configuration objects should encode lifecycle,
-> dependency, environment, and validation rules instead of exposing a bag of
-> mutable options.
+> SDK construction is part of the public contract. Use the simplest entry point that
+> makes valid setup obvious, validates required rules once, and gives resources a clear
+> owner and lifetime.
 
 ## Quick Recall
 
-- Use a configuration object for stable client-supplied setup values.
-- Use a builder when setup has many optional choices or staged validation.
-- Use a factory when construction must hide implementation selection or enforce
-  environment-specific dependencies.
-- Keep runtime capabilities separate from one-time configuration.
-- Fail early for invalid setup, with errors that identify what the client must
-  change.
+- Prefer an initializer for a few required values. Add a configuration type or builder
+  only when it encodes real choices or required validation.
+- A factory hides implementation selection and dependency assembly; it should not become
+  a service locator.
+- Keep stable instance configuration separate from per-user and per-operation input.
+- Define who owns long-lived tasks, caches, sessions, observers, and shutdown.
+- Fail before runtime work when setup is invalid. Return typed, actionable, redacted
+  diagnostics.
 
 ## Study
 
 - [Theory](theory.md)
 - [Interview questions](interview.md)
-

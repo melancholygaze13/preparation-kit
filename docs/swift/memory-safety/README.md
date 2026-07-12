@@ -2,9 +2,9 @@
 title: "Memory Safety"
 domain: "Swift"
 page_type: topic-index
-interview_priority: core
+interview_priority: high
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Memory Safety
@@ -35,10 +35,10 @@ decomposes the mutation and unsafe-boundary decisions expected at senior levels.
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [Access Duration and Exclusivity Enforcement](access-duration-and-exclusivity-enforcement/README.md) | Explains overlapping read and write access. | Core | 7 min |
-| [`inout` Writeback and Mutation APIs](inout-writeback-and-mutation-apis/README.md) | Treats `inout` as temporary exclusive access, not a stored pointer. | Core | 7 min |
-| [Disjoint Storage and Value Mutation](disjoint-storage-and-value-mutation/README.md) | Shows when separate mutations can safely overlap. | High | 7 min |
-| [Unsafe Memory and Foreign Boundaries](unsafe-memory-and-foreign-boundaries/README.md) | Defines manual lifetime, bounds, binding, and synchronization duties. | High | 7 min |
+| [Access Duration and Exclusivity Enforcement](access-duration-and-exclusivity-enforcement/README.md) | Explains overlapping read and write access. | High | 8 min |
+| [`inout` Writeback and Mutation APIs](inout-writeback-and-mutation-apis/README.md) | Treats `inout` as temporary exclusive access, not a stored pointer. | High | 7 min |
+| [Disjoint Storage and Value Mutation](disjoint-storage-and-value-mutation/README.md) | Shows when separate mutations can safely overlap. | Situational | 7 min |
+| [Unsafe Memory and Foreign Boundaries](unsafe-memory-and-foreign-boundaries/README.md) | Defines manual lifetime, bounds, binding, and synchronization duties. | Situational | 7 min |
 
 ## Source Section
 

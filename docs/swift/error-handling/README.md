@@ -2,9 +2,9 @@
 title: "Error Handling"
 domain: "Swift"
 page_type: topic-index
-interview_priority: core
+interview_priority: high
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Error Handling
@@ -32,8 +32,8 @@ concurrency is covered here only where cancellation changes error policy.
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [Error Modeling and Throwing APIs](error-modeling-and-throwing-apis/README.md) | Separates recoverable failure, absence, and programmer error. | Core | 6 min |
-| [Propagation, Recovery, and Boundary Policy](propagation-recovery-and-boundary-policy/README.md) | Catches errors only where a recovery or translation policy exists. | Core | 7 min |
+| [Error Modeling and Throwing APIs](error-modeling-and-throwing-apis/README.md) | Separates recoverable failure, absence, and programmer error. | High | 8 min |
+| [Propagation, Recovery, and Boundary Policy](propagation-recovery-and-boundary-policy/README.md) | Catches errors only where a recovery or translation policy exists. | High | 8 min |
 
 ## Source Section
 

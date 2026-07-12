@@ -7,9 +7,9 @@ page_type: interview
 levels:
   - senior
 interview_priority: high
-estimated_read_minutes: 2
+estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Dictionaries: Interview Questions
@@ -34,6 +34,12 @@ last_reviewed: 2026-06-22
 
 Hashing finds candidate storage efficiently, and equality confirms the key.
 Equal keys must have equal hashes during one execution.
+
+### Expanded Answer
+
+Keys need stable equality while stored. Hash collisions are valid, and `hashValue`
+is not a persistent identifier. A mutable reference key should use immutable identity
+or be removed before identity-relevant mutation.
 
 ---
 
@@ -60,6 +66,11 @@ whose value is `nil`. Avoid this model unless both states matter.
 Choose a domain rule: keep the old value, take the new value, combine them, or
 reject the conflict. Make the policy explicit at the merge boundary.
 
+### Example
+
+Refreshing a cache may take the newest record. Importing two configuration files with
+the same key should often reject the conflict so one source does not silently win.
+
 ---
 
 <a id="q4-when-is-a-dictionary-better-than-an-array"></a>
@@ -69,3 +80,9 @@ reject the conflict. Make the policy explicit at the merge boundary.
 
 Use a dictionary for repeated lookup by a stable unique key. Use an array when
 order, duplicates, or positional traversal are part of the model.
+
+### Trade-offs
+
+- Dictionary lookup is expected constant time but gives no stable iteration order.
+- Arrays preserve order and duplicates but key lookup is normally linear.
+- For very small data, the simpler representation can beat a more complex model.

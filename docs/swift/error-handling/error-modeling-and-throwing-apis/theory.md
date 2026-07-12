@@ -4,11 +4,11 @@ domain: "Swift"
 topic: "Error Handling"
 concept: "Error Modeling and Throwing APIs"
 page_type: theory
-interview_priority: core
-estimated_read_minutes: 3
+interview_priority: high
+estimated_read_minutes: 4
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 tags: [errors, throws, typed-throws, api-design]
 ---
 
@@ -56,6 +56,17 @@ domain APIs. It can overcouple abstraction layers when underlying or future fail
 need expansion. Translate at a stable boundary rather than leaking transport errors or
 declaring one giant error enum.
 
+### Throws or Result
+
+Use `throws` for direct control flow: the caller either receives the value or leaves
+the current path. Use `Result` when the outcome itself must be stored, sent through a
+callback, collected with other outcomes, or inspected later. Converting between them
+is easy, so choose the form that makes ownership clear at the boundary.
+
+Do not encode partial success as an ordinary success unless callers can tell what is
+missing. A batch can return per-item `Result` values, while an all-or-nothing operation
+should fail without publishing a misleading complete value.
+
 ### Core Invariants
 
 - Error cases correspond to recovery-relevant distinctions.
@@ -77,6 +88,10 @@ declaring one giant error enum.
 Design errors from caller decisions, not every internal event. Keep domain errors near
 the owning boundary, preserve underlying errors for diagnostics where safe, and use
 transaction/compensation design for effectful partial failure.
+
+Keep case payloads useful but stable. A public error can carry a domain identifier or
+retry hint without exposing a database code, localized message, token, or other detail
+that couples clients to one implementation or leaks sensitive data.
 
 ## Production Application
 

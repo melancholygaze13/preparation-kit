@@ -8,9 +8,13 @@ levels:
   - staff
   - principal
 interview_priority: situational
-estimated_read_minutes: 3
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-29
+last_reviewed: 2026-07-12
+tags:
+  - plugin-architecture
+  - extension-points
+  - contracts
 ---
 
 # Extension Points and Plugin Contracts: Interview Questions
@@ -21,69 +25,60 @@ last_reviewed: 2026-06-29
 
 | Question | Level | Focus |
 |---|---|---|
-| [When would you introduce a plugin architecture?](#q1-when-plugin-architecture) | Staff | Proportionality |
-| [What makes a plugin contract safe?](#q2-safe-plugin-contract) | Staff | Boundary design |
-| [How would you test plugin behavior without coupling to internals?](#q3-test-plugin-contracts) | Principal | Contract testing |
+| [When would you introduce a plugin architecture?](#q1-when-would-you-introduce-a-plugin-architecture) | Staff | Proportionality |
+| [What belongs in a safe plugin contract?](#q2-what-belongs-in-a-safe-plugin-contract) | Staff | Boundary design |
+| [How would you test and evolve a cross-team plugin contract?](#q3-how-would-you-test-and-evolve-a-cross-team-plugin-contract) | Principal | Compatibility and rollout |
 
 ---
 
-<a id="q1-when-plugin-architecture"></a>
+<a id="q1-when-would-you-introduce-a-plugin-architecture"></a>
 ## Q1: When would you introduce a plugin architecture?
 
 ### Short Answer
 
-I would introduce it when independently owned behavior must integrate through a
-stable host boundary. If variation is small or owned by one team, a normal module
-or strategy interface is usually cheaper.
+I use it when independently owned contributors must add behavior through a stable host
+boundary and may evolve on different schedules. If one team owns a small set of variants,
+a normal dependency or strategy is cheaper.
 
-### Expanded Answer
+### Trade-offs
 
-The signal is not "we have many modules." The signal is that the host needs to
-accept contributions without knowing each implementation. A checkout flow with
-several payment providers or a platform screen with team-owned sections are good
-examples.
-
-I would still keep the contract narrow. The host owns lifecycle, ordering,
-failure policy, and observability. Plugins own their implementation and declared
-capabilities.
+The benefit is independent contribution with consistent host policy. The cost is a
+long-lived contract, registration, compatibility testing, diagnostics, and support. I
+would also name whether this is an in-process module, build plugin, or separate-process
+app extension because their isolation and lifecycle differ.
 
 ---
 
-<a id="q2-safe-plugin-contract"></a>
-## Q2: What makes a plugin contract safe?
+<a id="q2-what-belongs-in-a-safe-plugin-contract"></a>
+## Q2: What belongs in a safe plugin contract?
 
 ### Short Answer
 
-The contract exposes only the required context, returns a validated contribution,
-and defines lifecycle, failure, ordering, cancellation, and versioning behavior.
+It exposes the minimum capability and stable context, returns a contribution the host can
+validate, and defines identity, discovery, lifecycle, isolation, ordering, cancellation,
+failure, compatibility, and diagnostics.
 
 ### Expanded Answer
 
-A risky contract gives plugins access to global app state or private host types.
-That lets plugins depend on implementation details and makes host evolution hard.
-
-A safe contract looks like a capability interface. It passes stable input models,
-uses clear result types, and lets the host decide what to do with the result. It
-also has diagnostics, because plugin failures need to be attributable in
-production.
+A large service container or mutable app state makes every plugin a privileged host peer.
+I prefer value models and narrow protocols. The host keeps security, privacy, conflict,
+and failure policy because contributors must not grant themselves access or redefine
+system-wide behavior.
 
 ---
 
-<a id="q3-test-plugin-contracts"></a>
-## Q3: How would you test plugin behavior without coupling to internals?
+<a id="q3-how-would-you-test-and-evolve-a-cross-team-plugin-contract"></a>
+## Q3: How would you test and evolve a cross-team plugin contract?
 
 ### Short Answer
 
-I would write contract tests around the extension point and run them against real
-and fake plugins. The tests should verify inputs, outputs, cancellation, failure,
-and compatibility behavior without depending on host internals.
+I publish a conformance suite for every plugin and use fakes to test host policy. For an
+incompatible change, I add a versioned contract or adapter, support both paths during
+migration, measure adoption, and remove the old path only after its policy allows it.
 
 ### Expanded Answer
 
-The host should have tests with fake plugins to prove ordering, aggregation, and
-failure policy. Each plugin should run a shared test suite that proves it obeys
-the published contract.
-
-For a platform used by several teams, I would make this part of CI. Otherwise a
-plugin can pass its own tests while breaking the host's assumptions.
-
+The shared suite covers valid context, result validation, cancellation, concurrency, and
+errors. Host tests cover discovery, ordering, timeouts, aggregation, and partial failure.
+Compatibility tests run in CI for supported host and contract versions, while safe
+diagnostics identify the plugin and contract version in production.

@@ -4,11 +4,11 @@ domain: "Swift"
 topic: "Protocols"
 concept: "Protocol Extensions and Dispatch"
 page_type: interview
-interview_priority: core
-estimated_read_minutes: 2
+interview_priority: high
+estimated_read_minutes: 3
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Protocol Extensions and Dispatch: Interview Questions
@@ -21,6 +21,7 @@ last_reviewed: 2026-06-22
 |---|---|---|
 | [Why can the same method name behave differently through a protocol value?](#q1-extension-dispatch) | Senior | Witness versus static dispatch |
 | [When should a requirement have a default implementation?](#q2-default-implementation) | Staff | Policy and evolution |
+| [How should protocol dispatch be tested?](#q3-dispatch-testing) | Senior | Static views and witnesses |
 
 ---
 
@@ -74,3 +75,19 @@ may preserve compilation while changing semantics and dispatch for existing conf
 
 A retry protocol does not provide a default retry count because service idempotency and
 budgets differ; a pure derived diagnostic label safely has a default.
+
+---
+
+<a id="q3-dispatch-testing"></a>
+## Q3: How Should Protocol Dispatch Be Tested?
+
+### Short Answer
+
+Call the behavior through concrete, generic, and existential views that match production.
+Verify that requirements use the intended witness and extension-only helpers remain
+deliberately static. Concrete-only tests can miss the exact dispatch bug under review.
+
+### Example
+
+A formatter test passes on `ConcreteFormatter` but production stores `any Formatter`.
+The existential-view test reveals that the same-named method was not a requirement.

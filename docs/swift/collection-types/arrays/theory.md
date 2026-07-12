@@ -7,9 +7,9 @@ page_type: theory
 levels:
   - senior
 interview_priority: high
-estimated_read_minutes: 2
+estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Arrays: Theory
@@ -60,12 +60,43 @@ indices, or long-term ownership.
 `reserveCapacity` can reduce reallocations when a useful size estimate exists.
 Do not use it as a correctness requirement.
 
+## Constraints and Guarantees
+
+Value semantics is the public rule. Copy-on-write, capacity growth, and buffer
+sharing are implementation strategies. A performance-sensitive design may measure
+them, but an API must remain correct if Swift copies earlier or stores differently.
+
+An array index identifies a position in one collection state. After insertion,
+removal, or replacement, an old index may be invalid or may refer to a different
+element. A model that needs stable identity should store an explicit identifier.
+The integer offset is not that identity.
+
+Array access is not automatically safe across tasks. Two independent array values
+can be mutated independently. Two tasks reading and writing the same variable still
+need actor isolation or synchronization.
+
 ## Engineering Decisions
 
 Choose an array when order and positional access are part of the model. Choose a
 set for uniqueness and membership, or a dictionary for key-based lookup. Protect
 shared mutation with isolation; value semantics do not make simultaneous access
 to the same variable safe.
+
+When an operation repeatedly inserts or removes near the front, do not hide a
+linear algorithm behind a convenient array API. First check whether the data is
+small enough that simplicity wins. If measurements show a problem, choose a queue,
+deque, or another structure whose operations match the workload.
+
+## Production Application
+
+Profile the complete mutation path, not only the subscript operation. A logically
+small change may trigger buffer growth or a copy because another array still shares
+the storage. Large elements and bridged Foundation collections can make that cost
+more visible.
+
+Tests should cover ordering, duplicate policy, slice ownership, and mutation after
+copy. For UI lists, test identity separately from position so insertions do not
+apply updates to the wrong item.
 
 ## References
 

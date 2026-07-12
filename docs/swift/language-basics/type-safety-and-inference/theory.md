@@ -6,10 +6,10 @@ concept: "Type Safety and Type Inference"
 page_type: theory
 levels:
   - senior
-interview_priority: high
+interview_priority: situational
 estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Type Safety and Type Inference: Theory

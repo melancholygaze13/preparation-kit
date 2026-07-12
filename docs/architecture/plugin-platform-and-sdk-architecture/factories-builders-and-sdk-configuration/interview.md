@@ -8,9 +8,13 @@ levels:
   - staff
   - principal
 interview_priority: situational
-estimated_read_minutes: 3
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-29
+last_reviewed: 2026-07-12
+tags:
+  - sdk-configuration
+  - factories
+  - builders
 ---
 
 # Factories, Builders, and SDK Configuration: Interview Questions
@@ -21,90 +25,76 @@ last_reviewed: 2026-06-29
 
 | Question | Level | Focus |
 |---|---|---|
-| [When would you use a builder instead of an initializer for SDK setup?](#q1-builder-vs-initializer) | Staff | API ergonomics |
-| [What should be configuration versus runtime input?](#q2-configuration-vs-runtime-input) | Staff | Lifecycle boundaries |
-| [How do factories help SDK architecture?](#q3-factories-sdk-architecture) | Staff/Principal | Implementation hiding |
-| [How would you make SDK setup failures diagnosable?](#q4-diagnosable-setup-failures) | Principal | Supportability |
+| [When would you use a builder instead of an initializer?](#q1-when-would-you-use-a-builder-instead-of-an-initializer) | Staff | Proportional API design |
+| [What should be configuration versus runtime input?](#q2-what-should-be-configuration-versus-runtime-input) | Staff | Lifecycle boundaries |
+| [How do you keep an SDK factory from becoming a service locator?](#q3-how-do-you-keep-an-sdk-factory-from-becoming-a-service-locator) | Staff | Dependency visibility |
+| [How would you make SDK setup and reconfiguration safe?](#q4-how-would-you-make-sdk-setup-and-reconfiguration-safe) | Principal | Validation and lifecycle |
 
 ---
 
-<a id="q1-builder-vs-initializer"></a>
-## Q1: When would you use a builder instead of an initializer for SDK setup?
+<a id="q1-when-would-you-use-a-builder-instead-of-an-initializer"></a>
+## Q1: When would you use a builder instead of an initializer?
 
 ### Short Answer
 
-I use a builder when setup has many optional choices, staged configuration, or
-validation rules that would make an initializer hard to read. If construction has
-only a few required values, a normal initializer is clearer.
+I start with an initializer. I use a builder when setup has many optional choices,
+staged input, or cross-field validation that an initializer cannot express clearly. The
+builder must make valid construction easier, not only add ceremony.
 
 ### Expanded Answer
 
-A builder should improve correctness, not just add ceremony. It is useful when
-the SDK has environment, credentials, providers, feature flags, diagnostics, and
-defaults that need to be assembled before creating the instance.
-
-I would still keep the final `build()` step strict. It should validate required
-values and incompatible options before the SDK starts runtime work.
+Required values should remain obvious. `build()` validates deterministic setup rules
+before creating resources. If only two values are required, the initializer is more
+readable and has fewer states to test.
 
 ---
 
-<a id="q2-configuration-vs-runtime-input"></a>
+<a id="q2-what-should-be-configuration-versus-runtime-input"></a>
 ## Q2: What should be configuration versus runtime input?
 
 ### Short Answer
 
-Configuration should contain stable setup facts for the SDK instance. Runtime
-input should contain per-operation or per-user data that can change during normal
-use.
+Configuration holds stable facts for one SDK instance. Runtime input holds account or
+operation data that changes during use. The placement must match ownership and lifetime.
 
 ### Expanded Answer
 
-Examples of configuration are environment, API key, app group identifier,
-diagnostic mode, and optional providers. Examples of runtime input are request
-payloads, selected user IDs, screen context, or a one-time authorization code.
-
-Mixing these creates lifecycle bugs. If account data lives in global SDK
-configuration, logout and account switching become difficult. If environment
-changes during requests, cancellation and consistency need explicit policy.
+Environment, app identity, diagnostics policy, and client providers are often setup.
+Request payloads and screen context are runtime input. If an instance is user-scoped,
+user identity may be construction input. That choice must define cache separation,
+cancellation, and account switching.
 
 ---
 
-<a id="q3-factories-sdk-architecture"></a>
-## Q3: How do factories help SDK architecture?
+<a id="q3-how-do-you-keep-an-sdk-factory-from-becoming-a-service-locator"></a>
+## Q3: How do you keep an SDK factory from becoming a service locator?
 
 ### Short Answer
 
-Factories hide implementation selection and dependency assembly behind a stable
-public API. They let the SDK choose concrete implementations without exposing
-internal modules to clients.
+A factory creates one documented capability or facade with explicit inputs. It may hide
+implementation selection and assembly, but clients cannot request arbitrary internal
+services by name or type.
 
 ### Expanded Answer
 
-A factory is useful when construction depends on environment, platform
-capability, test mode, feature flags, or optional providers. The client asks for a
-capability; the SDK decides which internal implementation satisfies it.
-
-The factory should not become a global service locator. It should create a
-well-defined SDK instance or capability, not expose arbitrary internal services.
+Required dependencies stay visible at the composition boundary. A global resolver hides
+them, moves errors to runtime, and couples clients to internal registrations. I keep the
+resolver internal if the SDK uses one at all.
 
 ---
 
-<a id="q4-diagnosable-setup-failures"></a>
-## Q4: How would you make SDK setup failures diagnosable?
+<a id="q4-how-would-you-make-sdk-setup-and-reconfiguration-safe"></a>
+## Q4: How would you make SDK setup and reconfiguration safe?
 
 ### Short Answer
 
-Use typed setup errors with actionable messages, validate early, and include
-safe diagnostics such as SDK version, environment, enabled capabilities, and
-missing configuration keys.
+I validate local rules before starting work, use immutable configuration, return typed and
+actionable errors, and give the instance explicit resource ownership. Reconfiguration is
+one operation with defined isolation, cancellation, cache, and rollback behavior.
 
 ### Expanded Answer
 
-Setup failures are often client integration mistakes. The SDK should distinguish
-missing required values, unsupported environments, invalid option combinations,
-missing entitlements, and unavailable capabilities.
-
-At Principal scope, I would make these diagnostics consistent across the SDK and
-document them in integration guides. I would also ensure logs never expose API
-keys, tokens, or user data.
-
+I distinguish deterministic setup errors from runtime failures such as remote
+authentication. Tests cover invalid combinations, defaults, repeated construction,
+shutdown, and account transitions. Diagnostics include safe version and capability data,
+never credentials, tokens, or user information.

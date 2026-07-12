@@ -4,11 +4,11 @@ domain: "Swift"
 topic: "Generics"
 concept: "Where Clauses and Conditional Conformance"
 page_type: theory
-interview_priority: core
-estimated_read_minutes: 3
+interview_priority: high
+estimated_read_minutes: 4
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Where Clauses and Conditional Conformance: Theory
@@ -46,6 +46,11 @@ derived contract. `groupedByID()` is merely a conditionally available member; it
 assert a new protocol conformance. Grouping also defines duplicate-identifier behavior
 without relying on an undocumented uniqueness precondition.
 
+Conditional conformance should follow stored capability. For example, a value container
+can be `Sendable` when every stored value is sendable and the container has no hidden
+shared mutable state. The same spelling would be dishonest for a wrapper around an
+unsynchronized reference cache, even if its generic element is sendable.
+
 ### Core Invariants
 
 - Conditions are no stronger than necessary and sufficient for the implementation.
@@ -66,6 +71,10 @@ Use conditional conformance when the outer type's protocol semantics derive dire
 universally from its arguments. Use constrained members when only a capability is being
 added. Prefer conformance ownership by the type or protocol owner, especially for public
 cross-module APIs.
+
+Prefer one public route to a behavior. A constrained overload that is only an optimization
+must return the same observable result as the fallback. If behavior differs, give it a
+distinct name so overload ranking does not silently choose policy.
 
 ## Production Application
 

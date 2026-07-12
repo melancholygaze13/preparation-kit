@@ -2,9 +2,9 @@
 title: "Generics"
 domain: "Swift"
 page_type: topic-index
-interview_priority: core
+interview_priority: high
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Generics
@@ -35,9 +35,9 @@ preserving concrete type relationships rather than erasing them.
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [Generic Abstraction and Constraints](generic-abstraction-and-constraints/README.md) | Shares code without erasing useful type information. | Core | 8 min |
-| [Associated Types and Type Relationships](associated-types-and-type-relationships/README.md) | Models related types selected by a conformer. | Core | 6 min |
-| [Where Clauses and Conditional Conformance](where-clauses-and-conditional-conformance/README.md) | Exposes behavior only when constraints make it valid. | Core | 6 min |
+| [Generic Abstraction and Constraints](generic-abstraction-and-constraints/README.md) | Shares code without erasing useful type information. | High | 8 min |
+| [Associated Types and Type Relationships](associated-types-and-type-relationships/README.md) | Models related types selected by a conformer. | High | 8 min |
+| [Where Clauses and Conditional Conformance](where-clauses-and-conditional-conformance/README.md) | Exposes behavior only when constraints make it valid. | High | 8 min |
 | [Generic API Design and Evolution](generic-api-design-and-evolution/README.md) | Balances precision, usability, performance, and compatibility. | High | 8 min |
 | [Parameter Packs and Variadic Generics](parameter-packs-and-variadic-generics/README.md) | Replaces fixed-arity overloads in specialized generic APIs. | Situational | 8 min |
 

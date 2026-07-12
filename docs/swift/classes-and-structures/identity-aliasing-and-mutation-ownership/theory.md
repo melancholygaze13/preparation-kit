@@ -4,14 +4,14 @@ domain: "Swift"
 topic: "Classes and Structures"
 concept: "Identity, Aliasing, and Mutation Ownership"
 page_type: theory
-interview_priority: core
+interview_priority: high
 estimated_read_minutes: 6
 levels:
   - senior
   - staff
   - principal
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 tags:
   - identity
   - aliasing

@@ -4,11 +4,11 @@ domain: "Swift"
 topic: "Automatic Reference Counting"
 concept: "Closure, Callback, and Task Lifetimes"
 page_type: theory
-interview_priority: core
+interview_priority: high
 estimated_read_minutes: 4
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Closure, Callback, and Task Lifetimes: Theory

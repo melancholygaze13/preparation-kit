@@ -4,11 +4,11 @@ domain: "Swift"
 topic: "Protocols"
 concept: "Existentials, Composition, and Delegation"
 page_type: interview
-interview_priority: core
-estimated_read_minutes: 2
+interview_priority: high
+estimated_read_minutes: 3
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Existentials, Composition, and Delegation: Interview Questions
@@ -21,6 +21,7 @@ last_reviewed: 2026-06-22
 |---|---|---|
 | [When should an API use a generic versus any Protocol?](#q1-generic-versus-existential) | Senior | Type relationships and erasure |
 | [How should a delegate contract define ownership and concurrency?](#q2-delegate-contract) | Staff | Lifecycle and isolation |
+| [When is weak delegation the wrong lifetime model?](#q3-weak-delegate-lifetime) | Senior | Required delivery |
 
 ---
 
@@ -75,3 +76,20 @@ better. Sendable values must cross any isolation boundary.
 
 A weak upload delegate disappears and completion is lost. The operation returns an async
 result while progress remains a documented main-actor stream.
+
+---
+
+<a id="q3-weak-delegate-lifetime"></a>
+## Q3: When Is Weak Delegation the Wrong Lifetime Model?
+
+### Short Answer
+
+Weak delegation is wrong when completion or state delivery is required for correctness.
+The delegate can disappear at any time. Use an owned async result, retained collaborator,
+or another lifecycle where the component responsible for delivery remains alive.
+
+### Expanded Answer
+
+Weak references solve one possible retain cycle. They do not define cancellation,
+completion, or fault handling. Choose ownership from the delivery contract, then break
+cycles deliberately.

@@ -8,7 +8,7 @@ interview_priority: core
 estimated_read_minutes: 5
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Async Functions, Suspension, and Executors: Theory
@@ -42,9 +42,11 @@ belongs in `async let` or a task group. Suspending I/O does not block an actor; 
 a large response synchronously does.
 
 Swift 6.2 can enable caller-actor execution and default main-actor isolation per module.
-Under those settings, a plain async helper called from `@MainActor` stays there until it
-reaches an API that suspends or an explicit concurrent boundary. Mark CPU-heavy,
-sendable work `@concurrent`; do not use it merely because a function performs I/O.
+Under those settings, a plain async helper called from `@MainActor` runs its own
+synchronous segments on that actor. A called API may use another executor while the
+helper is suspended, but the helper resumes on the caller's actor. Use `@concurrent`
+when the helper itself must leave that actor for CPU-heavy, sendable work. Do not use
+it merely because a function performs I/O.
 
 ### Core Invariants
 

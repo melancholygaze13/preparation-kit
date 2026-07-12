@@ -8,9 +8,13 @@ levels:
   - staff
   - principal
 interview_priority: situational
-estimated_read_minutes: 5
+estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-06-29
+last_reviewed: 2026-07-12
+tags:
+  - plugin-architecture
+  - extension-points
+  - contracts
 ---
 
 # Extension Points and Plugin Contracts: Theory
@@ -19,84 +23,101 @@ last_reviewed: 2026-06-29
 
 ## Mental Model
 
-A plugin system separates a stable host from variable feature behavior. The host
-publishes extension points. Plugins implement those contracts and are discovered,
-registered, or composed by the host.
+A plugin system separates a stable host from independently changing contributors. The
+host publishes extension points. Plugins implement those contracts and contribute
+behavior without reaching into host internals.
 
-The contract is more important than the loading mechanism. In an iOS app, plugins
-are often source modules, Swift packages, feature frameworks, or internally
-registered capabilities rather than runtime-loaded binaries.
+The contract is more important than registration. In many iOS codebases, a "plugin" is
+an in-process Swift module selected at build time and registered at composition. An OS app
+extension is different: Apple defines or the app declares an extension point, and the
+extension runs with a separate lifecycle and process boundary. A Swift Package Manager
+build plugin is different again; it participates in the build, not the app's runtime.
+
+Name the model before discussing isolation, discovery, updates, or failure containment.
 
 ## Contract Shape
 
 ```mermaid
 flowchart LR
-    subgraph Host["Host platform owns"]
-        Entry["Extension point protocol"]
-        Policy["Lifecycle and policy"]
-        Validate["Validate contribution"]
+    subgraph Host["Host owns"]
+        Contract["Contract and stable models"]
+        Policy["Lifecycle, ordering, failure policy"]
+        Compose["Discovery and composition"]
     end
 
-    subgraph Plugin["Plugin owns"]
+    subgraph Contributor["Plugin owns"]
         Impl["Implementation"]
-        Caps["Declared capabilities"]
-        Deps["Declared dependencies"]
+        Local["Local dependencies and tests"]
     end
 
-    Entry --> Impl
+    Compose --> Impl
+    Contract --> Impl
     Policy --> Impl
-    Impl --> Caps
-    Impl --> Deps
-    Impl --> Result["Result, event, or contribution"]
-    Result --> Validate
+    Local --> Impl
+    Impl --> Result["Validated contribution"]
+    Result --> Policy
 ```
 
-Good extension points are narrow. They expose the minimum context a plugin needs
-to do its work and return a contribution that the host can validate.
+## Define the Contract
 
-| Contract part | What it answers |
+A good extension point gives a plugin only the context required for one capability. Use
+stable value models or narrow protocols. Passing a service container, navigation stack,
+database, or mutable application state turns the boundary into privileged host access.
+
+| Contract decision | Question to answer |
 |---|---|
-| Capability | What behavior does this plugin provide? |
-| Context | What host data is safe to expose? |
-| Lifecycle | When is the plugin created, invoked, cancelled, and released? |
-| Ordering | Can multiple plugins run, and who decides sequence? |
-| Failure | Does one plugin failure stop the host operation? |
-| Observability | How does the host attribute latency, errors, and adoption? |
+| Capability and context | What may the plugin do, and which data may it see? |
+| Discovery and identity | How is it registered, selected, and attributed? |
+| Lifecycle | Who creates, starts, cancels, and releases it? |
+| Concurrency | Which actor owns calls and results? May calls overlap? |
+| Ordering | Can several plugins contribute, and who resolves conflicts? |
+| Failure | Is failure isolated, skipped, retried, or fatal to the host operation? |
+| Compatibility | Which host and contract versions can work together? |
+| Observability | How are latency, errors, and use attributed without exposing secrets? |
 
-Avoid extension points that pass a large service locator or mutable app state.
-That makes every plugin a privileged peer of the host and prevents safe evolution.
+The host should validate contributions before applying them. It also owns security and
+privacy policy because a plugin cannot grant itself broader access.
 
 ## Engineering Decisions
 
-Use plugins when variation is real and independently owned. Examples include
-feature contributions to a home screen, checkout payment methods, analytics
-destinations, rendering providers, policy validators, and SDK integrations.
+Use a plugin boundary when several implementations change independently, contributors
+need a stable integration path, or the host must accept capabilities it should not know in
+advance. Examples include team-owned home sections, payment providers, analytics sinks,
+and policy checks.
 
-Do not build a plugin system only to avoid choosing a simple dependency boundary.
-The cost includes contracts, documentation, versioning, debugging, compatibility,
-support, and governance.
-
-Host-owned responsibilities should remain host-owned:
+Use an ordinary dependency, strategy, or module when one team controls the variants and
+releases them together. A plugin model adds versioning, validation, diagnostics,
+documentation, compatibility tests, and support.
 
 | Host owns | Plugin owns |
 |---|---|
-| Registration and discovery policy | Implementation behind the contract |
-| Lifecycle and cancellation | Local validation and transformation |
-| Security and permission checks | Declared capabilities and requirements |
-| Ordering and aggregation | Plugin-specific configuration |
-| Platform metrics and diagnostics | Plugin-specific metrics where useful |
+| Contract, discovery, and selection | Behavior behind the contract |
+| Lifecycle, isolation, and cancellation | Local resources and cleanup |
+| Access, ordering, and failure policy | Declared capabilities and requirements |
+| Cross-plugin metrics and redaction | Plugin-specific diagnostics within policy |
+
+## Benefits and Costs
+
+| Benefits | Costs and risks |
+|---|---|
+| Independent teams add behavior behind one host contract | The contract becomes a compatibility commitment |
+| Host policy stays consistent across contributors | Debugging crosses ownership boundaries |
+| Plugins can be replaced or tested with fakes | Broad context can recreate tight coupling indirectly |
+| Shared conformance tests scale integration checks | Registration and ordering can become hidden global behavior |
 
 ## Production Application
 
-Contract tests should verify that any plugin can be called with valid context,
-handles cancellation, reports errors predictably, and does not require hidden host
-state. Host tests should use fake plugins to verify ordering and failure policy.
+Test both sides of the boundary. Host tests use fake plugins to verify selection,
+ordering, cancellation, timeouts, aggregation, and partial failure. Each real plugin runs
+a shared conformance suite against published inputs and expected outcomes. End-to-end
+tests cover the smallest number of critical integrations.
 
-For cross-team platforms, publish a compatibility matrix. It should state which
-host versions support which plugin contract versions, which APIs are experimental,
-and when old contracts are removed.
+Record plugin identity and contract version in safe diagnostics. Publish ownership and a
+compatibility matrix when host and plugins can release separately. Roll out contract
+changes with dual support or adapters before removing the old path.
 
 ## References
 
+- [Adding support for app extensions to your app](https://developer.apple.com/documentation/extensionfoundation/adding-support-for-app-extensions-to-your-app)
+- [Writing a build tool plugin](https://docs.swift.org/swiftpm/documentation/packagemanagerdocs/writingbuildtoolplugin/)
 - [Swift API Design Guidelines](https://www.swift.org/documentation/api-design-guidelines/)
-- [Creating a Swift package](https://developer.apple.com/documentation/xcode/creating-a-swift-package)

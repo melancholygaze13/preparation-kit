@@ -4,11 +4,11 @@ domain: "Swift"
 topic: "Protocols"
 concept: "Existentials, Composition, and Delegation"
 page_type: theory
-interview_priority: core
-estimated_read_minutes: 3
+interview_priority: high
+estimated_read_minutes: 4
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Existentials, Composition, and Delegation: Theory
@@ -39,10 +39,20 @@ Choose `Screen<R>` when the concrete renderer participates in static composition
 the existential for runtime configuration or mixed-type collections. Type erasure is
 an API decision, not merely spelling.
 
+An existential works only when the operations needed by its caller remain available
+after erasure. If an operation must relate two values' associated types, preserve that
+relationship with a generic parameter, constrain a primary associated type, or expose
+a smaller erased operation that owns the conversion.
+
 Delegation models one object forwarding decisions/events to a collaborator. A weak
 delegate requires a class-bound protocol and avoids cycles, but weak ownership also means
 delivery can disappear. Async/actor APIs often express lifetime and result flow more clearly
 than callback delegates.
+
+A weak delegate is appropriate when the delegating object must not own its observer.
+It is not appropriate when delivery is required for correctness. Required completion
+should have an owned result path, such as an async return value or a retained collaborator
+with a documented cycle-breaking point.
 
 Objective-C-compatible optional protocol requirements require `@objc` protocols and
 supported declarations; calls use optional chaining. Prefer Swift defaults or explicit
@@ -67,6 +77,10 @@ capability protocols when Objective-C interoperability is not required.
 Prefer generics for static algorithms and related types; use existentials at real dynamic
 boundaries. Use delegation for replaceable one-to-one collaboration with explicit lifecycle;
 use async values/streams for structured results over time.
+
+Protocol composition states that one value satisfies all listed capabilities. It does
+not create an owner, add synchronization, or define how those capabilities interact.
+Keep compositions small enough that a real conformer can honor the combined contract.
 
 ## Production Application
 

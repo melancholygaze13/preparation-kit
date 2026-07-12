@@ -4,11 +4,11 @@ domain: "Swift"
 topic: "Generics"
 concept: "Generic Abstraction and Constraints"
 page_type: interview
-interview_priority: core
+interview_priority: high
 estimated_read_minutes: 3
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Generic Abstraction and Constraints: Interview Questions

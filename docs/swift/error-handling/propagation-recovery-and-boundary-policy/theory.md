@@ -4,11 +4,11 @@ domain: "Swift"
 topic: "Error Handling"
 concept: "Propagation, Recovery, and Boundary Policy"
 page_type: theory
-interview_priority: core
-estimated_read_minutes: 3
+interview_priority: high
+estimated_read_minutes: 4
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 tags: [error-propagation, recovery, cancellation, observability]
 ---
 
@@ -49,6 +49,17 @@ Translate low-level errors once at the layer that owns domain meaning. Preserve 
 diagnostic context and causality, but expose stable categories to callers. HTTP status,
 database codes, and localized strings should not leak as the domain contract.
 
+### Retry and Failure Ownership
+
+Retry only when the failure is classified as transient, the operation is safe to repeat,
+and one layer owns the attempt budget. Nested automatic retries multiply traffic and can
+push work beyond the user's deadline. Nonidempotent effects need an idempotency key,
+transaction, or compensation policy before retry is safe.
+
+Choose one layer to record the owned failure event. Lower layers can attach context,
+but logging and alerting at every catch produces duplicate events and can expose raw
+payloads. Preserve a correlation identifier as the error crosses boundaries.
+
 ### Core Invariants
 
 - Every catch has recovery, translation, compensation, or presentation policy.
@@ -70,6 +81,10 @@ database codes, and localized strings should not leak as the domain contract.
 Propagate within a layer, translate at stable boundaries, and present only at the user-
 experience owner. Retry near the operation owner with idempotency evidence. Use explicit
 transactions or compensation for partial side effects.
+
+When a catch converts an error to a fallback, make that degradation observable if it
+changes freshness or completeness. Silent fallback can turn an incident into plausible
+stale data that is harder to diagnose than a visible failure.
 
 ## Production Application
 

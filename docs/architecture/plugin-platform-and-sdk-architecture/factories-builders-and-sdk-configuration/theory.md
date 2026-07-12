@@ -8,9 +8,13 @@ levels:
   - staff
   - principal
 interview_priority: situational
-estimated_read_minutes: 5
+estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-06-29
+last_reviewed: 2026-07-12
+tags:
+  - sdk-configuration
+  - factories
+  - builders
 ---
 
 # Factories, Builders, and SDK Configuration: Theory
@@ -19,48 +23,49 @@ last_reviewed: 2026-06-29
 
 ## Mental Model
 
-SDK construction is part of the public contract. Clients need a clear path from
-configuration to a usable capability, and the SDK needs a place to validate
-environment, credentials, feature flags, dependencies, and lifecycle policy.
+SDK construction defines what is required, which choices are supported, and who owns the
+created resources. The common path should produce a valid instance without exposing the
+SDK's internal object graph.
 
-Factories, builders, and configuration objects are useful when they encode real
-setup rules. They become noise when they only wrap a simple initializer.
+Start with an initializer. Add a configuration type, builder, or factory only when it
+encodes a real rule that the initializer cannot express clearly.
 
 ## Construction Flow
 
 ```mermaid
 flowchart TD
-    A["Client setup values"] --> B["Configuration object"]
+    A["Client setup values and providers"] --> B["Validate contract"]
     B --> C{"Valid and complete?"}
     C -- "No" --> D["Typed setup error"]
-    C -- "Yes" --> E["Factory or builder"]
+    C -- "Yes" --> E["Composition or factory"]
     E --> F["Select implementation and dependencies"]
     F --> G["SDK instance or capability"]
     G --> H["Runtime operations"]
 ```
 
-The boundary between setup and runtime should be explicit. Setup validates facts
-that should not change during an SDK instance's lifetime. Runtime APIs perform
-the actual capability work.
+Setup establishes stable facts and resource ownership for one instance. Runtime APIs
+accept information that changes per account or operation.
 
 ## Pattern Selection
 
 | Pattern | Best use | Avoid when |
 |---|---|---|
-| Configuration object | Stable values such as API key, environment, app group, feature flags | Values must be changed frequently at runtime |
-| Builder | Many optional setup choices, staged validation, readable client code | The SDK has two required parameters |
-| Factory | Implementation selection, dependency assembly, test/prod variants | The factory merely calls one public initializer |
-| Provider protocol | Client supplies behavior such as auth token, logger, clock, network transport | It exposes internal SDK service boundaries |
+| Initializer | A few required values with clear types | Parameters become a long menu of optional choices |
+| Configuration value | Stable client-supplied settings that belong together | It becomes a mutable bag shared across instances |
+| Builder | Many optional choices, staged input, or cross-field validation | It only forwards two values to an initializer |
+| Factory | Internal implementation selection and dependency assembly | Clients use it to locate arbitrary services |
+| Provider protocol | The client must supply changing behavior, such as an auth token | It exposes internal SDK services as customization points |
 
-A good SDK may use more than one. For example, a client passes
-`SDKConfiguration`, a builder attaches optional providers, and a factory creates
-the concrete SDK implementation behind a public facade.
+Use the patterns together only when each has one job. For example, immutable configuration
+holds environment settings, an optional builder adds client providers, and an internal
+factory selects concrete implementations behind the public facade.
 
 ## Validation and Lifecycle
 
-Fail early for invalid setup. A missing API key, unsupported environment, invalid
-URL, unavailable entitlement, or incompatible option combination should be
-reported before a feature call starts.
+Fail before starting work for missing credentials, unsupported environments, invalid
+URLs, unavailable entitlements, or incompatible options. A throwing initializer or
+`build()` method is appropriate when the failure is local and deterministic. Network
+authentication and service availability remain runtime outcomes.
 
 Separate these concerns:
 
@@ -69,40 +74,47 @@ Separate these concerns:
 | Required static values | Configuration initializer or builder validation |
 | Optional customization | Builder methods with documented defaults |
 | Implementation selection | Factory or composition root |
-| Long-lived resources | SDK instance lifecycle |
+| Sessions, caches, observers, and tasks | SDK instance lifecycle and shutdown policy |
 | Per-request data | Runtime method input, not global configuration |
 
-Do not store per-user or per-request data in global SDK configuration unless the
-SDK instance is intentionally scoped to that user or request. Otherwise logout,
-account switching, tests, and extensions become fragile.
+Do not store user or request data in process-wide configuration unless the whole instance
+is explicitly scoped to that user or request. Account switching must define cancellation,
+cache separation, observer updates, and the fate of in-flight work.
 
 ## Engineering Decisions
 
-For public SDKs, prefer immutable configuration after construction. Mutating setup
-in place makes behavior hard to reason about and can race with in-flight work. If
-the client must change environment or account, create a new SDK instance or expose
-an explicit reconfiguration API with defined cancellation and migration behavior.
+Prefer immutable configuration after construction. If a client must reconfigure a live
+instance, expose one explicit operation with documented isolation, validation,
+cancellation, and rollback. Silent mutation makes concurrent behavior hard to reason
+about.
 
-Provider injection should be narrow. A logging provider, token provider, or URL
-session adapter can be useful. Passing an unrestricted service container gives
-clients and SDK internals too much knowledge of each other.
+Provider protocols should express client-owned behavior, not leak the internal dependency
+graph. A token provider or logging sink is reasonable. A general resolver couples clients
+to implementation names and hides required dependencies.
 
-At Principal scope, construction patterns also support compatibility. A builder
-can add optional configuration without breaking source, and a factory can keep
-implementation selection internal while the public facade stays stable.
+Do not assume a builder makes every future change compatible. Adding a builder method may
+be source-additive, but changing defaults or validation can still change behavior.
+
+## Benefits and Costs
+
+| Benefits | Costs and risks |
+|---|---|
+| Valid setup becomes one explicit path | Extra patterns can obscure simple construction |
+| Factories hide implementation choice | A global factory can become a service locator |
+| Immutable configuration supports reasoning | Reconfiguration may require a new instance |
+| Typed validation improves integration feedback | More options expand the support and test matrix |
 
 ## Production Application
 
-Test invalid setup as carefully as successful setup. Client mistakes should
-produce deterministic, actionable errors. Include diagnostics such as SDK version,
-environment, enabled capabilities, and missing configuration keys, while avoiding
-secrets in logs.
+Test defaults, each required field, incompatible combinations, repeated construction,
+resource release, and account or environment transitions. Errors should state what the
+client can change and include safe context such as SDK version and capability names. Never
+log credentials, tokens, or user data.
 
-Sample apps should show the recommended construction path. If every integration
-guide starts with several advanced providers, the SDK surface is probably too
-complex for normal clients.
+The sample app should use the recommended path. If the first example needs a custom
+transport, several providers, and manual shutdown coordination, simplify the public setup
+or make advanced configuration clearly optional.
 
 ## References
 
 - [Swift API Design Guidelines](https://www.swift.org/documentation/api-design-guidelines/)
-

@@ -4,11 +4,11 @@ domain: "Swift"
 topic: "Error Handling"
 concept: "Error Modeling and Throwing APIs"
 page_type: interview
-interview_priority: core
-estimated_read_minutes: 2
+interview_priority: high
+estimated_read_minutes: 3
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Error Modeling and Throwing APIs: Interview Questions
@@ -21,6 +21,7 @@ last_reviewed: 2026-06-22
 |---|---|---|
 | [When should an API throw instead of return optional?](#q1-error-or-optional) | Senior | Failure semantics |
 | [When are typed throws appropriate?](#q2-typed-throws) | Staff | Closed contracts and evolution |
+| [How should error cases be chosen?](#q3-error-case-design) | Senior | Recovery-relevant categories |
 
 ---
 
@@ -76,3 +77,25 @@ affect exhaustive clients. The boundary needs ownership and an evolution policy.
 
 A checkout command exposes a small typed domain error while its repository layer uses
 ordinary throws and preserves transport diagnostics internally.
+
+---
+
+<a id="q3-error-case-design"></a>
+## Q3: How Should Error Cases Be Chosen?
+
+### Short Answer
+
+Create separate cases when callers make different decisions, such as retry, sign in,
+correct input, or stop. Keep implementation details in diagnostic context. Do not make
+one case per low-level event or collapse different recovery policies into “unknown.”
+
+### Expanded Answer
+
+The public taxonomy is a decision contract. It should remain stable while network,
+database, and framework errors change underneath it. Payloads must be safe to expose
+and useful for the decision the case represents.
+
+### Example
+
+A profile API translates transport failures into offline, unauthorized, missing, and
+invalid-data cases while retaining the underlying error only in protected diagnostics.

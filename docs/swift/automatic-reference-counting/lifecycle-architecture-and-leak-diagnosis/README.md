@@ -3,11 +3,11 @@ title: "Lifecycle Architecture and Leak Diagnosis"
 domain: "Swift"
 topic: "Automatic Reference Counting"
 page_type: concept-index
-interview_priority: core
+interview_priority: high
 estimated_read_minutes: 1
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Lifecycle Architecture and Leak Diagnosis

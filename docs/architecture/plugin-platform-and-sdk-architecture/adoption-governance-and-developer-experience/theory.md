@@ -10,7 +10,11 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-06-29
+last_reviewed: 2026-07-12
+tags:
+  - platform-adoption
+  - governance
+  - developer-experience
 ---
 
 # Adoption, Governance, and Developer Experience: Theory
@@ -19,68 +23,87 @@ last_reviewed: 2026-06-29
 
 ## Mental Model
 
-A platform is adopted when it makes product teams faster and safer than their
-local alternatives. Governance is the set of rules that keeps shared architecture
-coherent without blocking justified product needs.
+A shared SDK or plugin platform is an internal product. Its consumers need a supported
+path from discovery to production operation and later migration. Developer experience is
+the usability of that path, not polish added after the API is complete.
 
-Developer experience is not polish after the architecture is done. It is how the
-architecture becomes usable.
+Govern the contract, security, compatibility, and operational outcomes. Leave product
+teams free to implement their own features behind those boundaries.
 
 ## Adoption System
 
 ```mermaid
 flowchart TD
-    A["Platform capability"] --> B["Documentation and examples"]
-    B --> C["Team adoption"]
-    C --> D["Integration feedback"]
-    D --> E["Diagnostics and support"]
-    E --> F["Contract and tooling improvements"]
-    F --> A
+    Need["Repeated consumer need"] --> Trial["Docs, sample, local trial"]
+    Trial --> Integrate["Integration and validation"]
+    Integrate --> Operate["Production diagnostics and support"]
+    Operate --> Migrate["Updates and migration"]
+    Migrate --> Feedback["Usage, defects, requests, exceptions"]
+    Feedback --> Need
 ```
 
-The platform team should own more than reusable code. It should own onboarding,
-versioning, support channels, migration plans, compatibility tests, and a clear
-process for exceptions.
+Every step needs an owner. A repository without onboarding, release, support, and removal
+policy is shared code, not a supported platform product.
 
 | Concern | Architecture response |
 |---|---|
-| Slow adoption | Templates, examples, and migration support |
-| Misuse | Smaller APIs, diagnostics, compile-time constraints |
-| Local workarounds | Exception process and missing-capability backlog |
-| Support load | Better logs, ownership metadata, self-service checks |
-| Fragmentation | Standards, deprecation policy, and compatibility tests |
+| Discovery | Supported use cases, owner, maturity, compatibility, and limits |
+| First success | Minimal sample, validated defaults, and local test path |
+| Integration | Setup checks, contract tests, migration tooling, and clear errors |
+| Operation | Redacted diagnostics, dashboards, escalation, and incident ownership |
+| Evolution | Release notes, deprecations, adapters, and removal policy |
 
 ## Governance
 
-Good governance defines defaults and escape hatches. A standard that cannot be
-overridden becomes a blocker. A standard that is never enforced becomes a
-suggestion.
+Good governance defines a supported path, automated checks, and bounded exceptions. A
+rule with no enforcement is only advice. A rule with no escape path blocks a valid need
+or drives teams toward hidden forks.
 
 Useful governance artifacts include:
 
-- Approved extension-point patterns.
-- Public API review checklist.
-- Versioning and deprecation policy.
-- Required diagnostics and telemetry.
-- Contract test suite.
-- Exception template with owner, expiry, and removal path.
+- maturity labels for experimental and stable contracts;
+- API and privacy review at the public boundary;
+- versioning, support, deprecation, and removal policy;
+- required diagnostics and shared conformance tests;
+- an exception record with reason, owner, scope, review date, and migration path.
 
-At Staff scope, this means proposing conventions that teams can follow. At
-Principal scope, it means creating the operating model that keeps conventions
-alive across teams and releases.
+Automate repeatable rules in builds, API checks, templates, and release tooling. Reserve
+human review for new public commitments, risky data access, or exceptions. Central review
+of every internal implementation creates delay without protecting the contract.
+
+Treat repeated exceptions as product feedback. They may reveal a missing capability, an
+over-broad rule, or a consumer that should not use the platform.
 
 ## Production Application
 
-Measure whether the platform is improving outcomes. Useful signals include
-integration time, number of adopting teams, defects by integration phase,
-production incidents, support tickets, API churn, and time to remove deprecated
-paths.
+| Signal | What it reveals |
+|---|---|
+| Time to first successful integration | Setup and documentation quality |
+| Integration defects and support causes | Contract or diagnostic gaps |
+| Runtime reliability and incident impact | Quality and shared blast radius |
+| Exception and fork reasons | Missing capability or poor fit |
+| Supported-version distribution | Migration risk and deprecation progress |
+| Duplicate local implementations | Adoption value, not only compliance |
 
-Do not measure adoption alone. A platform can have high adoption because it is
-mandatory while still creating support cost. The better signal is whether teams
-can deliver features with fewer defects and less duplicated infrastructure.
+Combine adoption with delivery, quality, and support cost. Mandatory use can produce high
+adoption while slowing every consumer. Instrument platform behavior with privacy-safe
+data, publish ownership, and turn repeated support into contract or tooling improvements.
+
+## Benefits and Costs
+
+| Benefits | Costs and risks |
+|---|---|
+| Safe defaults and tooling reduce repeated integration work | A central team can become a queue |
+| Shared diagnostics speed cross-team support | Common failures can affect many consumers |
+| Compatibility policy makes change predictable | Old versions and exceptions add carrying cost |
+| Feedback can improve one path for many teams | Mandates can hide poor product fit |
+
+Adopt in stages. Start with willing consumers and one valuable workflow. Prove the
+contract and support model before making the path a standard. For existing consumers,
+provide compatibility boundaries and a reversible migration instead of a deadline alone.
 
 ## References
 
 - [Swift API Design Guidelines](https://www.swift.org/documentation/api-design-guidelines/)
-
+- [Documenting apps, frameworks, and packages](https://developer.apple.com/documentation/xcode/documenting-apps-frameworks-and-packages)
+- [Library Evolution in Swift](https://www.swift.org/blog/library-evolution/)

@@ -5,10 +5,10 @@ topic: "Initialization"
 concept: "Stored-Property Initialization and Delegation"
 page_type: interview
 interview_priority: high
-estimated_read_minutes: 2
+estimated_read_minutes: 3
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Stored-Property Initialization and Delegation: Interview Questions
@@ -21,6 +21,7 @@ last_reviewed: 2026-06-22
 |---|---|---|
 | [What must be true when initialization completes?](#q1-complete-state) | Senior | Definite initialization and invariants |
 | [How should multiple construction paths share validation?](#q2-delegation-design) | Senior | Delegation and API ownership |
+| [When should construction move to a factory?](#q3-initializer-or-factory) | Senior | Effects and failure |
 
 ---
 
@@ -76,3 +77,24 @@ rules drifting. Effectful variants should be factories that produce validated in
 
 Three parsing initializers normalize names differently. They are replaced by parsers
 that produce one validated argument set for the main initializer.
+
+---
+
+<a id="q3-initializer-or-factory"></a>
+## Q3: When Should Construction Move to a Factory?
+
+### Short Answer
+
+Use a factory when construction needs asynchronous I/O, cancellation, caching, shared
+instances, or runtime choice of a concrete type. Keep an initializer focused on creating
+one complete instance from values already available to the caller.
+
+### Expanded Answer
+
+Synchronous initializer syntax hides effect ownership. An `async throws` factory makes
+latency, failure, and cancellation visible and can keep partial objects from escaping.
+
+### Example
+
+A model initializer reads a file and registers notifications. Split it into validated
+value initialization plus an async loader that owns registration and cleanup.

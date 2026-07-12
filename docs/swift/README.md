@@ -2,7 +2,7 @@
 title: "Swift"
 page_type: domain-index
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Swift
@@ -13,7 +13,9 @@ This domain covers Swift knowledge used in senior iOS interviews. Focus on
 language behavior that affects ownership, concurrency, correctness, API design,
 and performance. Use lower-priority topics only when they match the role.
 
-## Rapid Review
+## Preparation Paths
+
+### Rapid Review
 
 If the interview is close, study these topics first:
 
@@ -21,13 +23,21 @@ If the interview is close, study these topics first:
 2. [Automatic Reference Counting](automatic-reference-counting/README.md)
 3. [Closures](closures/README.md)
 4. [Classes and Structures](classes-and-structures/README.md)
-5. [Protocols](protocols/README.md)
-6. [Generics](generics/README.md)
-7. [Error Handling](error-handling/README.md)
-8. [Memory Safety](memory-safety/README.md)
 
 This path is ordered by interview value, not by the order of chapters in the
 Swift book. Use each topic's prerequisites when a concept is unfamiliar.
+
+### Standard Preparation
+
+Complete every Core and High Priority topic below. Within each topic, follow the
+concept table in priority order. This covers the language knowledge expected for
+most Senior iOS loops without requiring situational or reference material.
+
+### Role-Specific Depth
+
+Add Situational topics only when the job description, company stack, or interview
+format makes them relevant. Reference topics are safe to skip unless a known coding
+exercise or project discussion needs them.
 
 ## Plain Language Key
 
@@ -55,10 +65,6 @@ this way:
 | [Automatic Reference Counting](automatic-reference-counting/README.md) | Object lifetime, retain cycles, captures, and leaks appear in most iOS roles. |
 | [Closures](closures/README.md) | Captures, escaping work, and callback lifetime connect Swift syntax to ownership. |
 | [Classes and Structures](classes-and-structures/README.md) | Value and reference semantics affect state, copying, and architecture. |
-| [Protocols](protocols/README.md) | Protocol design tests abstraction, dispatch, API evolution, and dependency boundaries. |
-| [Generics](generics/README.md) | Generic constraints and type erasure are common API-design discussion points. |
-| [Error Handling](error-handling/README.md) | Good answers distinguish failure modeling, recovery, cancellation, and API boundaries. |
-| [Memory Safety](memory-safety/README.md) | Exclusive access and unsafe boundaries matter for correctness and performance. |
 
 ### High Priority
 
@@ -72,6 +78,10 @@ this way:
 | [Properties](properties/README.md) | Stored, computed, observed, and wrapped properties define state boundaries. |
 | [Initialization](initialization/README.md) | Initialization rules protect valid state and matter in class hierarchies. |
 | [Strings and Characters](strings-and-characters/README.md) | Unicode and non-integer indexing are common correctness checks. |
+| [Protocols](protocols/README.md) | Protocol design tests abstraction, dispatch, API evolution, and dependency boundaries. |
+| [Generics](generics/README.md) | Generic constraints and type erasure are common API-design discussion points. |
+| [Error Handling](error-handling/README.md) | Good answers distinguish failure modeling, recovery, cancellation, and API boundaries. |
+| [Memory Safety](memory-safety/README.md) | Exclusive access and unsafe boundaries matter for correctness and performance. |
 
 ### Situational
 

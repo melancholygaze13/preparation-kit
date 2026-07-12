@@ -4,13 +4,13 @@ domain: "Swift"
 topic: "Classes and Structures"
 concept: "Type Design and Initialization"
 page_type: theory
-interview_priority: core
+interview_priority: high
 estimated_read_minutes: 6
 levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 tags:
   - classes
   - structures

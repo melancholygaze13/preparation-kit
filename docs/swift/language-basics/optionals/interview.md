@@ -6,10 +6,10 @@ concept: "Optionals"
 page_type: interview
 levels:
   - senior
-interview_priority: core
-estimated_read_minutes: 2
+interview_priority: high
+estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-12
 ---
 
 # Optionals: Interview Questions
@@ -34,6 +34,11 @@ last_reviewed: 2026-06-22
 
 Return an optional when absence is expected and the caller does not need a reason.
 Use an error when failure details or recovery policy matter.
+
+### Expanded Answer
+
+Do not hide several operational failures behind `nil`. Conversely, an error is
+unnecessary for a normal cache miss or lookup that simply found no value.
 
 ---
 
@@ -60,6 +65,12 @@ missing required data, and a long optional chain can hide which value was absent
 `T!` is optional storage that Swift may force unwrap automatically when a `T` is
 required. Access can still trap if the value is `nil`.
 
+### Expanded Answer
+
+Use it mainly when a framework lifecycle prevents assignment during initialization
+but guarantees a value before use. Prefer complete initialization when your design
+can express the state directly.
+
 ---
 
 <a id="q4-when-is-force-unwrapping-acceptable"></a>
@@ -69,3 +80,8 @@ required. Access can still trap if the value is `nil`.
 
 Only when a nearby, reviewable invariant proves the value exists and `nil` would
 be a programmer error. Prefer types and initialization that make absence impossible.
+
+### Example
+
+Force-unwrapping a bundled resource can be reasonable when the build verifies it.
+Force-unwrapping a server field is unsafe because remote data is not that invariant.
