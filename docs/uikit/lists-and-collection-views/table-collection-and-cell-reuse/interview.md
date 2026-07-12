@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 4
+estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-12
 ---
 
 # Table, Collection, and Cell Reuse: Interview Questions
@@ -25,6 +25,7 @@ last_reviewed: 2026-07-01
 | [Why do table and collection views reuse cells?](#q1-why-cell-reuse) | Senior | Reuse model |
 | [What belongs in `prepareForReuse()`?](#q2-prepare-for-reuse) | Senior | Cell lifecycle |
 | [How do you prevent wrong images in reused cells?](#q3-wrong-image-reuse) | Staff | Async correctness |
+| [What does a cell registration improve, and what does it not solve?](#q4-cell-registration) | Senior | Modern configuration |
 
 ---
 
@@ -87,3 +88,20 @@ imageLoader.load(item.imageURL) { [weak cell] image in
     cell?.imageView.image = image
 }
 ```
+
+---
+
+<a id="q4-cell-registration"></a>
+## Q4: What does a cell registration improve, and what does it not solve?
+
+### Short Answer
+
+A cell registration keeps the cell type, item type, dequeueing, and configuration
+together without string reuse identifiers. It improves type safety and consistency,
+but the handler must still configure every state and protect async results from reuse.
+
+### Expanded Answer
+
+I often combine a registration with `UIContentConfiguration` for standard content
+and state updates. The registration is a configuration boundary, not a data owner.
+The model or data source still owns item identity, selection meaning, and side effects.

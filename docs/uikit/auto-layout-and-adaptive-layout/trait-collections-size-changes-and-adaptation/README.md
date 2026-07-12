@@ -10,7 +10,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-12
 ---
 
 # Trait Collections, Size Changes, and Adaptation
@@ -25,8 +25,8 @@ last_reviewed: 2026-07-01
 - Size classes are coarse signals; exact available size still matters.
 - Use `viewWillTransition(to:with:)` for size changes that need coordinated
   updates.
-- Use trait-change registration or `traitCollectionDidChange(_:)` where
-  available for trait-specific updates.
+- Register for the specific traits that affect the view; registration does not
+  perform the initial configuration.
 - Prefer adaptive layouts over branching only on iPhone or iPad.
 
 ## Study

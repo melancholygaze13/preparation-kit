@@ -4,7 +4,7 @@ domain: "UIKit"
 page_type: topic-index
 interview_priority: core
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-12
 ---
 
 # Auto Layout and Adaptive Layout
@@ -37,4 +37,4 @@ Mac Catalyst, complex forms, or design-system ownership.
 | [Constraints, Anchors, and Priorities](constraints-anchors-and-priorities/README.md) | Models layout as solvable relationships with explicit priority. | Core | 12 min |
 | [Intrinsic Content Size, Hugging, and Compression](intrinsic-content-size-hugging-and-compression/README.md) | Resolves competition between content-driven views. | Core | 10 min |
 | [Layout Guides, Safe Areas, and Margins](layout-guides-safe-areas-and-margins/README.md) | Uses system boundaries without hard-coded geometry. | High | 9 min |
-| [Trait Collections, Size Changes, and Adaptation](trait-collections-size-changes-and-adaptation/README.md) | Adapts interfaces to resizing, content, and environment changes. | High | 9 min |
+| [Trait Collections, Size Changes, and Adaptation](trait-collections-size-changes-and-adaptation/README.md) | Adapts interfaces to resizing, content, and environment changes. | High | 11 min |

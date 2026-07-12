@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 7
+estimated_read_minutes: 8
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-12
 ---
 
 # Table, Collection, and Cell Reuse: Theory
@@ -43,6 +43,34 @@ func configure(with item: MessageRow) {
 
 Incomplete configuration causes stale UI. A reused cell may keep a badge,
 selection, image, or loading spinner from the previous item.
+
+Modern collection views can make this boundary explicit with a cell registration.
+The registration owns cell construction and receives the current index path and
+item whenever UIKit needs configuration:
+
+```swift
+let registration = UICollectionView.CellRegistration<
+    UICollectionViewListCell,
+    MessageRow
+> { cell, _, item in
+    var content = cell.defaultContentConfiguration()
+    content.text = item.title
+    content.secondaryText = item.subtitle
+    cell.contentConfiguration = content
+
+    cell.accessories = item.isSelected ? [.checkmark()] : []
+}
+```
+
+Then the data source dequeues with the registration and item. This avoids a string
+reuse identifier, keeps the cell type and model type together, and makes complete
+configuration easier to review. It does not remove reuse rules: the handler still
+must set every state and async results still need identity checks.
+
+`UIContentConfiguration` is useful for reusable content because UIKit can request
+updated configurations for states such as selection or highlighting. Keep product
+state in the item model. Let cell state affect presentation, not become a second
+source of truth.
 
 ## `prepareForReuse()`
 
@@ -93,4 +121,6 @@ used when async work completes. If they differ, the cell has been reused.
 
 - [UITableView](https://developer.apple.com/documentation/uikit/uitableview)
 - [UICollectionView](https://developer.apple.com/documentation/uikit/uicollectionview)
+- [UICollectionView.CellRegistration](https://developer.apple.com/documentation/uikit/uicollectionview/cellregistration)
+- [UIContentConfiguration](https://developer.apple.com/documentation/uikit/uicontentconfiguration)
 - [Lists in UICollectionView](https://developer.apple.com/videos/play/wwdc2020/10026/)

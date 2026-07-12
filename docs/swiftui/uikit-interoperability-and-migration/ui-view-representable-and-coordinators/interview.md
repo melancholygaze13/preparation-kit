@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: situational
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-06-29
+last_reviewed: 2026-07-12
 ---
 
 # UIViewRepresentable and Coordinators: Interview Questions
@@ -42,6 +42,10 @@ identity, layout, and testing stay simpler.
 is useful for specialized text editing, camera or map SDK views, mature internal
 UIKit controls, and incremental migration. The cost is that I now have two UI
 models in one feature: SwiftUI's value updates and UIKit's mutable view object.
+
+I first check the current deployment target and framework API. For example, an app
+targeting iOS 26 can use WebKit's native SwiftUI `WebView` and `WebPage` rather than
+maintain a routine `WKWebView` representable.
 
 So I define the wrapper contract narrowly. SwiftUI owns the source of truth and
 passes configuration in. UIKit sends user events back through bindings, closures,

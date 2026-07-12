@@ -1,23 +1,21 @@
 ---
 title: "UIKit"
 page_type: domain-index
-status: draft
-last_reviewed: 2026-07-10
+interview_priority: core
+status: reviewed
+last_reviewed: 2026-07-12
 ---
 
 # UIKit
 
-## Stack
-
-1. App, scene, and window
-2. View controllers and containment
-3. Views, layers, and rendering
-4. Auto Layout and adaptation
-5. Controls, events, gestures, and accessibility
-6. Navigation, lists, state, and architecture
-7. Concurrency, performance, memory, and testing
+UIKit interviews test whether you can reason about mutable view objects, controller
+and scene lifetimes, container ownership, event delivery, and main-thread UI work.
+Prepare the common production boundaries first. Add specialized framework detail
+only when it matches the role.
 
 ## Rapid Review
+
+Use this path for an imminent Senior or Staff interview:
 
 1. [View Controller Lifecycle and Containment](view-controller-lifecycle-and-containment/README.md)
 2. [Views, Layers, and Rendering](views-layers-and-rendering/README.md)
@@ -27,6 +25,25 @@ last_reviewed: 2026-07-10
 6. [State, Architecture, and Dependencies](state-architecture-and-dependencies/README.md)
 7. [Concurrency and UI Lifecycle](concurrency-and-ui-lifecycle/README.md)
 8. [Performance, Memory, and Diagnostics](performance-memory-and-diagnostics/README.md)
+
+## Standard Preparation
+
+Complete the rapid-review path, then add these high-priority topics:
+
+1. [Controls, Events, Gestures, and Focus](controls-events-gestures-and-focus/README.md)
+2. [Text Input, Keyboard, and Forms](text-input-keyboard-and-forms/README.md)
+3. [Accessibility and Adaptive UI](accessibility-and-adaptive-ui/README.md)
+4. [Animation, Transitions, and Interaction](animation-transitions-and-interaction/README.md)
+5. [Testing UIKit Features](testing-uikit-features/README.md)
+6. [App, Scene, Window, and System Integration](app-scene-window-and-system-integration/README.md)
+
+## Role-Specific Depth
+
+Choose these topics when they match the job description, product, or interview
+format. They are not prerequisites for the standard path.
+
+1. [SwiftUI Interoperability and Migration](swiftui-interoperability-and-migration/README.md)
+2. [Custom Drawing, Graphics, and Media](custom-drawing-graphics-and-media/README.md)
 
 ## Topics
 

@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: high
-estimated_read_minutes: 5
+estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-12
 ---
 
 # Presentation Context, Popovers, and Sheets: Theory
@@ -59,6 +59,12 @@ On compact widths, popovers may adapt to another presentation style. That means
 the presented content must still have a way to dismiss and must still make sense
 without a visible arrow or anchor.
 
+Treat action sheets as contextual presentations too. On current systems they can
+appear anchored to their source on iPhone as well as iPad. Supply a `sourceItem`,
+bar button item, or source view regardless of the device idiom. This produces the
+right placement and transition now and avoids a crash if the same code later runs
+in a regular-width presentation.
+
 ## Sheets
 
 Sheets are useful for focused tasks that keep some surrounding context. They can
@@ -66,8 +72,35 @@ be lightweight, but they still need clear lifecycle and dismissal behavior.
 Modern sheets may support multiple sizes, scrolling interaction, and interactive
 dismissal.
 
+Configure those choices through `UISheetPresentationController` after setting the
+presentation style and before presenting:
+
+```swift
+editor.modalPresentationStyle = .pageSheet
+
+if let sheet = editor.sheetPresentationController {
+    sheet.detents = [.medium(), .large()]
+    sheet.selectedDetentIdentifier = .medium
+    sheet.prefersGrabberVisible = true
+}
+
+present(editor, animated: true)
+```
+
+Detents describe allowed sizes, not business state. Do not infer that a task was
+completed because a sheet reached a particular detent. If scrolling and resizing
+compete, test the actual content hierarchy and decide whether scrolling at an edge
+should expand the sheet.
+
 Pick sheet behavior from task risk. A filter panel may dismiss freely. A form
-with unsaved input may need confirmation or draft persistence.
+with unsaved input may need confirmation or draft persistence. Use
+`isModalInPresentation` to prevent interactive dismissal when cancellation is not
+safe, or use the adaptive presentation delegate to ask for confirmation. Keep the
+same policy for explicit Close actions so gesture and button behavior agree.
+
+On supported systems, standard presentations can use a zoom transition connected
+to their source item. Prefer it only when the source-to-destination relationship is
+real. The transition does not change who owns presentation, dismissal, or state.
 
 ## Engineering Decisions
 
@@ -95,5 +128,7 @@ push, or full-screen presentation in the current environment.
 
 - [UIPopoverPresentationController](https://developer.apple.com/documentation/uikit/uipopoverpresentationcontroller)
 - [UISheetPresentationController](https://developer.apple.com/documentation/uikit/uisheetpresentationcontroller)
+- [UIAdaptivePresentationControllerDelegate](https://developer.apple.com/documentation/uikit/uiadaptivepresentationcontrollerdelegate)
 - [View Controller Programming Guide: Presenting a View Controller](https://developer.apple.com/library/archive/featuredarticles/ViewControllerPGforiPhoneOS/PresentingaViewController.html)
 - [View Controller Programming Guide: Creating Custom Presentations](https://developer.apple.com/library/archive/featuredarticles/ViewControllerPGforiPhoneOS/DefiningCustomPresentations.html)
+- [Build a UIKit app with the new design](https://developer.apple.com/videos/play/wwdc2025/284/)

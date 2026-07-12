@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-07-12
 tags:
   - dependency-injection
   - composition-root
@@ -42,6 +42,23 @@ App Root
 
 There may be one top-level root plus delegated feature composition roots. Delegation
 keeps the app root from importing every internal feature type.
+
+## Build a Graph for Each Entry Point
+
+The main app, widgets, app extensions, previews, and tests are separate composition
+entry points. They may share contract and adapter modules, but they should build only
+the graph their process and lifecycle support.
+
+A widget should not resolve the main app's navigation owner or assume its in-memory
+session exists. An extension should not import a database or capability it cannot use
+inside its sandbox. If two processes exchange data, use an explicit shared-storage or
+IPC contract with versioning and failure handling; a singleton cannot cross that
+boundary.
+
+Keep alternate roots small enough to test directly. A preview can use deterministic
+feature dependencies. A test can construct one feature graph without launching the
+whole application. These roots expose hidden requirements: if every feature needs the
+entire production container, the dependency boundary is too broad.
 
 ## Assemble from Longer to Shorter Lifetime
 
@@ -145,3 +162,4 @@ extension targets from importing capabilities they cannot use.
 - [Initialization — The Swift Programming Language](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/initialization/)
 - [Access Control — The Swift Programming Language](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/accesscontrol/)
 - [Inversion of Control Containers and Dependency Injection](https://martinfowler.com/articles/injection.html)
+- [App Extension Programming Guide](https://developer.apple.com/library/archive/documentation/General/Conceptual/ExtensibilityPG/)

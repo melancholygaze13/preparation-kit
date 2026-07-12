@@ -10,7 +10,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-12
 ---
 
 # Presentation Context, Popovers, and Sheets
@@ -23,9 +23,11 @@ last_reviewed: 2026-07-01
 
 - UIKit can route presentation to a suitable ancestor or container.
 - `definesPresentationContext` controls current-context presentations.
-- Popovers need a source view, source rect, or bar button item.
+- Contextual presentations need a source item or source view even when the current
+  device renders them inline rather than as a popover.
 - Popovers and sheets can adapt when width or traits change.
 - Choose presentation style by task meaning, not only by appearance.
+- Interactive dismissal needs a policy for drafts and other unsaved state.
 
 ## Study
 

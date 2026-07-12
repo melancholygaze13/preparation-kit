@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: situational
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-06-29
+last_reviewed: 2026-07-12
 ---
 
 # UIViewRepresentable and Coordinators: Theory
@@ -128,6 +128,13 @@ Prefer native SwiftUI controls when they express the product behavior well. Reac
 for `UIViewRepresentable` when the app needs a UIKit-only capability, a mature
 custom UIKit component, an SDK view, or a staged migration path.
 
+Recheck that boundary when the deployment target changes. Frameworks can add native
+SwiftUI views that remove an older wrapper's synchronization and lifecycle burden. For
+example, WebKit provides SwiftUI `WebView` and observable `WebPage` APIs on iOS 26 and
+later. Prefer those for supported web-content needs instead of starting with a wrapped
+`WKWebView`. Keep a representable only when a required behavior is not available or the
+app must support older systems.
+
 Before wrapping a UIKit view, decide these boundaries:
 
 | Decision | What to define |
@@ -163,3 +170,4 @@ cancellation and lifetime remain visible.
 - [UIViewRepresentable](https://developer.apple.com/documentation/swiftui/uiviewrepresentable)
 - [makeUIView(context:)](https://developer.apple.com/documentation/swiftui/uiviewrepresentable/makeuiview%28context%3A%29)
 - [updateUIView(_:context:)](https://developer.apple.com/documentation/swiftui/uiviewrepresentable/updateuiview%28_%3Acontext%3A%29)
+- [WebKit for SwiftUI](https://developer.apple.com/documentation/webkit/webkit-for-swiftui)

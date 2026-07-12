@@ -3,7 +3,7 @@ title: "SwiftUI"
 page_type: domain-index
 interview_priority: core
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-12
 ---
 
 # SwiftUI
@@ -37,6 +37,8 @@ Complete the rapid-review path, then add these high-priority topics:
 3. [Animation and Interaction](animation-and-interaction/README.md)
 4. [Accessibility and Adaptive UI](accessibility-and-adaptive-ui/README.md)
 5. [Testing SwiftUI Features](testing-swiftui-features/README.md)
+
+## Role-Specific Depth
 
 Choose role-specific topics only when they match the job description, product,
 or known interview format. They are not prerequisites for the core path.

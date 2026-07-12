@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-12
 tags:
   - controls
   - focus-state
@@ -66,6 +66,23 @@ keyboard, dictation, or other input. Validate range and business rules in the mo
 For multiline text that benefits from placeholder behavior, prefer a vertical-axis
 `TextField` with a line limit. Use `TextEditor` when a larger document-like editing
 surface is genuinely required.
+
+On iOS 26 and related releases, `TextEditor` can bind to `AttributedString` for rich
+text editing with system formatting behavior. Keep the attributed value as editor
+state and use `AttributedTextSelection` only when product features act on the current
+selection:
+
+```swift
+@State private var note: AttributedString = ""
+@State private var selection = AttributedTextSelection()
+
+TextEditor(text: $note, selection: $selection)
+```
+
+Rich text adds a data contract. Decide which attributes the product accepts, how they
+are validated and persisted, and what unsupported formatting becomes on import. Do
+not store selection as durable document state unless restoring it is an explicit
+requirement.
 
 Set text content types, capitalization, submit labels, and privacy behavior according
 to the field. Never log passwords or sensitive form contents.
@@ -146,11 +163,14 @@ focus sequence, keyboard actions, accessibility, and the final integration.
 | Several fields | Optional focus enum with unique cases |
 | Multiline placeholder input | Vertical-axis `TextField` |
 | Document-like editing | `TextEditor` |
+| Rich document editing | Attributed-string `TextEditor` with an explicit format contract |
 | Unsaved form workflow | Explicit draft, save, cancel, dirty policy |
 
 ## References
 
 - [Text input and output](https://developer.apple.com/documentation/swiftui/text-input-and-output)
+- [Building rich SwiftUI text experiences](https://developer.apple.com/documentation/swiftui/building-rich-swiftui-text-experiences)
+- [`AttributedTextSelection`](https://developer.apple.com/documentation/swiftui/attributedtextselection)
 - [`FocusState`](https://developer.apple.com/documentation/swiftui/focusstate)
 - [`Form`](https://developer.apple.com/documentation/swiftui/form)
 - [Focus cookbook: Supporting and enhancing focus-driven interactions](https://developer.apple.com/documentation/swiftui/focus-cookbook-sample)

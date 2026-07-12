@@ -4,7 +4,7 @@ domain: "SwiftUI"
 page_type: topic-index
 interview_priority: high
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-12
 ---
 
 # Collections and Scrolling
@@ -31,7 +31,7 @@ iPad, or macOS interfaces.
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [List, ForEach, and Data Identity](list-for-each-and-data-identity/README.md) | Preserves correct row identity during collection changes. | High | 11 min |
-| [Pagination, Refresh, and Search](pagination-refresh-and-search/README.md) | Connects user-driven loading to collection state. | High | 11 min |
-| [Scroll Position and Programmatic Scrolling](scroll-position-and-programmatic-scrolling/README.md) | Coordinates scroll state with application behavior. | High | 10 min |
-| [Selection, Editing, and Hierarchical Data](selection-editing-and-hierarchical-data/README.md) | Covers richer collection interaction and structure. | High | 11 min |
+| [List, ForEach, and Data Identity](list-for-each-and-data-identity/README.md) | Preserves correct row identity during collection changes. | High | 12 min |
+| [Pagination, Refresh, and Search](pagination-refresh-and-search/README.md) | Connects user-driven loading to collection state. | High | 12 min |
+| [Scroll Position and Programmatic Scrolling](scroll-position-and-programmatic-scrolling/README.md) | Coordinates scroll state with application behavior. | High | 11 min |
+| [Selection, Editing, and Hierarchical Data](selection-editing-and-hierarchical-data/README.md) | Covers richer collection interaction and structure. | High | 12 min |

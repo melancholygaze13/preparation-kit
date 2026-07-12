@@ -7,7 +7,7 @@ levels: [senior, staff, principal]
 interview_priority: situational
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-06-29
+last_reviewed: 2026-07-12
 ---
 
 # UIViewRepresentable and Coordinators
@@ -18,10 +18,9 @@ last_reviewed: 2026-06-29
 
 ## Quick Recall
 
-- Use `makeUIView` for one-time UIKit view creation, not for syncing changing
-  SwiftUI state.
-- Use `updateUIView` to apply the current SwiftUI inputs to the existing UIKit
-  view.
+- Check current native SwiftUI and framework views first; on iOS 26+, WebKit provides `WebView` and `WebPage`.
+- Use `makeUIView` for one-time construction and `updateUIView` to synchronize
+  changing SwiftUI inputs into the existing UIKit view.
 - Use a coordinator when UIKit needs a delegate, data source, target, or callback
   object with stable identity.
 - Keep ownership clear: the representable translates state and events, while the

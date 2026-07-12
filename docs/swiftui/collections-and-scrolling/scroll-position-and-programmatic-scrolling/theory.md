@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-12
 tags:
   - scroll-position
   - scroll-view-reader
@@ -107,6 +107,20 @@ Avoid preference and geometry pipelines that publish every offset unless the pro
 needs continuous geometry. They can create high-frequency state changes. Use
 framework scroll-position and visibility APIs where available, and measure update cost.
 
+Choose the narrowest current API for the question:
+
+| Question | API |
+|---|---|
+| Did one child cross a visibility threshold? | `onScrollVisibilityChange` |
+| Which identified targets are visible? | `onScrollTargetVisibilityChange` |
+| Did a derived geometry value change? | `onScrollGeometryChange` |
+| Is scrolling interacting, decelerating, or idle? | `onScrollPhaseChange` |
+
+With `onScrollGeometryChange`, transform the full geometry into the smallest
+`Equatable` value the feature needs, such as `isNearBottom`. SwiftUI calls the action
+when that derived value changes. Publishing the raw offset into shared state on every
+movement defeats that filtering and can create unnecessary view updates.
+
 Stable row height is not always possible or desirable. Dynamic Type and localization
 change geometry, reinforcing why semantic IDs are stronger restoration state.
 
@@ -134,4 +148,5 @@ change geometry, reinforcing why semantic IDs are stronger restoration state.
 - [`ScrollViewReader`](https://developer.apple.com/documentation/swiftui/scrollviewreader)
 - [`ScrollPosition`](https://developer.apple.com/documentation/swiftui/scrollposition)
 - [`scrollPosition`](https://developer.apple.com/documentation/swiftui/view/scrollposition%28_%3A%29)
+- [Scroll views](https://developer.apple.com/documentation/swiftui/scroll-views)
 - [Beyond scroll views](https://developer.apple.com/videos/play/wwdc2023/10159/)

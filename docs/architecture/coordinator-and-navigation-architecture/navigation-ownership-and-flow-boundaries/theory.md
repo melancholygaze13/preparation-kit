@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-07-12
 tags:
   - coordinators
   - navigation
@@ -47,6 +47,22 @@ checks prerequisites, creates dependencies, and performs or describes the transi
 Do not centralize every presentation in one app coordinator. It becomes a switch over
 all features and a cross-team bottleneck. Delegate each coherent journey to a feature
 flow while the parent owns transitions between flows.
+
+### Treat Tabs as Sibling Flows
+
+A tab container usually owns selection among peer flows. Each tab can own an independent
+navigation stack, selection, and restoration state. The tab owner should not flatten
+those histories into one global path.
+
+For a cross-tab deep link, the app or scene router selects the tab by stable route
+identity, then delegates the remaining destination to that tab's flow owner. This keeps
+feature construction and Back behavior inside the correct boundary. Do not encode a tab
+as an array index in durable routes because rollout, customization, or platform
+adaptation can reorder the visible tabs.
+
+Reselecting the active tab may pop to root, scroll to top, or do nothing. That is product
+policy owned by the tab flow, not an automatic side effect of every selection callback.
+The policy must protect drafts and other unsaved state.
 
 ## Design Narrow Route Contracts
 
@@ -122,3 +138,5 @@ interpretation.
 - [Navigation — SwiftUI](https://developer.apple.com/documentation/swiftui/navigation)
 - [Migrating to new navigation types](https://developer.apple.com/documentation/swiftui/migrating-to-new-navigation-types)
 - [Restoring your app's state](https://developer.apple.com/documentation/uikit/restoring-your-app-s-state)
+- [`UITabBarController`](https://developer.apple.com/documentation/uikit/uitabbarcontroller)
+- [`TabView`](https://developer.apple.com/documentation/swiftui/tabview)

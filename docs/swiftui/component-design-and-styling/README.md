@@ -4,7 +4,7 @@ domain: "SwiftUI"
 page_type: topic-index
 interview_priority: high
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-12
 ---
 
 # Component Design and Styling
@@ -30,7 +30,7 @@ and design-system depth for product UI, platform, or Staff-level interviews.
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [Modifier Order and View Transforms](modifier-order-and-view-transforms/README.md) | Explains why modifier order changes behavior and layout. | High | 10 min |
-| [Reusable Components and View Modifiers](reusable-components-and-view-modifiers/README.md) | Chooses clear reuse boundaries for view APIs. | High | 11 min |
-| [Controls, Forms, Focus, and Keyboard](controls-forms-focus-and-keyboard/README.md) | Coordinates input state and standard controls. | High | 11 min |
-| [Styles, Environment, and Design Tokens](styles-environment-and-design-tokens/README.md) | Scales consistent appearance without hidden coupling. | High | 11 min |
+| [Modifier Order and View Transforms](modifier-order-and-view-transforms/README.md) | Explains why modifier order changes behavior and layout. | High | 11 min |
+| [Reusable Components and View Modifiers](reusable-components-and-view-modifiers/README.md) | Chooses clear reuse boundaries for view APIs. | High | 12 min |
+| [Controls, Forms, Focus, and Keyboard](controls-forms-focus-and-keyboard/README.md) | Coordinates input state and standard controls. | High | 12 min |
+| [Styles, Environment, and Design Tokens](styles-environment-and-design-tokens/README.md) | Scales consistent appearance without hidden coupling. | High | 12 min |

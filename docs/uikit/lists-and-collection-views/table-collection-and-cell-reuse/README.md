@@ -10,7 +10,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-12
 ---
 
 # Table, Collection, and Cell Reuse
@@ -24,6 +24,7 @@ last_reviewed: 2026-07-01
 - Reuse means a cell instance may display many different items over time.
 - `prepareForReuse()` resets transient view state, not model state.
 - Configuration should be complete and idempotent for the current item.
+- Cell registrations centralize dequeueing and configuration for an item type.
 - Async work must be cancelled, validated, or keyed by item identity.
 - Keep data ownership in the data source or view model, not in the cell.
 

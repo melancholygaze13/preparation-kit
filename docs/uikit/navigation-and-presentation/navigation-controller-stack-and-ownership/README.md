@@ -10,7 +10,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-12
 ---
 
 # Navigation Controller Stack and Ownership
@@ -28,6 +28,8 @@ last_reviewed: 2026-07-01
 - The pushed controller owns its content; the flow owner owns when to push, pop,
   or replace stack state.
 - Back navigation should preserve task meaning, not just reverse an animation.
+- Treat transitions as interruptible; an appearance callback does not prove the
+  final stack state.
 
 ## Study
 

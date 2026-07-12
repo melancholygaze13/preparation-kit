@@ -527,6 +527,10 @@ nav:
               - Overview: swiftui/navigation-and-presentation/navigation-stack-and-paths/README.md
               - Theory: swiftui/navigation-and-presentation/navigation-stack-and-paths/theory.md
               - Interview Questions: swiftui/navigation-and-presentation/navigation-stack-and-paths/interview.md
+          - Tabs and Top-Level Navigation:
+              - Overview: swiftui/navigation-and-presentation/tabs-and-top-level-navigation/README.md
+              - Theory: swiftui/navigation-and-presentation/tabs-and-top-level-navigation/theory.md
+              - Interview Questions: swiftui/navigation-and-presentation/tabs-and-top-level-navigation/interview.md
           - Destinations, Deep Links, and Restoration:
               - Overview: swiftui/navigation-and-presentation/destinations-deep-links-and-restoration/README.md
               - Theory: swiftui/navigation-and-presentation/destinations-deep-links-and-restoration/theory.md
@@ -787,6 +791,10 @@ nav:
               - Overview: uikit/navigation-and-presentation/navigation-controller-stack-and-ownership/README.md
               - Theory: uikit/navigation-and-presentation/navigation-controller-stack-and-ownership/theory.md
               - Interview Questions: uikit/navigation-and-presentation/navigation-controller-stack-and-ownership/interview.md
+          - Tabs and Top-Level Navigation:
+              - Overview: uikit/navigation-and-presentation/tabs-and-top-level-navigation/README.md
+              - Theory: uikit/navigation-and-presentation/tabs-and-top-level-navigation/theory.md
+              - Interview Questions: uikit/navigation-and-presentation/tabs-and-top-level-navigation/interview.md
           - Modal Presentation, Dismissal, and Ownership:
               - Overview: uikit/navigation-and-presentation/modal-presentation-dismissal-and-ownership/README.md
               - Theory: uikit/navigation-and-presentation/modal-presentation-dismissal-and-ownership/theory.md

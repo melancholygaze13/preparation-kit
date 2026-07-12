@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 7
+estimated_read_minutes: 8
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-12
 ---
 
 # Navigation Controller Stack and Ownership: Theory
@@ -64,6 +64,24 @@ Avoid reaching across the stack to mutate another controller's navigation item.
 If state in a lower controller must change, use an explicit model or flow-level
 state instead.
 
+## Treat Navigation as Interruptible
+
+Navigation transitions are interactive. A swipe back can begin, cancel, or finish,
+and current UIKit transitions allow new interaction while an earlier transition is
+still settling. Do not treat `viewWillDisappear` or an animation completion as
+proof that a controller was permanently removed.
+
+When work depends on the final result, use the transition coordinator's completion
+context or inspect the navigation stack after the transition. Keep model changes
+reversible until an interactive transition commits. Also serialize route commands
+so two fast taps do not push duplicate controllers.
+
+On current systems, UIKit can begin an interactive back swipe from content, not
+only from the leading edge. A custom horizontal gesture that needs priority should
+define its failure relationship with the navigation controller's interactive
+content-pop gesture. Disabling system back gestures broadly removes expected input
+behavior and should be a last resort.
+
 ## Engineering Decisions
 
 Choose push navigation when the new screen is part of the same task and has a
@@ -95,3 +113,4 @@ action asks for the right route before verifying the exact container operation.
 - [UINavigationController](https://developer.apple.com/documentation/uikit/uinavigationcontroller)
 - [View Controller Programming Guide: The View Controller Hierarchy](https://developer.apple.com/library/archive/featuredarticles/ViewControllerPGforiPhoneOS/TheViewControllerHierarchy.html)
 - [View Controller Programming Guide: Design Tips](https://developer.apple.com/library/archive/featuredarticles/ViewControllerPGforiPhoneOS/DesignTips.html)
+- [Build a UIKit app with the new design](https://developer.apple.com/videos/play/wwdc2025/284/)

@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 4
+estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-12
 ---
 
 # Navigation Controller Stack and Ownership: Interview Questions
@@ -25,6 +25,7 @@ last_reviewed: 2026-07-01
 | [When should you push versus present a view controller?](#q1-push-vs-present) | Senior | Navigation choice |
 | [Who should own navigation decisions in a UIKit feature?](#q2-navigation-ownership) | Staff | Architecture boundary |
 | [How would you handle deep linking into a navigation stack?](#q3-deep-link-stack) | Staff | Stack state |
+| [What changes when a navigation transition is interactive?](#q4-interactive-transition) | Senior | Lifecycle correctness |
 
 ---
 
@@ -90,3 +91,22 @@ Preserving the current stack can feel less disruptive, but it can create strange
 back behavior. Replacing the stack is clearer when the deep link changes the
 user's main context, but it should be deliberate because it discards navigation
 history.
+
+---
+
+<a id="q4-interactive-transition"></a>
+## Q4: What changes when a navigation transition is interactive?
+
+### Short Answer
+
+An interactive transition can finish or cancel, so appearance callbacks do not by
+themselves prove the final stack. I delay irreversible work until the outcome is
+known and keep the screen safe to interact with while animation settles.
+
+### Expanded Answer
+
+I use the transition coordinator when behavior depends on completion, and I verify
+the final navigation state instead of assuming a swipe committed. I also prevent
+duplicate route commands from rapid taps. If a custom horizontal gesture competes
+with system back navigation, I define an explicit failure relationship instead of
+disabling the system gesture for the whole flow.

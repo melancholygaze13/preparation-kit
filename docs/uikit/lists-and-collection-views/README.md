@@ -4,7 +4,7 @@ domain: "UIKit"
 page_type: topic-index
 interview_priority: core
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-12
 ---
 
 # Lists and Collection Views
@@ -30,7 +30,7 @@ running after reuse.
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [Table, Collection, and Cell Reuse](table-collection-and-cell-reuse/README.md) | Explains reusable view lifecycle and configuration boundaries. | Core | 12 min |
+| [Table, Collection, and Cell Reuse](table-collection-and-cell-reuse/README.md) | Explains reusable view lifecycle and configuration boundaries. | Core | 14 min |
 | [Diffable Data Sources and Snapshots](diffable-data-sources-and-snapshots/README.md) | Uses stable identity for consistent animated updates. | Core | 12 min |
 | [Compositional Layouts and List Configuration](compositional-layouts-and-list-configuration/README.md) | Builds flexible modern collection layouts from reusable sections. | High | 9 min |
 | [Prefetching, Pagination, and Update Consistency](prefetching-pagination-and-update-consistency/README.md) | Coordinates asynchronous data with reuse and collection updates. | Core | 11 min |

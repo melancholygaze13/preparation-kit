@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-12
 tags:
   - dynamic-type
   - content-sizing
@@ -39,8 +39,17 @@ Use semantic text styles such as body, headline, title, and caption so the syste
 applies appropriate scaling and weight. Avoid fixed sizes for user-facing content.
 
 For custom typography, start from a semantic style and supply a tested scaling strategy.
-Use `@ScaledMetric` for related dimensions on older targets, or modern scaled font APIs
-where available. Not every padding or icon needs to scale at the same rate as text.
+On iOS 26 and related releases, scale from a semantic font directly:
+
+```swift
+Text(account.balanceText)
+    .font(.body.scaled(by: 1.2))
+```
+
+For older targets, use a custom font relative to a text style and `@ScaledMetric` for
+related dimensions. Not every padding or icon needs to scale at the same rate as text.
+Test the full supported size range; scaling from `.body` preserves Dynamic Type but
+does not prove the surrounding layout can fit the result.
 
 ### Reflow before Compression
 
@@ -124,6 +133,7 @@ guarantee space when split view, keyboard, or accessibility text reduces the con
 ## References
 
 - [Scaling fonts automatically](https://developer.apple.com/documentation/swiftui/scaling-fonts-automatically)
+- [`Font`](https://developer.apple.com/documentation/swiftui/font)
 - [Building an inclusive app](https://developer.apple.com/videos/play/wwdc2021/10120/)
 - [Human Interface Guidelines: Typography](https://developer.apple.com/design/human-interface-guidelines/typography)
 - [`DynamicTypeSize`](https://developer.apple.com/documentation/swiftui/dynamictypesize)

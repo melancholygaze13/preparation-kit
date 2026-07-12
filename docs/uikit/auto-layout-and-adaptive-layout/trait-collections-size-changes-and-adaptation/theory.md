@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: high
-estimated_read_minutes: 5
+estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-12
 ---
 
 # Trait Collections, Size Changes, and Adaptation: Theory
@@ -63,9 +63,32 @@ override func viewWillTransition(
 }
 ```
 
-For trait-specific changes, update only the state that depends on the changed
-trait. On newer OS versions, UIKit supports registering for specific trait
-changes. Older code often uses `traitCollectionDidChange(_:)`.
+For trait-specific changes, register for only the traits that change the component:
+
+```swift
+override func viewDidLoad() {
+    super.viewDidLoad()
+
+    updateLayoutMode()
+
+    registerForTraitChanges([
+        UITraitHorizontalSizeClass.self,
+        UITraitPreferredContentSizeCategory.self
+    ]) { (self: Self, _: UITraitCollection) in
+        self.updateLayoutMode()
+    }
+}
+```
+
+Registration observes later changes. It does not call the handler for the current
+value, so perform initial configuration separately. UIKit removes registrations
+with the observing object; manual unregistering is normally unnecessary.
+
+Keep the handler cheap and focused. Traits can change more than once before UIKit
+updates the view. Change state, constraints, or invalidation flags there, then let
+the normal layout and display cycle do the work. Older deployment targets can use
+`traitCollectionDidChange(_:)`, comparing the previous collection so unrelated
+trait changes do not repeat expensive work.
 
 ## Adaptation Strategies
 
@@ -109,5 +132,6 @@ component contract and choose a predictable fallback.
 ## References
 
 - [UITraitCollection](https://developer.apple.com/documentation/uikit/uitraitcollection)
+- [UITraitChangeObservable](https://developer.apple.com/documentation/uikit/uitraitchangeobservable-7qoet)
 - [UIViewController viewWillTransition(to:with:)](https://developer.apple.com/documentation/uikit/uiviewcontroller/viewwilltransition%28to%3Awith%3A%29)
 - [Auto Layout Guide: Size-Class-Specific Layout](https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/AutolayoutPG/Size-ClassSpecificLayout.html)

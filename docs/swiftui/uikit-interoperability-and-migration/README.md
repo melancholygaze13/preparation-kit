@@ -4,7 +4,7 @@ domain: "SwiftUI"
 page_type: topic-index
 interview_priority: situational
 status: reviewed
-last_reviewed: 2026-06-29
+last_reviewed: 2026-07-12
 ---
 
 # UIKit Interoperability and Migration

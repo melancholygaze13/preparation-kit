@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: high
-estimated_read_minutes: 3
+estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-12
 ---
 
 # Trait Collections, Size Changes, and Adaptation: Interview Questions
@@ -25,6 +25,7 @@ last_reviewed: 2026-07-01
 | [What is a trait collection used for?](#q1-trait-collection-purpose) | Senior | Environment model |
 | [How should a UIKit screen respond to rotation or window resizing?](#q2-size-change-response) | Senior | Lifecycle coordination |
 | [Why is branching on device type a weak adaptive-layout strategy?](#q3-device-type-branching) | Staff | Design judgment |
+| [How would you observe only relevant trait changes?](#q4-observe-specific-traits) | Senior | Focused invalidation |
 
 ---
 
@@ -85,3 +86,22 @@ stronger design uses shared breakpoints and component rules.
 Device checks can be acceptable for hardware-specific capabilities. They are a
 poor fit for layout decisions unless the device capability is truly the reason
 for the difference.
+
+---
+
+<a id="q4-observe-specific-traits"></a>
+## Q4: How would you observe only relevant trait changes?
+
+### Short Answer
+
+I register for the specific trait types that affect the component. I configure
+the initial state separately because registration reports only later changes. I
+keep the handler cheap by invalidating layout or display instead of doing heavy
+work immediately.
+
+### Expanded Answer
+
+A component that changes only with horizontal size class and content size category
+does not need to react to display scale or interface style. On older deployment
+targets, I compare the previous and current collections in
+`traitCollectionDidChange(_:)` before updating.

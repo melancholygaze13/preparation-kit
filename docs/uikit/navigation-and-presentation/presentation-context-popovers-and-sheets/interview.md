@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: high
-estimated_read_minutes: 3
+estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-12
 ---
 
 # Presentation Context, Popovers, and Sheets: Interview Questions
@@ -25,6 +25,7 @@ last_reviewed: 2026-07-01
 | [What does presentation context control?](#q1-presentation-context) | Senior | UIKit hierarchy |
 | [What does a popover need to present correctly?](#q2-popover-source) | Senior | Popover setup |
 | [How do you choose between popover, sheet, and full screen?](#q3-choose-presentation-style) | Staff | Product judgment |
+| [How would you protect unsaved state in an interactively dismissible sheet?](#q4-sheet-dismissal) | Senior | Dismissal policy |
 
 ---
 
@@ -51,15 +52,16 @@ area. This is important in split views and custom containers.
 
 ### Short Answer
 
-A popover needs source information, such as a source view and rect or a bar
-button item. The source tells UIKit what object the popover relates to and where
-the arrow should point.
+A contextual presentation needs source information, such as a source view and rect,
+a bar button item, or a source item. The source tells UIKit what object the
+presentation relates to and where it belongs.
 
 ### Expanded Answer
 
 The content also needs to adapt. In compact width, the popover may become a
 different style, so the presented controller still needs a clear dismissal path
-and layout that works without a popover anchor.
+and layout that works without a popover anchor. I provide the source on iPhone too,
+because current action sheets can use anchored presentation there.
 
 ---
 
@@ -83,3 +85,20 @@ Authentication may be full screen if it blocks the app.
 Adaptive presentations improve reuse, but they require testing the same feature
 in regular and compact widths. Hard-coding one presentation style everywhere can
 make the feature feel wrong on either phone or iPad.
+
+---
+
+<a id="q4-sheet-dismissal"></a>
+## Q4: How would you protect unsaved state in an interactively dismissible sheet?
+
+### Short Answer
+
+I keep draft state outside the dismissal gesture, then either save it continuously,
+disable interactive dismissal with `isModalInPresentation`, or use the presentation
+controller delegate to confirm cancellation. Close buttons follow the same policy.
+
+### Expanded Answer
+
+A detent change is layout, not task completion. I commit only from an explicit save
+action. If dismissal is attempted with dirty state, the owner can reject it and show
+confirmation. This keeps swipe, tap-outside, and explicit Close behavior consistent.
