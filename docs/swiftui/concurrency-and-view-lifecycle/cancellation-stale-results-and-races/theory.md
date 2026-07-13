@@ -88,11 +88,15 @@ contract should state how cancellation is represented.
 
 Consider live search:
 
-```text
-request "s" starts
-request "swift" starts
-request "swift" finishes
-request "s" finishes last and overwrites the UI
+```mermaid
+sequenceDiagram
+    participant UI
+    participant S as Search for s
+    participant Swift as Search for swift
+    UI->>S: Start
+    UI->>Swift: Start
+    Swift-->>UI: Finish and update
+    S-->>UI: Finish last and overwrite the UI
 ```
 
 Main-actor isolation serializes assignments but does not make their order match user

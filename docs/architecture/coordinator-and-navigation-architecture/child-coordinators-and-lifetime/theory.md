@@ -28,11 +28,11 @@ A child coordinator is a runtime scope for one active flow. It owns the screens,
 view models, presentation state, and feature-scoped work needed by that flow. Its parent
 owns it strongly until the child completes or is dismissed.
 
-```text
-App/Scene Coordinator
-├── Main Flow
-│   └── Checkout Flow
-└── Authentication Flow
+```mermaid
+flowchart TD
+    App["App or scene coordinator"] --> Main["Main flow"]
+    Main --> Checkout["Checkout flow"]
+    App --> Auth["Authentication flow"]
 ```
 
 The active ownership tree may change while the app runs. It should not keep completed

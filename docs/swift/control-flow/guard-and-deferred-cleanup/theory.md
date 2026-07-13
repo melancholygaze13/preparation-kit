@@ -26,8 +26,13 @@ tags:
 `guard` narrows the valid state space for the rest of a scope. `defer` ties an
 already-acquired resource or begun operation to the lexical scope that owns it:
 
-```text
-validate -> acquire -> register cleanup -> work -> any normal exit -> cleanup
+```mermaid
+flowchart LR
+    Validate["Validate"] --> Acquire["Acquire"]
+    Acquire --> Register["Register cleanup"]
+    Register --> Work["Work"]
+    Work --> Exit["Any normal exit"]
+    Exit --> Cleanup["Cleanup"]
 ```
 
 Neither keyword substitutes for domain modeling. Guard makes failure paths local;

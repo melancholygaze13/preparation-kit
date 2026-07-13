@@ -38,8 +38,11 @@ events to app behavior.
 
 The boundary should usually look like this:
 
-```text
-View -> View Controller -> Presentation or Domain Boundary -> Model / Services
+```mermaid
+flowchart LR
+    View["View"] --> Controller["View controller"]
+    Controller --> Boundary["Presentation or domain boundary"]
+    Boundary --> Model["Model and services"]
 ```
 
 The view can expose controls, layout, and reusable visual behavior. The view

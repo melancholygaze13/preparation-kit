@@ -30,9 +30,14 @@ can enter the feature. A reducer handles one action, mutates state synchronously
 returns effects that may send later actions. A store runs this loop and exposes state
 to SwiftUI, UIKit, tests, or another integration layer.
 
-```text
-action → reducer → new state → observation
-             └──→ effect ───→ later action
+```mermaid
+flowchart LR
+    Action["Action"] --> Reducer["Reducer"]
+    Reducer --> State["New state"]
+    State --> Observation["Observation"]
+    Reducer --> Effect["Effect"]
+    Effect --> Later["Later action"]
+    Later --> Reducer
 ```
 
 This centralizes mutation and effect decisions. It does not remove the need to choose

@@ -27,13 +27,13 @@ tags:
 A deep link is a request to reach a product destination, not an instruction to push a
 specific screen. Route handling is a pipeline:
 
-```text
-URL / Activity / Notification
-        -> Parse typed route
-        -> Validate and authorize
-        -> Resolve prerequisites
-        -> Delegate to owning flow
-        -> Build navigation state
+```mermaid
+flowchart TD
+    Input["URL, activity, or notification"] --> Parse["Parse typed route"]
+    Parse --> Validate["Validate and authorize"]
+    Validate --> Resolve["Resolve prerequisites"]
+    Resolve --> Delegate["Delegate to owning flow"]
+    Delegate --> Build["Build navigation state"]
 ```
 
 Restoration runs through the same route model but starts from previously persisted,

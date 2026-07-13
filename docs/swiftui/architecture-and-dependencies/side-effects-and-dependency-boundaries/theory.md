@@ -97,9 +97,13 @@ or model operations whose lifetime is explicit.
 
 Separate domain decision from adapter mechanics:
 
-```text
-user event -> feature validates -> dependency performs effect
-           <- typed result or error <- adapter translates external response
+```mermaid
+flowchart LR
+    Event["User event"] --> Validate["Feature validates"]
+    Validate --> Effect["Dependency performs effect"]
+    Effect --> Adapter["Adapter translates external response"]
+    Adapter --> Result["Typed result or error"]
+    Result --> Validate
 ```
 
 Adapters translate transport models, status codes, callbacks, and persistence

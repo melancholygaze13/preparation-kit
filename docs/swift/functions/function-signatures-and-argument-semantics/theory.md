@@ -26,8 +26,12 @@ tags:
 
 A function boundary has four contracts:
 
-```text
-call spelling + input ownership + effects + output meaning
+```mermaid
+flowchart LR
+    Spelling["Call spelling"] --> Signature["Function signature"]
+    Ownership["Input ownership"] --> Signature
+    Effects["Effects"] --> Signature
+    Output["Output meaning"] --> Signature
 ```
 
 The implementation is replaceable only while these observable contracts remain

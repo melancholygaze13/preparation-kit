@@ -26,10 +26,11 @@ tags:
 
 A string index is a cursor at a valid boundary, not a distance:
 
-```text
-String value/version ── owns meaning of ──> String.Index
-       │
-       └─ slice range ──> Substring view ── may retain base storage
+```mermaid
+flowchart LR
+    String["String value and version"] -->|Defines the meaning of| Index["String.Index"]
+    String -->|Slice range| Substring["Substring view"]
+    Substring -. "may retain" .-> Storage["Base storage"]
 ```
 
 Keep three concepts separate:

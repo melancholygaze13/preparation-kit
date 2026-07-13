@@ -29,8 +29,12 @@ should change implementation freely while changing its published contract delibe
 
 Good SDK design starts from supported workflows:
 
-```text
-configure -> check capability -> perform work -> handle result -> diagnose
+```mermaid
+flowchart LR
+    Configure["Configure"] --> Capability["Check capability"]
+    Capability --> Work["Perform work"]
+    Work --> Result["Handle result"]
+    Result --> Diagnose["Diagnose"]
 ```
 
 ## API Surface

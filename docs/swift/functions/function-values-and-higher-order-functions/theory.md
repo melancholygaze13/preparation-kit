@@ -26,8 +26,11 @@ tags:
 
 A higher-order function separates stable coordination from injected behavior:
 
-```text
-higher-order function + callable policy -> result and effects
+```mermaid
+flowchart LR
+    Function["Higher-order function"] --> Apply["Apply"]
+    Policy["Callable policy"] --> Apply
+    Apply --> Outcome["Result and effects"]
 ```
 
 The arrow type is necessary but incomplete. A production callback contract also

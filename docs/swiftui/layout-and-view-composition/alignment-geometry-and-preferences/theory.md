@@ -26,10 +26,11 @@ tags:
 
 These APIs solve three different layout communication problems:
 
-```text
-alignment: child reference point -> arranging parent
-geometry:  layout system facts -> observing view
-preference: descendant value -> interested ancestor
+```mermaid
+flowchart LR
+    Alignment["Alignment: child reference point"] --> Parent["Arranging parent"]
+    Geometry["Geometry: layout system facts"] --> Observer["Observing view"]
+    Preference["Preference: descendant value"] --> Ancestor["Interested ancestor"]
 ```
 
 They should support layout, not become a parallel state architecture. Use built-in

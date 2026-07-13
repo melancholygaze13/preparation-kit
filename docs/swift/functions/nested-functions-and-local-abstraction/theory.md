@@ -25,10 +25,10 @@ tags:
 
 Lexical nesting expresses ownership:
 
-```text
-outer algorithm
-├── state and invariants
-└── local helper that exists to serve that algorithm
+```mermaid
+flowchart TD
+    Algorithm["Outer algorithm"] --> State["State and required rules"]
+    Algorithm --> Helper["Local helper that serves the algorithm"]
 ```
 
 While the helper remains nonescaping, its lifetime and meaning are bounded by the

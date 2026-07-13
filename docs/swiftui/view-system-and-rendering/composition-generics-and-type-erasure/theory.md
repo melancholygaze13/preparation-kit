@@ -28,11 +28,12 @@ SwiftUI's view hierarchy is also a nested generic type. Preserving that type giv
 the compiler and framework structural information. Choose the least dynamic
 abstraction that satisfies the API:
 
-```text
-known relationship -> generic View
-hidden implementation -> some View
-builder control flow -> @ViewBuilder composite
-runtime-varying type -> AnyView, used deliberately
+```mermaid
+flowchart LR
+    Known["Known relationship"] --> Generic["Generic View"]
+    Hidden["Hidden implementation"] --> Opaque["some View"]
+    ControlFlow["Builder control flow"] --> Builder["@ViewBuilder composite"]
+    Runtime["Runtime-varying type"] --> Erasure["AnyView, used deliberately"]
 ```
 
 Composition is usually the design tool. Type erasure is an escape hatch for a real

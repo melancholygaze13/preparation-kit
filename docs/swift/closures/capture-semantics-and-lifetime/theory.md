@@ -26,8 +26,10 @@ tags:
 
 A closure value consists conceptually of executable code plus a capture context:
 
-```text
-closure = code + captured environment
+```mermaid
+flowchart LR
+    Code["Code"] --> Closure["Closure"]
+    Environment["Captured environment"] --> Closure
 ```
 
 The environment can contain immutable snapshots, shared mutable storage, or
@@ -130,8 +132,10 @@ because that would allow shared mutation beyond the exclusive method access.
 A common cycle occurs when an instance owns a closure property and that closure
 strongly captures the instance:
 
-```text
-instance -> closure property -> captured instance
+```mermaid
+flowchart LR
+    Instance["Instance"] -->|owns| Property["Closure property"]
+    Property -->|captures| Instance
 ```
 
 Neither reference count reaches zero. Break the cycle by changing ownership,

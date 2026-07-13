@@ -26,8 +26,12 @@ tags:
 
 Performance diagnosis is causal investigation:
 
-```text
-user symptom -> reproducible interval -> trace evidence -> narrow cause -> measured fix
+```mermaid
+flowchart LR
+    Symptom["User symptom"] --> Interval["Reproducible interval"]
+    Interval --> Evidence["Trace evidence"]
+    Evidence --> Cause["Narrow cause"]
+    Cause --> Fix["Measured fix"]
 ```
 
 Separate responsiveness, frame hitches, excessive updates, rendering, I/O, allocation,

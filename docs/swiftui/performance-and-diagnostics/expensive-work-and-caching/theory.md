@@ -59,8 +59,11 @@ processing still consume an executor. In Swift 6.2, use an explicitly concurrent
 nonisolated boundary for measured CPU work and return a `Sendable` value. Commit the
 small result to the main-actor model.
 
-```text
-fetch bytes -> decode/transform -> validate relevance -> commit UI state
+```mermaid
+flowchart LR
+    Fetch["Fetch bytes"] --> Decode["Decode or transform"]
+    Decode --> Validate["Validate relevance"]
+    Validate --> Commit["Commit UI state"]
 ```
 
 Do not wrap ordinary networking in `Task.detached`. Detached tasks lose structured

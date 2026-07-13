@@ -25,8 +25,13 @@ tags:
 
 A loop is a state transition repeated under a traversal or termination contract:
 
-```text
-current state -> work -> progress -> next state or exit
+```mermaid
+flowchart LR
+    Current["Current state"] --> Work["Work"]
+    Work --> Progress["Progress"]
+    Progress --> Outcome{"Next step"}
+    Outcome -->|Continue| Current
+    Outcome -->|Finish| Exit["Exit"]
 ```
 
 `for`-`in` delegates “next element” to a sequence iterator. `while` delegates

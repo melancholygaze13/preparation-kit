@@ -27,9 +27,10 @@ tags:
 SwiftUI creates many short-lived values from a view declaration. Identity connects
 the values that represent one conceptual UI element over time:
 
-```text
-same identity + new value -> update the existing element
-new identity              -> remove one element and insert another
+```mermaid
+flowchart LR
+    Same["Same identity + new value"] --> Update["Update the existing element"]
+    New["New identity"] --> Replace["Remove one element and insert another"]
 ```
 
 The lifetime of framework-managed state follows that identity. When identity ends,

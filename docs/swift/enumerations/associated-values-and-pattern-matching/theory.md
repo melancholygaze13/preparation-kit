@@ -26,11 +26,12 @@ tags:
 
 Associated-value enums are tagged unions:
 
-```text
-LoadState = idle
-          | loading(progress)
-          | loaded(value)
-          | failed(error, retryability)
+```mermaid
+flowchart LR
+    State{"LoadState"} --> Idle["idle"]
+    State --> Loading["loading(progress)"]
+    State --> Loaded["loaded(value)"]
+    State --> Failed["failed(error, retryability)"]
 ```
 
 The tag determines which payload exists. Code cannot access loaded data while the

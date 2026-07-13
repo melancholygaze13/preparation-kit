@@ -29,10 +29,12 @@ state and returns an effect. The store runs that effect, and the effect sends ac
 back when meaningful events occur. The reducer then handles those events through the
 same state-transition path as user input.
 
-```text
-load tapped → reducer sets loading → effect calls client
-                                      ↓
-                reducer handles response action ← result
+```mermaid
+flowchart LR
+    Tap["Load tapped"] --> Loading["Reducer sets loading"]
+    Loading --> Effect["Effect calls client"]
+    Effect --> Result["Result"]
+    Result --> Response["Reducer handles response action"]
 ```
 
 This makes the lifecycle visible. It also prevents an escaping task from mutating the

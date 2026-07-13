@@ -28,8 +28,11 @@ A SwiftUI view is a value that describes part of the interface for its current
 inputs. The value is temporary. SwiftUI owns the persistent machinery that tracks
 dependencies, preserves eligible state, lays out content, and renders platform UI.
 
-```text
-state and inputs -> body -> new view description -> SwiftUI update
+```mermaid
+flowchart LR
+    Inputs["State and inputs"] --> Body["body"]
+    Body --> Description["New view description"]
+    Description --> Update["SwiftUI update"]
 ```
 
 When an input changes, SwiftUI may evaluate `body` again. It compares and applies

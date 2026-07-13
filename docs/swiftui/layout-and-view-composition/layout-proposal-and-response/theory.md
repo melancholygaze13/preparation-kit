@@ -26,8 +26,10 @@ tags:
 
 SwiftUI layout is a recursive proposal-response-placement process:
 
-```text
-parent proposes size -> child chooses size -> parent places child
+```mermaid
+flowchart LR
+    Propose["Parent proposes size"] --> Choose["Child chooses size"]
+    Choose --> Place["Parent places child"]
 ```
 
 Each container repeats this process with its descendants. The child can respond

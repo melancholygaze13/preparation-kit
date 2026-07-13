@@ -29,8 +29,11 @@ inputs from its parent and on framework-managed values it reads. When a dependen
 changes, SwiftUI invalidates affected work and evaluates enough of the graph to
 produce the next interface.
 
-```text
-dependency changes -> affected view invalidated -> body may run -> children update
+```mermaid
+flowchart LR
+    Change["Dependency changes"] --> Invalidate["Affected view invalidated"]
+    Invalidate --> Body["body may run"]
+    Body --> Children["Children update"]
 ```
 
 Invalidation, `body` evaluation, layout, and drawing are different stages. A

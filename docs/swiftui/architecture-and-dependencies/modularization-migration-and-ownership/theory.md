@@ -58,13 +58,14 @@ Feature implementation can depend on stable domain and capability contracts. The
 composition target depends on feature entry modules and concrete adapters. A feature
 should not import another feature's implementation to navigate or read its state.
 
-```text
-App composition -> Feature entry -> Feature implementation
-       |                  |                 |
-       +----------> capability contracts <-+
-                          ^
-                          |
-                 infrastructure adapters
+```mermaid
+flowchart LR
+    App["App composition"] --> Entry["Feature entry"]
+    Entry --> Implementation["Feature implementation"]
+    App --> Contracts["Capability contracts"]
+    Entry --> Contracts
+    Implementation --> Contracts
+    Adapters["Infrastructure adapters"] --> Contracts
 ```
 
 The exact packaging can vary, but dependencies should point toward stable abstractions

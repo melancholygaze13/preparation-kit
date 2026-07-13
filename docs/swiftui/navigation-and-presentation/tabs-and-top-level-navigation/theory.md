@@ -26,8 +26,10 @@ tags:
 
 A tab container chooses one peer destination from a small stable set:
 
-```text
-selected tab -> one top-level flow -> that flow's navigation state
+```mermaid
+flowchart LR
+    Tab["Selected tab"] --> Flow["One top-level flow"]
+    Flow --> State["That flow's navigation state"]
 ```
 
 Tab selection and navigation within a tab are different state dimensions. Switching
@@ -124,8 +126,12 @@ feature routers.
 An external route should be parsed and authorized before it mutates UI state. The routing
 operation then selects the owning tab and builds the route inside that flow:
 
-```text
-URL -> parse -> authorize -> select library -> library path = [.book(id)]
+```mermaid
+flowchart LR
+    URL["URL"] --> Parse["Parse"]
+    Parse --> Authorize["Authorize"]
+    Authorize --> Select["Select Library tab"]
+    Select --> Path["Set library path to book(id)"]
 ```
 
 Apply the related changes as one owned transition so the app does not briefly show a

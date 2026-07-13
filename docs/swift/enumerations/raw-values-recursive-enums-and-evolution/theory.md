@@ -27,10 +27,11 @@ tags:
 
 Keep three layers distinct:
 
-```text
-case             -> domain alternative
-associated value -> data chosen for one instance
-raw value         -> fixed scalar mapping declared for one case
+```mermaid
+flowchart LR
+    Case["Case"] --> Alternative["Domain alternative"]
+    Associated["Associated value"] --> Instance["Data chosen for one instance"]
+    Raw["Raw value"] --> Scalar["Fixed scalar mapping declared for one case"]
 ```
 
 `indirect` solves a representation recursion problem. It does not define external

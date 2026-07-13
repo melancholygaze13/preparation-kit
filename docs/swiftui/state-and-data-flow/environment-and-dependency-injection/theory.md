@@ -26,12 +26,10 @@ tags:
 
 The environment is a typed context that flows down the view hierarchy:
 
-```text
-composition root sets value
-        |
-        +-- subtree inherits it
-                |
-                +-- nearer override changes one branch
+```mermaid
+flowchart TD
+    Root["Composition root sets value"] --> Subtree["Subtree inherits it"]
+    Subtree --> Branch["Nearer override changes one branch"]
 ```
 
 It solves repeated propagation of ambient context. It does not remove the need to

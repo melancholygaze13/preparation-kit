@@ -29,8 +29,11 @@ settings. It should not infer space from a device model. Start with built-in fle
 containers, move to explicit alternatives, and implement `Layout` only when the app
 owns a reusable placement algorithm.
 
-```text
-flexible built-ins -> fitting alternatives -> switch layout algorithm -> custom Layout
+```mermaid
+flowchart LR
+    BuiltIns["Flexible built-ins"] --> Alternatives["Fitting alternatives"]
+    Alternatives --> Switch["Switch layout algorithm"]
+    Switch --> Custom["Custom Layout"]
 ```
 
 ## Adapt to the Container

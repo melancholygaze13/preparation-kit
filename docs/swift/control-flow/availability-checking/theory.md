@@ -26,8 +26,10 @@ tags:
 
 Availability is a contract spanning three layers:
 
-```text
-SDK declaration metadata -> compiler proof -> runtime OS branch
+```mermaid
+flowchart LR
+    Metadata["SDK declaration metadata"] --> Proof["Compiler proof"]
+    Proof --> Branch["Runtime OS branch"]
 ```
 
 The compiler rejects an unguarded reference whose required OS exceeds the

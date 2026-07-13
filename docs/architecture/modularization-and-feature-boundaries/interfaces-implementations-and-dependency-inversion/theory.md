@@ -28,9 +28,13 @@ Physical dependency inversion uses module boundaries to make volatile implementa
 code depend on a stable consumer-facing contract. The feature imports an interface;
 the app composition root imports both interface and implementation and connects them.
 
-```text
-CheckoutFeature -> PaymentsInterface <- PaymentsLive
-        AppComposition imports all three and assembles them.
+```mermaid
+flowchart LR
+    Checkout["CheckoutFeature"] -->|depends on| Interface["PaymentsInterface"]
+    Live["PaymentsLive"] -->|implements| Interface
+    Composition["AppComposition"] -. "imports and assembles" .-> Checkout
+    Composition -. "imports and assembles" .-> Interface
+    Composition -. "imports and assembles" .-> Live
 ```
 
 Runtime calls go from the feature to the live adapter, but source imports point toward

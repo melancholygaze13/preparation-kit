@@ -24,14 +24,21 @@ instances living forever.
 
 For restoration, think in identifiers:
 
-```text
-selected account id + route + draft id -> rebuild controllers -> reload views
+```mermaid
+flowchart LR
+    Account["Selected account ID"] --> Restore["Rebuild controllers"]
+    Route["Route"] --> Restore
+    Draft["Draft ID"] --> Restore
+    Restore --> Views["Reload views"]
 ```
 
 Do not think in live views:
 
-```text
-old labels + table cell instances + controller pointers
+```mermaid
+flowchart LR
+    Labels["Old labels"] --> Session["Live session objects — not restorable state"]
+    Cells["Table cell instances"] --> Session
+    Controllers["Controller pointers"] --> Session
 ```
 
 Views and controllers are implementation details of the current session. Model

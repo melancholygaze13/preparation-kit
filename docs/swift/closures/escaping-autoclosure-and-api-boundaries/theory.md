@@ -26,9 +26,10 @@ tags:
 
 The attributes answer different questions:
 
-```text
-@escaping   -> may the callable outlive this call?
-@autoclosure -> does the caller write an expression instead of braces?
+```mermaid
+flowchart LR
+    Escaping["@escaping"] --> Lifetime["May the callable outlive this call?"]
+    Autoclosure["@autoclosure"] --> Syntax["Does the caller write an expression instead of braces?"]
 ```
 
 Neither defines invocation count, thread, actor, ordering, cancellation, or

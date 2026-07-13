@@ -30,14 +30,14 @@ The rest of the app receives already constructed collaborators.
 
 An iOS app can have a small root hierarchy:
 
-```text
-App Root
-├── Process services: HTTP, database, telemetry
-├── Session scope: account, repositories, permissions
-└── Scene root
-    ├── Navigation owner
-    └── Feature roots
-        └── View models, use cases, child flows
+```mermaid
+flowchart TD
+    App["App root"] --> Process["Process services: HTTP, database, telemetry"]
+    App --> Session["Session scope: account, repositories, permissions"]
+    App --> Scene["Scene root"]
+    Scene --> Navigation["Navigation owner"]
+    Scene --> Features["Feature roots"]
+    Features --> Objects["View models, use cases, child flows"]
 ```
 
 There may be one top-level root plus delegated feature composition roots. Delegation

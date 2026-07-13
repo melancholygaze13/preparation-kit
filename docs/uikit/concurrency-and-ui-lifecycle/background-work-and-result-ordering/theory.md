@@ -22,8 +22,12 @@ UIKit screens must decide which results are still valid before rendering them.
 
 The safe flow is:
 
-```text
-Start work -> produce data off the UI path -> accept or reject result -> render
+```mermaid
+flowchart LR
+    Start["Start work"] --> Produce["Produce data off the UI path"]
+    Produce --> Decide{"Accept result?"}
+    Decide -->|Yes| Render["Render"]
+    Decide -->|No| Reject["Reject stale or irrelevant result"]
 ```
 
 Do not let every completion handler directly mutate views. That gives callback

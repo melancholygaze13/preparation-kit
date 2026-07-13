@@ -95,10 +95,12 @@ sync metadata that the domain never sees.
 
 Common paths are:
 
-```text
-response DTO → validated domain value → persistence write model
-domain command → request DTO
-persistence record → domain value
+```mermaid
+flowchart LR
+    Response["Response DTO"] --> Validated["Validated domain value"]
+    Validated --> Write["Persistence write model"]
+    Command["Domain command"] --> Request["Request DTO"]
+    Record["Persistence record"] --> Domain["Domain value"]
 ```
 
 Place mapping beside the adapter that owns the external model. Keep shared domain

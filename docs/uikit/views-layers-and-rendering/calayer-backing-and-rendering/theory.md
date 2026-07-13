@@ -21,11 +21,11 @@ UIKit views are backed by Core Animation layers. The view is the UIKit object fo
 event handling, accessibility, layout participation, and responder-chain
 behavior. The layer is the rendering and composition object.
 
-```text
-UIView
-  -> owns CALayer
-  -> handles UIKit behavior
-  -> delegates visual backing to Core Animation
+```mermaid
+flowchart TD
+    View["UIView"] -->|owns| Layer["CALayer"]
+    View --> Behavior["Handles UIKit behavior"]
+    Layer --> CoreAnimation["Core Animation provides visual backing"]
 ```
 
 This split matters because many visual changes do not require custom views or

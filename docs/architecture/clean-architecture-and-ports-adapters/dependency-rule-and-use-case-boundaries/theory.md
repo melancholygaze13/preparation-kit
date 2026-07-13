@@ -32,10 +32,12 @@ Runtime calls can travel both ways. A use case calls an output port implemented 
 outer adapter. The implementation depends on the port, so the source dependency still
 points toward the application.
 
-```text
-SwiftUI/UIKit -> Use Case -> Output Port <- API/Database Adapter
-                    |
-                Domain Rules
+```mermaid
+flowchart LR
+    UI["SwiftUI or UIKit"] --> UseCase["Use case"]
+    UseCase --> Port["Output port"]
+    Adapter["API or database adapter"] -->|implements| Port
+    UseCase --> Rules["Domain rules"]
 ```
 
 The diagram is not a required number of layers. The rule is which decisions may know

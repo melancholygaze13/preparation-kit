@@ -96,10 +96,12 @@ improving design.
 Modularization turns ownership into compile-time structure. A UIKit app might
 have modules by feature, by layer, or a hybrid:
 
-```text
-App -> FeatureOrders -> OrdersDomain
-    -> SharedUI
-    -> Networking
+```mermaid
+flowchart LR
+    App["App"] --> Feature["FeatureOrders"]
+    Feature --> Domain["OrdersDomain"]
+    App --> SharedUI["SharedUI"]
+    App --> Networking["Networking"]
 ```
 
 Feature modules work well when teams own product areas. Layer modules work well

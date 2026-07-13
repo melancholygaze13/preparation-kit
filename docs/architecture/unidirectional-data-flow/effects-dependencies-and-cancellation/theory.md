@@ -30,8 +30,13 @@ failures, and lifecycle events back through actions.
 
 This preserves one mutation path while allowing asynchronous behavior:
 
-```text
-Action -> Reducer -> Effect description -> Runtime -> Result action -> Reducer
+```mermaid
+flowchart LR
+    Action["Action"] --> Reducer["Reducer"]
+    Reducer --> Description["Effect description"]
+    Description --> Runtime["Runtime"]
+    Runtime --> Result["Result action"]
+    Result --> Reducer
 ```
 
 ## Identify Effects and Dependencies

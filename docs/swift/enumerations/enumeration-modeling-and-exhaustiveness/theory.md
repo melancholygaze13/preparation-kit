@@ -26,8 +26,12 @@ tags:
 
 An enum is a closed sum of alternatives:
 
-```text
-State = idle OR loading OR loaded OR failed
+```mermaid
+flowchart LR
+    State{"State"} --> Idle["idle"]
+    State --> Loading["loading"]
+    State --> Loaded["loaded"]
+    State --> Failed["failed"]
 ```
 
 Only one alternative exists at a time. The compiler can therefore prove that an

@@ -28,8 +28,12 @@ A deep link and a restored session are inputs to navigation state. Parse the inp
 validate it against current application rules, then replace the relevant tab,
 selection, modal, and path state as one operation.
 
-```text
-external input -> parse -> validate -> resolve app route -> apply navigation state
+```mermaid
+flowchart LR
+    Input["External input"] --> Parse["Parse"]
+    Parse --> Validate["Validate"]
+    Validate --> Resolve["Resolve app route"]
+    Resolve --> Apply["Apply navigation state"]
 ```
 
 Do not reproduce a route by triggering UI actions in sequence. Describe the desired

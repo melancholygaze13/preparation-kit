@@ -23,12 +23,12 @@ A view-controller transition changes both hierarchy and presentation. UIKit owns
 transaction, supplies a container and context, and asks app-provided objects to
 customize specific responsibilities.
 
-```text
-container or presentation delegate
-  -> transition animator creates visual change
-  -> optional interaction controller drives progress
-  -> transition context reports completion or cancellation
-  -> transition coordinator synchronizes related UI
+```mermaid
+flowchart TD
+    Delegate["Container or presentation delegate"] --> Animator["Transition animator creates visual change"]
+    Animator --> Interaction["Optional interaction controller drives progress"]
+    Interaction --> Context["Transition context reports completion or cancellation"]
+    Context --> Coordinator["Transition coordinator synchronizes related UI"]
 ```
 
 Prefer system navigation, sheets, popovers, and presentations. Their transitions

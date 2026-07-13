@@ -26,12 +26,12 @@ tags:
 
 Text has layers:
 
-```text
-String
-  └─ Character (extended grapheme cluster)
-       └─ Unicode scalar(s)
-            ├─ UTF-8 code units (bytes)
-            └─ UTF-16 code units
+```mermaid
+flowchart TD
+    String["String"] --> Character["Character — extended grapheme cluster"]
+    Character --> Scalars["Unicode scalar values"]
+    Scalars --> UTF8["UTF-8 code units — bytes"]
+    Scalars --> UTF16["UTF-16 code units"]
 ```
 
 Choose the layer from the requirement:

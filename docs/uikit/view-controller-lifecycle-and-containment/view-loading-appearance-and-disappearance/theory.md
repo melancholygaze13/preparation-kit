@@ -21,14 +21,14 @@ UIKit separates view creation from visibility. A controller can exist before its
 view is loaded. Its view can be loaded once, appear many times, disappear many
 times, and still remain in memory.
 
-```text
-controller init
-    -> loadView
-    -> viewDidLoad
-    -> viewWillAppear
-    -> viewDidAppear
-    -> viewWillDisappear
-    -> viewDidDisappear
+```mermaid
+flowchart TD
+    Init["Controller init"] --> LoadView["loadView"]
+    LoadView --> DidLoad["viewDidLoad"]
+    DidLoad --> WillAppear["viewWillAppear"]
+    WillAppear --> DidAppear["viewDidAppear"]
+    DidAppear --> WillDisappear["viewWillDisappear"]
+    WillDisappear --> DidDisappear["viewDidDisappear"]
 ```
 
 That sequence is common, but real apps add presentations, child containment,

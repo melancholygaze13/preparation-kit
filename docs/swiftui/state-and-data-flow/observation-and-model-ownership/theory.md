@@ -26,10 +26,11 @@ tags:
 
 Observation and ownership answer different questions:
 
-```text
-@Observable -> which property changes can invalidate readers?
-ownership   -> who creates, retains, replaces, and destroys this instance?
-isolation   -> where may this mutable model be accessed?
+```mermaid
+flowchart LR
+    Observation["@Observable"] --> Invalidation["Which property changes can invalidate readers?"]
+    Ownership["Ownership"] --> Lifetime["Who creates, retains, replaces, and destroys this instance?"]
+    Isolation["Isolation"] --> Access["Where may this mutable model be accessed?"]
 ```
 
 A correct design states all three. Adding `@Observable` alone does not define a

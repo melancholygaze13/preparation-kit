@@ -27,8 +27,11 @@ tags:
 A modifier generally returns a new view that wraps or transforms the previous result.
 Read a chain from the base outward:
 
-```text
-Text -> padding wrapper -> background wrapper -> frame wrapper
+```mermaid
+flowchart LR
+    Text["Text"] --> Padding["Padding wrapper"]
+    Padding --> Background["Background wrapper"]
+    Background --> Frame["Frame wrapper"]
 ```
 
 Changing order changes which bounds and environment each stage sees. Modifiers are

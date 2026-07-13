@@ -30,18 +30,18 @@ whenever it suspends.
 ```mermaid
 sequenceDiagram
     participant A as Caller A
-    participant Actor as Cache actor
+    participant CacheActor as Cache actor
     participant Loader as Loader
     participant B as Caller B
 
-    A->>Actor: refresh(key)
-    Actor->>Actor: read generation
-    Actor->>Loader: await load(key)
-    Note over Actor: Actor is available while suspended
-    B->>Actor: invalidateAll()
-    Actor->>Actor: increment generation
-    Loader-->>Actor: loaded value resumes
-    Actor->>Actor: revalidate generation before commit
+    A->>CacheActor: refresh(key)
+    CacheActor->>CacheActor: read generation
+    CacheActor->>Loader: await load(key)
+    Note over CacheActor: Actor is available while suspended
+    B->>CacheActor: invalidateAll()
+    CacheActor->>CacheActor: increment generation
+    Loader-->>CacheActor: loaded value resumes
+    CacheActor->>CacheActor: revalidate generation before commit
 ```
 
 ```swift

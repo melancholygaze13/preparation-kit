@@ -28,8 +28,10 @@ tags:
 value-based navigation, the path contains route values. SwiftUI finds a matching
 `navigationDestination(for:)` registration and builds the view for each value.
 
-```text
-[product(42), reviews(42)] -> ProductView -> ReviewsView
+```mermaid
+flowchart LR
+    Path["Path: product(42), reviews(42)"] --> Product["ProductView"]
+    Product --> Reviews["ReviewsView"]
 ```
 
 The path is navigation state, not a collection of views. This separation makes

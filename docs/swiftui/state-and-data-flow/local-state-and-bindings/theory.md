@@ -27,10 +27,9 @@ tags:
 State answers “who owns this mutable value and for how long?” A binding answers
 “who may read and write that existing value?”
 
-```text
-owner: @State value
-             |
-             +---- Binding<Value> ----> child control
+```mermaid
+flowchart LR
+    Owner["Owner: @State value"] -->|Binding&lt;Value&gt;| Child["Child control"]
 ```
 
 There is one storage location. The binding is a capability to access it, not a

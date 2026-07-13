@@ -26,12 +26,15 @@ tags:
 
 Unidirectional Data Flow (UDF) makes change follow one loop:
 
-```text
-State -> View -> Action -> Reducer -> New State
-                              |
-                           Effects
-                              |
-                           Actions
+```mermaid
+flowchart LR
+    State["State"] --> View["View"]
+    View --> Action["Action"]
+    Action --> Reducer["Reducer"]
+    Reducer --> NewState["New state"]
+    Reducer --> Effects["Effects"]
+    Effects --> LaterActions["Later actions"]
+    LaterActions --> Reducer
 ```
 
 The view reads state and sends an action. The reducer handles that action, changes

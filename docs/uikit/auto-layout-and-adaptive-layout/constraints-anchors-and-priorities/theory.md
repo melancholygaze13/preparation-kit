@@ -32,8 +32,10 @@ can be overwritten the next time layout runs.
 
 A constraint relates one attribute to another value:
 
-```text
-view1.attribute = multiplier * view2.attribute + constant
+```mermaid
+flowchart LR
+    View2["view2.attribute"] -->|Multiply by multiplier| Product["Scaled value"]
+    Product -->|Add constant| View1["view1.attribute"]
 ```
 
 Common attributes include leading, trailing, top, bottom, width, height, center,

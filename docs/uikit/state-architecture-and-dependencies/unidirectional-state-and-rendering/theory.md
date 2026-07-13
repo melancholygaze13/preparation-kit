@@ -20,8 +20,10 @@ last_reviewed: 2026-07-05
 UIKit does not require a unidirectional architecture, but many UIKit screens
 benefit from one simple rule:
 
-```text
-Event -> State update -> Render UI
+```mermaid
+flowchart LR
+    Event["Event"] --> Update["State update"]
+    Update --> Render["Render UI"]
 ```
 
 The view controller receives user actions, lifecycle callbacks, delegate events,

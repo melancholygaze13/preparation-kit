@@ -23,13 +23,13 @@ Animation transaction commits. This keeps repeated changes efficient, but it
 means frame and drawing results may not be current until layout and display have
 run.
 
-```text
-state change
-  -> invalidate layout or display
-  -> UIKit batches work
-  -> layout pass computes geometry
-  -> display pass redraws needed content
-  -> Core Animation commits layer changes
+```mermaid
+flowchart TD
+    Change["State change"] --> Invalidate["Invalidate layout or display"]
+    Invalidate --> Batch["UIKit batches work"]
+    Batch --> Layout["Layout pass computes geometry"]
+    Layout --> Display["Display pass redraws needed content"]
+    Display --> Commit["Core Animation commits layer changes"]
 ```
 
 An interview answer should separate layout from display. Layout answers "where

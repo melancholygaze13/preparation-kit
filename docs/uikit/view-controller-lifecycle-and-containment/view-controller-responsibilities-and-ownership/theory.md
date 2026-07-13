@@ -24,11 +24,12 @@ updates presentation state, and coordinates navigation or child controllers.
 The controller should not become the default home for every decision. In a
 production app, its job is usually orchestration:
 
-```text
-UIKit lifecycle -> controller -> presentation state -> views
-                         |
-                         v
-                 models, services, routers
+```mermaid
+flowchart LR
+    Lifecycle["UIKit lifecycle"] --> Controller["Controller"]
+    Controller --> State["Presentation state"]
+    State --> Views["Views"]
+    Controller --> Boundaries["Models, services, routers"]
 ```
 
 That boundary matters in interviews because many UIKit problems are ownership

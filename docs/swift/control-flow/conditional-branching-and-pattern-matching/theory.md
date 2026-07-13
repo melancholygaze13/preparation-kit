@@ -26,8 +26,10 @@ tags:
 An `if` chooses based on predicates. A `switch` partitions a value's state space
 using ordered patterns:
 
-```text
-value -> first matching pattern -> branch
+```mermaid
+flowchart LR
+    Value["Value"] --> Pattern["First matching pattern"]
+    Pattern --> Branch["Branch"]
 ```
 
 Exhaustiveness proves that every representable input has a branch. Ordering

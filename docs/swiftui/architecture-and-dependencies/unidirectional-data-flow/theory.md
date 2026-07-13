@@ -26,9 +26,15 @@ tags:
 
 Unidirectional data flow makes ownership traceable:
 
-```text
-state -> view -> event -> state transition -> new state
-                         -> effect -> result event
+```mermaid
+flowchart LR
+    State["State"] --> View["View"]
+    View --> Event["Event"]
+    Event --> Transition["State transition"]
+    Transition --> NewState["New state"]
+    Transition --> Effect["Effect"]
+    Effect --> Result["Result event"]
+    Result --> Transition
 ```
 
 One owner decides each mutation. SwiftUI renders the resulting state. This pattern

@@ -27,8 +27,11 @@ tags:
 Store facts that can change independently. Compute values that are functions of
 those facts:
 
-```text
-source facts + current context -> derived presentation
+```mermaid
+flowchart LR
+    Facts["Source facts"] --> Derive["Derive"]
+    Context["Current context"] --> Derive
+    Derive --> Presentation["Derived presentation"]
 ```
 
 If two mutable properties represent the same information, every update needs a
@@ -145,8 +148,10 @@ automatic `@State` caching.
 Caching derived data trades CPU work for memory and consistency risk. A cache is
 correct only if every input change invalidates or updates it:
 
-```text
-cached result = transform(source, query, sort, permissions, locale, ...)
+```mermaid
+flowchart LR
+    Inputs["Source, query, sort, permissions, locale, …"] --> Transform["Transform"]
+    Transform --> Cache["Cached result"]
 ```
 
 Missing one input produces stale UI. Prefer computing directly until profiling
@@ -188,8 +193,9 @@ separate refresh phase. The type should represent actual product states.
 
 An editing draft is a valid second value when it represents a different fact:
 
-```text
-saved profile != uncommitted profile draft
+```mermaid
+flowchart LR
+    Saved["Saved profile"] -. "different fact and lifecycle" .-> Draft["Uncommitted profile draft"]
 ```
 
 The draft needs explicit lifecycle rules:

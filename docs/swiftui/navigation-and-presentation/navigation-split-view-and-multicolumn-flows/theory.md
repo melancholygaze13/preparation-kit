@@ -29,9 +29,12 @@ selection determines trailing-column content. In a narrow environment, SwiftUI c
 collapse the columns into a single stack, but the application should retain one
 coherent selection model.
 
-```text
-sidebar selection -> content selection -> detail
-       expanded columns | collapsed stack
+```mermaid
+flowchart LR
+    Sidebar["Sidebar selection"] --> Content["Content selection"]
+    Content --> Detail["Detail"]
+    Mode{"Available width"} -->|Expanded| Columns["Show as columns"]
+    Mode -->|Collapsed| Stack["Show as a stack"]
 ```
 
 Adaptive navigation is not two unrelated implementations. It is one navigation
