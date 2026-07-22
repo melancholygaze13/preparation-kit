@@ -10,7 +10,7 @@ levels:
   - staff
   - principal
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 ---
 
 # Property Wrappers and Type Properties

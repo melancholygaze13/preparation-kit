@@ -2,9 +2,17 @@
 
 ## Purpose
 
-This repository is a time-efficient preparation system for Senior, Staff, and
-Principal iOS interviews. It is not an exhaustive Swift or Apple-platform
-reference.
+This repository is a time-efficient preparation system and a concise,
+trustworthy knowledge source for Senior, Staff, and Principal iOS interviews.
+It is not an exhaustive Swift or Apple-platform API reference, but each selected
+topic must be complete enough to explain its core rules without relying on
+unstated background knowledge.
+
+Assume the reader understands general programming but may know nothing about
+Swift. A Swift page must teach its Swift-specific concepts before it asks the
+reader to compare designs, discuss production trade-offs, or rehearse an
+interview answer. Do not require a second Swift reference to understand the
+selected topic.
 
 Optimize every page for:
 
@@ -15,9 +23,72 @@ Optimize every page for:
    the topic warrants it.
 
 Prefer a smaller set of high-value concepts learned well over broad but shallow
-coverage. Do not write beginner tutorials, generic API documentation, or
-encyclopedic inventories. Mechanics belong only when they help a candidate
-explain behavior, choose a design, or diagnose a realistic problem.
+coverage. Do not write general programming tutorials, generic API
+documentation, or encyclopedic inventories. Do teach the Swift foundations of
+every selected concept. Include enough mechanics to explain what happens, how
+to use it, why it happens, where the rule stops, and what the production
+consequence is. Never remove a necessary rule or example only to meet a
+reading-time or word-count target.
+
+## Swift Learning Completeness
+
+Swift content serves two connected reading modes:
+
+1. **Learn:** A programmer new to Swift reads the overview and theory to build
+   an accurate mental model and use the feature in ordinary code.
+2. **Prepare:** An experienced Swift developer uses Quick Recall and interview
+   questions to rehearse concise answers and engineering decisions.
+
+The preparation layer must not replace the learning layer. For each Swift
+concept, review all sibling pages together and verify that they provide:
+
+- a plain definition of every important term in the title;
+- the basic declaration or call syntax before shorthand or edge cases;
+- at least one small, meaningful example of each named concept;
+- the common operations a reader needs to use the feature;
+- a direct contrast when two title concepts are commonly confused;
+- the behavior of value types, reference types, optionals, or concurrency where
+  that behavior changes the result;
+- the most important compiler errors, traps, or invalid uses, explained at the
+  rule that causes them;
+- links to prerequisites when understanding truly depends on another concept.
+
+Examples must show a real state change, result, or decision. Avoid examples that
+only declare a placeholder or repeat the syntax without demonstrating behavior.
+Code should compile as written when practical. If an example is intentionally a
+fragment, use names whose roles are obvious from the surrounding explanation.
+
+Do not let interview priority erase basic knowledge. A `reference` concept can
+stay short, but if it has dedicated pages, those pages must still explain the
+selected concept completely. Consolidate or remove a page instead of keeping a
+thin page that appears complete but omits normal use.
+
+## Knowledge Reliability
+
+A page may be concise, but it must also work as a dependable source for the
+topic it claims to cover. A reader should not need to guess an omitted rule or
+consult another source to understand the page's main conclusions.
+
+For every substantial review:
+
+1. Verify language and framework behavior against current primary sources.
+2. State the common rule, important limits, and relevant version or platform
+   conditions.
+3. Distinguish compile-time guarantees, runtime checks, implementation details,
+   and engineering recommendations.
+4. Include a compact example when prose alone could leave behavior ambiguous.
+5. Link the primary sources that support the page's material claims.
+6. Give every concept named in the page title a direct explanation and a
+   representative example. Do not explain one concept only as the opposite of
+   another.
+7. Read the overview, theory, and interview pages as one bundle and check that a
+   programmer new to Swift can move from definition to ordinary use to precise
+   interview answer without an unexplained jump.
+
+Use `status: reviewed` only after the page has passed this check. Use
+`status: needs-update` when a known gap or unverified changing claim remains.
+The `last_reviewed` date records a substantive source-backed review, not a copy
+edit or metadata-only change.
 
 ## Interview Priority
 
@@ -88,9 +159,9 @@ to concept pages.
 
 ## Content Budgets
 
-Use these as planning ranges and soft limits, not targets. Slightly exceed a
-range when the added explanation materially improves understanding, recall, or
-engineering judgment.
+Use these as planning ranges and soft limits, not targets. Exceed a range when
+the added explanation is required for correctness, self-contained understanding,
+or sound engineering judgment.
 
 | Priority | Total first-read time | Theory | Interview questions |
 |---|---:|---:|---:|
@@ -151,6 +222,9 @@ editing; use roughly 200 words per minute plus time for code and tables.
 ## Writing Standards
 
 - Start with the answer or mental model.
+- Introduce Swift-specific syntax and terms before using them as assumed
+  vocabulary. General programming knowledge may be assumed; Swift knowledge may
+  not.
 - Put recall before detail and common cases before edge cases.
 - Keep the essential mental model and Quick Recall reviewable in one minute.
   Supporting navigation or decision guidance may extend the full overview
@@ -187,6 +261,8 @@ editing; use roughly 200 words per minute plus time for code and tables.
 - Prefer one representative example. Add a second only when it exposes a
   different failure, trade-off, or design decision that the first example
   cannot show clearly.
+- When a title joins concepts with words such as “and,” “versus,” or commas,
+  audit each named part separately for definition, syntax, example, and limits.
 - Use decision criteria instead of unconditional recommendations.
 - Avoid filler, trivia, repeated definitions, and generic Staff-level commentary.
 - Do not repeat theory in interview answers; reshape it into a spoken response.

@@ -7,9 +7,9 @@ page_type: theory
 levels:
   - senior
 interview_priority: reference
-estimated_read_minutes: 2
+estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 ---
 
 # Tuples: Theory
@@ -32,8 +32,15 @@ print(result.status)
 let (status, body) = result
 ```
 
-Labels improve access but do not create a domain type. Swift can convert between
-compatible tuple types when their element types match, even when labels differ.
+Labels improve access but do not create a domain type. Labels are part of a
+tuple type. An unlabeled tuple expression can use labels inferred from context,
+but an expression with different explicit labels is not compatible:
+
+```swift
+var bounds = (min: 0, max: 10)
+bounds = (1, 9)                  // Labels inferred: allowed
+// bounds = (lower: 1, upper: 9) // Different labels: error
+```
 
 Tuples are useful for returning two or three closely related local values:
 
@@ -45,10 +52,14 @@ The optional applies to the whole result. This states that either both bounds
 exist or neither exists. `(Int?, Int?)` describes a different model where each
 element may be absent independently.
 
-Swift provides tuple comparison operators for supported tuple arities when the
-elements can be compared. Tuple types still do not conform to protocols such as
-`Equatable` or `Hashable`, so they cannot directly satisfy a generic conformance
-requirement or serve as a `Set` element.
+Swift provides equality and lexicographic comparison operators for tuples of up
+to six elements when each element supports the operation. Lexicographic means
+Swift compares the first unequal pair of elements. These overloads do not make
+tuple types conform to `Equatable`, `Comparable`, or `Hashable`. A tuple cannot
+directly satisfy a generic conformance requirement or serve as a `Set` element.
+
+This distinction still applies in Swift 6.3. A named `Hashable` struct is the
+clear choice when the value must be a dictionary key or set element.
 
 ## Engineering Decisions
 
@@ -61,3 +72,4 @@ evolve. A named type gives the relationship an owner and stable API.
 - [The Swift Programming Language: Tuples](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/thebasics/#Tuples)
 - [The Swift Programming Language: Tuple Type](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/types/#Tuple-Type)
 - [SE-0015: Tuple Comparison Operators](https://github.com/swiftlang/swift-evolution/blob/main/proposals/0015-tuple-comparison-operators.md)
+- [SE-0283: Tuples Conform to Equatable, Comparable, and Hashable (returned for revision)](https://github.com/swiftlang/swift-evolution/blob/main/proposals/0283-tuples-are-equatable-comparable-hashable.md)

@@ -4,7 +4,7 @@ domain: "Swift"
 page_type: topic-index
 interview_priority: core
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 ---
 
 # Closures
@@ -34,9 +34,9 @@ object cycles, without duplicating the full ARC topic.
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [Closure Expressions and Call-Site Syntax](closure-expressions-and-call-site-syntax/README.md) | Explains type inference and readable closure-based APIs. | High | 13 min |
+| [Closure Expressions and Call-Site Syntax](closure-expressions-and-call-site-syntax/README.md) | Explains closure declarations, type inference, and readable closure-based APIs. | High | 14 min |
 | [Capture Semantics and Lifetime](capture-semantics-and-lifetime/README.md) | Connects captures to shared state, retain cycles, and sendability. | Core | 17 min |
-| [Escaping, Autoclosure, and API Boundaries](escaping-autoclosure-and-api-boundaries/README.md) | Defines lifetime and evaluation rules at callback boundaries. | Core | 16 min |
+| [Escaping, Autoclosure, and API Boundaries](escaping-autoclosure-and-api-boundaries/README.md) | Defines lifetime and evaluation rules at callback boundaries. | Core | 17 min |
 
 ## Related Topics
 

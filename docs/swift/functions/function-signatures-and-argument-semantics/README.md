@@ -9,7 +9,7 @@ levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 tags:
   - functions
   - api-design
@@ -26,6 +26,8 @@ tags:
 ## Quick Recall
 
 - Argument labels should make the call read clearly.
+- `func`, parameter declarations, `->`, and the return type define the basic
+  function boundary.
 - `async` and `throws` are part of the caller-visible effect contract.
 - `inout` grants temporary exclusive access with writeback semantics.
 - Prefer a named return type when results have lasting domain meaning.

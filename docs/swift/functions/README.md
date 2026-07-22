@@ -4,7 +4,7 @@ domain: "Swift"
 page_type: topic-index
 interview_priority: high
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-22
 ---
 
 # Functions
@@ -33,9 +33,9 @@ covers them only where they shape a function's type or caller contract.
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [Function Signatures and Argument Semantics](function-signatures-and-argument-semantics/README.md) | Defines labels, effects, return contracts, and scoped mutation. | High | 15 min |
-| [Function Values and Higher-Order Functions](function-values-and-higher-order-functions/README.md) | Adds behavior as a value with lifetime and isolation rules. | High | 14 min |
-| [Nested Functions and Local Abstraction](nested-functions-and-local-abstraction/README.md) | Keeps local behavior private without hiding long-lived state. | Situational | 9 min |
+| [Function Signatures and Argument Semantics](function-signatures-and-argument-semantics/README.md) | Defines declarations, labels, effects, return contracts, and scoped mutation. | High | 16 min |
+| [Function Values and Higher-Order Functions](function-values-and-higher-order-functions/README.md) | Explains storing, passing, and returning behavior with lifetime and isolation rules. | High | 15 min |
+| [Nested Functions and Local Abstraction](nested-functions-and-local-abstraction/README.md) | Keeps local behavior private without hiding long-lived state. | Situational | 10 min |
 
 ## Related Topics
 

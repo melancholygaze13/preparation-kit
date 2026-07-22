@@ -7,9 +7,9 @@ page_type: interview
 levels:
   - senior
 interview_priority: situational
-estimated_read_minutes: 2
+estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-22
 ---
 
 # Error Handling Fundamentals: Interview Questions
@@ -23,6 +23,7 @@ last_reviewed: 2026-07-12
 | [When should you use an optional or a thrown error?](#q1-optional-or-thrown-error) | Senior | Failure modeling |
 | [What is the difference between `try`, `try?`, and `try!`?](#q2-try-forms) | Senior | Error propagation |
 | [Where should an error be caught?](#q3-where-should-an-error-be-caught) | Senior | Recovery ownership |
+| [What does typed throws change?](#q4-what-does-typed-throws-change) | Senior | Error contracts |
 
 ---
 
@@ -53,3 +54,19 @@ the error. `try!` traps if an error occurs.
 
 Catch it at the first layer that can make a real decision: recover, retry,
 translate, compensate, or present. Otherwise, preserve it and propagate it.
+
+---
+
+<a id="q4-what-does-typed-throws-change"></a>
+## Q4: What Does Typed Throws Change?
+
+### Short Answer
+
+Plain `throws` exposes `any Error`. `throws(MyError)` restricts the static error
+type, which can give callers exhaustive handling and preserve error information
+in generic code.
+
+### Trade-offs
+
+Typed throws is useful for a small, stable failure domain. It can couple callers
+to implementation detail when an API merely forwards many lower-level errors.

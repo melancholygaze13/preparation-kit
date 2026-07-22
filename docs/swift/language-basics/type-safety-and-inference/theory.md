@@ -7,9 +7,9 @@ page_type: theory
 levels:
   - senior
 interview_priority: situational
-estimated_read_minutes: 2
+estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-22
 ---
 
 # Type Safety and Type Inference: Theory
@@ -28,12 +28,20 @@ let ratio = 0.5     // Double
 let names = ["Ana"] // [String]
 ```
 
-Literals do not have one fixed storage type. Context can select a type that
-conforms to the required literal protocol:
+Without other context, Swift infers an integer literal as `Int` and a
+floating-point literal as `Double`. Literals can take another compatible type
+when context requires it:
 
 ```swift
 let byte: UInt8 = 10
 let distance: Double = 10
+```
+
+This is literal inference, not an implicit conversion of an existing value:
+
+```swift
+let count = 10          // Int
+let distance = Double(count) // explicit conversion
 ```
 
 ## Context and Ambiguity
@@ -52,6 +60,15 @@ let transform: (Record) -> String = { $0.name }
 A narrow annotation is usually better than a broad cast because it states intent
 without hiding an invalid conversion.
 
+Inference is local to compilation. It does not defer a type decision until
+runtime, and it does not make a variable change types after initialization. A
+`var` may receive another value only when that value matches its fixed type.
+
+Type inference can also expose unintended public representation. For example,
+an inferred integer property becomes `Int`, even if a file format requires
+`Int32`. Write the type at a representation or module boundary when callers
+must be able to rely on it.
+
 ## Engineering Decisions
 
 Use inference when the type is obvious and stable. Write an explicit type for
@@ -62,6 +79,11 @@ already says.
 Type safety is not input validation. A decoded `Int` can still be outside the
 business range. It is also not thread safety; correctly typed shared state can
 still have data races.
+
+Large overloaded or generic expressions can make diagnostics slow or unclear.
+Split the expression and annotate the smallest useful boundary. This improves
+both compiler feedback and human review without filling the code with repeated
+types.
 
 ## References
 

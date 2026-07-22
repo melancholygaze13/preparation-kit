@@ -8,7 +8,7 @@ levels:
 interview_priority: reference
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 ---
 
 # Tuples
@@ -19,6 +19,7 @@ last_reviewed: 2026-06-22
 ## Quick Recall
 
 - Tuple elements can have different types and optional labels.
+- Explicit element labels are part of the tuple type.
 - Destructuring separates tuple elements into local bindings.
 - Use a struct or enum when data needs invariants, methods, or API evolution.
 - Tuple equality does not make tuple types conform to `Equatable` or `Hashable`.

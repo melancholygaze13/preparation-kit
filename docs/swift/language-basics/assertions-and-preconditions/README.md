@@ -8,7 +8,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 ---
 
 # Assertions and Preconditions
@@ -21,6 +21,7 @@ last_reviewed: 2026-06-22
 - `assert` is intended for debug-time internal checks.
 - `precondition` states a required condition for correct use.
 - `fatalError` stops execution for an unrecoverable path.
+- Optimization mode changes which assertion and precondition checks run.
 - Validate untrusted input before it reaches a precondition.
 
 ## Study

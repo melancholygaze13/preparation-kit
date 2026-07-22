@@ -8,7 +8,7 @@ interview_priority: situational
 estimated_read_minutes: 3
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 tags: [inheritance, subclassing, overrides, final]
 ---
 
@@ -36,10 +36,15 @@ final class MarkdownRenderer: MessageRenderer {
         "<p>\(super.render(text))</p>"
     }
 }
+
+let renderer: MessageRenderer = MarkdownRenderer()
+print(renderer.render("Swift")) // <p>Swift</p>
 ```
 
 The compiler checks that `render` overrides a visible member with a compatible
-signature. `super` is explicit; Swift does not automatically combine implementations.
+signature. Although the variable's declared type is `MessageRenderer`, Swift calls
+the override on its actual `MarkdownRenderer` instance. This is dynamic dispatch.
+`super` is explicit; Swift does not automatically combine implementations.
 Whether an override should call `super`, and in what order, is part of the base contract.
 
 ### Properties and Subscripts

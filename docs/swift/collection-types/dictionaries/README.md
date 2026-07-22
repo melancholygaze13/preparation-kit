@@ -8,7 +8,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-22
 ---
 
 # Dictionaries
@@ -19,8 +19,9 @@ last_reviewed: 2026-07-12
 ## Quick Recall
 
 - Subscript lookup returns an optional because a key may be absent.
-- Assigning `nil` through the basic subscript removes the key.
-- The default-value subscript supports read-modify-write without optional binding.
+- Assigning outer `nil` through the basic subscript removes the key.
+- Reading with the default-value subscript does not insert the default; mutating
+  through it does.
 - Dictionary iteration order is not a stable contract.
 
 ## Study

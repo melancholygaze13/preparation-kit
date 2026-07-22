@@ -7,9 +7,9 @@ page_type: interview
 levels:
   - senior
 interview_priority: situational
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-22
 ---
 
 # Memory Safety Fundamentals: Interview Questions
@@ -42,8 +42,8 @@ manual proof of these properties.
 
 ### Short Answer
 
-Two accesses conflict when they target the same storage, overlap in time, and at
-least one writes. `inout` creates an exclusive access for the call.
+Two nonatomic accesses conflict when they target the same storage, overlap in
+time, and at least one writes. `inout` creates an exclusive access for the call.
 
 ---
 
@@ -52,5 +52,6 @@ least one writes. `inout` creates an exclusive access for the call.
 
 ### Short Answer
 
-No. Safe memory lifetime and bounds do not prevent two tasks from racing on
-shared mutable state. That state still needs isolation or synchronization.
+Not by lifetime and bounds rules alone. Swift 6 concurrency checking adds static
+data-race safety through isolation and `Sendable`, but explicit unsafe escape
+hatches and foreign code still require manual proof and runtime testing.

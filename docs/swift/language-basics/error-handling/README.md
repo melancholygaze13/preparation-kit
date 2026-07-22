@@ -8,7 +8,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-22
 ---
 
 # Error Handling Fundamentals
@@ -21,6 +21,7 @@ last_reviewed: 2026-07-12
 - `throws` makes possible failure visible in a function signature.
 - `try?` discards error detail and returns an optional.
 - `try!` traps when an error is thrown.
+- `throws(E)` restricts the static error type when typed throws adds value.
 - Catch an error only when the current layer can make a policy decision.
 
 ## Study

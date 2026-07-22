@@ -4,7 +4,7 @@ domain: "Swift"
 page_type: topic-index
 interview_priority: reference
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 ---
 
 # Subscripts
@@ -32,8 +32,8 @@ their dedicated topics and appear here only where they affect subscript correctn
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [Subscript Access and Domain Indexing](subscript-access-and-domain-indexing/README.md) | Design indexed reads and writes with explicit index meaning, bounds, complexity, and failure policy. | Reference | 3 min |
-| [Overloading, Type Subscripts, and API Evolution](overloading-type-subscripts-and-api-evolution/README.md) | Evolve overloaded and type-level lookup without ambiguity, hidden global state, or compatibility surprises. | Reference | 3 min |
+| [Subscript Access and Domain Indexing](subscript-access-and-domain-indexing/README.md) | Design indexed reads and writes with explicit index meaning, bounds, complexity, and failure policy. | Reference | 6 min |
+| [Overloading, Type Subscripts, and API Evolution](overloading-type-subscripts-and-api-evolution/README.md) | Evolve overloaded and type-level lookup without ambiguity, hidden global state, or compatibility surprises. | Reference | 6 min |
 
 ## Related Topics
 

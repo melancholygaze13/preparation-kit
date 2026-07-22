@@ -4,7 +4,7 @@ domain: "Swift"
 page_type: topic-index
 interview_priority: situational
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 ---
 
 # Basic Operators
@@ -29,7 +29,7 @@ Custom operators, precedence declarations, and bitwise operations belong to
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [Assignment, Arithmetic, and Comparison](assignment-arithmetic-and-comparison/README.md) | Covers value versus reference assignment, overflow, and equality. | Situational | 7 min |
+| [Assignment, Arithmetic, and Comparison](assignment-arithmetic-and-comparison/README.md) | Covers value versus reference assignment, overflow, and equality. | Situational | 8 min |
 | [Conditional and Logical Operators](conditional-and-logical-operators/README.md) | Explains short-circuit evaluation and readable Boolean conditions. | Reference | 5 min |
 | [Range Operators](range-operators/README.md) | Prevents boundary and collection-index errors. | Situational | 6 min |
 

@@ -7,9 +7,9 @@ page_type: theory
 levels:
   - senior
 interview_priority: situational
-estimated_read_minutes: 2
+estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-22
 ---
 
 # Memory Safety Fundamentals: Theory
@@ -19,19 +19,37 @@ last_reviewed: 2026-07-12
 ## Mental Model
 
 Safe Swift prevents common invalid-memory operations. The compiler and runtime
-enforce rules for initialization, bounds, lifetime, type access, and exclusivity.
-This does not prevent every data race or logic error.
+enforce rules for initialization, bounds, lifetime, type access, and exclusive
+mutation. These guarantees do not prevent ordinary logic errors. Concurrency
+safety adds separate isolation and `Sendable` checks around shared data.
 
 ## Main Guarantees
 
 - A value must be initialized before it is read.
 - Safe collection subscripting checks that an index is valid.
 - ARC keeps a class instance alive while strong references own it.
-- Two accesses conflict when they overlap on the same storage and at least one
-  access writes.
+- Two nonatomic accesses conflict when they overlap on the same storage and at
+  least one access writes.
 
-`inout` creates temporary exclusive access for a function call. Do not treat it
-as a pointer that can be stored for later.
+An access has a location, a duration, and a read-or-write mode. Most simple
+property reads and assignments are instantaneous. `inout`, a mutating method,
+and a property observer can create a longer access. A conflict exists when two
+accesses overlap, address the same storage, and are not both reads or both
+atomic.
+
+`inout` creates temporary exclusive access for a function call. Conceptually it
+uses copy-in/copy-out behavior, although the compiler may optimize it in place.
+Do not treat it as an escaping pointer or depend on the optimization.
+
+```swift
+func balance(_ a: inout Int, _ b: inout Int) { /* ... */ }
+
+var score = 10
+// balance(&score, &score) // Error: overlapping exclusive accesses
+```
+
+Stored properties of a local value can sometimes be proven disjoint, but that is
+a specific rule, not permission to alias arbitrary `inout` arguments.
 
 Unsafe pointers and imported C APIs weaken these protections. At that boundary,
 you must prove lifetime, bounds, initialization, alignment, type binding,
@@ -39,11 +57,18 @@ ownership, and synchronization. Keep unsafe code small and expose a safe wrapper
 
 ## Concurrency Boundary
 
-Memory safety and data-race safety are related but different. A class can remain
-alive and every index can be valid while two tasks still mutate its state without
-synchronization. Use actor isolation, immutability, or a suitable lock for shared
-mutable state.
+Exclusive-access checks also catch conflicts on a single thread. Data races
+involve unsynchronized access from concurrent execution and need concurrency
+checking or synchronization. In Swift 6 language mode, strict concurrency
+checking uses isolation and `Sendable` rules to reject unsafe crossings that the
+compiler can see. Unsafe pointers, unchecked conformances, foreign code, and
+other explicit escape hatches still place proof on the programmer.
+
+For intentionally shared mutable state, use actor isolation, immutability, or a
+suitable lock. Use Thread Sanitizer to test paths that depend on runtime or
+foreign-code behavior; it complements static checking rather than replacing it.
 
 ## References
 
 - [The Swift Programming Language: Memory Safety](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/memorysafety/)
+- [Swift 6 Language Mode](https://www.swift.org/migration/documentation/swift-6-concurrency-migration-guide/swift6mode/)

@@ -9,7 +9,7 @@ levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 tags:
   - closures
   - escaping
@@ -28,6 +28,8 @@ tags:
 - `@escaping` does not guarantee asynchronous or single execution.
 - Escaping captures can extend object lifetime and form cycles.
 - Use `@autoclosure` only when delayed evaluation is clear at the call site.
+- An API boundary must document invocation timing, count, isolation, ownership,
+  cancellation, and release behavior that attributes do not express.
 
 ## Study
 

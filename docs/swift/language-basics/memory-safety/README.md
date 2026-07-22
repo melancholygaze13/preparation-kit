@@ -8,7 +8,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-22
 ---
 
 # Memory Safety Fundamentals
@@ -20,7 +20,8 @@ last_reviewed: 2026-07-12
 
 - Values must be initialized before use.
 - Safe collection access checks bounds.
-- Conflicting overlapping access to the same storage is not allowed.
+- Conflicting overlapping nonatomic access to the same storage is not allowed.
+- Swift 6 concurrency checks address data races through isolation and sendability.
 - Unsafe pointers require manual lifetime and bounds guarantees.
 
 ## Study

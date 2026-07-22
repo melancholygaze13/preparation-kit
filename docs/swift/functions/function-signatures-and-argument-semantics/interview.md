@@ -10,7 +10,7 @@ levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 tags:
   - functions
   - api-design
@@ -26,7 +26,7 @@ tags:
 
 | Question | Level | Focus |
 |---|---|---|
-| [How do argument labels and parameter names shape an API?](#q1-labels-and-names) | Senior | Call-site semantics and compatibility |
+| [What makes up a function declaration, and how do labels shape its API?](#q1-labels-and-names) | Senior | Declaration syntax and call-site semantics |
 | [When should an API use defaults, variadics, or collection parameters?](#q2-defaults-and-variadics) | Senior | Convenience versus policy and scale |
 | [What does inout guarantee?](#q3-inout-semantics) | Senior | Writeback and exclusive access |
 | [When should a function return a tuple, optional, throwing result, or named type?](#q4-return-contracts) | Senior | Output and failure modeling |
@@ -34,15 +34,14 @@ tags:
 ---
 
 <a id="q1-labels-and-names"></a>
-## Q1: How Do Argument Labels and Parameter Names Shape an API?
+## Q1: What Makes Up a Function Declaration, and How Do Labels Shape Its API?
 
 ### Short Answer
 
-Argument labels explain roles at the call site; parameter names explain values in
-the implementation. By default they are the same, but Swift lets them differ or
-omit the external label with `_`. Use labels when they make the call read clearly,
-especially for repeated types. Public labels are part of source-facing function
-identity, so changing them requires a migration.
+A declaration uses `func`, a base name, parameter declarations, and an optional
+`-> ReturnType`. Each parameter can have an external argument label and an
+internal parameter name. Labels explain roles at the call site; parameter names
+explain values in the body. Swift lets them differ or omit the label with `_`.
 
 ### Expanded Answer
 

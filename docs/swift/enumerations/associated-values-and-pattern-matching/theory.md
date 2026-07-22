@@ -5,12 +5,12 @@ topic: "Enumerations"
 concept: "Associated Values and Pattern Matching"
 page_type: theory
 interview_priority: high
-estimated_read_minutes: 6
+estimated_read_minutes: 7
 levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 tags:
   - enumerations
   - associated-values
@@ -40,6 +40,28 @@ value is failed without first matching the case.
 ## How It Works
 
 ### Defining Case-Specific Payloads
+
+```swift
+enum TemperatureReading {
+    case value(celsius: Double)
+    case unavailable(reason: String)
+}
+
+let reading = TemperatureReading.value(celsius: 21.5)
+
+switch reading {
+case .value(let celsius):
+    print("Temperature: \(celsius)°C")
+case .unavailable(let reason):
+    print("No reading: \(reason)")
+}
+```
+
+The case is the selected alternative. Its associated value is data supplied for
+that particular enum instance. Pattern matching checks the case and binds the
+payload so the branch can use it.
+
+A larger state model follows the same syntax:
 
 ```swift
 enum LoadState {

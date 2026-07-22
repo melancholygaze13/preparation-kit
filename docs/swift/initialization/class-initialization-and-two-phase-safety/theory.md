@@ -5,10 +5,10 @@ topic: "Initialization"
 concept: "Class Initialization and Two-Phase Safety"
 page_type: theory
 interview_priority: high
-estimated_read_minutes: 4
+estimated_read_minutes: 5
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-22
 ---
 
 # Class Initialization and Two-Phase Safety: Theory
@@ -40,7 +40,15 @@ final class Draft: Document {
         self.init(title: "Untitled", isAutosaved: untitledAutosave)
     }
 }
+
+let draft = Draft(untitledAutosave: true)
+print(draft.title, draft.isAutosaved) // Untitled true
 ```
+
+`init(title:isAutosaved:)` is Draft's designated initializer: it initializes the
+storage Draft introduces, then delegates upward with `super.init`. The initializer
+marked `convenience` must delegate across to another Draft initializer with
+`self.init`, eventually reaching a designated initializer.
 
 Safety checks prevent inherited properties from being assigned before superclass
 initialization and prevent subclass state from being overwritten by delegation.

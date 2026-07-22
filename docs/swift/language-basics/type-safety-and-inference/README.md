@@ -8,7 +8,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-22
 ---
 
 # Type Safety and Type Inference
@@ -20,6 +20,7 @@ last_reviewed: 2026-07-12
 
 - Every expression has a compile-time type.
 - Context can provide the expected type for literals and closures.
+- Inference chooses a type; it does not perform arbitrary implicit conversion.
 - Inference may fail when overloads or generic relationships are ambiguous.
 - Add an annotation at the narrowest boundary that resolves the ambiguity.
 

@@ -10,7 +10,7 @@ levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 tags:
   - function-types
   - higher-order-functions
@@ -39,10 +39,9 @@ tags:
 ### Short Answer
 
 A function type includes parameter types, result type, and relevant effects such
-as async, throws, `@Sendable`, or actor isolation. Declaration argument labels are
-not part of the stored arrow type, so a function value is called positionally.
-Matching types provide compile-time compatibility, but do not define semantic
-purpose, invocation count, ordering, or lifetime.
+as async, throws, `@Sendable`, or actor isolation. A function value can be stored,
+passed, returned, and called. A higher-order function accepts or returns such a
+value. Declaration argument labels are not part of the stored arrow type.
 
 ### Expanded Answer
 

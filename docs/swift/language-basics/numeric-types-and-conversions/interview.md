@@ -7,9 +7,9 @@ page_type: interview
 levels:
   - senior
 interview_priority: situational
-estimated_read_minutes: 2
+estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 ---
 
 # Numeric Types and Conversions: Interview Questions
@@ -24,6 +24,7 @@ last_reviewed: 2026-06-22
 | [Why are numeric conversions explicit?](#q2-why-are-numeric-conversions-explicit) | Senior | Data loss |
 | [How should floating-point values be compared?](#q3-how-should-floating-point-values-be-compared) | Senior | Precision |
 | [What happens on integer overflow?](#q4-what-happens-on-integer-overflow) | Senior | Boundary safety |
+| [What must you check before converting floating point to an integer?](#q5-floating-point-to-integer) | Senior | Conversion safety |
 
 ---
 
@@ -70,3 +71,14 @@ epsilon. Handle `NaN` and infinity when inputs can contain them.
 
 Normal Swift integer arithmetic traps on overflow. `&+`, `&-`, and `&*` wrap
 explicitly and should be used only when wrapping is intended.
+
+---
+
+<a id="q5-floating-point-to-integer"></a>
+## Q5: What Must You Check Before Converting Floating Point to an Integer?
+
+### Short Answer
+
+Check that the value is finite and within the destination integer's range. The
+conversion truncates toward zero, and it traps when the value cannot be
+represented.

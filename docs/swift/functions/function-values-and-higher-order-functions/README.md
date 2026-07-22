@@ -9,7 +9,7 @@ levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-30
+last_reviewed: 2026-07-22
 tags:
   - function-types
   - higher-order-functions
@@ -19,14 +19,14 @@ tags:
 
 # Function Values and Higher-Order Functions
 
-> Functions are values whose types describe inputs, outputs, and effects. Passing
-> behavior safely also requires an execution contract: lifetime, call count,
-> ordering, isolation, cancellation, and ownership are not captured by a plain
-> arrow type alone.
+> A function can be stored, passed to another function, and returned like other
+> values. A higher-order function takes or returns a function. Its complete
+> contract includes both the arrow type and how the behavior will be invoked.
 
 ## Quick Recall
 
 - A function type includes parameters, result, and supported effect markers.
+- A higher-order function takes a function value, returns one, or both.
 - A key path is a typed property-access value, useful for selection and projection
   when no custom behavior is needed.
 - An escaping function value can outlive the call that receives it.

@@ -9,7 +9,7 @@ levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 tags:
   - nested-functions
   - captures
@@ -26,6 +26,8 @@ tags:
 ## Quick Recall
 
 - A nested function can capture its surrounding bindings.
+- A local abstraction names behavior that belongs only to one enclosing
+  algorithm.
 - It is useful when behavior belongs to one algorithm.
 - If it escapes, its captured state can outlive the outer call.
 - Promote it when reuse, independent tests, or ownership become important.

@@ -9,7 +9,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 ---
 
 # Assignment, Arithmetic, and Comparison: Interview Questions
@@ -32,15 +32,16 @@ last_reviewed: 2026-06-22
 
 ### Short Answer
 
-Assignment copies the logical value of a value type. For a class, it copies the
-reference, so both variables can point to the same instance.
+Assignment copies a value type's stored value. For a class, it copies the
+reference, so both variables point to the same instance. Copying a value type
+does not deep-copy class references stored inside it.
 
 ### Expanded Answer
 
-After assigning an array or struct, changing one value must not change the other.
-The implementation may delay the physical copy with copy-on-write. For a class,
-both references observe mutations to the shared instance. Assignment does not
-provide thread safety.
+After assigning an array or struct with true value-semantic state, changing one
+outer value does not change the other. Copy-on-write may delay the buffer copy.
+Class elements remain shared unless the type defines an explicit deep copy.
+Assignment does not provide thread safety.
 
 ---
 
@@ -87,6 +88,6 @@ hashing. Equal values must also have equal hashes during one execution.
 
 ### Expanded Answer
 
-If a key's equality or hash changes while it is stored in a set or dictionary,
-lookup can fail. Base identity and hashing on stable fields. Test reflexivity,
-symmetry, transitivity, and equal-hash behavior for domain types.
+If a reference-type key's equality or hash changes while it is stored in a set
+or dictionary, lookup can fail. Base identity and hashing on stable fields. Test
+reflexivity, symmetry, transitivity, and equal-hash behavior for domain types.

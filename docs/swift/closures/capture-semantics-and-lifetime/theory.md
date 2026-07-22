@@ -10,7 +10,7 @@ levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 tags:
   - closures
   - captures
@@ -77,6 +77,11 @@ Create the closure factory again when independent state is required.
 Ordinary closure capture can observe a variable's later value:
 
 ```swift
+enum Mode {
+    case preview
+    case live
+}
+
 var mode = Mode.preview
 let currentMode = { mode }
 

@@ -5,12 +5,12 @@ topic: "Closures"
 concept: "Escaping, Autoclosure, and API Boundaries"
 page_type: theory
 interview_priority: core
-estimated_read_minutes: 9
+estimated_read_minutes: 10
 levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 tags:
   - closures
   - escaping
@@ -35,12 +35,31 @@ flowchart LR
 Neither defines invocation count, thread, actor, ordering, cancellation, or
 success. The receiving API owns those guarantees.
 
+An *API boundary* is the declaration and documented contract between the code
+that supplies a closure and the code that invokes it. Attributes describe only
+part of that contract.
+
 ## How It Works
 
 ### Nonescaping by Default
 
 A closure parameter without `@escaping` must be fully used during the dynamic
 extent of the call:
+
+```swift
+func repeatTwice(_ action: () -> Void) {
+    action()
+    action()
+}
+
+repeatTwice {
+    print("Run")
+}
+// Prints "Run" twice before repeatTwice returns.
+```
+
+The closure may run zero, one, or several times, but it cannot be stored for
+ordinary later use. A production helper can use the same scoped rule:
 
 ```swift
 func measure(_ operation: () -> Void) -> Duration {
@@ -114,6 +133,18 @@ to deregister.
 
 An autoclosure automatically wraps a call-site expression in a zero-argument
 closure:
+
+```swift
+func evaluate(_ condition: @autoclosure () -> Bool) -> Bool {
+    condition()
+}
+
+let count = 3
+let hasItems = evaluate(count > 0) // Caller writes an expression, not braces.
+```
+
+This simple example evaluates once immediately. The feature becomes useful when
+the callee may skip expensive work:
 
 ```swift
 func debugLog(_ message: @autoclosure () -> String) {

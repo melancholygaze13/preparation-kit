@@ -5,12 +5,12 @@ topic: "Properties"
 concept: "Property Observers and Mutation Boundaries"
 page_type: theory
 interview_priority: situational
-estimated_read_minutes: 3
+estimated_read_minutes: 4
 levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 tags:
   - property-observers
   - mutation
@@ -39,7 +39,15 @@ struct Progress {
         didSet { fraction = min(max(fraction, 0), 1) }
     }
 }
+
+var progress = Progress()
+progress.fraction = 1.4
+print(progress.fraction) // 1.0
 ```
+
+`willSet` runs immediately before Swift stores the new value. Its implicit
+`newValue` name contains the incoming value. `didSet` runs immediately afterward,
+and its implicit `oldValue` name contains the value that was replaced.
 
 Custom names can replace `newValue` and `oldValue`. Assigning a property within its
 own `didSet` replaces the value without recursively invoking that same observer.

@@ -5,10 +5,10 @@ topic: "Inheritance"
 concept: "Behavioral Contracts and Substitutability"
 page_type: theory
 interview_priority: situational
-estimated_read_minutes: 3
+estimated_read_minutes: 4
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 tags: [substitutability, contracts, polymorphism, invariants]
 ---
 
@@ -21,6 +21,9 @@ tags: [substitutability, contracts, polymorphism, invariants]
 Inheritance says “is substitutable for,” not “shares some fields.” Test every base-level
 operation against subtypes without giving the caller special knowledge.
 
+Substitutability means code written for the base class continues to behave correctly
+when it receives any supported subclass.
+
 ## How It Works
 
 ### Preconditions and Postconditions
@@ -29,6 +32,29 @@ If a base method accepts every nonnegative amount, a subtype cannot reject amoun
 above an arbitrary smaller limit unless that restriction is already part of the base
 contract. If the base promises a completed result, a subtype cannot silently return
 partial work. Subtypes can provide stronger results when callers do not need new assumptions.
+
+```swift
+import Foundation
+
+class Formatter {
+    func format(_ text: String) -> String { text }
+}
+
+final class TrimmingFormatter: Formatter {
+    override func format(_ text: String) -> String {
+        text.trimmingCharacters(in: .whitespaces)
+    }
+}
+
+func label(using formatter: Formatter) -> String {
+    formatter.format("  Swift  ")
+}
+
+print(label(using: TrimmingFormatter())) // Swift
+```
+
+The function knows only `Formatter`, yet the subclass remains usable. A subclass
+that trapped on whitespace would add a restriction the base contract did not state.
 
 ### Effects and Failure
 

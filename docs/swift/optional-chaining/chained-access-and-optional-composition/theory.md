@@ -5,10 +5,10 @@ topic: "Optional Chaining"
 concept: "Chained Access and Optional Composition"
 page_type: theory
 interview_priority: situational
-estimated_read_minutes: 2
+estimated_read_minutes: 3
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 tags: [optionals, optional-chaining, composition, nil]
 ---
 
@@ -24,11 +24,19 @@ result if the entire path exists; otherwise produce nil.”
 ## How It Works
 
 ```swift
-struct Address { var city: String }
-struct User { var address: Address? }
+struct Address { let city: String }
+struct User { let address: Address? }
 
-let city = user?.address?.city // String?
+let user: User? = User(address: Address(city: "Tokyo"))
+let city = user?.address?.city
+print(city as Any) // Optional("Tokyo")
+
+let guest: User? = User(address: nil)
+print(guest?.address?.city as Any) // nil
 ```
+
+Each `?.` continues only when the value on its left is not `nil`. The result is
+optional because any link can stop the chain.
 
 The chain distinguishes safe conditional access from forced unwrapping. It does not
 explain which link was absent. When diagnostics or different recovery per link matter,
@@ -37,12 +45,19 @@ unwrap stages explicitly.
 ### Methods and Subscripts
 
 ```swift
+struct NamedUser { let name: String }
+let users = [NamedUser(name: "Mina")]
 let firstCharacter = users.first?.name.first
-let value = matrix?[row, column]
+print(firstCharacter as Any) // Optional("M")
+
+let scores: [String: Int]? = ["Mina": 10]
+let score = scores?["Mina"]
+print(score as Any) // Optional(10)
 ```
 
-Method arguments and subscript indices are evaluated only if execution reaches that
-link. Avoid relying on argument side effects; skipped evaluation should be unsurprising.
+Optional chaining works with properties, method calls, and subscripts. Method
+arguments and subscript indices are evaluated only if execution reaches that link.
+Avoid relying on argument side effects; skipped evaluation should be unsurprising.
 
 ### Multiple Optional Levels
 

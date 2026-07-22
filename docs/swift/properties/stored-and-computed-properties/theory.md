@@ -5,12 +5,12 @@ topic: "Properties"
 concept: "Stored and Computed Properties"
 page_type: theory
 interview_priority: high
-estimated_read_minutes: 4
+estimated_read_minutes: 5
 levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 tags:
   - stored-properties
   - computed-properties
@@ -34,15 +34,23 @@ part of the design.
 
 ```swift
 struct Rectangle {
-    let width: Double
+    var width: Double
     let height: Double
 }
+
+var rectangle = Rectangle(width: 4, height: 3)
+rectangle.width = 5
+print(rectangle.width) // 5
 ```
 
-Stored properties exist only on structures and classes. If a structure instance is
-bound with `let`, none of its variable stored properties can be changed through that
-binding because mutation changes the value. A constant class reference can still
-refer to an instance whose variable properties change.
+A stored property keeps a value as part of an instance. Classes, structures, and
+actors can have stored properties; enumerations cannot. `width` is variable storage,
+while `height` can be assigned only during initialization.
+
+If a structure instance is bound with `let`, none of its variable stored properties
+can be changed through that binding because mutation changes the whole value. A
+constant class reference can still refer to an instance whose variable properties
+change.
 
 ### Computed Properties
 
@@ -58,6 +66,11 @@ struct Rectangle {
         set { width = newValue; height = newValue }
     }
 }
+
+var rectangle = Rectangle(width: 4, height: 3)
+print(rectangle.area) // 12
+rectangle.squareSide = 2
+print(rectangle.width, rectangle.height) // 2 2
 ```
 
 A computed property stores no exposed result. A setter receives `newValue` unless a
@@ -72,15 +85,25 @@ method that makes the transformation explicit.
 A read-only computed property can be `async` and/or `throws`:
 
 ```swift
+enum ConfigurationError: Error { case missingValue }
+
 struct ConfigurationSource {
+    let cachedValue: String?
+
     var current: String {
-        get async throws {
-            try await loadConfiguration()
+        get throws {
+            guard let cachedValue else { throw ConfigurationError.missingValue }
+            return cachedValue
         }
     }
 }
+
+let source = ConfigurationSource(cachedValue: "production")
+print(try source.current) // production
 ```
 
+The `get throws` syntax makes reading the property a throwing operation. A getter
+can instead use `get async`, or combine both effects as `get async throws`.
 Effectful properties have getters only. They make suspension or failure visible at
 the call site, but a method is often clearer when the operation accepts arguments,
 starts work, changes external state, or should not look like ordinary field access.
@@ -90,10 +113,15 @@ starts work, changes external state, or should not look like ordinary field acce
 ```swift
 final class Report {
     let rows: [String]
-    lazy var index: [String: Int] = buildIndex(from: rows)
+    lazy var index: [String: Int] = Dictionary(
+        uniqueKeysWithValues: rows.enumerated().map { ($1, $0) }
+    )
 
     init(rows: [String]) { self.rows = rows }
 }
+
+let report = Report(rows: ["swift", "ios"])
+print(report.index["ios"]!) // 1; index is built on this first access
 ```
 
 `lazy` delays initialization until first use and requires `var` because the initial
@@ -125,7 +153,8 @@ objects long after construction.
 
 ### Constraints and Guarantees
 
-- Stored instance properties belong to structures and classes, not extensions.
+- Stored instance properties belong to classes, structures, and actors, not
+  extensions or enumerations.
 - Computed properties can appear on classes, structures, and enumerations.
 - `lazy` applies to variable stored properties only.
 - Concurrent first access to an instance lazy property is not guaranteed single initialization.

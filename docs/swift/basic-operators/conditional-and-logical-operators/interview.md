@@ -9,7 +9,7 @@ levels:
 interview_priority: reference
 estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 ---
 
 # Conditional and Logical Operators: Interview Questions

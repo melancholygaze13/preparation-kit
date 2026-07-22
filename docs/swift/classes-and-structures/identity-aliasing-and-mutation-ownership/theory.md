@@ -11,7 +11,7 @@ levels:
   - staff
   - principal
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-22
 tags:
   - identity
   - aliasing
@@ -25,6 +25,11 @@ tags:
 
 ## Mental Model
 
+Identity means that two references point to the same class instance. An alias is
+another reference to that instance, so mutation through either reference is visible
+through both. Mutation ownership means one part of the program controls when and
+how that shared state changes.
+
 For every mutable instance, draw one ownership boundary. References outside it are
 either read-only views, messages, or controlled commands—not arbitrary mutation
 handles. Identity is useful only when the domain needs to distinguish instances.
@@ -35,10 +40,10 @@ handles. Identity is useful only when the domain needs to distinguish instances.
 
 ```swift
 final class Account: Equatable {
-    let id: UUID
+    let id: Int
     var displayName: String
 
-    init(id: UUID, displayName: String) {
+    init(id: Int, displayName: String) {
         self.id = id
         self.displayName = displayName
     }
@@ -46,7 +51,7 @@ final class Account: Equatable {
     static func == (lhs: Account, rhs: Account) -> Bool { lhs.id == rhs.id }
 }
 
-let a = Account(id: UUID(), displayName: "Primary")
+let a = Account(id: 42, displayName: "Primary")
 let alias = a
 let replica = Account(id: a.id, displayName: "Primary")
 
@@ -83,13 +88,13 @@ Centralize transitions behind a narrow interface:
 
 ```swift
 actor DownloadRegistry {
-    private var progressByID: [UUID: Double] = [:]
+    private var progressByID: [Int: Double] = [:]
 
-    func record(progress: Double, for id: UUID) {
+    func record(progress: Double, for id: Int) {
         progressByID[id] = min(max(progress, 0), 1)
     }
 
-    func snapshot() -> [UUID: Double] { progressByID }
+    func snapshot() -> [Int: Double] { progressByID }
 }
 ```
 

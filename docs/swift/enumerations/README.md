@@ -4,7 +4,7 @@ domain: "Swift"
 page_type: topic-index
 interview_priority: high
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 ---
 
 # Enumerations
@@ -34,7 +34,7 @@ representation and production evolution.
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
 | [Enumeration Modeling and Exhaustiveness](enumeration-modeling-and-exhaustiveness/README.md) | Makes valid states and exhaustive decisions visible to the compiler. | High | 13 min |
-| [Associated Values and Pattern Matching](associated-values-and-pattern-matching/README.md) | Stores only data valid for each state. | High | 12 min |
+| [Associated Values and Pattern Matching](associated-values-and-pattern-matching/README.md) | Stores only data valid for each state. | High | 13 min |
 | [Raw Values, Recursive Enums, and Evolution](raw-values-recursive-enums-and-evolution/README.md) | Separates runtime modeling from stable external contracts. | High | 13 min |
 
 ## Related Topics

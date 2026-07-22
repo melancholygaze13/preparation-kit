@@ -5,10 +5,10 @@ topic: "Initialization"
 concept: "Stored-Property Initialization and Delegation"
 page_type: theory
 interview_priority: high
-estimated_read_minutes: 4
+estimated_read_minutes: 6
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-22
 ---
 
 # Stored-Property Initialization and Delegation: Theory
@@ -23,19 +23,52 @@ method on an already usable instance.
 ## How It Works
 
 ```swift
-struct Percentage {
-    let value: Double
+struct User {
+    let name: String
+    var loginCount = 0
 
-    init?(_ value: Double) {
-        guard (0...100).contains(value) else { return nil }
-        self.value = value
+    init(name: String) {
+        self.name = name
     }
 }
+
+let user = User(name: "Ari")
+print(user.name, user.loginCount) // Ari 0
 ```
+
+An initializer is declared with `init`. Calling `User(name:)` creates an instance.
+Before the initializer returns, every stored property must have a value. Here it
+assigns `name`, while `loginCount` already has a valid default.
 
 Swift's definite-initialization checks prevent reading uninitialized stored state.
 Defaults reduce initializer surface, but defaults must be domain-correct rather than
 placeholder values that create invalid instances.
+
+### Delegating Between Value-Type Initializers
+
+Delegation means one initializer calls another so one path owns the main setup:
+
+```swift
+struct Size {
+    let width: Double
+    let height: Double
+
+    init(width: Double, height: Double) {
+        self.width = width
+        self.height = height
+    }
+
+    init(square side: Double) {
+        self.init(width: side, height: side)
+    }
+}
+
+let iconSize = Size(square: 24)
+print(iconSize.width, iconSize.height) // 24 24
+```
+
+For a structure or enumeration, `self.init(...)` delegates to another initializer
+from the same type. Classes use separate designated and convenience rules.
 
 Value-type delegation keeps construction rules consistent. If custom initializers are
 declared in the original structure declaration, synthesized memberwise behavior can

@@ -10,7 +10,7 @@ levels:
   - staff
   - principal
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-22
 ---
 
 # Identity, Aliasing, and Mutation Ownership
@@ -21,7 +21,8 @@ last_reviewed: 2026-07-12
 ## Quick Recall
 
 - `===` tests class-instance identity; `==` tests value equality.
-- Aliases can observe mutation through the same reference.
+- An alias is another reference to the same instance.
+- Aliases observe mutation made through either reference.
 - Shared mutation needs a clear owner and synchronization strategy.
 
 ## Study

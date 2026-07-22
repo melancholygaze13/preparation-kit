@@ -7,9 +7,9 @@ page_type: interview
 levels:
   - senior
 interview_priority: high
-estimated_read_minutes: 3
+estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-22
 ---
 
 # Dictionaries: Interview Questions
@@ -24,6 +24,7 @@ last_reviewed: 2026-07-12
 | [What does dictionary subscript optionality mean?](#q2-what-does-dictionary-subscript-optionality-mean) | Senior | Absence |
 | [How should duplicate keys be merged?](#q3-how-should-duplicate-keys-be-merged) | Senior | Conflict policy |
 | [When is a dictionary better than an array?](#q4-when-is-a-dictionary-better-than-an-array) | Senior | Representation choice |
+| [Does reading with a default insert the key?](#q5-does-reading-with-a-default-insert) | Senior | Default subscript behavior |
 
 ---
 
@@ -54,7 +55,8 @@ the basic subscript removes the key.
 ### Expanded Answer
 
 When the value type is optional, distinguish a missing key from a present key
-whose value is `nil`. Avoid this model unless both states matter.
+whose value is `nil`. Outer `nil` removes the key; `.some(nil)` stores a present
+optional `nil`. Avoid this model unless both states matter.
 
 ---
 
@@ -86,3 +88,14 @@ order, duplicates, or positional traversal are part of the model.
 - Dictionary lookup is expected constant time but gives no stable iteration order.
 - Arrays preserve order and duplicates but key lookup is normally linear.
 - For very small data, the simpler representation can beat a more complex model.
+
+---
+
+<a id="q5-does-reading-with-a-default-insert"></a>
+## Q5: Does Reading With a Default Insert the Key?
+
+### Short Answer
+
+No. `dictionary[key, default: value]` can return the default without changing
+the dictionary. Mutating through that subscript, such as with `+=`, inserts the
+default and then applies the mutation.

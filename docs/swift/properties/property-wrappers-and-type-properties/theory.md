@@ -5,13 +5,13 @@ topic: "Properties"
 concept: "Property Wrappers and Type Properties"
 page_type: theory
 interview_priority: high
-estimated_read_minutes: 4
+estimated_read_minutes: 5
 levels:
   - senior
   - staff
   - principal
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 tags:
   - property-wrappers
   - projected-values
@@ -55,9 +55,19 @@ struct Clamped<Value: Comparable> {
 struct AudioChannel {
     @Clamped(0...100) var volume = 50
 }
+
+var channel = AudioChannel()
+channel.volume = 140
+print(channel.volume)  // 100
+print(channel.$volume) // 0...100
 ```
 
-`volume` exposes `wrappedValue`; `$volume` exposes `projectedValue`. The compiler
+`@propertyWrapper` marks a type that can manage another property's storage and
+access. `@Clamped(0...100)` applies that wrapper to `volume`.
+
+Normal access through `volume` reads or writes `wrappedValue`, so the setter clamps
+`140` to `100`. Access through `$volume` reads `projectedValue`, which this wrapper
+uses to expose its configured range. The compiler
 synthesizes backing storage whose name begins with an underscore. Do not make external
 clients depend on generated storage names or exact lowering.
 

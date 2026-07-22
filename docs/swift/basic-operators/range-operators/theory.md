@@ -9,7 +9,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 ---
 
 # Range Operators: Theory
@@ -37,16 +37,18 @@ matches many collection operations:
 for index in 0..<items.count { /* excludes count */ }
 ```
 
-One-sided ranges omit one boundary. The consuming operation supplies it:
+One-sided ranges omit one boundary. They are useful as range expressions because
+the consuming operation supplies the missing limit; they are not finite
+sequences that can be iterated by themselves:
 
 ```swift
 let tail = items[startIndex...]
 let prefix = items[..<endIndex]
 ```
 
-An invalid closed range, where the lower bound is greater than the upper bound,
-can trap when constructed. A half-open `Range` can represent an empty range when
-both bounds are equal.
+A `ClosedRange` requires its lower bound to be no greater than its upper bound;
+violating that precondition traps. A half-open `Range` is empty when both bounds
+are equal.
 
 ## Collections and Indices
 

@@ -6,9 +6,9 @@ concept: "Mutating Value Types and State Transitions"
 page_type: interview
 levels: [senior]
 interview_priority: reference
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 ---
 
 # Mutating Value Types and State Transitions: Interview Questions
@@ -28,6 +28,17 @@ last_reviewed: 2026-06-22
 It makes write access to `self` explicit and requires a mutable binding at the
 call site. A nonmutating method cannot change stored value state.
 
+### Expanded Answer
+
+A mutating structure or enumeration method can change stored properties or replace
+the whole value by assigning to `self`. Because the call can replace the value, it
+cannot be made through a `let` binding.
+
+### Example
+
+`var counter` can call `counter.increment()`. The same call on `let counter` is a
+compile-time error, even if the changed property was declared with `var`.
+
 <a id="q2-atomicity"></a>
 ## Q2: Does `mutating` Make an Update Atomic?
 
@@ -35,3 +46,9 @@ call site. A nonmutating method cannot change stored value state.
 
 No. It is a language access rule, not synchronization. Shared mutable state still
 needs actor isolation or another synchronization mechanism.
+
+### Expanded Answer
+
+Independent copies of a value do not observe one another's changes. That value
+behavior does not protect a single variable accessed concurrently, and it does not
+make mutable class references stored inside the value independent.

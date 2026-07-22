@@ -5,12 +5,12 @@ topic: "Closures"
 concept: "Closure Expressions and Call-Site Syntax"
 page_type: theory
 interview_priority: high
-estimated_read_minutes: 8
+estimated_read_minutes: 9
 levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 tags:
   - closures
   - type-inference
@@ -24,20 +24,37 @@ tags:
 
 ## Mental Model
 
-Closure syntax is a progressive abbreviation of a function declaration:
+A closure expression creates an unnamed function value. It puts the parameters,
+optional return type, and body inside braces:
 
 ```swift
-items.sorted(by: { (lhs: Item, rhs: Item) -> Bool in
-    return lhs.priority > rhs.priority
+let doubled = { (value: Int) -> Int in
+    return value * 2
+}
+
+let result = doubled(4) // 8
+```
+
+The `in` keyword separates the signature from the body. The variable's type is
+`(Int) -> Int`.
+
+Swift can progressively abbreviate closure syntax when the surrounding call
+provides enough type information:
+
+```swift
+let scores = [3, 1, 2]
+
+scores.sorted(by: { (lhs: Int, rhs: Int) -> Bool in
+    return lhs > rhs
 })
 
-items.sorted { lhs, rhs in
-    lhs.priority > rhs.priority
+scores.sorted { lhs, rhs in
+    lhs > rhs
 }
 ```
 
-Both values have type `(Item, Item) -> Bool`. The correct spelling is the shortest
-one that keeps the local decision unmistakable.
+Both arguments have type `(Int, Int) -> Bool` and produce `[3, 2, 1]`. The
+correct spelling is the shortest one that keeps the local decision unmistakable.
 
 ## How It Works
 
@@ -60,7 +77,7 @@ closure is assigned without enough context, annotate the variable or closure:
 
 ```swift
 let normalize: (String) -> String = { value in
-    value.trimmingCharacters(in: .whitespaces)
+    value.lowercased()
 }
 ```
 

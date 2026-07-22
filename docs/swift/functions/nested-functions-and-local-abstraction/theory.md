@@ -5,12 +5,12 @@ topic: "Functions"
 concept: "Nested Functions and Local Abstraction"
 page_type: theory
 interview_priority: situational
-estimated_read_minutes: 5
+estimated_read_minutes: 6
 levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 tags:
   - nested-functions
   - captures
@@ -35,12 +35,31 @@ While the helper remains nonescaping, its lifetime and meaning are bounded by th
 outer call. Once returned or stored, it becomes an object-like behavior value with
 a captured environment.
 
+A *local abstraction* is a named helper that belongs only to one enclosing
+algorithm. Nesting is one way to express that narrow ownership.
+
 ## How It Works
 
 ### Scope and Visibility
 
 A nested function is declared inside another function and is visible in that
 enclosing scope after its declaration:
+
+```swift
+func greeting(for rawName: String) -> String {
+    func normalized(_ value: String) -> String {
+        value.isEmpty ? "Guest" : value
+    }
+
+    return "Hello, \(normalized(rawName))!"
+}
+```
+
+Only `greeting(for:)` can call `normalized(_:)`. This keeps a one-purpose helper
+next to the algorithm that owns it without adding another member to a type or
+file-level API.
+
+A production helper can also capture outer parameters:
 
 ```swift
 func parse(_ tokens: [Token]) throws -> SyntaxTree {

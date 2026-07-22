@@ -5,12 +5,12 @@ topic: "Functions"
 concept: "Function Values and Higher-Order Functions"
 page_type: theory
 interview_priority: high
-estimated_read_minutes: 7
+estimated_read_minutes: 8
 levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-30
+last_reviewed: 2026-07-22
 tags:
   - function-types
   - higher-order-functions
@@ -24,7 +24,9 @@ tags:
 
 ## Mental Model
 
-A higher-order function separates stable coordination from injected behavior:
+A function value is callable behavior stored in a value. A *higher-order
+function* accepts a function, returns a function, or does both. This separates
+stable coordination from caller-supplied behavior:
 
 ```mermaid
 flowchart LR
@@ -44,11 +46,16 @@ cancellation, and ownership.
 Every function type has parameter types and a result:
 
 ```swift
-func compare(_ lhs: Item, _ rhs: Item) -> Bool
+func isAscending(_ lhs: Int, _ rhs: Int) -> Bool {
+    lhs < rhs
+}
 
-let ordering: (Item, Item) -> Bool = compare
-let comesFirst = ordering(first, second)
+let ordering: (Int, Int) -> Bool = isAscending
+let comesFirst = ordering(2, 5) // true
 ```
+
+The value `ordering` stores callable behavior. It can be invoked, assigned to
+another compatible function variable, or passed as an argument.
 
 Argument labels belong to the declaration's call spelling, not to the stored
 function type. Once converted to `(Item, Item) -> Bool`, the value is invoked by
@@ -62,6 +69,24 @@ also be part of modern concurrency-facing function contracts.
 ### Passing Functions as Parameters
 
 Higher-order APIs accept caller-provided behavior:
+
+```swift
+func transform(_ value: Int, using operation: (Int) -> Int) -> Int {
+    operation(value)
+}
+
+func doubled(_ value: Int) -> Int {
+    value * 2
+}
+
+let result = transform(4, using: doubled) // 8
+```
+
+`transform` owns when the operation is called. Its caller chooses what operation
+to supply. Standard functions such as `map`, `filter`, and `sorted(by:)` use the
+same idea.
+
+The pattern also works with generics and throwing functions:
 
 ```swift
 func firstMatch<S: Sequence>(
@@ -90,7 +115,11 @@ A function can choose or construct behavior:
 
 ```swift
 func comparator(ascending: Bool) -> (Int, Int) -> Bool {
-    ascending ? (<) : (>)
+    if ascending {
+        return { $0 < $1 }
+    } else {
+        return { $0 > $1 }
+    }
 }
 ```
 
@@ -108,7 +137,13 @@ ownership.
 A key path is a typed value that selects a property:
 
 ```swift
+struct User {
+    let displayName: String
+}
+
+let users = [User(displayName: "Ana"), User(displayName: "Sam")]
 let names = users.map(\.displayName)
+// ["Ana", "Sam"]
 ```
 
 Use it for projection, sorting inputs, dynamic member access, or APIs that need
@@ -122,6 +157,8 @@ Closure-valued parameters are nonescaping by default: the callee must finish usi
 them before it returns. This gives callers and the compiler a bounded lifetime.
 
 ```swift
+var jobs: [() -> Void] = []
+
 func enqueue(_ job: @escaping () -> Void) {
     jobs.append(job)
 }

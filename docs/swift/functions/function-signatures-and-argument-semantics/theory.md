@@ -5,12 +5,12 @@ topic: "Functions"
 concept: "Function Signatures and Argument Semantics"
 page_type: theory
 interview_priority: high
-estimated_read_minutes: 8
+estimated_read_minutes: 9
 levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 tags:
   - functions
   - api-design
@@ -40,14 +40,49 @@ migration cost across every caller.
 
 ## How It Works
 
+### Defining and Calling a Function
+
+Declare a function with `func`, followed by its name, parameters, and optional
+return type:
+
+```swift
+func greeting(for person: String) -> String {
+    "Hello, \(person)!"
+}
+
+let message = greeting(for: "Ana")
+// message is "Hello, Ana!"
+```
+
+This declaration contains:
+
+- the base name `greeting`;
+- the argument label `for`, written by the caller;
+- the parameter name `person`, used inside the body;
+- the parameter type `String`;
+- the return arrow `->` and return type `String`.
+
+A function can have no parameters, several parameters, or no explicit return
+type. A function without an explicit return type returns `Void`, written as
+`()`. Calling a function executes its body and produces its declared result or
+effects.
+
 ### Function Identity and Call Spelling
 
 Swift distinguishes functions using the base name and parameter structure. API
 documentation commonly spells a function with argument labels:
 
 ```swift
-func move(_ item: Item, from source: Location, to destination: Location)
+struct Item { let name: String }
+struct Location { let name: String }
 
+func move(_ item: Item, from source: Location, to destination: Location) {
+    print("Move \(item.name) from \(source.name) to \(destination.name)")
+}
+
+let item = Item(name: "Message")
+let inbox = Location(name: "Inbox")
+let archive = Location(name: "Archive")
 move(item, from: inbox, to: archive)
 ```
 

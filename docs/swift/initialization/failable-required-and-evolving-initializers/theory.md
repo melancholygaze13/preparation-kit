@@ -5,10 +5,10 @@ topic: "Initialization"
 concept: "Failable, Required, and Evolving Initializers"
 page_type: theory
 interview_priority: high
-estimated_read_minutes: 4
+estimated_read_minutes: 7
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-22
 ---
 
 # Failable, Required, and Evolving Initializers: Theory
@@ -22,6 +22,46 @@ failure. Choose the weakest mechanism that still lets callers recover correctly.
 
 ## How It Works
 
+### Failable and Throwing Initializers
+
+Write `init?` when invalid input should simply produce `nil`:
+
+```swift
+struct Percentage {
+    let value: Double
+
+    init?(_ value: Double) {
+        guard (0...100).contains(value) else { return nil }
+        self.value = value
+    }
+}
+
+print(Percentage(50)?.value as Any) // Optional(50.0)
+print(Percentage(150) as Any)       // nil
+```
+
+Use `throws` when the caller needs to know why construction failed:
+
+```swift
+enum UsernameError: Error {
+    case empty
+    case tooLong
+}
+
+struct Username {
+    let value: String
+
+    init(_ value: String) throws {
+        guard !value.isEmpty else { throw UsernameError.empty }
+        guard value.count <= 20 else { throw UsernameError.tooLong }
+        self.value = value
+    }
+}
+
+let username = try Username("mina")
+print(username.value) // mina
+```
+
 Failable enum raw-value initialization is ideal when “no matching value” is enough.
 Parsing user or network data often needs errors with field and policy context. Factories
 are clearer when construction requires asynchronous work, caching, or returning a subtype.
@@ -34,6 +74,36 @@ be `async`, participate in cancellation, and return a cached or substituted inst
 Do not use `init!` to avoid an error model for untrusted input. It preserves optional
 storage while allowing an implicit trap at use, which moves failure away from the point
 where the input could have been diagnosed.
+
+### Required Initializers
+
+`required` says every subclass must provide the initializer or inherit a suitable
+implementation:
+
+```swift
+class Message {
+    let text: String
+
+    required init(text: String) {
+        self.text = text
+    }
+}
+
+final class Alert: Message {
+    let isUrgent: Bool
+
+    required init(text: String) {
+        self.isUrgent = true
+        super.init(text: text)
+    }
+}
+
+let alert = Alert(text: "Update required")
+print(alert.text, alert.isUrgent) // Update required true
+```
+
+The subclass implementation keeps the `required` modifier. It does not also write
+`override` for this initializer.
 
 A `required` initializer is appropriate only when generic or framework code must create
 every subclass through that entry point. It permanently constrains subclass storage and

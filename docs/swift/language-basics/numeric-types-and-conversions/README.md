@@ -8,7 +8,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 ---
 
 # Numeric Types and Conversions
@@ -21,6 +21,7 @@ last_reviewed: 2026-06-22
 - Use `Int` for ordinary in-memory integer values.
 - Use fixed-width integers for file, network, and C-compatible formats.
 - Validate before narrowing or signed/unsigned conversion.
+- Integer division rounds toward zero; convert before dividing when needed.
 - Floating-point values are approximate and need domain-specific comparison.
 
 ## Study

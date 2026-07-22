@@ -5,10 +5,10 @@ topic: "Optional Chaining"
 concept: "Conditional Mutation and API Boundaries"
 page_type: theory
 interview_priority: situational
-estimated_read_minutes: 2
+estimated_read_minutes: 3
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 tags: [optionals, mutation, method-calls, api-design]
 ---
 
@@ -24,16 +24,42 @@ That is correct only when skipping the command satisfies the contract.
 ## How It Works
 
 ```swift
-if (session?.cancel()) != nil {
-    metrics.recordCancellation()
+final class Session {
+    func cancel() {
+        print("Cancelled")
+    }
 }
 
-profile?.displayName = proposedName()
+let session: Session? = Session()
+if (session?.cancel()) != nil {
+    print("The cancel method ran")
+}
+// Cancelled
+// The cancel method ran
 ```
 
-`proposedName()` is not evaluated when `profile` is nil. The optional `Void` from the
-call indicates execution, not the business success of the method. If success has domain
-meaning, return a value or error that represents it.
+Although `cancel()` returns `Void`, a chained call produces `Void?`. It is non-`nil`
+when the method ran and `nil` when the receiver was missing. That indicates execution,
+not business success. If success has domain meaning, return a value or error that
+represents it.
+
+Chained assignment also skips evaluation of the right side when the receiver is nil:
+
+```swift
+struct Profile { var displayName: String }
+
+func proposedName() -> String {
+    print("Name calculated")
+    return "Mina"
+}
+
+var profile: Profile? = nil
+profile?.displayName = proposedName() // proposedName() does not run
+
+profile = Profile(displayName: "Guest")
+profile?.displayName = proposedName() // prints: Name calculated
+print(profile?.displayName as Any)    // Optional("Mina")
+```
 
 ### Mutation Policy
 

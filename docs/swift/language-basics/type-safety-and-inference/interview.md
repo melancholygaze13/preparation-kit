@@ -9,7 +9,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-22
 ---
 
 # Type Safety and Type Inference: Interview Questions
@@ -58,3 +58,9 @@ that identifies the intended type.
 
 Use one when representation is important, inference is ambiguous, or a public
 boundary should make its contract clear. Avoid annotations that only add noise.
+
+### Expanded Answer
+
+An explicit type is useful for fixed-width storage, empty collections, closure
+signatures, and overloaded generic expressions. Put it near the source of
+ambiguity so the remaining code can still use inference.

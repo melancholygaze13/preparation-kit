@@ -9,7 +9,7 @@ levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 tags:
   - closures
   - type-inference
@@ -19,12 +19,14 @@ tags:
 
 # Closure Expressions and Call-Site Syntax
 
-> Swift can infer closure parameter and return types from context. Use shorter
-> syntax only while the argument roles and execution behavior stay clear.
+> A closure expression creates an unnamed function value inside braces. Swift
+> can infer its parameter and return types from context. Use shorter call-site
+> syntax only while argument roles and execution behavior stay clear.
 
 ## Quick Recall
 
 - Context often provides a closure's parameter and result types.
+- `in` separates a closure's parameter and return declaration from its body.
 - `$0` is useful only when argument roles remain obvious.
 - Trailing closures improve DSL-like calls but can hide argument boundaries.
 - Add a type annotation at the narrowest point when inference is ambiguous.

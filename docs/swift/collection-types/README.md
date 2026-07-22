@@ -4,7 +4,7 @@ domain: "Swift"
 page_type: topic-index
 interview_priority: high
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-22
 ---
 
 # Collection Types
@@ -35,7 +35,7 @@ Swift behavior or performance decisions.
 |---|---|---|---:|
 | [Arrays](arrays/README.md) | Covers order, copy-on-write, indices, slices, and mutation cost. | High | 8 min |
 | [Sets](sets/README.md) | Covers uniqueness, membership, equality, and hashing. | High | 8 min |
-| [Dictionaries](dictionaries/README.md) | Covers keyed lookup, absence, merging, and key stability. | High | 8 min |
+| [Dictionaries](dictionaries/README.md) | Covers keyed lookup, absence, merging, and key stability. | High | 10 min |
 
 ## Related Topics
 

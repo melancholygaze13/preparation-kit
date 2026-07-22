@@ -8,7 +8,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 tags:
   - arithmetic
   - equality
@@ -22,8 +22,8 @@ tags:
 
 ## Quick Recall
 
-- Assignment copies a value type's value. It copies a class reference, not the
-  referenced object.
+- Assignment copies a value type's stored value. Any class references inside
+  that value still refer to the same objects.
 - Normal integer overflow traps. The `&+`, `&-`, and `&*` operators wrap.
 - Integer division truncates toward zero. `%` returns a remainder.
 - `==` tests value equality. `===` tests whether two class references point to

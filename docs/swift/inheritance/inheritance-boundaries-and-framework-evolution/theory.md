@@ -5,10 +5,10 @@ topic: "Inheritance"
 concept: "Inheritance Boundaries and Framework Evolution"
 page_type: theory
 interview_priority: situational
-estimated_read_minutes: 3
+estimated_read_minutes: 4
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 tags: [open-classes, composition, framework-design, evolution]
 ---
 
@@ -20,6 +20,26 @@ tags: [open-classes, composition, framework-design, evolution]
 
 Publishing an open class delegates part of your implementation to code you do not
 control. Every release must remain correct with old subclasses and new base behavior.
+
+In Swift, `public` lets another module use a declaration. `open` additionally lets
+another module subclass an open class or override an open member:
+
+```swift
+open class Renderer {
+    public init() {}
+
+    open func render(_ text: String) -> String {
+        text
+    }
+
+    public final func renderEmpty() -> String {
+        render("")
+    }
+}
+```
+
+`render(_:)` is an extension point. `renderEmpty()` is callable outside the module
+but `final` prevents overriding, so the base class keeps control of its sequence.
 
 ## How It Works
 

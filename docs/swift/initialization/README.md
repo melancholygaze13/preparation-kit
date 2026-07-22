@@ -4,7 +4,7 @@ domain: "Swift"
 page_type: topic-index
 interview_priority: high
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-22
 ---
 
 # Initialization
@@ -33,9 +33,9 @@ they constrain safe construction.
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [Stored-Property Initialization and Delegation](stored-property-initialization-and-delegation/README.md) | Establishes valid stored state before use. | High | 8 min |
-| [Class Initialization and Two-Phase Safety](class-initialization-and-two-phase-safety/README.md) | Prevents partially initialized class state from escaping. | High | 8 min |
-| [Failable, Required, and Evolving Initializers](failable-required-and-evolving-initializers/README.md) | Models invalid input and subclass obligations. | High | 8 min |
+| [Stored-Property Initialization and Delegation](stored-property-initialization-and-delegation/README.md) | Establishes valid stored state before use. | High | 10 min |
+| [Class Initialization and Two-Phase Safety](class-initialization-and-two-phase-safety/README.md) | Prevents partially initialized class state from escaping. | High | 9 min |
+| [Failable, Required, and Evolving Initializers](failable-required-and-evolving-initializers/README.md) | Models invalid input and subclass obligations. | High | 11 min |
 
 ## Related Topics
 

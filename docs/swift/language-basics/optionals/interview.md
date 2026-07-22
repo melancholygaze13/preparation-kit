@@ -7,9 +7,9 @@ page_type: interview
 levels:
   - senior
 interview_priority: high
-estimated_read_minutes: 3
+estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-22
 ---
 
 # Optionals: Interview Questions
@@ -24,6 +24,7 @@ last_reviewed: 2026-07-12
 | [When do you use `if let`, `guard let`, chaining, or `??`?](#q2-how-do-you-choose-an-unwrapping-form) | Senior | Control flow |
 | [What is an implicitly unwrapped optional?](#q3-what-is-an-implicitly-unwrapped-optional) | Senior | Runtime safety |
 | [When is force unwrapping acceptable?](#q4-when-is-force-unwrapping-acceptable) | Senior | Invariants |
+| [What is the difference between `map` and `flatMap` on an optional?](#q5-map-versus-flatmap) | Senior | Optional transformation |
 
 ---
 
@@ -85,3 +86,20 @@ be a programmer error. Prefer types and initialization that make absence impossi
 
 Force-unwrapping a bundled resource can be reasonable when the build verifies it.
 Force-unwrapping a server field is unsafe because remote data is not that invariant.
+
+---
+
+<a id="q5-map-versus-flatmap"></a>
+## Q5: What Is the Difference Between `map` and `flatMap` on an Optional?
+
+### Short Answer
+
+Both run only when the optional contains a value. `map` wraps the transformed
+result in an optional. `flatMap` is for a transform that already returns an
+optional, so the result stays one layer deep.
+
+### Example
+
+`text.map(Int.init)` produces `Int??`, while `text.flatMap(Int.init)` produces
+`Int?`. Use `flatMap` when parse failure and missing input can share one absence
+state.

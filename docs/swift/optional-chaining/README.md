@@ -4,7 +4,7 @@ domain: "Swift"
 page_type: topic-index
 interview_priority: situational
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 ---
 
 # Optional Chaining
@@ -32,8 +32,8 @@ effects belong to their dedicated topics.
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [Chained Access and Optional Composition](chained-access-and-optional-composition/README.md) | Compose conditional property, method, and subscript access while reasoning precisely about result optionality. | Situational | 5 min |
-| [Conditional Mutation and API Boundaries](conditional-mutation-and-api-boundaries/README.md) | Use conditional calls and writes only when skipped work is valid and observable enough for the domain. | Situational | 5 min |
+| [Chained Access and Optional Composition](chained-access-and-optional-composition/README.md) | Compose conditional property, method, and subscript access while reasoning precisely about result optionality. | Situational | 6 min |
+| [Conditional Mutation and API Boundaries](conditional-mutation-and-api-boundaries/README.md) | Use conditional calls and writes only when skipped work is valid and observable enough for the domain. | Situational | 6 min |
 
 ## Related Topics
 

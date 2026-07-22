@@ -7,9 +7,9 @@ page_type: theory
 levels:
   - senior
 interview_priority: situational
-estimated_read_minutes: 3
+estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 ---
 
 # Assignment, Arithmetic, and Comparison: Theory
@@ -35,8 +35,30 @@ second.append(3)
 // first is [1, 2]; second is [1, 2, 3]
 ```
 
-For a value type, assignment creates an independent logical value. Swift may use
-copy-on-write internally, but that must not change observable value semantics.
+For a value type, assignment copies its stored value. When its full state has
+value semantics, later mutation through one variable does not change the other.
+The standard collections use copy-on-write so they can delay copying their
+buffer until mutation without changing that behavior.
+
+This is not an automatic deep copy. A struct or array can contain class
+references. Assignment copies those references, so both outer values can still
+reach the same objects:
+
+```swift
+final class Account {
+    var name: String
+    init(name: String) { self.name = name }
+}
+
+var first = [Account(name: "Ana")]
+var second = first
+second[0].name = "Sam"
+
+// first[0].name is also "Sam"
+```
+
+Document or redesign this aliasing when callers would reasonably expect the
+outer type to have independent value semantics.
 
 For a class, assignment copies the reference. Both variables can then refer to
 the same instance. Mutating that instance is visible through both references.
@@ -84,8 +106,9 @@ observer object. Use equality for domain meaning, such as whether two identifier
 or models represent the same value.
 
 Custom equality must be consistent. In particular, equal `Hashable` values must
-produce the same hash within one execution. Equality based on mutable fields can
-break set and dictionary lookup after a stored value changes.
+produce the same hash within one execution. A reference-type key whose equality
+or hash depends on mutable state can break set and dictionary lookup if that
+state changes while the key is stored. Prefer stable key fields.
 
 ## Engineering Decisions
 
@@ -101,3 +124,4 @@ break set and dictionary lookup after a stored value changes.
 - [The Swift Programming Language: Identity Operators](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/classesandstructures/#Identity-Operators)
 - [Swift `Equatable`](https://developer.apple.com/documentation/swift/equatable)
 - [Swift `Hashable`](https://developer.apple.com/documentation/swift/hashable)
+- [The Swift Programming Language: Structures and Enumerations Are Value Types](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/classesandstructures/#Structures-and-Enumerations-Are-Value-Types)

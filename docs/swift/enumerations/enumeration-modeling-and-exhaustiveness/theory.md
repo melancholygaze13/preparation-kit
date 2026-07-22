@@ -10,7 +10,7 @@ levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 tags:
   - enumerations
   - state-modeling
@@ -94,10 +94,10 @@ remain separate types unless the domain defines one coordinated state machine.
 ### Exhaustive Decisions
 
 ```swift
-let action = switch state {
-case .disconnected: Action.connect
-case .connecting: .wait
-case .connected: .send
+let message = switch state {
+case .disconnected: "Connect"
+case .connecting: "Please wait"
+case .connected: "Ready"
 }
 ```
 

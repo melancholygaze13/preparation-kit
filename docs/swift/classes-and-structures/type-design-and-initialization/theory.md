@@ -5,12 +5,12 @@ topic: "Classes and Structures"
 concept: "Type Design and Initialization"
 page_type: theory
 interview_priority: high
-estimated_read_minutes: 6
+estimated_read_minutes: 7
 levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-22
 tags:
   - classes
   - structures
@@ -41,14 +41,27 @@ struct Coordinate {
 }
 
 final class DownloadSession {
-    let id: UUID
+    let id: Int
     var bytesReceived = 0
 
-    init(id: UUID) {
+    init(id: Int) {
         self.id = id
     }
 }
+
+let point = Coordinate(x: 10, y: 20)
+let session = DownloadSession(id: 42)
 ```
+
+`struct` declares a value type. `class` declares a reference type. Both store data
+in properties and create instances with initializer-call syntax such as
+`Coordinate(x:y:)` or `DownloadSession(id:)`.
+
+The compiler creates the memberwise initializer used for `Coordinate` because the
+structure declares stored properties and no custom initializer. The class declares
+its own `init(id:)`. Its initializer assigns `id`; `bytesReceived` already has a
+default value. `self.id` means the property on the new instance, while the `id` on
+the right is the initializer parameter.
 
 Both can model rich behavior. A class is justified when reference identity,
 shared mutable state, inheritance, or deinitialization is semantically required.

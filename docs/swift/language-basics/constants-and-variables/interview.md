@@ -7,9 +7,9 @@ page_type: interview
 levels:
   - senior
 interview_priority: reference
-estimated_read_minutes: 2
+estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 ---
 
 # Constants and Variables: Interview Questions
@@ -23,6 +23,7 @@ last_reviewed: 2026-06-22
 | [What is the difference between `let` and `var`?](#q1-what-is-the-difference-between-let-and-var) | Senior | Binding mutation |
 | [Can a `let` constant be assigned after declaration?](#q2-can-a-let-constant-be-assigned-after-declaration) | Senior | Definite initialization |
 | [Does `let` make a class instance immutable?](#q3-does-let-make-a-class-instance-immutable) | Senior | Reference semantics |
+| [When is `var` the right choice?](#q4-when-is-var-the-right-choice) | Senior | Intentional mutation |
 
 ---
 
@@ -31,13 +32,15 @@ last_reviewed: 2026-06-22
 
 ### Short Answer
 
-`let` allows one assignment to a binding. `var` allows the binding to receive a
-new value. Prefer `let` unless reassignment is part of the design.
+`let` allows one assignment to a binding. `var` allows another value of the same
+type and permits mutation through a value-type binding. Neither keyword changes
+the variable's type.
 
 ### Expanded Answer
 
-This choice documents allowed state transitions and helps the compiler reject
-accidental mutation. It does not guarantee deep immutability or thread safety.
+For a class reference, `var` allows the reference to point to another instance.
+Object mutability comes from the class's properties and methods, not from the
+binding keyword. Neither keyword provides thread safety.
 
 ---
 
@@ -63,3 +66,21 @@ properties of the referenced object can still change.
 
 Other references may point to the same object, so shared access still needs an
 ownership and synchronization strategy.
+
+---
+
+<a id="q4-when-is-var-the-right-choice"></a>
+## Q4: When Is `var` the Right Choice?
+
+### Short Answer
+
+Use `var` when reassignment or mutation is an intentional part of the algorithm
+or lifecycle—for example, a local accumulator, parser state, or replaceable
+current selection. Keep the mutable scope as small as practical.
+
+### Expanded Answer
+
+Local mutation is often simple and safe because one scope owns it. Shared
+mutable state needs a separate ownership and synchronization design. Do not hide
+real mutation behind a reference wrapper only to keep the outer binding as
+`let`.

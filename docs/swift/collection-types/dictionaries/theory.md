@@ -7,9 +7,9 @@ page_type: theory
 levels:
   - senior
 interview_priority: high
-estimated_read_minutes: 4
+estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-22
 ---
 
 # Dictionaries: Theory
@@ -28,15 +28,28 @@ itself optional, lookup can need two optional levels to distinguish a missing ke
 from a present key with a `nil` value. Prefer avoiding optional dictionary values
 unless those states are meaningful.
 
-Assigning `nil` through the basic subscript removes an entry. Use
-`updateValue(_:forKey:)` when the previous value matters, and
-`removeValue(forKey:)` when removal should be explicit.
+Assigning outer `nil` through the basic subscript removes an entry. This needs
+care when `Value` is itself optional:
+
+```swift
+var flags: [String: Bool?] = [:]
+flags["beta"] = .some(nil) // Key is present with a nil Bool? value.
+flags["beta"] = nil        // Key is removed.
+```
+
+Use `updateValue(_:forKey:)` when the previous value matters or when inserting an
+optional value should be unambiguous. Use `removeValue(forKey:)` when removal
+should be explicit.
 
 The default-value subscript is useful for accumulation:
 
 ```swift
 counts[word, default: 0] += 1
 ```
+
+Reading `dictionary[key, default: value]` does not insert a missing key. Mutating
+through that subscript, as in the counter example, inserts the default before
+applying the mutation.
 
 ## Keys, Merging, and Order
 
@@ -66,10 +79,10 @@ remain stable for as long as the entry is stored. If a mutable class instance is
 used as a key and its equality-relevant state changes, later lookup or removal can
 fail even though the object is still in storage.
 
-The default-value subscript creates a value only when needed for mutation. It is
-useful for counters and grouping, but the chosen default must be a true identity
-value for the operation. A default that hides missing required configuration turns
-an input error into plausible but incorrect data.
+The default-value subscript inserts its default only when needed for mutation. It
+is useful for counters and grouping, but the chosen default must be a true
+identity value for the operation. A default that hides missing required
+configuration turns an input error into plausible but incorrect data.
 
 Copy-on-write preserves independent dictionary values, not deep copies of reference
 values. Two dictionary copies may still contain references to the same mutable objects.

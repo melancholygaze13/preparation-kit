@@ -8,7 +8,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-22
 ---
 
 # Optionals
@@ -21,6 +21,7 @@ last_reviewed: 2026-07-12
 - Optional binding unwraps a value for one control-flow branch.
 - `guard` is useful when the value is required for the remaining scope.
 - Optional chaining propagates absence through member access.
+- `map` preserves one optional layer; `flatMap` avoids a nested optional.
 - Force unwrap only when a nearby invariant proves the value exists.
 
 ## Study

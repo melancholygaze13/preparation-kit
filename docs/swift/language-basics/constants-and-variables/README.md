@@ -8,20 +8,23 @@ levels:
 interview_priority: reference
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-22
 ---
 
 # Constants and Variables
 
-> `let` prevents reassignment of a binding. `var` allows reassignment. Neither
-> keyword makes a referenced class instance thread-safe or deeply immutable.
+> `let` creates a binding that is assigned once. `var` creates mutable storage
+> whose value can be replaced or changed while keeping the same type.
 
 ## Quick Recall
 
-- Prefer `let` when a binding should not change after initialization.
-- A `let` property of a struct prevents mutation through that value.
-- A `let` class reference can still refer to a mutable object.
-- Local mutation is often clearer than hidden shared mutation.
+- `var` allows reassignment, but the variable's type does not change.
+- A `var` struct or collection can use mutating operations.
+- `let` prevents reassignment and mutation through a value-type binding.
+- `let` and `var` control rebinding of a class reference, not whether the object
+  itself has mutable properties.
+- Prefer `let` by default, but use a local `var` when an algorithm clearly
+  accumulates or changes state.
 
 ## Study
 
