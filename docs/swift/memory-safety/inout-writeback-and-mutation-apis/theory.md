@@ -17,9 +17,9 @@ last_reviewed: 2026-07-12
 
 ## Mental Model
 
-Treat `inout` as a synchronous transaction over one mutable value: obtain exclusive access, derive
-a temporary value if needed, run the callee, then commit writeback. The implementation strategy is
-unobservable except for documented property access and mutation behavior.
+Treat `inout` as one synchronous update to a mutable value. Swift obtains exclusive access,
+may create a temporary value, runs the function, and writes the final value back. Callers
+cannot observe the storage strategy beyond documented property access and mutation behavior.
 
 ## How It Works
 
@@ -35,10 +35,10 @@ normalize(&count, limit: 100)
 Use explicit named results when several inputs might alias or when the operation is better modeled
 as computation. A returned value often shortens access and composes more safely with callbacks.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - The mutation scope is synchronous and bounded to the call.
-- No alias reads or writes source storage before writeback ends.
+- No other reference reads or writes the source storage before writeback ends.
 - Property side effects at getter/setter/writeback are accepted and tested.
 - APIs use `inout` for meaningful mutation, not hidden output parameters by default.
 - Unsafe interop does not assume a stable address unless a separate pointer scope guarantees it.
@@ -49,7 +49,7 @@ as computation. A returned value often shortens access and composes more safely 
 - Two `inout` parameters cannot safely bind the same storage simultaneously.
 - An escaping closure cannot capture an `inout` parameter beyond the call.
 - Passing an observed property can trigger writeback/observer behavior even if the callee makes no semantic change.
-- `inout` does not make reference-type pointee mutation exclusive across aliases.
+- `inout` does not prevent other references from mutating the same class instance.
 
 ## Engineering Judgment
 
@@ -75,7 +75,7 @@ reentrancy. Verify writeback behavior rather than pointer identity.
 
 ### Observability and Debugging
 
-Trace mutation intent and final commit. Expensive property observers should expose metrics because
+Record why mutation happens and the final value. Record metrics for expensive property observers because
 apparently cheap `inout` helpers can trigger them.
 
 ### Compatibility and Migration

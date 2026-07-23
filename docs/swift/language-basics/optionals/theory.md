@@ -103,8 +103,8 @@ framework-controlled lifecycle boundaries, not to avoid correct initialization.
 ## Force Unwrapping
 
 `!` traps when the optional is `nil`. It is acceptable only when a local,
-reviewable invariant proves presence and recovery would indicate a programming
-error. Prefer making the invariant structural through initialization or types.
+reviewable rule proves the value exists and `nil` would indicate a programming
+error. Prefer initialization or types that make absence impossible.
 
 ## Constraints and Guarantees
 

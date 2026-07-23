@@ -33,7 +33,7 @@ let explicitTotal = distanceA.adding(distanceB)
 The two forms should share units, validation, overflow, and result semantics. The named form improves
 documentation and migration; the operator improves dense algebra when context is clear.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Operators implement one stable domain meaning across every overload.
 - Named and symbolic forms do not drift.

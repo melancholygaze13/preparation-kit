@@ -121,7 +121,7 @@ or rebases the range when the current generation differs.
 
 Keep a `Substring` while performing short-lived parsing or transformation because
 it can reuse source storage. Convert to `String` when the result enters a model,
-cache, async job, or API that promises durable independent text ownership. A tiny
+cache, async job, or API that promises long-lived, independent text ownership. A tiny
 substring can retain a large source; conversion pays a copy to release that
 storage relationship.
 
@@ -136,8 +136,8 @@ token from a large payload. `String(token)` creates an owned result with an
 explicit lifetime contract. Converting every intermediate slice is also wrong in
 many pipelines because it adds avoidable allocation and copying.
 
-APIs generic over `StringProtocol` can accept either type for read-only work, but
-that abstraction doesn't decide whether a result should retain input storage.
+APIs generic over `StringProtocol` can accept either type for read-only work. That
+generic API does not decide whether a result should retain input storage.
 
 ### Trade-offs
 
@@ -182,14 +182,14 @@ Conversion can fail when the integer range is out of bounds or ends at a UTF-16
 position that doesn't correspond to valid native string boundaries. The range is
 also stale if the text changes between production and conversion.
 
-Keep this impedance mismatch in a Foundation adapter. Native feature code should
+Keep this difference in range units inside a Foundation adapter. Native feature code should
 receive `Range<String.Index>` or, preferably, the semantic result it needs.
 
 ### Trade-offs
 
 - Boundary conversion preserves native correctness but requires failure handling.
 - Exposing `NSRange` everywhere avoids adapters but spreads unit confusion.
-- Returning semantic matches hides range details but may reduce caller flexibility.
+- Returning meaningful match values hides range details but may reduce caller flexibility.
 
 ### Example
 

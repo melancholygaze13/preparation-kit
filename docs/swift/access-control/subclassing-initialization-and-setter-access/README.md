@@ -12,7 +12,8 @@ last_reviewed: 2026-06-22
 
 # Subclassing, Initialization, and Setter Access
 
-> Construction, mutation, and overridability are separate capabilities; publish each only where its invariants are supported.
+> Construction, mutation, and overriding are separate capabilities. Expose each
+> one only where the type can keep its required rules true.
 
 ## Quick Recall
 

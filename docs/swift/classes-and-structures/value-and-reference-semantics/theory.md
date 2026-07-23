@@ -24,9 +24,9 @@ tags:
 
 ## Mental Model
 
-After `b = a`, ask what mutation through `b` can make observable through `a`.
-For a proper value, changing `b` does not change `a`'s value. For references, both
-names may observe the same instance.
+After `b = a`, ask whether changing `b` can also change what you see through `a`.
+With value semantics, changing `b` does not change `a`. With reference semantics,
+both names can refer to the same instance and observe the same changes.
 
 ## How It Works
 
@@ -45,7 +45,7 @@ let secondCounter = firstCounter
 secondCounter.value = 2           // firstCounter.value is also 2
 ```
 
-Passing either kind to a function follows the same semantic distinction. A normal
+Passing either kind to a function follows the same behavior. A normal
 value parameter is not an alias that permits the callee to mutate the caller's
 binding. A class parameter contains a copied reference to the same instance, so
 instance mutation can remain visible.
@@ -84,16 +84,17 @@ it a snapshot.
 
 ### Equality Is Separate
 
-Value semantics do not require compiler-synthesized `Equatable`, and equality does
-not determine whether a type has value semantics. Equality is a domain relation;
-copy behavior is an ownership relation. A class can implement value-like equality
-while still being aliased, and a value can omit equality entirely.
+Value semantics do not require `Equatable`, whether synthesized by the compiler or
+written by hand. Equality asks whether two values mean the same thing in the
+domain. Value semantics ask whether changing one copy changes another. A class can
+compare equal by value while several references still point to the same instance.
+A value type can also omit equality entirely.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Mutating one value does not change another independently held value.
 - Shared backing storage is not exposed as shared mutable behavior.
-- Reference aliases observe one deliberate instance and lifecycle.
+- Shared references intentionally point to one instance with one lifetime.
 - Equality and identity are not substituted for one another.
 - Optimization preserves the documented behavior contract.
 
@@ -115,17 +116,17 @@ while still being aliased, and a value can omit equality entirely.
 | Immutable message or snapshot | Value |
 | Independent local mutation | Value |
 | One shared resource or session | Reference with explicit owner |
-| Large logical value with sparse writes | Value API, consider measured COW storage |
+| Large logical value that changes rarely | Value API; consider COW after measurement |
 | Coordinated shared mutable state | Actor or synchronized reference owner |
-| Polymorphic capability without identity | Protocol plus suitable concrete semantics |
+| Interchangeable behavior without shared identity | Protocol plus a suitable concrete type |
 
 ### Trade-offs and Alternatives
 
-Pure stored-value structs maximize transparency but may move substantial data.
+Structs that store only values make copy behavior clear but may move substantial data.
 COW preserves a value interface and can reduce copying at the cost of uniqueness
 checks, storage complexity, and harder profiling. Reference types make sharing
 cheap and explicit but distribute alias and lifetime reasoning. Persistent data
-structures are another value-oriented option for large branching histories.
+structures are another value-based option for data with many historical branches.
 
 ## Production Application
 
@@ -160,28 +161,28 @@ tooling; do not turn implementation storage identity into product behavior.
 
 Changing a value to a reference can make formerly independent copies share updates.
 Changing a reference to a value can break observers and identity-based registries.
-Introduce a new boundary type, dual-run semantic tests, migrate storage and caches,
+Introduce a new boundary type, test old and new copy behavior side by side, migrate storage and caches,
 then remove the old representation after consumers no longer depend on it.
 
 ## Staff and Principal Perspective
 
 ### System Impact
 
-Value snapshots reduce coupling across modules and concurrency domains, while shared
-references can centralize scarce resources. Standardize semantics at architecture
-boundaries: DTOs, state snapshots, caches, and service owners should not make
-consumers reverse-engineer whether mutation propagates.
+Value snapshots reduce coupling across modules and concurrency boundaries. Shared
+references can centralize scarce resources. Define copy and sharing behavior at
+architecture boundaries. Callers of data-transfer objects, state snapshots, caches,
+and services should not have to discover whether a change appears elsewhere.
 
 ### Decision Framework
 
 Define observable copy behavior, graph ownership, mutation frequency, concurrency
 crossings, equality, lifecycle, and performance evidence. Treat a COW implementation
-as an optimization project with invariant tests, not an API redesign shortcut.
+as an optimization project with tests for required behavior, not an API redesign shortcut.
 
 ### Organizational Impact
 
 Document types with non-obvious reference members. Give shared mutable owners a
-team and operational boundary. Require benchmarks and semantic regression tests for
+team and operational boundary. Require benchmarks and copy-behavior regression tests for
 representation migrations used across modules.
 
 ## References

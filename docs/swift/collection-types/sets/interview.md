@@ -42,8 +42,9 @@ candidate is the same element because different values can share a hash.
 
 ### Short Answer
 
-Equal values must have equal hashes during one execution. Equality should also be
-reflexive, symmetric, and transitive. Hash collisions between unequal values are valid.
+Equal values must have equal hashes during one execution. Equality must return true
+for a value compared with itself. Its result must not depend on argument order, and
+equal chains must remain consistent. Hash collisions between unequal values are valid.
 
 ### Expanded Answer
 
@@ -73,7 +74,7 @@ identity. Otherwise remove the value, update it, and reinsert it under controlle
 
 ### Short Answer
 
-Use a set when uniqueness, membership tests, or set algebra matter more than
+Use a set when uniqueness, membership tests, or operations such as union and intersection matter more than
 order and duplicates. Use an array when order is part of the model.
 
 ### Trade-offs

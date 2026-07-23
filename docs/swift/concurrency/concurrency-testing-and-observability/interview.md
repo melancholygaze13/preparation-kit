@@ -21,7 +21,7 @@ last_reviewed: 2026-06-22
 |---|---|---|
 | [How do you test cancellation without sleeps?](#q1-deterministic-cancellation-testing) | Senior | Swift Testing and gates |
 | [How do you test actor reentrancy deterministically?](#q2-deterministic-reentrancy-testing) | Staff | Controlled interleaving |
-| [How do you validate system-level isolation topology?](#q3-isolation-topology-observability) | Principal | Tests and production signals |
+| [How do you validate isolation across a system?](#q3-isolation-topology-observability) | Principal | Tests and production signals |
 
 ---
 
@@ -30,20 +30,21 @@ last_reviewed: 2026-06-22
 
 ### Short Answer
 
-Start an owned task against a controllable dependency, await a signal that the operation
-reached a known suspension point, cancel it, release the dependency, then await the task
-and assert `CancellationError` plus cleanup. Inject a clock for deadline tests.
+Start an owned task with a controllable dependency. Wait for a signal that the
+operation reached a known suspension point. Cancel it, release the dependency, and
+await the task. Assert `CancellationError` and the expected cleanup. Inject a clock
+for deadline tests.
 
 ### Expanded Answer
 
-Elapsed time does not establish the required interleaving. The fake gate must be
+Elapsed time does not establish the required event order. The fake gate must be
 concurrency-safe and resume exactly once. Await every task the test starts. Use
 `confirmation()` only when tested work completes inside its closure; it does not wait for discarded tasks.
 
 ### Trade-offs
 
-- Gates add test support code but remove flakes.
-- Virtual clocks require injection but make timeout matrices fast.
+- Gates add test support code but remove timing-based failures.
+- Virtual clocks require dependency injection but make many timeout cases fast.
 
 ### Example
 
@@ -69,8 +70,8 @@ prove the intended interleaving or fix unsafe shared fixtures.
 
 ### Trade-offs
 
-- Dependency injection slightly expands production seams.
-- Determinism provides precise failure diagnosis and stable CI.
+- Dependency injection adds a small controllable boundary to production code.
+- Exact ordering provides precise failure diagnosis and stable CI.
 
 ### Example
 
@@ -80,28 +81,30 @@ the load resumes and must not populate the cache.
 ---
 
 <a id="q3-isolation-topology-observability"></a>
-## Q3: How Do You Validate System-Level Isolation Topology?
+## Q3: How Do You Validate Isolation Across a System?
 
 ### Short Answer
 
-Map authoritative mutable state to actors or synchronized owners, compile boundaries
-under strict concurrency, test invariant-crossing interleavings, and observe actor queueing,
-hop volume, active tasks, cancellation latency, stream drops, and trace continuity.
+Map each piece of shared mutable state to an actor or synchronized owner. Compile
+module boundaries under strict concurrency. Test the orderings that could break a
+required rule. Monitor actor queues, hops, active tasks, cancellation delay, dropped
+stream values, and broken traces.
 
 ### Expanded Answer
 
-The goal is not one actor per type. Validate that each invariant has one owner, messages
-are sendable, cross-owner workflows have idempotency/compensation, and capacity limits
-compose across dependencies. Production traces should reveal lost task-local context and
-work continuing after cancellation.
+The goal is not one actor per type. Check that each rule has one owner and messages
+are sendable. Work that crosses owners needs a safe retry or recovery plan. Capacity
+limits must also work together across dependencies. Production traces should reveal
+lost task-local context and work that continues after cancellation.
 
 ### Trade-offs
 
-- Coarse isolation simplifies invariants but may queue unrelated work.
-- Fine isolation increases concurrency but adds hops and distributed coordination.
-- Detailed telemetry improves diagnosis but needs sampling and cardinality controls.
+- Fewer, larger isolation boundaries simplify coordination but may queue unrelated work.
+- Smaller isolation boundaries increase concurrency but add hops and coordination across owners.
+- Detailed metrics improve diagnosis but need sampling and limits on distinct labels.
 
 ### Example
 
-Checkout traces show repeated cart-inventory actor hops and payment work continuing after
-request cancellation. The topology is coarsened around cart invariants and deadline propagation is fixed.
+Checkout traces show repeated hops between cart and inventory actors. They also show
+payment work continuing after request cancellation. The team moves related cart state
+into one actor and passes the deadline through every call.

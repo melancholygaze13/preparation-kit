@@ -27,7 +27,7 @@ tags:
 | Question | Level | Focus |
 |---|---|---|
 | [How do associated values differ from raw values?](#q1-associated-versus-raw) | Senior | Per-instance payload versus fixed representation |
-| [When should you use switch, if case, guard case, or for case?](#q2-pattern-selection) | Senior | Exhaustive versus selective handling |
+| [When should you use `switch`, `if case`, `guard case`, or `for case`?](#q2-pattern-selection) | Senior | Exhaustive versus selective handling |
 | [How should an associated-value payload be structured?](#q3-payload-design) | Senior | Labels, named types, and common metadata |
 | [What do enum value semantics mean for reference-type payloads?](#q4-reference-payloads) | Senior | Structural independence and aliasing |
 
@@ -57,7 +57,7 @@ case. Associated construction is type-checked by the selected case constructor.
 
 - Associated values model rich state but couple patterns to payload shape.
 - Raw values integrate simple codes but require unknown-input policy.
-- Explicit encoding can support both case tag and payload without conflating them.
+- Explicit encoding can store both the case name and its data without confusing their roles.
 
 ### Example
 
@@ -68,7 +68,7 @@ code space while retaining typed state.
 ---
 
 <a id="q2-pattern-selection"></a>
-## Q2: When Should You Use switch, if case, guard case, or for case?
+## Q2: When Should You Use `switch`, `if case`, `guard case`, or `for case`?
 
 ### Short Answer
 
@@ -87,8 +87,8 @@ successes but dangerous in imports if failures disappear silently.
 
 ### Trade-offs
 
-- Switch is explicit and migration-sensitive.
-- Selective patterns reduce ceremony for genuinely irrelevant states.
+- `switch` is explicit and makes model changes visible to consumers.
+- Selective patterns use less code for genuinely irrelevant states.
 - Filtering patterns can hide data loss.
 
 ### Example
@@ -104,9 +104,9 @@ valid records while counting, reporting, and enforcing a failure threshold.
 ### Short Answer
 
 Use labeled associated values for a few obvious fields. Use a named payload type
-when fields have their own invariants, methods, reuse, or likely evolution. Put
+when fields have their own required rules, methods, reuse, or likely evolution. Put
 metadata shared by every state in a wrapper struct rather than duplicating it in
-each case. Avoid optional bags and `Any`, which make invalid states representable
+each case. Avoid groups of loosely related optionals and `Any`, which make invalid states representable
 again.
 
 ### Expanded Answer
@@ -128,7 +128,7 @@ avoids destructuring the same common values in every switch.
 ### Example
 
 A `.failed(Error, Bool, UUID, Date)` case becomes unreadable and fragile. A named
-`FailureContext` defines retry policy, request identity, and diagnostics explicitly.
+`FailureContext` clearly defines retry policy, request identity, and debugging information.
 
 ---
 
@@ -140,7 +140,8 @@ A `.failed(Error, Bool, UUID, Date)` case becomes unreadable and fragile. A name
 Copying an enum creates an independent enum value: replacing one copy's case does
 not replace the other. If the associated payload is a class reference, both enum
 values can still reference the same object, so object mutation is visible through
-both. Value semantics isolate the case and payload slot, not the referenced graph.
+both. Value semantics make the case and stored reference independent, but not the
+object reached through that reference.
 
 ### Expanded Answer
 
@@ -149,8 +150,8 @@ mutable non-Sendable class is not a safe immutable snapshot merely because the
 enum is a value type.
 
 Use value payloads, immutable references, actors, or explicit deep-copy policy
-according to identity and concurrency needs. Boxing a large payload changes
-ownership semantics and should not be treated as a transparent optimization.
+according to identity and concurrency needs. Moving a large payload into a
+reference-backed box changes ownership behavior. It is not an invisible optimization.
 
 ### Trade-offs
 

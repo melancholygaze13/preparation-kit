@@ -28,7 +28,7 @@ tags:
 | Question | Level | Focus |
 |---|---|---|
 | [What is the difference between equality and identity?](#q1-equality-and-identity) | Senior | `==` versus `===` |
-| [What does let guarantee for a class reference?](#q2-let-and-mutation) | Senior | Binding versus instance mutation |
+| [What does `let` guarantee for a class reference?](#q2-let-and-mutation) | Senior | Binding versus instance mutation |
 | [How should shared mutable state be owned?](#q3-mutation-owner) | Senior | Isolation and lifecycle |
 | [How would you migrate distributed aliases behind one owner?](#q4-ownership-migration) | Staff | Boundary migration and rollout |
 | [How do you standardize identity and ownership across an organization?](#q5-system-policy) | Principal | Cross-system governance |
@@ -53,8 +53,8 @@ Neither an address nor object identity survives reconstruction, relaunch, or ano
 
 ### Trade-offs
 
-- Stable IDs work across storage and services but require collision and lifecycle policy.
-- Instance identity is precise locally but ephemeral.
+- Stable IDs work across storage and services but need rules for uniqueness and reuse.
+- Instance identity is precise within one process but does not survive reconstruction.
 - Equality that includes mutable fields can destabilize sets, dictionaries, and diffing.
 
 ### Example
@@ -65,14 +65,14 @@ the duplicate; comparing stable user IDs correctly merges them.
 ---
 
 <a id="q2-let-and-mutation"></a>
-## Q2: What Does let Guarantee for a Class Reference?
+## Q2: What Does `let` Guarantee for a Class Reference?
 
 ### Short Answer
 
 `let` prevents rebinding the variable to another instance. It does not make the
 referenced class instance immutable, so variable properties can still change. For
 a struct binding, changing a stored property mutates the value and is therefore
-disallowed. Neither form implies transitive immutability of referenced objects.
+disallowed. Neither form makes every referenced object immutable.
 
 ### Expanded Answer
 
@@ -83,7 +83,7 @@ access. Expose immutable protocols or value snapshots and keep writes behind the
 
 - Constant references stabilize which instance is used.
 - Immutable interfaces reduce accidental writes but need enforcement in concrete APIs.
-- Snapshots remove shared mutation at the cost of publication and staleness.
+- Snapshots remove shared mutation but need an update-delivery strategy and can become stale.
 
 ### Example
 
@@ -106,7 +106,7 @@ shutdown, and observability at the boundary.
 
 ### Expanded Answer
 
-The primitive is secondary to ownership. An actor still requires revalidation after
+The mechanism is less important than ownership. An actor still requires another state check after
 suspension; a locked class requires one lock policy and no callbacks while unsafe
 state is exposed. Explicit close or cancellation is safer than relying on deinit timing.
 
@@ -128,27 +128,27 @@ into an actor establishes ordering and emits value snapshots to UI consumers.
 
 ### Short Answer
 
-Inventory all aliases and writers, define the authoritative owner and ordering
-contract, introduce command and snapshot APIs, then route writes through an adapter.
-Instrument direct mutation, migrate readers and writers in stages, test mixed-mode
-consistency, and remove raw handles only after usage reaches zero. Keep rollback able
-to read state produced by either path.
+List all aliases and writers. Define the state owner and ordering rules. Introduce
+command and snapshot APIs, then route writes through an adapter.
+Measure direct mutation, migrate readers and writers in stages, and test old and new
+paths together. Remove direct mutation handles only after usage reaches zero. Make
+sure rollback can read state produced by either path.
 
 ### Expanded Answer
 
-Stable entity IDs replace object identity at boundaries. Shadow comparisons can
-detect divergence between old direct mutation and owner-produced snapshots. Rollout
+Stable entity IDs replace object identity at boundaries. Compare results from the
+old direct-mutation path with snapshots from the new owner to find differences. Rollout
 must account for observers, caches, cancellation, tests, and resource lifetime.
 
 ### Trade-offs
 
 - Dual paths reduce rollout risk but can create two sources of truth.
-- Blocking old writes early protects invariants but increases migration coordination.
-- Snapshot publication improves isolation while adding consistency latency.
+- Blocking old writes early protects required rules but requires more migration coordination.
+- Publishing snapshots improves isolation but readers may receive changes later.
 
 ### Example
 
-A shared account object is directly changed by five modules. A facade records every
+A shared account object is directly changed by five modules. An adapter records every
 write, forwards it to an actor, compares snapshots, and progressively denies legacy
 writes before the raw object is removed.
 
@@ -159,7 +159,7 @@ writes before the raw object is removed.
 
 ### Short Answer
 
-Define a small architecture contract. Stable domain IDs cross process boundaries,
+Define a small set of architecture rules. Stable domain IDs cross process boundaries,
 and value snapshots cross concurrency boundaries by default. Every shared mutable
 resource names its owner, mutation API, isolation, and lifecycle. Enforce the
 contract with reusable boundary types, review checks, and migration support.
@@ -168,14 +168,14 @@ contract with reusable boundary types, review checks, and migration support.
 
 Exceptions such as framework objects or latency-sensitive synchronous owners should
 record why identity must escape and how synchronization is encapsulated. Ownership
-metadata belongs in API docs and operational dashboards so incidents can identify
-the authoritative state and team quickly.
+information belongs in API docs and production dashboards so incidents can identify
+the state owner and responsible team quickly.
 
 ### Trade-offs
 
 - Standard boundaries reduce incidents but can constrain specialized workloads.
 - Shared infrastructure accelerates adoption but needs dedicated ownership.
-- Enforcement catches drift but must permit reviewed, measurable exceptions.
+- Enforcement catches code that no longer follows the rules but must permit reviewed, measurable exceptions.
 
 ### Example
 

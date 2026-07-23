@@ -36,7 +36,7 @@ teardown entirely. Deinitializer order between unrelated objects is not a coordi
 Swift 6.2 permits `isolated deinit` on actor-isolated classes. A normal deinitializer
 is nonisolated; it cannot access actor-protected state merely because the class is isolated.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Teardown is synchronous, bounded, and nonthrowing.
 - `self` does not escape or resurrect during teardown.

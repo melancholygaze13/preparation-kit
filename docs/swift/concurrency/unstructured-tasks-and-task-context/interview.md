@@ -19,30 +19,30 @@ last_reviewed: 2026-07-12
 
 | Question | Level | Focus |
 |---|---|---|
-| [When should you use Task versus Task.detached?](#q1-task-versus-detached) | Senior | Context inheritance |
+| [When should you use `Task` versus `Task.detached`?](#q1-task-versus-detached) | Senior | Context inheritance |
 | [Who owns an unstructured task's lifetime?](#q2-task-lifetime-ownership) | Staff | Handles and teardown |
 
 ---
 
 <a id="q1-task-versus-detached"></a>
-## Q1: When Should You Use Task Versus Task.detached?
+## Q1: When Should You Use `Task` Versus `Task.detached`?
 
 ### Short Answer
 
 Prefer structured work. At a necessary synchronous edge, `Task {}` inherits actor
 isolation, priority, and task-local values. Use `Task.detached` only when deliberately
-shedding that context is part of the contract; it requires sendable captures and explicit ownership.
+dropping that context is required; it needs sendable captures and explicit ownership.
 
 ### Expanded Answer
 
-Neither primitive automatically means background execution. A main-actor `Task` stays
+Neither API automatically means background execution. A main-actor `Task` stays
 main-actor isolated. Detached tasks lose request metadata and cancellation relationships,
 so `@concurrent` or a structured child usually expresses CPU offloading better.
 
 ### Trade-offs
 
 - Inheritance preserves isolation and tracing but may retain a latency-sensitive executor.
-- Detachment increases independence and proof burden.
+- Detachment increases independence but requires more ownership and safety reasoning.
 
 ### Example
 
@@ -58,7 +58,8 @@ CPU API, not detaching a closure that captures view-model state.
 
 A concrete component must store the handle, observe success or failure, cancel it when
 superseded or torn down, and prevent stale completion from committing. If no component
-can name that policy, the work should be structured or moved to a durable job system.
+can name those rules, the work should be structured or moved to a job system that
+persists work outside the current process.
 
 ### Expanded Answer
 
@@ -69,7 +70,7 @@ completion observation, or stale-result protection.
 ### Trade-offs
 
 - Object-owned tasks fit UI lifetimes but need teardown and replacement policy.
-- Process-wide services can own longer tasks but need shutdown and fault reporting.
+- Process-wide services can own longer tasks but need shutdown and failure reporting.
 
 ### Example
 

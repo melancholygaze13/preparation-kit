@@ -39,7 +39,7 @@ External clients can construct and subclass `Operation`, read `isFinished`, and 
 Only the defining declaration can assign the private setter. A production open hook must document
 ordering, super-call, isolation, failure, and reentrancy contracts.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Construction validates all externally reachable states.
 - Mutation authority stays with methods/owners that preserve invariants.

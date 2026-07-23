@@ -35,7 +35,7 @@ The buffer pointer is used only inside the closure. Storing or returning its bas
 independently owned storage and a separate lifetime contract. Collection mutation can also invalidate
 previous storage assumptions through reallocation or copy-on-write.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Every pointer use lies within live allocated capacity and correct alignment.
 - Typed memory is bound and initialized consistently with each load/store/deinitialize operation.

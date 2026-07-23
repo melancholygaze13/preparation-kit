@@ -23,7 +23,7 @@ last_reviewed: 2026-07-22
 | [When should an API return an optional?](#q1-when-should-an-api-return-an-optional) | Senior | Absence modeling |
 | [When do you use `if let`, `guard let`, chaining, or `??`?](#q2-how-do-you-choose-an-unwrapping-form) | Senior | Control flow |
 | [What is an implicitly unwrapped optional?](#q3-what-is-an-implicitly-unwrapped-optional) | Senior | Runtime safety |
-| [When is force unwrapping acceptable?](#q4-when-is-force-unwrapping-acceptable) | Senior | Invariants |
+| [When is force unwrapping acceptable?](#q4-when-is-force-unwrapping-acceptable) | Senior | Proven presence |
 | [What is the difference between `map` and `flatMap` on an optional?](#q5-map-versus-flatmap) | Senior | Optional transformation |
 
 ---
@@ -79,13 +79,13 @@ can express the state directly.
 
 ### Short Answer
 
-Only when a nearby, reviewable invariant proves the value exists and `nil` would
+Only when a nearby, reviewable rule proves the value exists and `nil` would
 be a programmer error. Prefer types and initialization that make absence impossible.
 
 ### Example
 
 Force-unwrapping a bundled resource can be reasonable when the build verifies it.
-Force-unwrapping a server field is unsafe because remote data is not that invariant.
+Force-unwrapping a server field is unsafe because remote data cannot provide that guarantee.
 
 ---
 

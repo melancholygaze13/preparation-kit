@@ -37,7 +37,7 @@ Keep three concepts separate:
 
 - **Index:** A position valid for one string view and content version.
 - **Offset:** A distance measured in a declared unit.
-- **Slice:** A subsequence view with its own lifetime and retained-storage cost.
+- **Slice:** A view into part of a sequence. It has its own lifetime and may keep the original storage alive.
 
 Converting between them requires the original string and a clear unit contract.
 
@@ -160,7 +160,7 @@ func makeRecord(from line: String) -> ParsedRecord {
 }
 ```
 
-The explicit conversion communicates that the record owns a durable text value.
+The explicit conversion communicates that the record owns a long-lived text value.
 Don't convert every intermediate slice automatically; doing so defeats the local
 allocation benefit.
 
@@ -202,7 +202,7 @@ The failable conversion rejects ranges that don't map to valid Swift string
 boundaries. Never treat `location` and `length` as `Character` offsets, and don't
 reuse the range with changed text.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - A valid index identifies a boundary in the associated string content and view.
 - `endIndex` can terminate a range but can't be subscripted.
@@ -220,7 +220,7 @@ reuse the range with changed text.
   their lifetime and storage differences.
 - Range validation against one string doesn't validate the range against another
   version.
-- Copying a substring into `String` establishes a durable value contract at an
+- Copying a substring into `String` gives it independent, long-lived ownership at an
   allocation and copy cost.
 
 ## Engineering Judgment
@@ -241,7 +241,7 @@ Before manipulating a position, establish:
 | Choice | Benefits | Costs | Best fit |
 |---|---|---|---|
 | Direct iteration/search | Linear, Unicode-correct traversal | Less random-access syntax | Most string algorithms |
-| Native `String.Index` | Valid grapheme-boundary navigation | String-relative and invalidatable | In-memory editing and slicing |
+| Native `String.Index` | Valid grapheme-boundary navigation | Tied to one string and invalid after changes | In-memory editing and slicing |
 | Encoded offset plus version | Portable for a defined protocol | Conversion and validation required | Persistence and cross-process boundaries |
 | Temporary `Substring` | Avoids immediate copy | Can retain source storage | Parsing pipelines |
 | Owned `String` result | Independent lifetime | Allocation and copy | Models, caches, and API boundaries |

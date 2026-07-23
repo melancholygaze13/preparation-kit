@@ -19,21 +19,22 @@ last_reviewed: 2026-06-22
 
 | Question | Level | Focus |
 |---|---|---|
-| [What can change across await inside an actor?](#q1-actor-reentrancy) | Senior | Logical races |
+| [What can change across await inside an actor?](#q1-actor-reentrancy) | Senior | Stale-state bugs |
 | [When should you use MainActor or a custom global actor?](#q2-global-actors) | Staff | Global isolation |
 | [How do isolated and nonisolated shape an API?](#q3-isolated-and-nonisolated) | Staff | Borrowed and exposed isolation |
-| [When should you choose an actor versus a lock?](#q4-actors-versus-locks) | Principal | Boundary topology |
+| [When should you choose an actor versus a lock?](#q4-actors-versus-locks) | Principal | Ownership boundaries |
 
 ---
 
 <a id="q1-actor-reentrancy"></a>
-## Q1: What Can Change Across await Inside an Actor?
+## Q1: What Can Change Across `await` Inside an Actor?
 
 ### Short Answer
 
-Other work can run on the actor while the method is suspended, so all prior state
-assumptions may be stale. Keep invariant transitions synchronous or revalidate with a
-generation/token before commit; use in-flight state when duplicate work matters.
+Other work can run on the actor while the method is suspended. State checked before
+`await` may therefore be stale. Finish related state changes before suspending when
+possible. Otherwise, check a generation number or token before saving the result.
+Track running work when duplicate requests matter.
 
 ### Expanded Answer
 
@@ -45,7 +46,7 @@ made before suspension.
 
 - Reentrancy permits progress while one operation waits.
 - Generations reject stale work but add state.
-- Shared in-flight tasks need cancellation ownership policy.
+- Shared tasks need a rule for whether one caller can cancel work used by others.
 
 ### Example
 
@@ -59,9 +60,9 @@ check rejects its commit.
 
 ### Short Answer
 
-Use `@MainActor` for UI and lifecycle state whose invariant belongs to the main actor.
+Use `@MainActor` for UI and lifecycle state whose required rules belong to the main actor.
 Use a custom global actor only when many declarations genuinely share one process-wide
-isolation domain. Neither is a generic lock or fixed-thread annotation.
+actor boundary. Neither is a general lock or a promise to use one fixed thread.
 
 ### Expanded Answer
 
@@ -92,9 +93,10 @@ a declaration does not require actor state and can be used outside the actor bou
 
 ### Expanded Answer
 
-Both are semantic promises. `nonisolated` is appropriate for immutable identifiers or
-requirements independent of state, not as a diagnostic escape. `isolated deinit` permits
-synchronous isolated teardown; async cleanup still needs an explicit method.
+Both make promises about allowed access. `nonisolated` is appropriate for immutable
+identifiers or requirements that do not use actor state. Do not use it only to silence
+a compiler error. `isolated deinit` allows synchronous cleanup on the actor. Async
+cleanup still needs an explicit method.
 
 ### Trade-offs
 
@@ -103,8 +105,8 @@ synchronous isolated teardown; async cleanup still needs an explicit method.
 
 ### Example
 
-A transaction helper takes an isolated database actor and performs several invariant-
-preserving operations synchronously within that actor's domain.
+A transaction helper takes an isolated database actor and performs several related
+operations synchronously on that actor.
 
 ---
 
@@ -114,22 +116,24 @@ preserving operations synchronously within that actor's domain.
 ### Short Answer
 
 Choose an actor for shared mutable state with asynchronous clients and operations that
-belong to one invariant owner. Choose an audited lock or mutex for a small synchronous
+belong to one state owner. Choose an audited lock or mutex for a small synchronous
 critical section that cannot suspend. Prefer immutable values when sharing is unnecessary.
 
 ### Expanded Answer
 
-Actors add async boundaries and reentrancy; locks add manual proof and must never span
-await. Coarse owners simplify transactions but can bottleneck. Fine actor graphs add hops
-and cannot create atomicity across several owners.
+Actors add async boundaries and allow other actor work during suspension. Locks
+require careful manual reasoning and must never span `await`. Larger state owners
+simplify related changes but can become bottlenecks. Many small actors add hops and
+cannot make changes across several actors indivisible.
 
 ### Trade-offs
 
 - Actors provide compiler-visible isolation with scheduling cost.
-- Locks preserve synchronous APIs with deadlock/race proof burden.
+- Locks preserve synchronous APIs but require the developer to prevent deadlocks and races.
 - Snapshots avoid shared mutation but can be stale.
 
 ### Example
 
-Checkout spans inventory and payment. Separate actors own local invariants, while an
-orchestrator handles idempotency and compensation instead of pretending calls are atomic.
+Checkout spans inventory and payment. Separate actors protect their own state. A
+coordinator makes retries safe and repairs partial failure instead of pretending
+that every call succeeds as one indivisible transaction.

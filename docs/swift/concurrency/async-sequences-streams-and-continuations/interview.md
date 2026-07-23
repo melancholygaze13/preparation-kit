@@ -20,7 +20,7 @@ last_reviewed: 2026-06-22
 | Question | Level | Focus |
 |---|---|---|
 | [How should an async stream define buffering and termination?](#q1-buffering-and-termination) | Staff | Backpressure and cleanup |
-| [What invariants apply to checked continuations?](#q2-checked-continuations) | Senior | Exactly-once bridging |
+| [What rules apply to checked continuations?](#q2-checked-continuations) | Senior | Exactly-once bridging |
 
 ---
 
@@ -30,14 +30,15 @@ last_reviewed: 2026-06-22
 ### Short Answer
 
 Choose bounded or unbounded buffering from loss and memory requirements, inspect each
-`yield` result, and stop the producer idempotently from `onTermination`. Consumer
+`yield` result, and make `onTermination` stop the producer safely even if it runs more than once. Consumer
 cancellation is only a signal; iterator and producer behavior must implement cleanup.
 
 ### Expanded Answer
 
 `AsyncSequence` does not guarantee producer cancellation. A bounded newest buffer suits
-state updates where old values can coalesce; lossless events need actual producer
-backpressure or durable storage. `AsyncStream` should not be advertised as implicit broadcast.
+state updates where several old values can become one latest value. Lossless events
+need a producer that slows down when the consumer falls behind, or durable storage.
+Do not present one `AsyncStream` as if it automatically sends every event to many consumers.
 
 ### Trade-offs
 
@@ -53,11 +54,11 @@ sample, records drops, and unregisters the delegate when iteration ends.
 ---
 
 <a id="q2-checked-continuations"></a>
-## Q2: What Invariants Apply to Checked Continuations?
+## Q2: What Rules Apply to Checked Continuations?
 
 ### Short Answer
 
-A checked continuation must resume exactly once on every terminal path. Zero resumes
+A checked continuation must resume exactly once on every path that finishes the operation. Zero resumes
 hang the caller; multiple resumes are misuse. Cancellation is not bridged automatically,
 so continuation state and the legacy operation handle must resolve races without double resume.
 
@@ -69,10 +70,10 @@ and require measured justification; they do not make an incorrect lifecycle corr
 
 ### Trade-offs
 
-- Checked continuations add misuse diagnostics with negligible relevance at most boundaries.
+- Checked continuations detect misuse with little overhead for most boundary code.
 - Cancellation bridging adds synchronized state but prevents leaked underlying work.
 
 ### Example
 
 A callback may arrive after cancellation. One state machine atomically chooses callback
-or cancellation as the single terminal event and ignores the loser after cleanup.
+or cancellation as the single final event and ignores the other event after cleanup.

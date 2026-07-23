@@ -27,8 +27,8 @@ tags:
 | Question | Level | Focus |
 |---|---|---|
 | [How does Swift infer closure parameter and result types?](#q1-contextual-inference) | Senior | Expected function types and annotations |
-| [When do shorthand arguments improve or reduce clarity?](#q2-shorthand-arguments) | Senior | Positional syntax and domain roles |
-| [How do single and multiple trailing closures affect API design?](#q3-trailing-closures) | Senior | Labels, readability, and hidden contracts |
+| [When do shorthand arguments improve or reduce clarity?](#q2-shorthand-arguments) | Senior | Positional syntax and parameter roles |
+| [How do single and multiple trailing closures affect API design?](#q3-trailing-closures) | Senior | Labels, readability, and hidden behavior |
 
 ---
 
@@ -57,7 +57,7 @@ function can improve diagnostics and reuse.
 
 - Inference removes repeated types and keeps local intent prominent.
 - Explicit types improve diagnostics and future stability.
-- Excessive annotation creates noise and can overconstrain generic code.
+- Too many annotations add noise and can make generic code less flexible than intended.
 
 ### Example
 
@@ -75,7 +75,7 @@ the intended API candidate.
 Use `$0` and `$1` for short, obvious transforms or comparisons where position is
 immediately clear. Name parameters for multiline bodies, same-typed values with
 different roles, nested closures, or stateful reductions. The highest shorthand
-index expresses arity, but the expected function type still controls validity.
+index shows how many positional parameters are used, but the expected function type still controls validity.
 
 ### Expanded Answer
 
@@ -89,8 +89,8 @@ and makes review possible.
 
 ### Trade-offs
 
-- Shorthand reduces ceremony for local algebraic operations.
-- Names add visual weight while preserving domain roles.
+- Shorthand removes repeated names from simple local operations.
+- Names add text while preserving the role of each value.
 - Extraction creates reusable vocabulary but can interrupt simple flow.
 
 ### Example
@@ -110,7 +110,7 @@ A final closure can move outside parentheses; if it is the only argument, the
 parentheses can be omitted. With multiple trailing closures, the first closure's
 label is omitted and later closures keep labels. Therefore the base name and later
 labels must make roles clear without the first label. Trailing syntax does not
-guarantee timing, cardinality, or branching semantics.
+guarantee timing, invocation count, or control-flow behavior.
 
 ### Expanded Answer
 
@@ -126,8 +126,8 @@ or lifecycle, explicit labels or a named abstraction can expose that difference.
 ### Trade-offs
 
 - Trailing closures improve readability for substantial behavior.
-- Omitted first labels can hide semantic roles and overload distinctions.
-- Multiple closures create fluent calls at contract-visibility cost.
+- Omitted first labels can hide parameter roles and overload differences.
+- Multiple closures can read naturally while making the API's behavior harder to see.
 
 ### Example
 

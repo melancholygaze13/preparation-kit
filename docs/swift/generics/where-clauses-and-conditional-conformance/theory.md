@@ -18,8 +18,8 @@ last_reviewed: 2026-07-12
 ## Mental Model
 
 `Wrapper<T>` exists for every permitted `T`; a constrained extension narrows where a
-member is available. A conditional conformance goes further by asserting that all protocol
-laws hold for the narrowed family.
+member is available. A conditional conformance goes further: it promises that the type
+follows every protocol rule for that narrower group.
 
 ## How It Works
 
@@ -41,8 +41,8 @@ extension Batch where Element: Identifiable {
 }
 ```
 
-Every `Batch` has `elements`. Equality exists only when element equality can uphold the
-derived contract. `groupedByID()` is merely a conditionally available member; it does not
+Every `Batch` has `elements`. Equality exists only when element equality can meet the
+required contract. `groupedByID()` is only a conditionally available member; it does not
 assert a new protocol conformance. Grouping also defines duplicate-identifier behavior
 without relying on an undocumented uniqueness precondition.
 
@@ -51,11 +51,11 @@ can be `Sendable` when every stored value is sendable and the container has no h
 shared mutable state. The same spelling would be dishonest for a wrapper around an
 unsynchronized reference cache, even if its generic element is sendable.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Conditions are no stronger than necessary and sufficient for the implementation.
 - Conditional conformances preserve all behavior rules for every eligible type argument.
-- No duplicate keys or other hidden preconditions are smuggled into supposedly total helpers.
+- Helpers do not hide requirements such as unique keys when their API claims to handle all inputs.
 - Public overload families have a deterministic, documented selection story.
 
 ### Constraints and Guarantees
@@ -67,7 +67,7 @@ unsynchronized reference cache, even if its generic element is sendable.
 
 ## Engineering Judgment
 
-Use conditional conformance when the outer type's protocol semantics derive directly and
+Use conditional conformance when the outer type's protocol behavior follows directly and
 universally from its arguments. Use constrained members when only a capability is being
 added. Prefer conformance ownership by the type or protocol owner, especially for public
 cross-module APIs.
@@ -92,7 +92,7 @@ shared storage explicitly.
 
 ### Testing
 
-Use compile-pass and compile-fail fixtures for eligible and ineligible substitutions.
+Use small examples that must compile or fail for allowed and disallowed concrete types.
 Test laws such as equality/hash consistency and sendability assumptions, not just member
 availability.
 
@@ -104,9 +104,9 @@ temporary adapters, and compile downstream packages against the new graph.
 
 ## Staff and Principal Perspective
 
-Treat public conformances as ecosystem-wide instances, not local conveniences. Maintain a
+Treat public conformances as shared across the whole codebase, not as local conveniences. Maintain a
 conformance ownership policy, inspect downstream overload behavior, and use source-compatibility
-fixtures before publishing new constrained overloads.
+test projects before publishing new constrained overloads.
 
 ## References
 

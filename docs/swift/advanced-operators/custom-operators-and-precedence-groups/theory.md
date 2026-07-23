@@ -42,7 +42,7 @@ let value = 2 ** 3 ** 2 // 2 ** (3 ** 2) == 512
 Right associativity determines the parse. The implementation still owns negative-exponent and
 overflow policy. A named `power(exponent:)` API may be clearer when those policies need labels/errors.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Fixity and precedence match conventional reading of the domain.
 - Same-precedence chains are valid only when associativity has meaningful laws.

@@ -77,7 +77,7 @@ A computed property stores no exposed result. A setter receives `newValue` unles
 different parameter name is declared. Getter-only properties can omit `get`.
 
 Derivation prevents stale duplicate state. A setter is appropriate only when its
-reverse mapping is unsurprising and preserves invariants. Otherwise use a named
+reverse mapping is unsurprising and preserves required rules. Otherwise use a named
 method that makes the transformation explicit.
 
 ### Effectful Getters
@@ -105,8 +105,9 @@ print(try source.current) // production
 The `get throws` syntax makes reading the property a throwing operation. A getter
 can instead use `get async`, or combine both effects as `get async throws`.
 Effectful properties have getters only. They make suspension or failure visible at
-the call site, but a method is often clearer when the operation accepts arguments,
-starts work, changes external state, or should not look like ordinary field access.
+the call site. A method is often clearer when the operation accepts arguments,
+starts work, or changes external state. Also use a method when the operation should
+not look like ordinary field access.
 
 ### Lazy Stored Properties
 
@@ -137,19 +138,19 @@ objects long after construction.
 
 | Strategy | Best fit | Primary risk |
 |---|---|---|
-| Stored fact | Authoritative mutable state | Invalid combinations |
+| Stored fact | Original mutable state | Invalid combinations |
 | Computed value | Cheap deterministic derivation | Hidden repeated cost |
 | Lazy stored value | Optional one-time expensive setup | Races and retained dependencies |
 | Explicit cache | Expensive repeatable derivation | Invalidation and memory growth |
 | Method | Operation, effects, parameters, or costly work | Less like field access |
 
-### Core Invariants
+### Rules That Must Stay True
 
-- Each fact has one authoritative representation.
+- Each fact has one stored source.
 - Derived values agree with their dependencies at the point of access.
-- Setters preserve all type invariants.
+- Setters preserve all type rules.
 - Lazy and cached state has one owner and defined invalidation.
-- Property syntax does not hide operationally significant effects.
+- Property syntax does not hide important work or side effects.
 
 ### Constraints and Guarantees
 
@@ -162,8 +163,8 @@ objects long after construction.
 
 ## Engineering Judgment
 
-Prefer computation when it is deterministic, cheap, and based on local authoritative
-state. Prefer storage when the value is itself authoritative. Use explicit caches
+Prefer computation when it is deterministic, cheap, and based on local stored
+facts. Prefer storage when the value is an original fact, not a derivation. Use explicit caches
 only after measurement, with keys, invalidation, capacity, and isolation specified.
 Use a method when effects or cost are central to the operation.
 

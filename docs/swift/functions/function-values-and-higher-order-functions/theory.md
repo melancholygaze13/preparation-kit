@@ -26,7 +26,7 @@ tags:
 
 A function value is callable behavior stored in a value. A *higher-order
 function* accepts a function, returns a function, or does both. This separates
-stable coordination from caller-supplied behavior:
+stable control flow from caller-supplied behavior:
 
 ```mermaid
 flowchart LR
@@ -36,7 +36,7 @@ flowchart LR
 ```
 
 The arrow type is necessary but incomplete. A production callback contract also
-answers lifetime, cardinality, executor or actor, ordering, reentrancy, error,
+defines its lifetime, number of calls, executor or actor, ordering, reentrancy, error,
 cancellation, and ownership.
 
 ## How It Works
@@ -61,7 +61,7 @@ Argument labels belong to the declaration's call spelling, not to the stored
 function type. Once converted to `(Item, Item) -> Bool`, the value is invoked by
 position.
 
-Effect markers constrain substitution. A synchronous nonthrowing function can be
+Effect markers limit which functions can be used in its place. A synchronous nonthrowing function can be
 used where fewer effects are acceptable, while callers of throwing or async
 values must handle those effects. Actor isolation and `@Sendable` can
 also be part of modern concurrency-facing function contracts.
@@ -106,7 +106,7 @@ provided operation throws. Detailed error design belongs to error handling, but
 the effect remains part of the higher-order API.
 
 Use a function parameter for one focused customizable operation. Use a protocol or
-concrete collaborator when behavior has several related operations, durable
+concrete collaborator when behavior has several related operations, long-lived
 identity, configuration, state, lifecycle, or mocking requirements.
 
 ### Returning Functions
@@ -146,7 +146,7 @@ let names = users.map(\.displayName)
 // ["Ana", "Sam"]
 ```
 
-Use it for projection, sorting inputs, dynamic member access, or APIs that need
+Use it to select properties, provide sorting inputs, support dynamic member access, or build APIs that need
 to name a property. Use a closure for control flow, validation, I/O, errors, or
 async work. Writable key paths still follow normal exclusivity, actor isolation,
 and access-control rules.
@@ -233,11 +233,11 @@ A type alias can improve readability:
 typealias Completion = @Sendable (Result<Payload, Error>) -> Void
 ```
 
-It does not create a distinct type or add invariants. If two callbacks have the
-same arrow shape but different semantics, labels, wrapper structs, or protocol
+It does not create a distinct type or add required rules. If two callbacks have the
+same arrow shape but different meanings, labels, wrapper structs, or protocol
 methods can prevent accidental interchange and provide documentation.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Every supplied function is type-compatible with required inputs, output, and
   effects.
@@ -245,11 +245,11 @@ methods can prevent accidental interchange and provide documentation.
 - Invocation count, ordering, isolation, and cancellation are defined.
 - Captured state outlives every valid invocation and remains concurrency-safe.
 - Registration has an explicit stable removal mechanism.
-- Higher-order abstraction does not hide materially different domain behavior.
+- A higher-order API does not hide important differences in domain behavior.
 
 ### Constraints and Guarantees
 
-- Function type compatibility does not prove semantic substitutability.
+- Matching function types do not prove that two functions mean the same thing.
 - Nonescaping parameters cannot be stored for later ordinary use.
 - `@escaping` says the call may outlive the function; it says nothing about when
   or how often invocation occurs.
@@ -274,8 +274,8 @@ methods can prevent accidental interchange and provide documentation.
 
 ### Trade-offs
 
-Function values are lightweight and composable but expose little semantic
-structure. Protocols and types add ceremony while supporting lifecycle, identity,
+Function values are lightweight and easy to combine but reveal little about their
+meaning. Protocols and types add declarations while supporting lifecycle, identity,
 capabilities, and documentation. Escaping increases flexibility at ownership and
 concurrency cost. Sendable annotations improve enforcement but can expose legacy
 non-Sendable dependencies requiring architectural work.

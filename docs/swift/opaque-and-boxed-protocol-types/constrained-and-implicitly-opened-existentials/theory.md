@@ -50,7 +50,7 @@ Without an `Output` constraint, a covariant result can be erased to its upper bo
 loses the concrete output relationship. Constraints make storage useful when implementations
 vary but their exchanged domain type must remain fixed.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Every value stored in a constrained existential satisfies its associated-type equalities.
 - One opening refers to one evaluated existential value and one hidden type.

@@ -41,14 +41,14 @@ Choose the layer from the requirement:
 - Files, network protocols, hashing, and C APIs require a specified encoding.
 - Cocoa APIs that expose `NSRange` commonly express offsets in a UTF-16 view.
 
-Most production text bugs come from counting in one layer and slicing, storing,
+Many production text bugs come from counting in one layer and slicing, storing,
 or validating in another.
 
 ## How It Works
 
 ### String Values and Mutation
 
-String literals infer `String` unless context requires `Character`. `let` prevents
+Swift infers `String` for a string literal unless the context requires `Character`. `let` prevents
 mutation of the value; `var` allows mutating operations:
 
 ```swift
@@ -69,8 +69,7 @@ copy.append(" v2")
 ```
 
 The implementation can share storage until mutation through copy-on-write. Don't
-infer eager copying, unique storage, or thread safety from the value-semantic
-contract.
+assume eager copying, unique storage, or thread safety from the value-type behavior.
 
 ### Literals and Interpolation
 
@@ -164,7 +163,7 @@ Swift exposes three important views:
 | `utf16` | `UInt16` code unit | Cocoa/Objective-C range interoperability |
 | `unicodeScalars` | `Unicode.Scalar` | Scalar properties and Unicode algorithms |
 
-These views represent the same text at different abstraction levels. Choose one
+These views represent the same text using different units. Choose one
 because an interface defines it, not because its offsets look convenient.
 
 Encoding and decoding require an explicit malformed-input policy. At a trust
@@ -184,13 +183,13 @@ This guarantee is narrower than “human text equality”:
 - Case differences remain meaningful without a separate policy.
 - Visually similar scalars from different scripts aren't made equal.
 - Canonical equivalence doesn't enforce an application's normalization,
-  identifier, search, or collation rules.
+identifier, search, or sorting rules.
 
-Use Foundation localization and comparison APIs where product semantics require
+Use Foundation localization and comparison APIs where product behavior requires
 locale-aware behavior. Security-sensitive identifiers need an explicit Unicode
 profile, normalization/case policy, allowed-script rules, and server agreement.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - A `Character` is one extended grapheme cluster, not necessarily one scalar or
   encoded code unit.
@@ -226,7 +225,7 @@ profile, normalization/case policy, allowed-script rules, and server agreement.
 |---|---|---|---|
 | `Character` view | User-perceived segmentation | Variable-width traversal | Editing and textual iteration |
 | Unicode scalar view | Direct Unicode code-point access | Splits multi-scalar characters | Unicode property algorithms |
-| UTF-8 view | Compact dominant interchange encoding | Byte boundaries aren't character boundaries | Network and file protocols |
+| UTF-8 view | Compact, common interchange encoding | Byte boundaries aren't character boundaries | Network and file protocols |
 | UTF-16 view | Matches many Cocoa range contracts | Surrogate pairs and unit mismatch | Explicit Foundation interop |
 | Structured encoder | Escaping and schema guarantees | More setup than interpolation | Persistence and transport |
 

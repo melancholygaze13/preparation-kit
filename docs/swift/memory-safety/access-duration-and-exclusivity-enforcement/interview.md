@@ -42,7 +42,7 @@ the access, copying the intended snapshot, returning a result, or moving mutatio
 ### Trade-offs
 
 - Scoped mutation can be efficient and expressive.
-- Long access across arbitrary code increases reentrancy and alias risk.
+- Long access across arbitrary code increases callback and alias risk.
 
 ### Example
 
@@ -83,13 +83,13 @@ trap reveals the alias; the API changes to one aggregate update.
 ### Short Answer
 
 Exclusivity governs overlapping access to one storage location and can fail on one thread. Thread
-safety governs concurrently shared state, ordering, and invariants. Passing exclusivity checks does
-not serialize tasks or make a multi-step update atomic.
+safety governs concurrently shared state, ordering, and required rules. Passing exclusivity checks does
+not serialize tasks or make a multi-step update indivisible.
 
 ### Expanded Answer
 
 Actors, locks, or atomics establish concurrency policy. Code must still respect exclusivity within
-those boundaries. Atomics protect defined individual operations, not arbitrary aggregate invariants.
+those boundaries. Atomics protect defined individual operations, not arbitrary rules across several values.
 
 ### Trade-offs
 

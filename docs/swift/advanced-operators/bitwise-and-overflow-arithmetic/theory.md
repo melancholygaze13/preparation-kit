@@ -37,7 +37,7 @@ let checked = UInt8.max.addingReportingOverflow(1)
 Use wrapping for specified modular counters, hashes, checksums, and bit-level algorithms. User counts,
 money, sizes, indexes, and decoded lengths normally require validation or reporting—not silent wrap.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Bit positions and masks are defined against one fixed width and signedness.
 - Reserved bits are rejected or preserved according to protocol policy.

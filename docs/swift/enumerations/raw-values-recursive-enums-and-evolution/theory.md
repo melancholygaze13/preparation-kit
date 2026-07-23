@@ -75,7 +75,7 @@ enum LocalMode: String {
 }
 ```
 
-These forms are convenient for local implementation. They are fragile for durable
+These forms are convenient for local implementation. They are fragile for long-lived
 contracts: inserting or reordering integer cases changes implicit numbers, and
 renaming a string case changes its implicit string. Use explicit stable raw values
 when external data depends on them.
@@ -100,15 +100,15 @@ Choose an unknown policy:
 - reject malformed or security-sensitive commands;
 - preserve the unknown code for round-trip compatibility;
 - map to an explicit `.unknown(String)` domain case using custom decoding;
-- degrade functionality while emitting telemetry.
+- provide limited functionality while recording a metric.
 
 A raw-value enum cannot synthesize a case for unknown input. A wrapper or custom
 initializer is needed when preservation matters.
 
 ### Raw Values as External Contracts
 
-An explicit raw string or integer can be a wire or storage code, but only if the
-team treats it as immutable schema. Do not reuse retired codes for new meaning.
+An explicit raw string or integer can be a network or storage code, but only if the
+team treats it as a schema that cannot change. Do not reuse retired codes for new meaning.
 Do not change meaning while retaining the same literal. Document whether codes are
 case-sensitive, normalized, localized, or owned by another system.
 
@@ -146,8 +146,7 @@ enum LinkedList<Element> {
 ```
 
 The exact allocation and layout strategy is not a public contract. `indirect`
-expresses recursive representation permission, not reference identity for the
-enum as a whole.
+allows this recursive representation. It does not give the enum reference identity.
 
 ### Evaluating Recursive Values
 
@@ -173,9 +172,9 @@ traversal, or explicit stacks when input is untrusted or depth is unbounded.
 
 ### Recursive Mutation and Sharing
 
-Recursive enums are value types. Replacing a subtree produces value-semantic
-behavior, but implementation indirection and copy-on-write behavior are not
-guaranteed generally. Large tree editing can be expensive.
+Recursive enums are value types. Replacing a subtree follows value-type behavior.
+Swift does not generally guarantee copy-on-write behavior or a specific form of
+indirection. Editing large trees can be expensive.
 
 If algorithms need stable node identity, parent links, incremental mutation, or
 shared subgraphs rather than trees, a reference-backed node model or persistent
@@ -194,27 +193,27 @@ or distributed data:
 
 Version the schema, bound nesting depth and payload size, reject duplicate or
 unknown fields according to policy, and preserve unknown nodes if forward
-round-trip matters. Synthesized encoding is not an independently governed wire
-protocol by default.
+round-trip matters. Synthesized encoding does not automatically become a stable
+network protocol.
 
 ### Enum Resilience and Case Evolution
 
 Owned closed enums benefit from exhaustive source switches. Public library or
-framework enums can be resilient, allowing new cases without breaking binary
-compatibility under the appropriate declaration model. Clients still need
+framework enums can support future cases without breaking binary compatibility
+when declared appropriately. Clients still need
 `@unknown default` or another safe policy for runtime-new cases.
 
-Distributed evolution is separate from compiler resilience. Old binaries cannot
+Changes across deployed systems are separate from binary compatibility. Old apps cannot
 understand a new wire code unless their decoder preserves, rejects, or maps it.
 Deploy readers before writers and retain rollback compatibility.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Every external raw code has one stable documented meaning.
 - Unknown raw input follows explicit reject, preserve, or fallback policy.
 - Source renames and ordering do not silently change durable representation.
 - Recursive input is bounded by depth, size, time, and cancellation policy.
-- `indirect` representation details do not leak into identity or ABI assumptions.
+- Code does not depend on `indirect` storage details, object identity, or ABI details.
 - New cases are readable before producers emit them across deployment boundaries.
 
 ### Constraints and Guarantees
@@ -244,11 +243,11 @@ Deploy readers before writers and retain rollback compatibility.
 
 ### Trade-offs
 
-Raw enums provide simple scalar conversion while closing the known set. Unknown-
-preserving wrappers add complexity and forward compatibility. Recursive enums give
-elegant exhaustive trees but recursive algorithms and large edits can stress stack
-and memory. Reference graphs support identity and sharing at ownership and
-concurrency cost.
+Raw enums provide simple scalar conversion while closing the known set. Wrappers
+that preserve unknown values add complexity but improve forward compatibility.
+Recursive enums provide clear, exhaustive tree models. However, recursive
+algorithms and large edits can use too much stack or memory. Reference graphs
+support identity and sharing but add ownership and concurrency costs.
 
 ## References
 

@@ -15,7 +15,7 @@ last_reviewed: 2026-07-22
 # Type Design and Initialization
 
 > Choose a structure for an independent value and a class when stable identity or
-> shared lifecycle is part of the model; design initialization as an invariant boundary.
+> shared lifecycle is part of the model. Use initialization to create only valid values.
 
 ## Quick Recall
 

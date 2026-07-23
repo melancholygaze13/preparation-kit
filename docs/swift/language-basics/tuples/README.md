@@ -21,7 +21,7 @@ last_reviewed: 2026-07-22
 - Tuple elements can have different types and optional labels.
 - Explicit element labels are part of the tuple type.
 - Destructuring separates tuple elements into local bindings.
-- Use a struct or enum when data needs invariants, methods, or API evolution.
+- Use a struct or enum when data must enforce rules, provide methods, or evolve as an API.
 - Tuple equality does not make tuple types conform to `Equatable` or `Hashable`.
 
 ## Study

@@ -19,14 +19,14 @@ last_reviewed: 2026-07-12
 
 | Question | Level | Focus |
 |---|---|---|
-| [When should an API use a generic versus any Protocol?](#q1-generic-versus-existential) | Senior | Type relationships and erasure |
+| [When should an API use a generic versus `any Protocol`?](#q1-generic-versus-existential) | Senior | Type relationships and erasure |
 | [How should a delegate contract define ownership and concurrency?](#q2-delegate-contract) | Staff | Lifecycle and isolation |
 | [When is weak delegation the wrong lifetime model?](#q3-weak-delegate-lifetime) | Senior | Required delivery |
 
 ---
 
 <a id="q1-generic-versus-existential"></a>
-## Q1: When Should an API Use a Generic Versus any Protocol?
+## Q1: When Should an API Use a Generic Versus `any Protocol`?
 
 ### Short Answer
 
@@ -58,7 +58,8 @@ where implementations are selected from configuration.
 ### Short Answer
 
 Specify whether the delegate is weak or retained, its callback actor/queue, ordering,
-cardinality, reentrancy, failure, cancellation, and what happens when no delegate exists.
+number of calls, whether callbacks can call back into the sender, failure, cancellation,
+and what happens when no delegate exists.
 Class-bound weak delegates avoid cycles but can disappear.
 
 ### Expanded Answer

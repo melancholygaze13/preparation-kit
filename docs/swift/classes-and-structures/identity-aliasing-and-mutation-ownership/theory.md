@@ -74,13 +74,13 @@ let shared = settings
 shared.theme = "dark"       // visible through settings
 ```
 
-The constant is the reference, not the object's transitive state. Conversely, a
+The constant is the reference, not every property reachable through it. Conversely, a
 structure stored in `let` cannot have a variable property changed through that
 binding because mutation would replace part of the value.
 
-Aliasing is not intrinsically wrong. It is required for one connection, cache, or
+Aliasing is not always wrong. It is required for one connection, cache, or
 session. The risk is allowing every holder to mutate without ordering rules,
-invariant enforcement, or a defined lifecycle.
+enforcement of required rules, or a defined lifecycle.
 
 ### Mutation Ownership
 
@@ -101,7 +101,7 @@ actor DownloadRegistry {
 The actor owns mutation ordering and returns a value snapshot. A lock-protected
 final class can be correct when synchronous access or platform integration demands
 it, but locking policy must remain encapsulated. Exposing mutable storage defeats
-the owner regardless of primitive.
+the owner regardless of whether it uses an actor, lock, or another mechanism.
 
 ### Lifecycle Boundaries
 
@@ -117,7 +117,7 @@ identity only for process-local questions such as avoiding duplicate registratio
 of the same instance. Identity-based caches can retain objects unexpectedly and do
 not survive serialization or relaunch.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Domain equality and process-local instance identity remain distinct.
 - One component owns each shared mutable state transition.
@@ -131,9 +131,9 @@ not survive serialization or relaunch.
 - A `let` class binding fixes the reference, not the instance's mutable properties.
 - ARC manages lifetime, not thread safety or business cleanup ordering.
 - `Sendable` conformance does not make unsynchronized mutable reference state safe;
-  classes require appropriate immutability or synchronization semantics.
+  classes require appropriate immutability or synchronization.
 - Actors serialize isolated access, but reentrancy across suspension still requires
-  invariant revalidation.
+  checking again that earlier assumptions still hold.
 
 ## Engineering Judgment
 
@@ -153,7 +153,7 @@ not survive serialization or relaunch.
 An actor provides language-enforced isolation but introduces async boundaries and
 reentrancy considerations. A lock-protected class supports synchronous callers but
 depends on disciplined encapsulation and lock ordering. Immutable snapshots avoid
-shared mutation but can be stale and need a publication strategy. Select based on
+shared mutation but can be stale and need a clear update-delivery strategy. Select based on
 ordering, latency, platform constraints, and ownership—not syntax preference.
 
 ## Production Application
@@ -161,7 +161,7 @@ ordering, latency, platform constraints, and ownership—not syntax preference.
 ### Performance
 
 Reference sharing can avoid copying but introduces allocation, ARC, indirection,
-contention, and poorer locality. Actor hops and snapshot creation also cost work.
+contention, and worse use of CPU caches. Actor hops and snapshot creation also cost work.
 Profile end-to-end latency and contention; do not trade clear ownership for a
 microbenchmark win.
 
@@ -175,7 +175,7 @@ suspension points, capture assumptions and revalidate them before committing.
 
 Test equality and identity separately. Exercise concurrent commands through the
 owner, cancellation, shutdown, reentrancy, and attempts to obtain mutable storage.
-Use deterministic state snapshots for assertions and stress tools for race coverage.
+Use repeatable state snapshots for assertions and stress tests to find races.
 
 ### Observability and Debugging
 
@@ -185,8 +185,8 @@ must be labeled diagnostic and never treated as durable identity.
 
 ### Compatibility and Migration
 
-To replace shared references with values, first define stable IDs and a source of
-truth, publish snapshots, then remove mutation handles. To introduce a shared owner,
+To replace shared references with values, first define stable IDs and one owner for
+the current state. Publish snapshots, then remove direct ways to mutate the state. To introduce a shared owner,
 route writes through an adapter, detect direct mutations, migrate readers, and only
 then make the old representation unavailable. Plan rollback for both representations.
 
@@ -194,22 +194,22 @@ then make the old representation unavailable. Plan rollback for both representat
 
 ### System Impact
 
-Ownership boundaries shape module APIs, task topology, cache coherence, persistence,
+Ownership boundaries shape module APIs, task structure, cache consistency, persistence,
 UI observation, and incident diagnosis. A shared mutable model without one owner is
-an architectural dependency graph hidden inside references.
+a dependency graph hidden inside references.
 
 ### Decision Framework
 
-Identify domain ID, process-local identity needs, authoritative state, all writers,
+Identify the domain ID, process-local identity needs, state owner, all writers,
 ordering and consistency requirements, isolation mechanism, snapshot policy,
-lifecycle protocol, observability, and migration path. Reject designs where these
-responsibilities are distributed implicitly among aliases.
+lifecycle rules, production signals, and migration path. Reject designs where
+aliases spread these responsibilities without making ownership clear.
 
 ### Organizational Impact
 
 Assign ownership of shared state and synchronization primitives to a component and
 team. Publish mutation APIs and shutdown contracts. Use architecture checks and
-code review to prevent raw mutable references from crossing declared boundaries.
+code review to prevent direct mutable references from crossing declared boundaries.
 
 ## References
 

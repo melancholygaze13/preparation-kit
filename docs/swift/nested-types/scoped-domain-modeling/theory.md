@@ -43,7 +43,7 @@ public API, ask whether consumers discuss the concept independently, whether ano
 domain must use it, and whether the enclosing type is a stable owner. A shared `Priority`
 may deserve a top-level domain name if jobs, requests, and operations all use it.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - The enclosing type is the clear semantic owner.
 - Qualified names improve rather than obscure call sites.

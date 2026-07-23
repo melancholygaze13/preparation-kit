@@ -53,7 +53,7 @@ protocol contract whenever its arguments satisfy constraints. This affects gener
 algorithms and existential conversion throughout the program, not just member lookup.
 Declare it only when every protocol requirement and semantic invariant holds.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Constraints are the minimum sufficient proof for the implementation.
 - The same specialization observes one coherent meaning for overlapping members.

@@ -43,13 +43,13 @@ conditional conformances.
 
 ### Trade-offs
 
-- Constrained members expose targeted capability with smaller ecosystem impact.
+- Constrained members expose a specific capability with less codebase-wide impact.
 - Conditional conformance composes broadly but creates compatibility and ownership obligations.
 
 ### Example
 
 A paging wrapper adds a debug description for printable elements but does not claim
-`CustomStringConvertible` until the team can define one stable semantic representation.
+`CustomStringConvertible` until the team can define one stable representation and meaning.
 
 ---
 
@@ -58,7 +58,7 @@ A paging wrapper adds a debug description for printable elements but does not cl
 
 ### Short Answer
 
-New conformances and overloads participate in global lookup and overload resolution when
+New conformances and overloads take part in global lookup and overload selection when
 clients recompile. Existing source can become ambiguous, select a different implementation,
 or conflict with another module's retroactive conformance even if binary linkage survives.
 
@@ -71,7 +71,7 @@ calls that previously used a fallback. Test downstream source, not just the defi
 ### Trade-offs
 
 - New capabilities reduce adapters and improve composition.
-- Ecosystem-wide lookup makes rollout coordination necessary.
+- Codebase-wide lookup requires a coordinated rollout.
 
 ### Example
 

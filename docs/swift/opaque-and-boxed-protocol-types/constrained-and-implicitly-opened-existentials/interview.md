@@ -37,7 +37,7 @@ relationship is preserved.
 ### Expanded Answer
 
 The angle-bracket argument creates a same-type requirement on the protocol's declared primary
-associated type. It does not instantiate a generic protocol or make all boxes share one conformer.
+associated type. It does not make the protocol generic or make all boxes share one conforming type.
 
 ### Trade-offs
 

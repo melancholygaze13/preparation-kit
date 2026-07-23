@@ -40,7 +40,7 @@ For shared concurrent state, put lifecycle behind an actor or audited synchroniz
 owner. Make shutdown reject new work, cancel or drain in-flight work by policy, release
 resources, and publish completion. Do not spawn fire-and-forget cleanup from `deinit`.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - One owner controls acquisition and release.
 - Cleanup is idempotent and has documented ordering.

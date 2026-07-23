@@ -43,7 +43,7 @@ responsibility and are not weak zeroing references.
 ### Trade-offs
 
 - Weak forces absence handling and tolerates independent lifetime.
-- Unowned gives nonoptional access but converts a violated invariant into a trap.
+- Unowned gives nonoptional access but traps if its lifetime rule is broken.
 
 ### Example
 
@@ -63,7 +63,8 @@ otherwise introduce an explicit lifecycle owner or teardown mechanism.
 
 ### Expanded Answer
 
-Leaks and premature release are dual failures. Draw roots, ownership, callbacks, and cancellation.
+Leaks and early release are opposite ownership errors. Draw roots, ownership,
+callbacks, and cancellation.
 Weak is correct only when absence has valid behavior. Required asynchronous work often belongs to
 an operation object rather than a view/controller.
 
@@ -85,14 +86,14 @@ The operation moves to a service owner; the screen becomes a weak observer of pr
 ### Short Answer
 
 Reproduce the lifecycle, verify the instance remains through a weak probe, capture a memory graph,
-and trace strong paths from live roots. Identify which edge's domain semantics are non-owning or
+and trace chains of strong references from live roots. Identify which relationship should not own lifetime or
 which registration needs explicit teardown, then regression-test release and behavior.
 
 ### Expanded Answer
 
 A cycle alone may still be intentionally owned by a root; a leak is unexpectedly retained lifetime.
 Inspect collections, closures, tasks, timers, notifications, delegates, caches, and framework tokens.
-Confirm deallocation only after expected async work and pools/scopes have drained.
+Check for deallocation only after expected async work and temporary scopes have finished.
 
 ### Trade-offs
 

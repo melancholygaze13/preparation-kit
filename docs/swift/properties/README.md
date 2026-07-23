@@ -33,7 +33,7 @@ property's correctness, ownership, or production behavior.
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [Stored and Computed Properties](stored-and-computed-properties/README.md) | Chooses between authoritative storage and derived values. | High | 9 min |
+| [Stored and Computed Properties](stored-and-computed-properties/README.md) | Chooses between original stored facts and derived values. | High | 9 min |
 | [Property Wrappers and Type Properties](property-wrappers-and-type-properties/README.md) | Reuses storage policy while exposing generated and shared state. | High | 10 min |
 | [Property Observers and Mutation Boundaries](property-observers-and-mutation-boundaries/README.md) | Explains synchronous assignment hooks and their limits. | Situational | 8 min |
 

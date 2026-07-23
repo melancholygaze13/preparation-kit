@@ -18,8 +18,10 @@ tags: [any, anyobject, mixed-type-data, boundary-design]
 
 ## Mental Model
 
-`Any` erases static knowledge. Every consumer then pays validation and casting cost.
-Keep the erased region small and establish typed invariants once.
+Heterogeneous data contains values of different types. `Any` can store this data,
+but it hides the specific types from the compiler. Each consumer must then cast
+and validate the values. Keep this untyped area small and convert the data into
+domain types once.
 
 ## How It Works
 
@@ -43,7 +45,7 @@ A purpose-built erased wrapper preserves one protocol's capabilities while hidin
 concrete type. `Any` preserves none. Use `Any` for truly unconstrained payloads and a
 typed eraser for mixed-type implementations of one behavior contract.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Erasure is confined to an owned boundary.
 - Validation establishes a typed domain value exactly once.
@@ -56,7 +58,7 @@ typed eraser for mixed-type implementations of one behavior contract.
 - `Any` includes value, reference, function, and optional values.
 - `AnyObject` is class-constrained, with interoperability bridging governed by platform rules.
 - Successful casting does not validate range, encoding, identity, or authorization.
-- Heterogeneous storage provides no stable serialization schema by itself.
+- Mixed-type storage provides no stable serialization format by itself.
 
 ## Engineering Judgment
 

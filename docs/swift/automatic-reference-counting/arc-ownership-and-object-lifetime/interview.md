@@ -30,15 +30,16 @@ last_reviewed: 2026-06-22
 
 ### Short Answer
 
-A class instance remains alive while strong ownership requires it. Strong edges can come from
-locals, properties, collections, captures, tasks, globals, or frameworks. It is deallocated after
-the last strong ownership ends, unless a strong cycle keeps the graph alive.
+A class instance remains alive while at least one strong reference requires it.
+Strong references can come from local variables, properties, collections, captures,
+tasks, global state, or frameworks. Swift deallocates the instance after its last
+strong reference goes away, unless a strong reference cycle keeps it alive.
 
 ### Expanded Answer
 
-ARC inserts ownership operations and the optimizer may change their placement while preserving
-semantics. Diagnose lifetime by finding roots and strong paths, not by counting assignments or
-assuming the closing brace performs business cleanup.
+ARC inserts ownership operations, and the optimizer may move them without changing
+observable behavior. Diagnose lifetime by finding roots and chains of strong
+references. Do not count assignments or assume a closing brace performs required cleanup.
 
 ### Trade-offs
 
@@ -101,4 +102,4 @@ bounded final release or diagnostics.
 ### Example
 
 A streaming client must send a closing frame and await acknowledgement. It exposes `close()` and
-cancellation semantics instead of relying on its deinitializer.
+cancellation rules instead of relying on its deinitializer.

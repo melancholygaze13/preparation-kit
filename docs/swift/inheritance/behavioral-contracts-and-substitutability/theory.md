@@ -76,7 +76,7 @@ A globally isolated base class establishes an execution boundary inherited by it
 subclasses. Overrides must not smuggle mutable state outside that isolation. Across
 `await`, revalidate actor state as usual; inheritance does not make a suspended override atomic.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Base callers need no subtype-specific branch for correctness.
 - Accepted input and promised output remain compatible.

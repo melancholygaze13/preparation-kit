@@ -27,8 +27,8 @@ tags:
 | Question | Level | Focus |
 |---|---|---|
 | [Why use an enum instead of Booleans and optionals for state?](#q1-invalid-states) | Senior | Making invalid combinations unrepresentable |
-| [When should an enum switch avoid default?](#q2-exhaustive-switches) | Senior | Evolution and compiler assistance |
-| [What does CaseIterable provide and what should not depend on it?](#q3-case-iterable) | Senior | Inventory versus stable policy |
+| [When should an enum `switch` avoid `default`?](#q2-exhaustive-switches) | Senior | Evolution and compiler assistance |
+| [What does `CaseIterable` provide and what should not depend on it?](#q3-case-iterable) | Senior | Case lists versus stable policy |
 | [When is an enum the wrong abstraction for alternatives?](#q4-closed-versus-open) | Senior | Closed sets and independent dimensions |
 | [How should a shared enum evolve across a system?](#q5-system-evolution) | Staff | Ownership and distributed rollout |
 
@@ -58,24 +58,24 @@ case grows artificially. Model only genuine mutual exclusion together.
 
 - Enums eliminate invalid combinations and enable exhaustive decisions.
 - Adding a state touches all exhaustive consumers.
-- Separate dimensions are more composable but require coordination where they
+- Separate dimensions can combine more freely but require coordination where they
   interact.
 
 ### Example
 
 A screen has `isLoading`, cached data, and error flags. Retry races produce all
 three simultaneously. An actor-owned enum state and validated reducer make each
-transition atomic and representable.
+state change complete and valid.
 
 ---
 
 <a id="q2-exhaustive-switches"></a>
-## Q2: When Should an Enum Switch Avoid default?
+## Q2: When Should an Enum `switch` Avoid `default`?
 
 ### Short Answer
 
-Avoid default for a closed enum you own when each case deserves explicit policy;
-adding a case then creates useful compile failures. Use default when all residual
+Avoid `default` for a closed enum you own when each case needs explicit behavior.
+Adding a case then creates useful compiler errors. Use `default` when all remaining
 values truly share behavior. For a nonfrozen external enum that may add cases,
 handle known cases and use `@unknown default` with a safe forward-compatible
 fallback.
@@ -93,8 +93,8 @@ fallback while keeping compiler warnings for omitted currently known cases.
 ### Trade-offs
 
 - Exhaustiveness increases change work and review quality.
-- Default reduces churn but can hide semantic gaps.
-- Unknown fallback improves resilience but needs telemetry and product policy.
+- `default` reduces required updates but can hide missing behavior.
+- An unknown fallback handles future cases but needs metrics and product policy.
 
 ### Example
 
@@ -104,7 +104,7 @@ all owned cases forces the authorization decision before release.
 ---
 
 <a id="q3-case-iterable"></a>
-## Q3: What Does CaseIterable Provide and What Should Not Depend on It?
+## Q3: What Does `CaseIterable` Provide and What Should Not Depend on It?
 
 ### Short Answer
 
@@ -117,7 +117,7 @@ explicit IDs, ranks, and filtering policy.
 ### Expanded Answer
 
 Adding a case can automatically place it in every generic picker or test loop.
-That is useful for inventory coverage but dangerous if visibility requires a
+That is useful for testing every case but dangerous if visibility requires a
 feature flag, entitlement, or server capability.
 
 Associated-value cases describe potentially unbounded values, so synthesized
@@ -126,7 +126,7 @@ supported presets, or another precise policy—not “all” unless it truly is.
 
 ### Trade-offs
 
-- Synthesized inventory reduces duplicated lists.
+- A synthesized case list reduces duplicated lists.
 - Automatic inclusion can expose cases prematurely.
 - Explicit catalogs add maintenance while encoding product policy.
 
@@ -143,10 +143,10 @@ feature-gated cases from leaking.
 
 ### Short Answer
 
-An enum is wrong when alternatives must be added by independent modules, when
-several dimensions combine independently, or when each alternative owns an open
-set of behavior and state better represented by conforming types. Use protocols,
-classes, registries, or separate properties for open or orthogonal models. Use an
+An enum is wrong when independent modules must add alternatives. It is also a poor
+fit when several dimensions combine independently. Use conforming types when each
+alternative owns an open set of behavior and state. Use protocols,
+classes, registries, or separate properties for open or independent models. Use an
 enum when one owner can define and evolve the complete meaningful set.
 
 ### Expanded Answer
@@ -162,8 +162,8 @@ in the owning policy layer.
 ### Trade-offs
 
 - Enums provide exhaustive coverage and centralized ownership.
-- Open abstractions support extension but require dynamic capability handling.
-- Separate dimensions reduce case explosion while permitting more combinations.
+- Open abstractions support extension but require runtime checks for capabilities.
+- Separate dimensions avoid a huge combined enum but permit more combinations.
 
 ### Example
 
@@ -178,11 +178,11 @@ implementations while a smaller enum retains only closed built-in modes.
 
 ### Short Answer
 
-Assign one owner, classify the enum as source-only or externally represented,
-inventory exhaustive consumers and transition logic, define unknown-case behavior,
-and coordinate storage, wire, analytics, UI, and older clients. Deploy tolerant
-readers before new producers, instrument fallback use, and avoid reusing or
-reinterpreting existing codes.
+Assign one owner and decide whether the enum exists only in source code or also in
+external data. Find every exhaustive `switch` and state change. Define behavior
+for unknown cases across storage, network data, analytics, UI, and older clients.
+Update readers before producers, measure fallback use, and never reuse an existing
+code for a new meaning.
 
 ### Expanded Answer
 
@@ -197,9 +197,9 @@ old code misinterprets.
 
 ### Trade-offs
 
-- Strict rejection protects invariants but can break forward compatibility.
+- Strict rejection protects required rules but can break forward compatibility.
 - Unknown preservation supports mixed versions but expands domain states.
-- Compatibility windows add code and telemetry while enabling safe rollout.
+- Supporting mixed versions adds code and metrics but enables a safe rollout.
 
 ### Example
 

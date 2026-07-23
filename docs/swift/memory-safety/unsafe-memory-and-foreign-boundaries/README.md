@@ -18,7 +18,7 @@ last_reviewed: 2026-07-12
 
 - A pointer must stay within its valid lifetime and bounds.
 - Memory must be correctly initialized, aligned, and bound to a type.
-- Hide unsafe work behind a small API that restores safe invariants.
+- Hide unsafe work behind a small API that returns data with checked safety rules.
 
 ## Study
 

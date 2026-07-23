@@ -24,7 +24,7 @@ tags:
 
 ## Mental Model
 
-An enum is a closed sum of alternatives:
+An enum defines a complete, closed set of alternatives:
 
 ```mermaid
 flowchart LR
@@ -35,7 +35,7 @@ flowchart LR
 ```
 
 Only one alternative exists at a time. The compiler can therefore prove that an
-exhaustive switch handles the complete known state space.
+exhaustive switch handles every known state.
 
 ## How It Works
 
@@ -101,10 +101,10 @@ case .connected: "Ready"
 }
 ```
 
-Omitting a case fails compilation. This friction is useful for enums controlled
+Omitting a case fails compilation. This required update is useful for enums controlled
 by the same module: adding a case identifies decisions that need review.
 
-A `default` is appropriate when all residual cases truly share policy. It is not a
+A `default` is appropriate when all remaining cases truly need the same behavior. It is not a
 shortcut for avoiding ownership. For nonfrozen external enums that can gain cases,
 handle known cases and use `@unknown default` with a safe fallback, as described in
 Control Flow.
@@ -125,7 +125,7 @@ mutating func beginConnecting() throws {
 
 For associated-value or larger state machines, a reducer or actor can validate
 events and produce the next state. Avoid scattering direct case assignment across
-features when transitions carry side effects or invariants.
+features when state changes carry side effects or required rules.
 
 ### CaseIterable
 
@@ -144,7 +144,7 @@ for theme in Theme.allCases {
 }
 ```
 
-Useful cases include test matrices, picker choices, and development tooling. Do
+Useful cases include testing every case, picker choices, and development tools. Do
 not assume every declared case is user-selectable, authorized, available, or
 supported by a server. Filter through explicit product policy.
 
@@ -153,7 +153,7 @@ cases changes it. Persist stable identifiers or explicit ranks rather than array
 offsets from `allCases`.
 
 Enums with associated values do not have one finite list of values merely because
-they have a finite list of case names. Provide a manual domain inventory only when
+they have a finite list of case names. Provide a manual list only when
 the payload space and desired samples are explicitly bounded.
 
 ### Value Semantics
@@ -170,21 +170,21 @@ synchronization owner.
 
 Enums can conform to protocols and can receive synthesized conformances when their
 cases and payloads satisfy the protocol requirements. Declare `Equatable`,
-`Hashable`, `Sendable`, or encoding semantics only when their generated meaning
-matches the domain and compatibility contract.
+`Hashable`, `Sendable`, or automatic encoding only when the generated behavior
+matches the domain and compatibility rules.
 
 For example, synthesized equality on an associated-value enum compares both case
 and payload. That may be too strong if payload contains timestamps or diagnostics
 that should not define domain identity.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Every enum value contains exactly one case at a time.
 - Cases represent alternatives within one coherent domain concept.
 - Exhaustive consumers assign deliberate policy to every owned case.
-- Transitions preserve domain invariants and side-effect ordering.
+- State changes preserve required domain rules and side-effect ordering.
 - Case iteration is separated from authorization, availability, and persistence.
-- Payload reference semantics remain visible where applicable.
+- Reference behavior of payloads remains visible where applicable.
 
 ### Constraints and Guarantees
 
@@ -210,7 +210,7 @@ that should not define domain identity.
 
 ### Trade-offs
 
-Closed enums provide compiler-enforced coverage and compact domain vocabulary but
+Closed enums provide compiler-enforced coverage and concise domain names but
 require coordinated evolution. Protocol-based open sets allow new conformers
 without changing a central declaration but cannot provide the same exhaustive
 switch. One large state enum prevents invalid combinations while coupling all

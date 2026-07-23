@@ -38,7 +38,7 @@ let result = doubled(4) // 8
 The `in` keyword separates the signature from the body. The variable's type is
 `(Int) -> Int`.
 
-Swift can progressively abbreviate closure syntax when the surrounding call
+Swift can shorten closure syntax when the surrounding call
 provides enough type information:
 
 ```swift
@@ -54,11 +54,11 @@ scores.sorted { lhs, rhs in
 ```
 
 Both arguments have type `(Int, Int) -> Bool` and produce `[3, 2, 1]`. The
-correct spelling is the shortest one that keeps the local decision unmistakable.
+best spelling is the shortest one that keeps the parameters and result clear.
 
 ## How It Works
 
-### Full Closure Expression Syntax
+### Full Closure Syntax
 
 The general form places the signature and body inside braces:
 
@@ -92,7 +92,7 @@ let identifiers = records.map { record in
 ```
 
 Swift knows `record` from the sequence element type and infers the output array
-from `record.id`. This is local contextual inference, not dynamic typing.
+from `record.id`. This is compile-time inference from nearby code, not dynamic typing.
 
 Inference can become expensive or ambiguous around overloaded functions, generic
 builders, `nil`, numeric literals, and branches with different concrete types.
@@ -132,9 +132,9 @@ events.reduce(into: State()) { state, event in
 }
 ```
 
-The highest shorthand index used determines the apparent arity, but the expected
-function type still has to match. Positional terseness is not a substitute for
-domain vocabulary.
+The highest shorthand index shows the number of positional parameters used, but
+the expected function type still has to match. Short positional names are not a
+substitute for meaningful domain names.
 
 ### Passing Named Functions and Operators
 
@@ -147,7 +147,7 @@ let validated = inputs.compactMap(parse)
 
 Avoid `{ parse($0) }` unless the wrapper changes effects, captures context, adapts
 labels or types, or materially improves readability. Direct operator passing is
-appropriate only when operator semantics are obvious for the concrete type.
+appropriate only when the operator's behavior is obvious for the concrete type.
 
 ### Single Trailing Closures
 
@@ -168,7 +168,7 @@ remains an argument even though the syntax resembles a control-flow block.
 
 Trailing syntax helps when behavior is the call's main content. Keep a labeled
 parenthesized closure when moving it outside would make the call look like a
-language statement or hide the closure's role.
+language statement or hide what the closure does for the API.
 
 ### Multiple Trailing Closures
 
@@ -186,10 +186,10 @@ loadResource(from: source) { resource in
 This makes the declaration's first closure label invisible at the call site. Name
 the base function and later labels so the call reads correctly without it.
 
-Several peer closures can resemble control-flow keywords. That can be useful, but
+Several closures at the same level can resemble control-flow keywords. That can be useful, but
 it can also hide which branches are optional, escaping, repeated, or differently
 isolated. Use a result enum, async function, strategy type, or explicitly labeled
-arguments when they express the contract more accurately.
+arguments when they describe the behavior more accurately.
 
 ### Overload Resolution and Trailing Closures
 
@@ -202,7 +202,7 @@ Prefer overload families with one obvious closure shape. Use labels, distinct ba
 names, or explicit parameter types when several behaviors could plausibly match.
 Compile representative downstream calls before evolving public APIs.
 
-### Closure Syntax versus Execution Semantics
+### Closure Syntax versus Execution Behavior
 
 Syntax does not reveal whether a closure is nonescaping, stored, invoked once,
 called synchronously, transferred across actors, or executed repeatedly. Those
@@ -212,7 +212,7 @@ Read the parameter type and contract before capturing mutable state or assuming 
 trailing “completion” block runs later. Link higher-order APIs to their defined
 execution contract rather than relying on conventional names.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - The closure's inferred type matches the receiver's required function type.
 - Abbreviated syntax preserves readable parameter roles and effects.
@@ -245,9 +245,9 @@ execution contract rather than relying on conventional names.
 
 ### Trade-offs
 
-Inference and trailing syntax remove ceremony but can erase role labels. Explicit
-types improve diagnostics and reviewability while increasing noise. Multiple
-trailing closures create fluent DSL-like calls but can make ordinary APIs appear
+Inference and trailing syntax remove repeated code but can erase role labels. Explicit
+types improve compiler errors and code review while adding text. Multiple
+trailing closures create calls that read naturally but can make ordinary APIs appear
 to provide language-level branching guarantees they do not have.
 
 ## Production Application
@@ -256,9 +256,8 @@ to provide language-level branching guarantees they do not have.
 
 Closure spelling rarely determines runtime performance by itself. Capture,
 escaping, specialization, allocation, and work in the body matter more. Complex
-generic closure expressions can affect compile time; strategic annotations and
-smaller named operations can improve type-checking without sacrificing runtime
-abstraction.
+generic closure expressions can affect compile time. Small, well-placed type annotations and
+smaller named operations can improve type-checking without changing runtime behavior.
 
 ### Concurrency and Thread Safety
 
@@ -269,8 +268,9 @@ actor.
 
 ### Testing
 
-Test the semantic result, ordering, and receiver's invocation contract rather than
-the chosen closure spelling. Compile fixtures for overload-heavy public APIs.
+Test the result, ordering, and receiving API's invocation rules rather than the
+chosen closure spelling. Compile representative call sites for public APIs with
+many overloads.
 Where multiple trailing closures represent outcomes, test zero, one, duplicate,
 late, and cancellation delivery according to the actual contract.
 
@@ -278,35 +278,36 @@ late, and cancellation delivery according to the actual contract.
 
 Name nontrivial closures or extract functions so stack traces and profiles expose
 meaningful operations. Add operation IDs outside closure identity. When inference
-diagnostics become opaque, annotate parameter and result types incrementally to
+compiler errors become unclear, add parameter and result types one at a time to
 locate the mismatch.
 
 ### Compatibility and Migration
 
-Changing closure parameter type, arity, effects, isolation, escaping, or position
+Changing a closure's parameter types, number of parameters, throwing or async
+behavior, isolation, escaping, or position
 is source-breaking. Adding overloads can break inference. Migrating to multiple
 trailing-closure-friendly APIs should preserve explicit labels for distinct
-outcomes and provide deprecation shims where public source compatibility matters.
+outcomes and provide deprecated compatibility wrappers when public source compatibility matters.
 
 ## Staff and Principal Perspective
 
 ### System Impact
 
-Closure-heavy APIs can create local fluency while distributing hidden execution
-contracts across a codebase. If teams infer timing or isolation from naming and
+Closure-heavy APIs can read naturally at one call site while hiding execution
+rules across a codebase. If teams infer timing or isolation from naming and
 syntax, behavior diverges under cache hits, retries, and concurrency.
 
 ### Decision Framework
 
-Review expected type, argument roles, inference stability, execution contract,
-escape lifetime, isolation, result/error model, overload evolution, and whether a
-function, enum, async API, or named strategy communicates the behavior better.
+Review the expected type, argument roles, type inference, execution rules, escape
+lifetime, isolation, and result or error model. Check how overloads may evolve.
+Finally, ask whether a function, enum, async API, or named strategy is clearer.
 
 ### Organizational Impact
 
 Set API review standards around call-site clarity and execution guarantees rather
-than banning shorthand or trailing closures. Maintain downstream compile fixtures
-for foundational closure-heavy APIs and publish concurrency annotations with
+than banning shorthand or trailing closures. Maintain representative client call
+sites that compile foundational closure-heavy APIs. Publish concurrency annotations with
 migration guidance.
 
 ## References

@@ -23,7 +23,7 @@ tags:
 
 ## Mental Model
 
-A loop is a state transition repeated under a traversal or termination contract:
+A loop repeats work while moving through elements or until an exit condition becomes true:
 
 ```mermaid
 flowchart LR
@@ -34,8 +34,8 @@ flowchart LR
     Outcome -->|Finish| Exit["Exit"]
 ```
 
-`for`-`in` delegates “next element” to a sequence iterator. `while` delegates
-continuation to a Boolean condition. Correctness requires that each pass either
+With `for`-`in`, a sequence iterator provides each next element. With `while`, a
+Boolean condition decides whether another pass runs. Correctness requires that each pass either
 makes measurable progress or exits.
 
 ## How It Works
@@ -52,11 +52,12 @@ for value in values {
 ```
 
 Arrays, sets, dictionaries, ranges, and strings are repeatable collections, but
-the `Sequence` protocol itself does not promise repeated, nondestructive
-iteration. Generic code that needs multiple passes should require `Collection`,
-materialize a snapshot, or document the concrete sequence contract.
+the `Sequence` protocol itself does not promise that a second iteration starts
+again without consuming state. Generic code that needs multiple passes should
+require `Collection`, create an array or another stored snapshot, or document the
+specific sequence's behavior.
 
-Iteration inherits the source's ordering contract. Array traversal is ordered;
+Iteration inherits the source's ordering rules. Array traversal is ordered;
 Set and Dictionary traversal is not. A loop does not add determinism to an
 unordered source.
 
@@ -106,9 +107,9 @@ repeat {
 Use `repeat` only when the first action is valid unconditionally. If preconditions
 must be checked first, `while` or an explicit initial action is safer.
 
-For retries, define attempt count, delay/backoff, cancellation, idempotency,
-deadline, and terminal error. A loop around network or storage work without these
-policies is an availability incident waiting to happen.
+For retries, define attempt count, increasing delay, cancellation, whether repeated
+calls can cause duplicate effects, the deadline, and the final error. A loop around
+network or storage work without these rules can overload a failing dependency.
 
 ### continue, break, and Labels
 
@@ -138,8 +139,8 @@ directly into the next case body and does not test that next case's pattern or
 establish its bindings.
 
 Prefer compound cases for shared matching and extracted functions for shared
-behavior. Reserve `fallthrough` for an intentional cumulative action where its
-unconditional next-body semantics are obvious.
+behavior. Reserve `fallthrough` for an intentional series of actions where it is
+obvious that the next case body always runs.
 
 ### Mutation During Traversal
 
@@ -155,10 +156,10 @@ element. Safer approaches include:
 The right approach follows the collection's documented invalidation rules, not a
 loop syntax preference.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Each pass either advances traversal state, changes the loop condition, or exits.
-- The source's repeatability and ordering contracts are preserved.
+- The source's repeatability and ordering rules are preserved.
 - Control transfer targets the intended statement.
 - Mutation does not invalidate a still-used iterator or index.
 - External retry loops have bounded resource and time behavior.
@@ -187,7 +188,7 @@ loop syntax preference.
 | Transform all values | `map`, `compactMap`, `reduce` | Makes output ownership explicit |
 | Exit nested traversal | Function return or labeled break | Names the intended boundary |
 
-Higher-order algorithms are not automatically better. A loop can be clearer when
+Collection functions such as `map` and `first(where:)` are not automatically better. A loop can be clearer when
 it needs multiple exits, stateful parsing, error propagation, or careful
 instrumentation.
 

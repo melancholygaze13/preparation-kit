@@ -41,7 +41,7 @@ Before the initializer returns, every stored property must have a value. Here it
 assigns `name`, while `loginCount` already has a valid default.
 
 Swift's definite-initialization checks prevent reading uninitialized stored state.
-Defaults reduce initializer surface, but defaults must be domain-correct rather than
+Defaults reduce the number of initializer parameters, but they must be valid domain values rather than
 placeholder values that create invalid instances.
 
 ### Delegating Between Value-Type Initializers
@@ -83,7 +83,7 @@ Property defaults are evaluated as part of creating each instance. A default clo
 can allocate or perform expensive synchronous work even when the call site looks
 simple. Prefer explicit inputs or lazy, owned work when the cost or failure matters.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Successful construction returns a complete valid value.
 - Failed validation exposes no partially initialized instance.

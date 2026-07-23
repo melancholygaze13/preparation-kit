@@ -14,12 +14,12 @@ last_reviewed: 2026-07-22
 
 # Stored and Computed Properties
 
-> Store authoritative state; compute values that are derived, cheap enough, and
+> Store the original facts. Compute values that are derived, cheap enough, and
 > consistent with their dependencies; use lazy storage only with a clear lifecycle.
 
 ## Quick Recall
 
-- Store authoritative state and compute derived state.
+- Store the original facts and compute values derived from them.
 - A computed property runs its getter on each access unless another layer caches it.
 - `lazy` delays first initialization and requires mutable storage.
 - Lazy initialization alone is not thread-safe.

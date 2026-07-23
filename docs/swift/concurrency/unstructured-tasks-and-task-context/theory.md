@@ -18,12 +18,12 @@ last_reviewed: 2026-07-12
 ## Mental Model
 
 An unstructured task is a child of an owner in the application design, but not in the
-language's structured task tree. The code must recreate the missing ownership contract:
+language's structured task tree. The code must supply the ownership rules that the task tree would provide:
 who stores the handle, observes completion, cancels on teardown, and reports failure.
 
 ## How It Works
 
-`Task {}` is useful at a synchronous-to-asynchronous edge such as an imperative action.
+`Task {}` is useful when synchronous code, such as a button action, must start async work.
 It inherits the current actor, so creating it on `@MainActor` does not offload CPU work.
 
 ```swift
@@ -51,7 +51,7 @@ final class SearchModel {
 ```
 
 Use `Task.detached` only when work must not inherit the caller's actor or task-local
-context and explicit sendable captures are correct. Prefer `@concurrent` or a structured
+context and when all captures are explicitly safe to send. Prefer `@concurrent` or a structured
 child when the goal is simply CPU execution or parallelism.
 
 Task-local values propagate through structured tasks and `Task {}`, making them useful
@@ -62,7 +62,7 @@ Swift 6.2 provides task names and immediate-start variants on supported platform
 Immediate start runs an initial segment promptly on the target executor but remains
 unstructured after suspension; it should be chosen only when that start ordering matters.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Every unstructured task has one explicit lifetime owner.
 - Throwing task outcomes are awaited or handled inside the body.
@@ -73,8 +73,8 @@ unstructured after suspension; it should be chosen only when that start ordering
 ### Constraints and Guarantees
 
 - Cancelling a surrounding task does not automatically cancel an unstructured task.
-- `Task {}` context inheritance does not create a lexical join.
-- Scheduling order, prompt start, and priority are not hard real-time guarantees.
+- `Task {}` inherits context, but the surrounding code block does not wait for it to finish.
+- Scheduling order, prompt start, and priority do not guarantee an exact start time.
 
 ## Engineering Judgment
 
@@ -94,7 +94,7 @@ mechanically with `Task {}`.
 |---|---|---|---|
 | Structured child | Automatic join and propagation | Must fit lexical scope | Default concurrent work |
 | Owned `Task` | Bridges sync edge | Manual lifetime/error policy | UI or object-owned operation |
-| Detached task | Sheds inherited context | Highest proof and observability burden | Rare independent work |
+| Detached task | Drops inherited context | Hardest ownership and tracing work | Rare independent work |
 
 ### Alternatives
 
@@ -126,7 +126,7 @@ that remain active after owner teardown.
 ### Compatibility and Migration
 
 When replacing callbacks or queues, preserve execution context and cancellation. Use
-`@preconcurrency` only at audited legacy imports, not as a blanket suppression.
+`@preconcurrency` only at reviewed legacy imports, not to silence every warning.
 
 ## Staff and Principal Perspective
 
@@ -137,13 +137,14 @@ cannot be attributed to a request or feature.
 
 ### Decision Framework
 
-Require a named owner, completion consumer, cancellation trigger, failure sink, and
+Require a named owner, code that handles completion, a cancellation trigger, code that handles failures, and a
 resource budget for every unstructured task.
 
 ### Organizational Impact
 
-Code review should reject unexplained discarded handles and detached tasks. Standardize
-sync-edge adapters and tracing propagation.
+Code review should reject task handles that are discarded without explanation and
+detached tasks without an owner. Standardize adapters that start async work from
+synchronous code and preserve tracing information.
 
 ## References
 

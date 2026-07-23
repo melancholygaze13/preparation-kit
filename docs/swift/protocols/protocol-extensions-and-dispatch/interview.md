@@ -64,16 +64,17 @@ policy-sensitive, safety-critical, effectful, or materially different by conform
 ### Expanded Answer
 
 Defaults reduce adoption cost but can hide missing behavior. Adding a defaulted requirement
-may preserve compilation while changing semantics and dispatch for existing conformers.
+may preserve compilation while changing behavior and method selection for existing conformers.
 
 ### Trade-offs
 
-- Defaults centralize laws and remove duplication.
+- Defaults centralize shared rules and remove duplication.
 - Explicit requirements keep policy visible and reviewable.
 
 ### Example
 
-A retry protocol does not provide a default retry count because service idempotency and
+A retry protocol does not provide a default retry count. Each service has different
+rules for safe repetition and
 budgets differ; a pure derived diagnostic label safely has a default.
 
 ---

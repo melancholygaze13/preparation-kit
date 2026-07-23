@@ -17,7 +17,7 @@ last_reviewed: 2026-07-22
 
 ## Mental Model
 
-Construction has a result contract: valid instance, optional absence, or diagnostic
+Construction promises one of three results: a valid instance, optional absence, or a detailed
 failure. Choose the weakest mechanism that still lets callers recover correctly.
 
 ## How It Works
@@ -106,7 +106,7 @@ The subclass implementation keeps the `required` modifier. It does not also writ
 `override` for this initializer.
 
 A `required` initializer is appropriate only when generic or framework code must create
-every subclass through that entry point. It permanently constrains subclass storage and
+every subclass through that entry point. It limits future subclass storage and
 evolution, so do not add it for hypothetical uniformity.
 
 Required construction is especially expensive in open hierarchies. Every future
@@ -114,7 +114,7 @@ subclass must satisfy its own rules from the required inputs or honest defaults.
 different implementations need different dependencies, an injected factory or protocol
 often expresses the extension point more accurately.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Failure returns no usable partial instance.
 - Callers receive enough information for their recovery decision.
@@ -132,7 +132,7 @@ often expresses the extension point more accurately.
 
 ## Engineering Judgment
 
-Use `init?` for simple membership/shape failure, `throws` for actionable diagnostics,
+Use `init?` for a simple invalid value or shape. Use `throws` for useful error details,
 and an async factory for effectful construction. Use `required` only for a real subtype
 creation contract. Preserve raw input or version it when future migration is required.
 
@@ -142,8 +142,8 @@ registration, or network request started before the failure.
 
 ## Production Application
 
-Test error classification, no-side-effect failure, persisted old versions, subclass
-requirements, and mixed-version rollout. Instrument failure categories without logging
+Test error categories, failures without side effects, saved old versions, subclass
+requirements, and mixed-version rollout. Measure failure categories without logging
 sensitive raw input. Deploy tolerant readers before writers enforce new required fields.
 
 ## References

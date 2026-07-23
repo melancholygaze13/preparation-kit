@@ -38,10 +38,10 @@ tags:
 
 ### Short Answer
 
-Assigning a struct produces another value whose later mutation is independently
-observable. Assigning a class copies a reference, so both references can observe
-mutation of one instance. The value operation need not eagerly copy all bytes, and
-the class references can be constants while the instance remains mutable.
+Assigning a struct produces an independent value. Changing the new value does not
+change the original. Assigning a class copies a reference, so both references can
+observe changes to the same instance. A value assignment does not always copy every
+byte immediately. A class reference can also be constant while the instance remains mutable.
 
 ### Expanded Answer
 
@@ -54,7 +54,7 @@ evaluated across the graph.
 
 - Values reduce alias reasoning and suit snapshots.
 - References share resources cheaply but require ownership and synchronization.
-- Implementation optimizations must preserve the observable contract.
+- Implementation optimizations must preserve behavior that callers can observe.
 
 ### Example
 
@@ -99,7 +99,7 @@ peak work, but benchmarks also cover edit-heavy workloads where every branch det
 
 ### Short Answer
 
-A struct copies its stored fields according to their semantics. A class-typed field
+A struct copies each stored field according to that field's copy behavior. A class-typed field
 is a reference, so two struct copies can point to one mutable object. Mutation
 through that object is then visible from both. Use value-semantic members, immutable
 shared storage, or correct COW detachment if independent values are promised.
@@ -108,7 +108,7 @@ shared storage, or correct COW detachment if independent values are promised.
 
 The declaration remains a value type, but the API may not provide the value behavior
 callers infer. The distinction is especially important for snapshot, state, and
-`Sendable` boundary types.
+types that cross concurrency boundaries or claim `Sendable` conformance.
 
 ### Trade-offs
 
@@ -129,7 +129,7 @@ debugging and deterministic tests.
 
 ### Short Answer
 
-Profile optimized representative workloads before changing semantics. Measure
+Profile optimized representative workloads before changing copy or sharing behavior. Measure
 copied bytes, allocations, ARC traffic, mutation frequency, cache locality, and peak
 memory. Compare direct value storage, COW, and a reference owner while preserving
 the same observable behavior. Adopt added complexity only when evidence shows a
@@ -139,7 +139,7 @@ meaningful system-level improvement.
 
 Microbenchmarks must cover read-heavy, edit-heavy, branching, and concurrency use.
 A class rewrite may reduce copying but add allocation, indirection, contention, and
-alias bugs. A COW rewrite needs semantic stress tests and instrumentation around
+alias bugs. A COW rewrite needs copy-behavior stress tests and instrumentation around
 detachment.
 
 ### Trade-offs

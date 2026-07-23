@@ -30,20 +30,20 @@ last_reviewed: 2026-07-12
 
 ### Short Answer
 
-Define when the object should become unnecessary, reproduce that terminal event, verify it remains
+Define when the object should become unnecessary. Reproduce that final lifecycle event and verify it remains
 alive, and trace strong paths from roots. Correlate those paths with active tasks, registrations,
 caches, and operations. Memory growth or a cycle snapshot alone does not establish invalid retention.
 
 ### Expanded Answer
 
-Repeat the lifecycle to establish trend, use weak probes and object counts, inspect memory graphs,
+Repeat the lifecycle to confirm that memory or object counts keep growing. Use weak probes, inspect memory graphs,
 and profile allocation stacks. A legitimate operation may retain the graph; an unbounded cache may
-be a policy bug rather than an ARC cycle.
+have incorrect size or removal rules rather than an ARC cycle.
 
 ### Trade-offs
 
 - Snapshot tools accelerate local root analysis.
-- Lifecycle telemetry explains whether the root is still valid.
+- Lifecycle metrics explain whether the root is still valid.
 
 ### Example
 
@@ -84,22 +84,24 @@ It fails both if the subscriber leaks and if callbacks stop before cancellation.
 
 ### Short Answer
 
-Define root owners and retention contracts for services, UI flows, tasks, caches, delegates, and
-registrations; standardize cancellation/token patterns; require lifecycle telemetry and release tests;
-and review ownership changes as cross-module semantic migrations.
+Define root owners and retention rules for services, UI flows, tasks, caches,
+delegates, and registrations. Standardize cancellation tokens. Require lifecycle
+metrics and release tests. Review ownership changes as cross-module behavior changes.
 
 ### Expanded Answer
 
-Ownership should follow release cadence and responsibility. Required work lives in durable operation
-owners; transient UI observes it. APIs document whether callbacks/delegates are retained and who
+Ownership should match the required lifetime and responsibility. Required work lives
+in operation owners that survive long enough; temporary UI observes it. APIs document whether callbacks and delegates are retained and who
 cancels. Memory budgets and incident playbooks connect graph tools to lifecycle signals.
 
 ### Trade-offs
 
 - Standards reduce repeated leak classes and improve diagnosis.
-- Overcentralized owners can become service locators or retain too much, so boundaries need capacity and teardown.
+- Owners with too many responsibilities can hide dependencies or retain too much.
+  Give each boundary clear capacity and cleanup rules.
 
 ### Example
 
-A platform introduces a common subscription token with idempotent cancellation, owner IDs, and metrics.
-Feature teams migrate from ad hoc stored closures, reducing both leaks and missing callbacks.
+A platform introduces a common subscription token with cancellation that is safe
+to repeat, owner IDs, and metrics. Feature teams replace one-off stored-closure
+patterns, reducing both leaks and missing callbacks.

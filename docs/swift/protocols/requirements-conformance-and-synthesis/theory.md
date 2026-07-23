@@ -17,9 +17,9 @@ last_reviewed: 2026-07-12
 
 ## Mental Model
 
-A protocol is a set of callable guarantees plus unwritten laws. A witness table connects
-a conforming type's implementation to requirements. Syntax proves shape; substitutability
-depends on stable semantics, complexity, mutation, error, and concurrency contracts.
+A protocol is a set of callable requirements plus behavior rules. Swift connects a
+conforming type's implementations to those requirements. The compiler checks the required
+shape. Safe substitution also depends on behavior, performance, mutation, errors, and concurrency.
 
 ## How It Works
 
@@ -43,7 +43,7 @@ stored or computed implementation. Static/type requirements use `static` in the 
 classes may satisfy appropriate requirements with `class` where overriding is intended.
 
 Synthesized conformance is available only under language-defined conditions. It reduces
-boilerplate but can encode the wrong domain identity or wire schema. Adding/reordering
+repeated code but can encode the wrong domain identity or network schema. Adding or reordering
 stored state may change synthesized equality, hashing, or coding behavior.
 
 ### Equality, Hashing, and Identity Protocols
@@ -62,10 +62,10 @@ hash-relevant property while the instance is stored can make lookup incorrect.
 Swift's hash values are intentionally not persistence keys; store a real identifier
 when data must survive launches or cross a process boundary.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Every requirement has one valid witness for the conformance.
-- Witness semantics preserve the protocol's documented laws.
+- Each implementation follows the protocol's documented behavior rules.
 - Mutation and initialization requirements remain valid for value and class conformers.
 - Synthesis does not accidentally define persistence or business identity.
 - Equality, hashing, identity, and ordering are consistent with each other where
@@ -81,8 +81,8 @@ when data must survive launches or cross a process boundary.
 
 ## Engineering Judgment
 
-Use protocols for stable capabilities with multiple meaningful conformers or replaceable
-boundaries. Avoid one-implementation protocols, state bags, and contracts that expose an
+Use protocols for stable capabilities with multiple useful conformers or replaceable
+boundaries. Avoid protocols with one implementation, groups of unrelated state, and contracts that expose an
 implementation's full surface without a consumer need.
 
 For standard protocols, write down the domain policy before accepting synthesis. A

@@ -24,7 +24,7 @@ tags:
 
 ## Mental Model
 
-A function boundary has four contracts:
+A function declaration tells callers four things:
 
 ```mermaid
 flowchart LR
@@ -34,7 +34,7 @@ flowchart LR
     Output["Output meaning"] --> Signature
 ```
 
-The implementation is replaceable only while these observable contracts remain
+You can replace the implementation only while these visible promises remain
 valid. A locally convenient signature can create ambiguity, hidden mutation, or
 migration cost across every caller.
 
@@ -96,7 +96,7 @@ labels or a domain type are missing.
 ### Parameters and Value Semantics
 
 Parameters are constants by default: the function cannot reassign them. Passing a
-value-semantic type gives the function its own logical value, though copy-on-write
+value type gives the function its own logical value, though copy-on-write
 storage can remain shared until mutation. This does not imply an eager deep copy.
 
 A class argument copies a reference. The function can mutate the referenced
@@ -120,7 +120,7 @@ Use the result shape to state domain meaning:
 
 An optional tuple `(Int, Int)?` represents either the whole pair or absence. A
 tuple of optionals `(Int?, Int?)` represents two independently absent components.
-Do not use tuples as long-lived public models when invariants, methods, or version
+Do not use tuples as long-lived public models when required rules, methods, or version
 evolution matter.
 
 ### Default Parameter Values
@@ -143,7 +143,7 @@ Avoid Boolean defaults whose meaning is unclear:
 // Better: fetch(id, cachePolicy: .reloadIgnoringCache)
 ```
 
-Use overloads when they represent distinct semantic operations, not merely to
+Use overloads when they represent operations with different meanings, not merely to
 simulate every combination of defaults.
 
 ### Variadic Parameters
@@ -182,8 +182,8 @@ normalize(&samples)
 
 The ampersand marks mutation at the call site. Conceptually, Swift may copy the
 argument in, mutate a local value, and write it back when the call completes,
-although implementations can optimize this. Code must rely on the language's
-access and writeback semantics, not pointer identity.
+although implementations can optimize this. Code must rely on Swift's access and
+writeback rules, not pointer identity.
 
 The original storage is under an exclusive access for the relevant duration.
 Overlapping reads or writes can be rejected at compile time or trap when enforced
@@ -234,7 +234,7 @@ effects also participate in function types. Do not hide meaningful failure behin
 optional returns or asynchronous work behind an unstructured task simply to make
 the signature look synchronous.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Call spelling communicates each argument's role without implementation context.
 - Required inputs cannot be omitted; omitted defaults preserve documented policy.
@@ -266,13 +266,13 @@ the signature look synchronous.
 | Existing or lazy input | `Sequence`/collection parameter | Preserves caller representation |
 | Compute independent result | Return value | Explicit value flow |
 | Mutate caller-owned value | `inout` | Visible bounded writeback |
-| Durable multi-field result | Named type | Invariants and evolution |
+| Long-lived multi-field result | Named type | Required rules and evolution |
 
 ### Trade-offs
 
 More explicit types and labels improve safety but lengthen calls. Defaults simplify
 common use but create implicit policy. `inout` can reduce intermediate values and
-express mutation while limiting composability and increasing exclusivity risk.
+express mutation while making composition harder and increasing exclusivity risk.
 Overloads create fluent APIs until inference and maintenance costs exceed the
 benefit of one shared base name.
 

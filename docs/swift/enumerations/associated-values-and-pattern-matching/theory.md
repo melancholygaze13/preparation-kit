@@ -24,7 +24,7 @@ tags:
 
 ## Mental Model
 
-Associated-value enums are tagged unions:
+An associated-value enum stores one of several cases. Each case can carry its own data:
 
 ```mermaid
 flowchart LR
@@ -73,10 +73,10 @@ enum LoadState {
 ```
 
 Each constructed enum value stores one case and that case's payload. Associated
-values can differ in type and arity between cases. Labels are part of the case
-constructor's source-facing API and clarify repeated or domain-specific values.
+values can differ in type and number between cases. Labels appear when code creates
+the case and clarify repeated or domain-specific values.
 
-Prefer a named payload type when several fields have their own invariants or evolve
+Prefer a named payload type when several fields have their own required rules or evolve
 together:
 
 ```swift
@@ -95,7 +95,8 @@ enum LoadState {
 
 An enum cannot simultaneously hold stored properties independent of its selected
 case in the same way a struct does. Put data in associated values, computed
-properties, or wrap the enum in a struct when all states share durable metadata:
+properties, or wrap the enum in a struct when all states share metadata that must
+exist for the full lifetime:
 
 ```swift
 struct LoadSnapshot {
@@ -161,7 +162,7 @@ exhaustive switch when ignored states need metrics, rejection, or fallback.
 ### Updating Case and Payload
 
 Assigning a new case replaces the entire enum value and releases the old payload
-according to its ownership semantics:
+according to its ownership behavior:
 
 ```swift
 state = .loading(progress: nil)
@@ -170,7 +171,7 @@ state = .loaded(document)
 
 For a mutable payload in the same case, pattern-copy-modify-reassign is often
 clearer than trying to treat the enum as shared field storage. A mutating method
-can encapsulate the transition and invariant.
+can own the state change and enforce its required rule.
 
 If payloads are reference types, copied enum values can share the same object.
 Replacing one enum's case does not mutate the other enum, but mutating the shared
@@ -189,7 +190,7 @@ enum PlayerEvent: Sendable {
 ```
 
 A reducer can switch exhaustively over current state and event to produce a next
-state and effects. Keep external side effects outside the pure transition where
+state and a list of effects. Keep external side effects outside the state calculation where
 possible, making invalid events and retry behavior observable.
 
 Avoid one “catch-all payload” case such as `.custom(String, Any)` inside an
@@ -198,33 +199,33 @@ otherwise typed domain. It defeats exhaustiveness and moves validation to runtim
 ### Identity and Equality
 
 Synthesized equality for an associated-value enum compares case and payload when
-payload types support equality. This models structural equality, not necessarily
+payload types support equality. This compares the stored structure, not necessarily
 entity identity or transition equivalence.
 
 A `.loading(progress: 0.2)` value and `.loading(progress: 0.3)` are unequal
 structurally. A UI diff may instead care that both are the loading state, while
-analytics may care about progress buckets. Define domain-specific projections
+analytics may care about progress buckets. Define separate domain-specific comparisons
 rather than weakening the enum's general equality casually.
 
 ### Payload Evolution
 
 Adding, removing, relabeling, or changing a case payload changes constructor and
-pattern source. Public consumers destructuring that case must migrate. A named
+pattern source. Public consumers that extract the case fields must migrate. A named
 payload type can localize field evolution and preserve one case constructor shape,
 though changes to the payload type remain API changes.
 
-For persisted or wire data, case names and payload layouts need explicit encoding
-contracts. Synthesized encoding format is convenient for owned local data but
+For stored or network data, case names and payload layouts need explicit encoding
+rules. Synthesized encoding is convenient for owned local data but
 should not become an undocumented protocol between independently deployed systems.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Each case carries only payload valid for that alternative.
-- Payload labels and named types communicate roles and invariants.
+- Payload labels and named types communicate roles and required rules.
 - Every payload access follows a successful case match.
 - State transitions replace the whole enum value atomically under one owner.
-- Structural conformance semantics are reviewed against domain identity.
-- External representations version case and payload evolution deliberately.
+- Generated conformance behavior is reviewed against domain identity.
+- External formats version case and payload changes deliberately.
 
 ### Constraints and Guarantees
 
@@ -233,7 +234,7 @@ should not become an undocumented protocol between independently deployed system
 - Selective patterns do not enforce handling of nonmatching cases.
 - Enum value semantics do not deep-copy reference payloads.
 - Synthesized conformances require compatible payload conformances and inherit
-  their semantics.
+  their behavior.
 - Associated-value case changes can break downstream patterns and construction.
 
 ## Engineering Judgment

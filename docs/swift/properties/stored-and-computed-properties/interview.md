@@ -30,7 +30,7 @@ last_reviewed: 2026-07-22
 
 ### Short Answer
 
-Store authoritative facts. Compute deterministic values when their dependencies are
+Store the original facts. Compute deterministic values when their dependencies are
 available and the access cost is acceptable. Cache only when measurement justifies
 it and the design defines keys, invalidation, memory limits, and concurrency ownership.
 

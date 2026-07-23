@@ -30,7 +30,7 @@ structured SwiftSyntax builders over fragile string concatenation where practica
 Diagnostics should explain the violated requirement and identify a repair. Never
 force-cast expected syntax or silently ignore unsupported declarations.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Equal semantic input produces stable expansion.
 - Invalid input yields deterministic diagnostics, not plugin failure.

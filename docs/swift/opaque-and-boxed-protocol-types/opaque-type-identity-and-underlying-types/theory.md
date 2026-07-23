@@ -50,7 +50,7 @@ Structural opaque results can appear within supported result structures, such as
 `(some P)?`, collections, tuples, and the result position of a returned function type.
 Each opaque occurrence still needs an inferable underlying type.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - One declaration and generic substitution map to one underlying result type.
 - Branching changes values, not the underlying type.

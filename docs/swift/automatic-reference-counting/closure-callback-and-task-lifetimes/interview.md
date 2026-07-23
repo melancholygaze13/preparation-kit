@@ -31,8 +31,9 @@ last_reviewed: 2026-07-12
 ### Short Answer
 
 A cycle exists when an object strongly owns an escaping closure, that closure strongly captures the
-object, and no terminal action removes either edge. A strong capture without the return edge may
-correctly extend lifetime but is not itself a cycle.
+object, and no final action removes either reference. A strong capture may correctly
+extend lifetime. It becomes part of a cycle only when another strong reference leads
+back to the closure.
 
 ### Expanded Answer
 
@@ -57,9 +58,9 @@ on success, failure, and cancellation, making strong capture bounded rather than
 
 ### Short Answer
 
-Move the callback to a strong local, clear stored ownership, then invoke. This breaks possible cycles
-at the terminal transition, keeps the callback alive during execution, and defines what reentrant
-registration observes.
+Move the callback to a strong local, clear the stored reference, then invoke it.
+This breaks possible cycles when the operation finishes and keeps the callback
+alive while it runs. It also defines what happens if the callback registers another callback.
 
 ### Expanded Answer
 
@@ -69,7 +70,7 @@ captures before invocation.
 
 ### Trade-offs
 
-- Pre-clearing provides precise one-shot semantics.
+- Clearing first gives the callback clear one-shot behavior.
 - It requires an explicit policy for reentrant registration and concurrent callers.
 
 ### Example
@@ -85,8 +86,8 @@ stored instead of being erased by cleanup after the old callback returns.
 ### Short Answer
 
 The task retains its operation closure and captures until it completes. A strong owner capture—or
-a weak capture promoted before a long loop—can keep the owner alive across suspension. If the task
-is unbounded or ignores cancellation, `deinit`-based cancellation may never run.
+a weak capture unwrapped before a long loop—can keep the owner alive across suspension.
+If the task has no fixed end or ignores cancellation, `deinit`-based cancellation may never run.
 
 ### Expanded Answer
 

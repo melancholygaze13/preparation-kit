@@ -19,24 +19,24 @@ last_reviewed: 2026-06-22
 
 | Question | Level | Focus |
 |---|---|---|
-| [What do Sendable and @Sendable guarantee?](#q1-sendable-and-sendable-closures) | Senior | Transfer and captures |
-| [How do region-based isolation and sending change transfer?](#q2-regions-and-sending) | Staff | Ownership transfer |
+| [What do `Sendable` and `@Sendable` guarantee?](#q1-sendable-and-sendable-closures) | Senior | Transfer and captures |
+| [How do region-based isolation and `sending` change transfer?](#q2-regions-and-sending) | Staff | Ownership transfer |
 | [How would you migrate a large codebase to Swift 6 concurrency?](#q3-strict-concurrency-migration) | Principal | Staged rollout |
 
 ---
 
 <a id="q1-sendable-and-sendable-closures"></a>
-## Q1: What Do Sendable and @Sendable Guarantee?
+## Q1: What Do `Sendable` and `@Sendable` Guarantee?
 
 ### Short Answer
 
-`Sendable` promises a value can cross isolation domains without unsafe shared mutation.
+`Sendable` promises a value can cross between tasks or actors without unsafe shared mutation.
 `@Sendable` applies that requirement to a closure and its captures. Neither makes compound
-operations atomic or turns an arbitrary mutable reference into thread-safe state.
+operations into one indivisible action or make an arbitrary mutable reference thread-safe.
 
 ### Expanded Answer
 
-A struct's complete stored graph must be safe. Immutable final classes may qualify under
+A struct's stored values and every reachable reference must be safe. Immutable final classes may qualify under
 the language rules, while mutable reference state needs actor isolation or audited
 synchronization. `@unchecked Sendable` is a manual proof, never a diagnostic silencer.
 
@@ -44,7 +44,7 @@ synchronization. `@unchecked Sendable` is a manual proof, never a diagnostic sil
 
 - Immutable values simplify reasoning but may copy or require schema evolution.
 - Isolated owners add async access.
-- Locked unchecked references retain sync APIs with high audit cost.
+- Locked unchecked references retain synchronous APIs but require careful review.
 
 ### Example
 
@@ -54,7 +54,7 @@ the closure captures an immutable request value.
 ---
 
 <a id="q2-regions-and-sending"></a>
-## Q2: How Do Region-Based Isolation and sending Change Transfer?
+## Q2: How Do Region-Based Isolation and `sending` Change Transfer?
 
 ### Short Answer
 
@@ -64,14 +64,15 @@ states that ownership transfers, so the source domain cannot safely keep using a
 
 ### Expanded Answer
 
-This is flow-sensitive proof, not blanket sendability. If the value remains connected to
-other source state, transfer is rejected. `sending` is appropriate when one-owner handoff
+The compiler decides from how the surrounding code uses the value. It does not make
+the type sendable in every situation. If the value remains connected to other state
+in the sending task, Swift rejects the transfer. `sending` is appropriate when one-owner handoff
 is the API contract; reusable shared references still need sendability and synchronization.
 
 ### Trade-offs
 
 - Transfer supports legacy/non-sendable graphs without unchecked promises.
-- Callers lose continued access and diagnostics can depend on surrounding alias flow.
+- Callers lose continued access, and small changes to nearby references can change the compiler result.
 
 ### Example
 
@@ -94,13 +95,13 @@ add adapters for legacy concurrency boundaries.
 Classify diagnostics by real owner rather than applying annotations mechanically. Record
 default isolation per module. Use `@preconcurrency` only at audited temporary boundaries,
 and require proof plus an expiry for unchecked conformances. Roll out target by target
-with compiled client fixtures, TSan/stress lanes, and diagnostic budgets.
+with compiled test clients, Thread Sanitizer runs, stress tests, and limits on unresolved diagnostics.
 
 ### Trade-offs
 
 - Leaf-first rollout reduces downstream churn but may be blocked by dependencies.
 - App-first isolation can unlock UI code but leaves adapters at library boundaries.
-- Temporary suppressions preserve delivery but accumulate safety debt.
+- Temporary suppressions keep migration moving but leave safety work that must be tracked.
 
 ### Example
 

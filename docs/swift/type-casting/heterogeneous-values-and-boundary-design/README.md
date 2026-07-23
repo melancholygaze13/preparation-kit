@@ -12,8 +12,9 @@ last_reviewed: 2026-06-22
 
 # Heterogeneous Values and Boundary Design
 
-> `Any` and `AnyObject` are escape hatches for mixed-type or interoperable data;
-> validate once at the boundary and convert into typed domain representations.
+> Heterogeneous data contains values of different types. Swift represents this
+> with `Any` or `AnyObject`. Validate these values at the boundary, then convert
+> them into specific domain types.
 
 ## Quick Recall
 

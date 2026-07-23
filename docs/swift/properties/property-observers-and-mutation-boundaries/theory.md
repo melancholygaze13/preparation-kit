@@ -81,7 +81,7 @@ asynchronous work, needs ordering or authorization, or must return a result. The
 method can validate first and commit once. Observers are suitable for cheap local
 normalization, debug assertions, and narrowly scoped notification.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Important validation occurs before committing externally visible state.
 - Multi-property transitions have one mutation owner.

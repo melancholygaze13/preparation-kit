@@ -33,7 +33,7 @@ satisfy a nonisolated synchronous requirement using isolated state. Options incl
 the protocol actor-aware, providing a truthful nonisolated witness, redesigning the API,
 or using a global-actor-isolated conformance where supported and appropriate.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Protocol changes preserve documented laws or ship as a new capability/version.
 - Witness isolation matches requirement isolation.

@@ -38,7 +38,7 @@ public struct AccountSummary {
 External clients can construct/read the value but cannot assign `displayName`. The explicit public
 members are necessary because a public type's members do not automatically become public.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Every visible signature mentions only types visible at least as broadly.
 - Visibility matches semantic ownership and supported consumers.

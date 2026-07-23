@@ -21,7 +21,7 @@ last_reviewed: 2026-07-22
 | Question | Level | Focus |
 |---|---|---|
 | [How do value semantics and copy-on-write work together?](#q1-how-do-value-semantics-and-copy-on-write-work-together) | Senior | Copy behavior |
-| [Does copying an array copy its objects?](#q2-does-copying-an-array-copy-its-objects) | Senior | Element semantics |
+| [Does copying an array copy its objects?](#q2-does-copying-an-array-copy-its-objects) | Senior | Element behavior |
 | [What should you know about `ArraySlice`?](#q3-what-should-you-know-about-array-slice) | Senior | Indices and storage |
 | [When is an array the wrong collection?](#q4-when-is-an-array-the-wrong-collection) | Senior | Representation choice |
 
@@ -32,7 +32,7 @@ last_reviewed: 2026-07-22
 
 ### Short Answer
 
-Array copies are independent logical values. Swift may share storage until one
+Array copies behave as independent values. Swift may share storage until one
 copy mutates, then create separate storage before exposing the change.
 
 ### Expanded Answer
@@ -54,7 +54,8 @@ references. Both arrays can still refer to the same instances.
 
 The array value is independent, but the referenced objects keep their own identity.
 Mutating the array structure affects only that array. Mutating a shared object can be
-observed through both arrays. Deep copying, when the domain needs it, is a separate policy.
+observed through both arrays. If the model needs copies of the objects too, that
+requires a separate operation.
 
 ---
 

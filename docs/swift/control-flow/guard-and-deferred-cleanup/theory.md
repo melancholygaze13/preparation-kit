@@ -23,8 +23,8 @@ tags:
 
 ## Mental Model
 
-`guard` narrows the valid state space for the rest of a scope. `defer` ties an
-already-acquired resource or begun operation to the lexical scope that owns it:
+`guard` checks what must be true for the rest of a code block. `defer` ties an
+already-acquired resource or started operation to the surrounding code block that owns it:
 
 ```mermaid
 flowchart LR
@@ -35,8 +35,8 @@ flowchart LR
     Exit --> Cleanup["Cleanup"]
 ```
 
-Neither keyword substitutes for domain modeling. Guard makes failure paths local;
-defer makes synchronous lifetime pairing local.
+Neither keyword replaces a clear domain model. `guard` keeps failure paths near
+their checks. `defer` keeps synchronous cleanup near resource acquisition.
 
 ## How It Works
 
@@ -64,13 +64,13 @@ are meaningful peers or when a condition governs only a small local action.
 
 ### Choosing the Exit
 
-The control transfer communicates ownership:
+The exit statement shows what the current scope should do:
 
 - `return` ends the function because no result or further work is appropriate.
 - `throw` propagates a recoverable domain or infrastructure failure.
 - `continue` rejects only the current iteration.
 - `break` ends the enclosing loop or labeled statement.
-- `fatalError` marks an unrecoverable programmer invariant and terminates; it is
+- `fatalError` marks a broken programmer rule from which the program cannot recover. It terminates and is
   not input validation.
 
 Avoid logging and returning a fabricated default when the caller needs to know
@@ -88,9 +88,9 @@ guard let token = request.token,
 }
 ```
 
-Keep expensive or effectful work visible. A long guard with database reads,
+Keep expensive work and side effects visible. A long guard with database reads,
 metrics, and mutations can obscure which requirement failed and complicate tests.
-Split conditions when failures need distinct policy or observability.
+Split conditions when failures need different handling or metrics.
 
 ### defer Registration and Scope
 
@@ -104,7 +104,7 @@ defer { close(descriptor) }
 try process(descriptor)
 ```
 
-Its scope is lexical. A defer inside an `if`, loop body, or `do` block runs when
+Its lifetime follows the surrounding code block. A defer inside an `if`, loop body, or `do` block runs when
 that inner scope exits, not necessarily when the whole function returns.
 
 Deferred code observes variables when it executes:
@@ -116,7 +116,7 @@ count = 2
 // Prints 2 at scope exit.
 ```
 
-Capture an immutable value explicitly if cleanup must use acquisition-time state.
+Capture an immutable value explicitly if cleanup must use the state from when the resource was acquired.
 
 ### Cleanup Order
 
@@ -146,18 +146,18 @@ structured operation that awaits cleanup on every intended path. Define what
 happens on cancellation and cleanup failure rather than launching unstructured
 fire-and-forget work.
 
-### defer versus RAII-Style Ownership
+### `defer` versus a Dedicated Owner
 
-Defer is appropriate for a local lexical lifetime: file descriptors, locks,
+Defer is appropriate for a lifetime within one code block: file descriptors, locks,
 temporary state, tracing spans, or transactions. A dedicated owner is better when
 the resource escapes, cleanup is reusable or stateful, lifetime crosses scopes,
 or correctness depends on a larger protocol.
 
 Swift class deinitialization can participate in ownership but does not provide a
-precise synchronous scope-exit contract for arbitrary graphs. Prefer explicit
-lifetime APIs where release timing is operationally significant.
+precise promise to release arbitrary object graphs when one code block exits.
+Prefer explicit lifetime APIs when release timing affects visible system behavior.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Code after a guard runs only when every guard condition succeeded.
 - Every guard failure leaves the enclosing scope.
@@ -181,7 +181,7 @@ lifetime APIs where release timing is operationally significant.
 |---|---|---|
 | Reject invalid prerequisite | `guard` | Remaining enclosing scope |
 | Choose between peer outcomes | `if` or `switch` | Branch-local |
-| Pair local synchronous actions | `defer` | Current lexical scope |
+| Pair local synchronous actions | `defer` | Current code block |
 | Own resource across scopes | Dedicated type | Object or operation lifetime |
 | Perform suspending cleanup | Explicit async lifecycle | Awaited operation |
 
@@ -189,7 +189,7 @@ lifetime APIs where release timing is operationally significant.
 
 Guard flattens the success path but many guards can fragment validation and
 duplicate recovery. Defer centralizes exit coverage but can make cleanup timing
-less visible when declared far from scope end. Owning abstractions add code while
+less visible when declared far from scope end. Dedicated owner types add code while
 making complex lifetime states testable and reusable.
 
 ## References

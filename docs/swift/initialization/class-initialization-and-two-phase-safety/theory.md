@@ -17,7 +17,7 @@ last_reviewed: 2026-07-22
 
 ## Mental Model
 
-Class initialization first makes the entire allocation memory-safe, then customizes the
+Class initialization first gives every stored property a safe value. It then customizes the
 fully initialized instance. Delegation rules enforce that sequence.
 
 ## How It Works
@@ -64,7 +64,7 @@ when code compiles, a callback can observe subclass rules before the subclass ha
 completed its own setup. Prefer explicit post-construction registration owned by the
 composition root or the object that controls the lifecycle.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Every class introduces storage through its designated initializer path.
 - Convenience paths converge on designated construction.
@@ -95,8 +95,8 @@ Test every delegation path, subclass default, failure point, and lifecycle callb
 Changing designated initializers can alter automatic inheritance and break downstream
 subclasses; compile representative subclass fixtures during evolution.
 
-If a framework permits external subclassing, treat designated initializers and required
-initializers as extension contracts. Document which hooks can run after construction,
+If a framework permits external subclassing, treat designated and required initializers
+as contracts for subclasses. Document which hooks can run after construction,
 which state is valid at each point, and how failure avoids leaked registration.
 
 ## References

@@ -31,7 +31,7 @@ last_reviewed: 2026-06-22
 
 Generics create optimization opportunities such as specialization and inlining, but Swift
 does not guarantee every call has zero overhead or a particular machine-code form. Module
-boundaries, resilience, visibility, build mode, and compiler decisions matter, so measure
+boundaries, library-evolution settings, visibility, build mode, and compiler decisions matter. Measure
 runtime and code size in the shipped configuration.
 
 ### Expanded Answer
@@ -39,7 +39,7 @@ runtime and code size in the shipped configuration.
 Some generic calls specialize to concrete operations; others use shared code or witness
 dispatch. `@inlinable` can expose implementation for cross-module optimization but enlarges
 the public optimization interface and still does not guarantee inlining. Specializing many
-substitutions can increase binary size and instruction-cache pressure.
+concrete type combinations can increase binary size and pressure on the CPU instruction cache.
 
 ### Trade-offs
 
@@ -59,25 +59,25 @@ choosing targeted optimization rather than blanket `@inlinable`.
 
 ### Short Answer
 
-Keep generic cores within aligned ownership boundaries, expose only domain-relevant type
-relationships, and use concrete facades, closures, or existentials where runtime substitution
+Keep generic cores within one ownership boundary and expose only useful domain type
+relationships. Use simple concrete APIs, closures, or existentials where runtime substitution
 or release independence matters. Govern public constraints, conformances, and inlinable code
-as compatibility surface.
+as public compatibility commitments.
 
 ### Expanded Answer
 
-Generics can push concrete types and constraints through feature, package, and build seams.
-Contain them behind stable facades when downstream teams should not recompile or migrate for
+Generics can push concrete types and constraints through feature, package, and build boundaries.
+Contain them behind stable APIs when downstream teams should not recompile or migrate for
 implementation changes. Use client compile fixtures and performance budgets to ensure the
 chosen boundary remains usable.
 
 ### Trade-offs
 
-- End-to-end generics maximize static composition but increase build and source coupling.
-- Erased or concrete seams reduce propagation but may add adapters and runtime indirection.
+- End-to-end generics maximize compile-time composition but increase build and source coupling.
+- Type-erased or concrete boundaries reduce spread but may add adapters and runtime indirection.
 
 ### Example
 
 A platform networking package keeps serializers and transports generic internally but
-exposes a concrete request facade to independently released feature teams. Extension points
+exposes a concrete request API to independently released feature teams. Extension points
 use a small existential protocol with explicit sendability and lifecycle rules.

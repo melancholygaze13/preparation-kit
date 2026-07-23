@@ -25,15 +25,15 @@ tags:
 
 | Question | Level | Focus |
 |---|---|---|
-| [How does guard differ from if?](#q1-guard-versus-if) | Senior | Prerequisites, scope, and exits |
-| [What exactly does defer guarantee?](#q2-defer-guarantees) | Senior | Scope, ordering, and exit coverage |
-| [Where should defer be declared after resource acquisition?](#q3-resource-pairing) | Senior | Leak-free lifecycle design |
+| [How does `guard` differ from `if`?](#q1-guard-versus-if) | Senior | Requirements, scope, and exits |
+| [What exactly does `defer` guarantee?](#q2-defer-guarantees) | Senior | Scope, ordering, and exit coverage |
+| [Where should `defer` be declared after resource acquisition?](#q3-resource-pairing) | Senior | Leak-free lifecycle design |
 | [How do cleanup and cancellation interact with async code?](#q4-async-cleanup) | Staff | Suspension and explicit lifecycle ownership |
 
 ---
 
 <a id="q1-guard-versus-if"></a>
-## Q1: How Does guard Differ from if?
+## Q1: How Does `guard` Differ from `if`?
 
 ### Short Answer
 
@@ -44,19 +44,19 @@ condition controls only local work or both branches are valid peer outcomes.
 
 ### Expanded Answer
 
-A guard failure can `return`, `throw`, `break`, `continue`, or call a nonreturning
-function. The correct exit depends on who owns recovery. Missing external input
+A guard failure can `return`, `throw`, `break`, `continue`, or call a function
+that never returns. The correct exit depends on who owns recovery. Missing external input
 usually should not become `fatalError`, while an iterator loop may legitimately
 `continue` past one invalid element.
 
-Long guards with effectful conditions can obscure failure reasons. Split them
-when each requirement has different error or observability policy.
+Long guards with side effects can hide failure reasons. Split them when each
+requirement needs different error handling or metrics.
 
 ### Trade-offs
 
 - Guard flattens the success path and extends bindings.
 - Several guards can fragment validation and repeat cleanup.
-- If makes symmetric branching easier to see.
+- `if` makes two equally valid branches easier to see.
 
 ### Example
 
@@ -67,12 +67,12 @@ error moves recovery to the owning boundary.
 ---
 
 <a id="q2-defer-guarantees"></a>
-## Q2: What Exactly Does defer Guarantee?
+## Q2: What Exactly Does `defer` Guarantee?
 
 ### Short Answer
 
 Once execution reaches a defer declaration, its synchronous body runs when
-control leaves that lexical scope through normal completion, return, throw,
+control leaves that surrounding code block through normal completion, return, throw,
 break, or continue. Defers in the same scope run in reverse declaration order.
 It does not run if registration was never reached or if the process terminates or
 crashes, and its body cannot transfer control outward or perform an async call.
@@ -90,7 +90,7 @@ type than in a stack of defers.
 ### Trade-offs
 
 - Defer covers many exits with one cleanup declaration.
-- Lexical timing can be surprising in nested scopes.
+- Cleanup timing can be surprising in nested code blocks.
 - It cannot guarantee crash recovery or suspending cleanup.
 
 ### Example
@@ -102,7 +102,7 @@ to the correct scope fixes the lifetime.
 ---
 
 <a id="q3-resource-pairing"></a>
-## Q3: Where Should defer Be Declared After Resource Acquisition?
+## Q3: Where Should `defer` Be Declared After Resource Acquisition?
 
 ### Short Answer
 
@@ -123,8 +123,8 @@ defer { lock.release() }
 ```
 
 Here the lock releases before the descriptor closes. If the resource escapes the
-scope or cleanup is stateful, move lifecycle ownership into a type or repository
-operation instead of extending the lexical scope indefinitely.
+scope or cleanup depends on stored state, move lifecycle ownership into a type or
+repository operation instead of keeping the code block open indefinitely.
 
 Cleanup failure needs policy. It should be observable without replacing the
 primary operation error unintentionally.
@@ -133,7 +133,7 @@ primary operation error unintentionally.
 
 - Immediate defer minimizes leak windows.
 - Narrow scope releases resources promptly but may require decomposition.
-- Owning types add abstraction while supporting nonlexical lifetimes.
+- Owning types add code but support lifetimes that cross code blocks.
 
 ### Example
 
@@ -151,7 +151,7 @@ covered path and leak metrics confirm the migration.
 Defer can run synchronous cleanup when an async function leaves scope, including
 through cancellation errors, but its body cannot await. Suspending cleanup needs
 an explicit awaited lifecycle that covers success, failure, and cancellation.
-Never hold a blocking lock across await, and revalidate actor state after
+Never hold a blocking lock across `await`, and check actor state again after
 suspension before committing work.
 
 ### Expanded Answer
@@ -168,7 +168,7 @@ bounded and safe even when the task is already cancelled.
 
 ### Trade-offs
 
-- Synchronous defer is simple and deterministic but cannot suspend.
+- Synchronous `defer` is simple and predictable but cannot suspend.
 - Explicit async cleanup duplicates some control flow unless abstracted.
 - Detached cleanup reduces caller latency but weakens delivery and ordering
   guarantees.

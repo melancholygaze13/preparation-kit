@@ -21,7 +21,7 @@ last_reviewed: 2026-07-22
 |---|---|---|
 | [When should initialization be failable, throwing, or a factory?](#q1-failure-shape) | Senior | Recovery and effects |
 | [When should an initializer be required?](#q2-required-contract) | Staff | Subclass construction contract |
-| [How should initializer invariants evolve across a system?](#q3-invariant-evolution) | Principal | Schema migration and rollout |
+| [How should initializer rules evolve across a system?](#q3-invariant-evolution) | Principal | Schema migration and rollout |
 
 ---
 
@@ -69,7 +69,7 @@ must still be establishable from the required inputs or valid defaults.
 ### Trade-offs
 
 - Required construction enables uniform factories.
-- It constrains future subtype invariants.
+- It limits future subtype rules.
 - Protocol factories or composition may provide looser extension.
 
 ### Example
@@ -80,27 +80,27 @@ construction with an injected factory avoids meaningless defaults.
 ---
 
 <a id="q3-invariant-evolution"></a>
-## Q3: How Should Initializer Invariants Evolve Across a System?
+## Q3: How Should Initializer Rules Evolve Across a System?
 
 ### Short Answer
 
-Treat stricter construction as a schema migration. Inventory callers, persisted data,
-decoders, factories, and subclasses; add version-aware tolerant readers and migration
-tooling before enforcing new inputs. Instrument failure categories, coordinate producers,
+Treat stricter construction as a schema migration. Find all callers, saved data,
+decoders, factories, and subclasses. Add tolerant readers for old versions and migration
+tools before enforcing new inputs. Measure failure categories, coordinate producers,
 preserve rollback, and deprecate old construction only after usage and old data decline.
 
 ### Expanded Answer
 
-Compile-time callers are only part of the surface. Old archives and deployed producers
+Compile-time callers are only part of the affected system. Old archives and deployed producers
 can still create now-invalid inputs. Defaults must have explicit version semantics.
 
 ### Trade-offs
 
-- Strict invariants improve correctness.
+- Strict rules improve correctness.
 - Compatibility windows add temporary complexity.
 - Automatic repair preserves availability but must not invent unsafe meaning.
 
 ### Example
 
 A formerly optional tenant ID becomes required. Readers first infer or quarantine old
-records with telemetry; writers then emit IDs; enforcement follows after backfill.
+records and records a metric. Writers then emit IDs. Enforcement follows after old data is updated.

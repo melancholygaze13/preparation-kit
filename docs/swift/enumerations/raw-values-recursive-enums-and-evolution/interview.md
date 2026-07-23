@@ -28,7 +28,7 @@ tags:
 | Question | Level | Focus |
 |---|---|---|
 | [What guarantees do enum raw values provide?](#q1-raw-value-guarantees) | Senior | Fixed mappings and representation boundaries |
-| [Why is init(rawValue:) failable, and how should unknown values be handled?](#q2-unknown-raw-values) | Senior | External input and forward compatibility |
+| [Why is `init(rawValue:)` failable, and how should unknown values be handled?](#q2-unknown-raw-values) | Senior | External input and forward compatibility |
 | [Why are implicit raw values risky for persistence?](#q3-implicit-raw-values) | Senior | Reorder and rename hazards |
 | [What does indirect mean for a recursive enum?](#q4-indirect-recursion) | Senior | Representation and algorithmic limits |
 
@@ -42,7 +42,7 @@ tags:
 A raw-value enum maps each case to one fixed unique value of a shared scalar raw
 type. `case.rawValue` returns that mapping. It does not expose the enum's memory
 tag, layout, ordinal, hash, or identity. Raw values are durable external codes only
-when explicitly assigned and governed as immutable schema.
+when explicitly assigned and treated as a schema that cannot change.
 
 ### Expanded Answer
 
@@ -67,15 +67,15 @@ layout. Persisting explicit raw codes avoids relying on unpromised representatio
 ---
 
 <a id="q2-unknown-raw-values"></a>
-## Q2: Why Is init(rawValue:) Failable, and How Should Unknown Values Be Handled?
+## Q2: Why Is `init(rawValue:)` Failable, and How Should Unknown Values Be Handled?
 
 ### Short Answer
 
 The raw type contains values with no declared enum case, so
 `init?(rawValue:)` returns nil for unknown input. Do not force-unwrap external
 codes. Depending on the domain, reject them, map to an explicit unknown value,
-preserve the raw code for round-trip compatibility, or degrade safely with
-telemetry.
+preserve the raw code so it can be written back unchanged, or provide limited
+functionality and record a metric.
 
 ### Expanded Answer
 
@@ -89,15 +89,15 @@ re-encoding does not destroy future data.
 
 ### Trade-offs
 
-- Rejection protects invariants but reduces forward compatibility.
+- Rejection protects required rules but reduces forward compatibility.
 - Mapping to generic unknown keeps operation alive but can lose detail.
 - Preservation expands state and storage complexity.
 
 ### Example
 
-An older client receives a new workflow status and force-unwraps it, crashing on
-launch from persisted server data. An unknown-preserving wrapper lets the client
-show limited UI and report adoption metrics.
+An older client receives a new workflow status and force-unwraps it. The app then
+crashes while reading saved server data. A wrapper that preserves unknown values
+lets the client show limited UI and report adoption metrics.
 
 ---
 
@@ -109,7 +109,7 @@ show limited UI and report adoption metrics.
 Implicit integer values depend on declaration position, so inserting or reordering
 cases changes later values. Implicit string values equal case names, so renaming a
 case changes the string. Both are convenient locally but unstable for storage,
-wire formats, analytics, or deep links. Assign explicit immutable codes before
+network formats, analytics, or deep links. Assign explicit fixed codes before
 external use.
 
 ### Expanded Answer
@@ -123,7 +123,7 @@ store the stable code rather than `allCases` index.
 
 ### Trade-offs
 
-- Implicit mappings reduce local boilerplate.
+- Implicit mappings require less local code.
 - Explicit codes create intentional compatibility maintenance.
 - Legacy spelling preserves data at aesthetic cost.
 
@@ -141,9 +141,9 @@ prevent reinterpretation.
 ### Short Answer
 
 An enum containing itself directly would require infinite inline size. `indirect`
-allows Swift to insert the necessary representation indirection for a recursive
-case or all cases. The enum remains value-semantic, and exact storage identity is
-not guaranteed. Indirect does not prevent stack overflow, excessive depth,
+allows Swift to store a recursive case or all cases through another level of
+storage. The enum remains a value type, and Swift does not guarantee an exact
+storage identity. `indirect` does not prevent stack overflow, excessive depth,
 arithmetic overflow, or resource exhaustion during traversal.
 
 ### Expanded Answer

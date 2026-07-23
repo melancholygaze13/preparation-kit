@@ -20,7 +20,7 @@ last_reviewed: 2026-07-22
 - Default to closed or `final`; open only documented variation points.
 - Prefer composition when behaviors vary independently or can change at runtime.
 - Never call overridable behavior from fragile lifecycle phases unless the contract makes it safe.
-- Adding a new virtual call or base invariant can break existing external subclasses.
+- Adding a new overridable call or required base-class rule can break existing external subclasses.
 - Framework owners need downstream subclass fixtures, diagnostics, deprecation, and rollout plans.
 
 ## Study

@@ -46,9 +46,9 @@ unnecessary feature-level dependencies when the inner record is broadly reusable
 
 ### Short Answer
 
-Introduce the new type at its stable owner, provide a deprecated typealias or adapter
-where compatibility permits, migrate internal producers and representative clients,
-and verify generated interfaces, binary expectations, reflection, and serialization.
+Introduce the new type at its stable owner. Add a deprecated type alias or adapter
+when compatibility allows it. Migrate internal producers and representative clients.
+Then verify generated interfaces, binary expectations, reflection, and serialization.
 Measure old-name use before removal and never use the qualified type name as persisted identity.
 
 ### Expanded Answer

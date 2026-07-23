@@ -40,7 +40,7 @@ This is valid because both arguments are distinct stored fields of a local uncap
 same surface syntax on global, computed, class-backed, or closure-captured storage may be rejected or
 dynamically checked because accessors and aliases can overlap.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Disjointness is proven from storage, not property names.
 - Computed accessors are treated as behavior, not independent stored fields.

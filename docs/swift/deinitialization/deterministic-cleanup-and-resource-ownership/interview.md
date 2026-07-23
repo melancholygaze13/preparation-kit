@@ -57,8 +57,8 @@ makes outcome and errors deterministic before the connection returns to its pool
 
 ### Short Answer
 
-Build an ownership graph, stop admission of new work, cancel or drain in-flight work
-by policy, close owners in reverse dependency order, bound each phase with timeouts,
+First map ownership and stop accepting new work. Cancel or finish work according
+to policy. Close owners in reverse dependency order, give each phase a timeout,
 and publish completion and failure metrics. Composition roots coordinate shutdown;
 deallocation order is not the protocol.
 

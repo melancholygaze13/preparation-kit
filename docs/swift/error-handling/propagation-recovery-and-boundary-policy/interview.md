@@ -21,7 +21,7 @@ last_reviewed: 2026-07-12
 |---|---|---|
 | [Where should an error be caught?](#q1-catch-boundary) | Senior | Recovery ownership |
 | [How should cancellation interact with error handling?](#q2-cancellation-policy) | Senior | Cooperative cancellation |
-| [How should a system govern retries and error translation?](#q3-system-error-policy) | Principal | Reliability and observability |
+| [How should a system govern retries and error translation?](#q3-system-error-policy) | Principal | Reliability, metrics, and logs |
 
 ---
 
@@ -30,7 +30,7 @@ last_reviewed: 2026-07-12
 
 ### Short Answer
 
-Catch at the nearest layer that can retry, fallback, compensate, translate, or present.
+Catch at the nearest layer that can retry, use a fallback, undo effects, translate, or present.
 If the current layer cannot make such a decision, propagate. Translate implementation
 errors at stable boundaries and avoid logging the same failure at every layer.
 
@@ -70,7 +70,7 @@ checks. Unstructured tasks need stored ownership and explicit cancellation.
 ### Trade-offs
 
 - Prompt checks save work but must occur at safe consistency points.
-- Cleanup may delay exit but protects invariants.
+- Cleanup may delay exit but protects required rules.
 - Treating cancellation as failure simplifies code while creating noise and wasted retries.
 
 ### Example
@@ -85,15 +85,15 @@ cancellation stops both while genuine network failure keeps its retry policy.
 
 ### Short Answer
 
-Define stable error categories, retryability, idempotency requirements, budgets,
-backoff, cancellation, redaction, translation owners, correlation, and alerting. Retry
-near the operation owner only for classified transient failures. Evolve public error
-schemas with tolerant readers, telemetry, and rollback.
+Define stable error categories, retry rules, requirements for safe repetition, attempt
+limits, delays, cancellation, redaction, translation owners, request identifiers, and
+alerts. Retry near the operation owner only for known temporary failures. Change public
+error schemas with tolerant readers, metrics, and a rollback plan.
 
 ### Expanded Answer
 
-Nonidempotent operations require keys or compensation before retry. One layer should
-own the failure event to prevent metric and alert amplification.
+Operations that are not safe to repeat need an idempotency key or an undo action before
+retry. One layer should own the failure event to prevent duplicate metrics and alerts.
 
 ### Trade-offs
 
@@ -103,5 +103,5 @@ own the failure event to prevent metric and alert amplification.
 
 ### Example
 
-A payment timeout is blindly retried and charges twice. Idempotency keys, bounded retry,
+A payment timeout is blindly retried and charges twice. Idempotency keys, limited retries,
 and stable “outcome unknown” policy make recovery safe.

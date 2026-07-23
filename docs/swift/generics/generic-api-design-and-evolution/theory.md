@@ -17,10 +17,10 @@ last_reviewed: 2026-06-22
 
 ## Mental Model
 
-Generic design has two clients: application code must infer and use the API, while the
-compiler must type-check and optimize it. A signature that maximizes theoretical
-generality can be worse than a narrower contract if it produces unstable inference,
-unreadable diagnostics, or constraints that propagate through the system.
+Generic design must work for both application code and the compiler. Callers must be
+able to understand the API, while the compiler must type-check and optimize it. The most
+general signature is not always best. It can produce unstable inference, unclear errors,
+or constraints that spread through the system.
 
 ## How It Works
 
@@ -49,10 +49,10 @@ The wrapper preserves the base store's type relationships and states sendability
 where this boundary needs it. A production cache would add explicit ownership and
 isolation; generic syntax alone provides neither.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Public parameters correspond to stable domain variation points.
-- Constraints state semantic needs at the narrowest responsible boundary.
+- Constraints state required behavior at the narrowest responsible boundary.
 - Overloads do not depend on subtle ranking for correctness.
 - Performance remains correct without specialization.
 - Migration preserves or deliberately versions established conformances and type relationships.
@@ -70,7 +70,7 @@ isolation; generic syntax alone provides neither.
 
 1. Identify which type relationships are externally meaningful.
 2. State the weakest capabilities needed for correctness.
-3. Compare a generic boundary with an existential, closure, or concrete facade.
+3. Compare a generic boundary with an existential, closure, or simple concrete API.
 4. Test inference and diagnostics from a separate client module.
 5. Benchmark runtime, code size, and build time in release conditions.
 6. Define compatibility and migration ownership before publishing conformances.
@@ -79,16 +79,16 @@ isolation; generic syntax alone provides neither.
 
 | Design | Benefits | Costs | Best fit |
 |---|---|---|---|
-| Fully generic surface | Maximum static information and composition | Constraint propagation and source coupling | Low-level reusable libraries |
-| Concrete facade over generic core | Stable, approachable public API | More adapters and less caller customization | Application and feature boundaries |
-| Existential or closure boundary | Runtime substitution and reduced generic spread | Erased relationships and possible indirection | Dependency and plugin seams |
+| Fully generic API | Most compile-time information and composition | Constraints spread into callers and couple source code | Low-level reusable libraries |
+| Concrete API over generic core | Stable, approachable public API | More adapters and less caller customization | Application and feature boundaries |
+| Existential or closure boundary | Runtime substitution and less generic spread | Hidden relationships and possible indirection | Dependency and plugin boundaries |
 
 ## Production Application
 
 ### Performance
 
 Use Instruments and representative benchmarks, then inspect release binaries when code
-size matters. Include cold-start effects and instruction-cache pressure; a faster isolated
+size matters. Include app-start effects and CPU instruction-cache pressure. A faster isolated
 specialization can still harm the application if replicated across many types.
 
 ### Concurrency and Thread Safety
@@ -99,13 +99,13 @@ async generic protocol contracts when applicable.
 
 ### Testing
 
-Maintain downstream compile fixtures for common and adversarial inference cases. Add API
+Maintain small client projects for common and difficult type-inference cases. Add API
 digester/interface checks for published libraries and benchmark both specialized-looking
 and existential alternatives.
 
 ### Observability and Debugging
 
-Record stable operation names separately from concrete generic type strings. Symbolication
+Record stable operation names separately from concrete generic type strings. Crash-symbol processing
 and crash grouping should tolerate specialized frames and implementation changes.
 
 ### Compatibility and Migration
@@ -118,14 +118,14 @@ toolchains. Deprecate old forms only after downstream migration is measurable.
 
 ### System Impact
 
-Unbounded generic propagation couples modules through compiler-visible types. Use concrete
-facades at organizational boundaries and keep generic cores where ownership and release
+Generics that spread without limits couple modules through compiler-visible types. Use simple
+concrete APIs at team boundaries. Keep generic cores where ownership and release
 cadence are aligned.
 
 ### Organizational Impact
 
 Set policies for conformance ownership, toolchain baselines, `@inlinable`, performance
-evidence, and source-compatibility fixtures. Compiler complexity is an operational cost
+evidence, and source-compatibility test projects. Compiler complexity costs time
 shared by every contributor and CI job.
 
 ## References

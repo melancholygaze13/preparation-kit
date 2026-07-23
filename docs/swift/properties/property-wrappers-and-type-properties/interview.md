@@ -20,7 +20,7 @@ last_reviewed: 2026-07-22
 | Question | Level | Focus |
 |---|---|---|
 | [What API does a property wrapper create?](#q1-wrapper-api) | Senior | Wrapped, projected, and backing values |
-| [When should you use a wrapper instead of a domain type?](#q2-wrapper-or-domain-type) | Senior | Invariant scope |
+| [When should you use a wrapper instead of a domain type?](#q2-wrapper-or-domain-type) | Senior | Where a rule must apply |
 | [Does a locking wrapper make mutation atomic?](#q3-wrapper-atomicity) | Staff | Compound operations and isolation |
 | [How should shared type properties be governed?](#q4-shared-type-state) | Principal | Ownership and platform policy |
 
@@ -62,7 +62,7 @@ projection with a narrow status interface prevents callers bypassing ownership.
 ### Short Answer
 
 Use a wrapper for repeated policy attached to particular storage locations, such as
-local clamping or observation. Use a domain type when the invariant must hold wherever
+local clamping or observation. Use a domain type when the rule must hold wherever
 the value travels, is passed, decoded, or stored. Use a service or actor when the
 policy needs I/O, asynchronous coordination, or lifecycle ownership.
 
@@ -73,7 +73,7 @@ An `EmailAddress` type makes invalid states harder to represent across all bound
 
 ### Trade-offs
 
-- Wrappers integrate ergonomically with declarations.
+- Wrappers fit directly into property declarations.
 - Domain types preserve meaning across APIs.
 - Services handle effects but require explicit dependency boundaries.
 
@@ -119,9 +119,9 @@ API becomes `increment()` on the isolated owner and tests the final count under 
 ### Short Answer
 
 Keep type properties immutable when possible. For mutable shared state, name one
-owner, isolation domain, lifecycle, reset policy, observability contract, and module
+owner, isolation domain, lifecycle, reset policy, metrics and logging rules, and module
 boundary. Use global-actor isolation for state genuinely owned there or inject an
-actor/service. Standardize exceptions and migration tooling; a type namespace does
+actor or service. Standardize exceptions and migration tools. A type name does
 not make global state local.
 
 ### Expanded Answer
@@ -134,7 +134,7 @@ should be explicit where callers depend on isolation.
 
 - Static constants are simple and deterministic.
 - Shared mutable state is convenient but couples tests and features.
-- Injected owners add plumbing while making lifecycle and replacement explicit.
+- Injected owners add setup code while making lifecycle and replacement explicit.
 
 ### Example
 

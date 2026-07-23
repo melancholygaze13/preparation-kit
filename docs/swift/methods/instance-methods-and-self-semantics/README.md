@@ -13,11 +13,11 @@ last_reviewed: 2026-07-22
 # Instance Methods and Self Semantics
 
 > An instance method operates in the context of one value or instance; place it on
-> the type only when that receiver owns the state, invariants, or capability involved.
+> the type only when that receiver owns the state, required rules, or capability involved.
 
 ## Quick Recall
 
-- Put behavior on a type when it operates on that receiver's state or preserves its invariants.
+- Put behavior on a type when it uses that receiver's state or keeps its rules true.
 - Use `self` to resolve ambiguity or communicate capture/receiver intent; do not add it mechanically.
 - A nonmutating struct or enum method cannot change value state, while a class method
   can mutate variable properties of the referenced instance.

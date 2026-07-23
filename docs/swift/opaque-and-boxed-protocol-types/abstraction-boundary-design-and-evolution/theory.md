@@ -55,7 +55,7 @@ func configuredExporter(useNetwork: Bool) -> any Exporter {
 The default factory hides one fixed representation. The configured factory chooses between
 implementations at runtime, so existential semantics match its contract.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - The boundary preserves every relationship required by downstream correctness.
 - Runtime substitution is owned where configuration and lifecycle are controlled.

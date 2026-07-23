@@ -26,10 +26,10 @@ tags:
 
 | Question | Level | Focus |
 |---|---|---|
-| [How do you choose between a struct and a class?](#q1-struct-or-class) | Senior | Domain semantics and ownership |
-| [Why should a public struct not rely on its memberwise initializer?](#q2-memberwise-api) | Senior | Invariants and API resilience |
+| [How do you choose between a struct and a class?](#q1-struct-or-class) | Senior | Copy behavior and ownership |
+| [Why should a public struct not rely on its memberwise initializer?](#q2-memberwise-api) | Senior | Valid state and API stability |
 | [Does a struct guarantee a deep immutable snapshot?](#q3-snapshot-boundary) | Senior | Reference members and observable behavior |
-| [How would you migrate a widely used class to a struct?](#q4-semantic-migration) | Staff | System impact and rollout |
+| [How would you migrate a widely used class to a struct?](#q4-semantic-migration) | Staff | Behavior change and rollout |
 
 ---
 
@@ -53,7 +53,7 @@ Protocol conformance and behavior reuse do not by themselves require a class.
 
 ### Trade-offs
 
-- Values localize mutation but may need storage optimization for large workloads.
+- Values keep mutation local but may need storage optimization for large workloads.
 - References model shared resources directly but introduce alias and lifetime reasoning.
 - Actors are a stronger starting point when coordinated concurrent mutation is central.
 
@@ -73,8 +73,8 @@ so it is a class or actor-backed owner.
 A synthesized memberwise initializer mirrors stored representation, is subject to
 access-control and synthesis rules, and does not automatically become a public API.
 Even when accessible, making it the contract couples callers to property names and
-permits representation-shaped construction. Export explicit initializers or
-factories that express intent and validate invariants.
+lets callers construct values around current storage details. Export explicit initializers or
+factories that express intent and reject invalid values.
 
 ### Expanded Answer
 
@@ -85,8 +85,8 @@ implementation types and tests where representation coupling is deliberate.
 
 ### Trade-offs
 
-- Synthesis removes boilerplate for local models.
-- Explicit construction adds maintenance but stabilizes semantics and validation.
+- Synthesis removes repetitive code for local models.
+- Explicit construction adds maintenance but stabilizes behavior and validation.
 - Factories can hide representation but should not obscure simple valid construction.
 
 ### Example
@@ -102,10 +102,10 @@ maps old parameters into new storage.
 
 ### Short Answer
 
-No. Copying a struct copies each field according to that field's semantics. If a
+No. Copying a struct copies each field according to that field's copy behavior. If a
 field is a class reference, both structs can refer to the same mutable instance.
-`let` prevents mutating the struct through that binding, but it does not transitively
-freeze referenced objects. Use value-semantic members, immutable references, or
+`let` prevents mutating the struct through that binding, but it does not make
+referenced objects immutable. Use members with value semantics, immutable references, or
 correct copy-on-write detachment when a real snapshot is required.
 
 ### Expanded Answer
@@ -133,17 +133,17 @@ owner restores truthful value snapshots.
 
 ### Short Answer
 
-First inventory identity, aliasing, observation, mutation, lifecycle, cache, and
-concurrency dependencies. Define the intended value contract and stable domain IDs,
-introduce a new value boundary or adapter, migrate consumers incrementally, and run
-semantic and performance checks in both models. Do not replace the keyword in place;
+First list every dependency on identity, aliases, observation, mutation, lifecycle,
+caches, and concurrency. Define the intended value behavior and stable domain IDs.
+Introduce a new value boundary or adapter, migrate consumers in stages, and compare
+behavior and performance in both models. Do not replace the keyword in place;
 copies that once shared updates will diverge.
 
 ### Expanded Answer
 
-Move authoritative mutation into an owner and publish snapshots. Replace object
+Move all source-state changes into one owner and publish snapshots. Replace object
 identity keys with domain IDs, adapt observation to snapshot publication, and define
-how old and new consumers coexist and roll back. Remove the class only after telemetry
+how old and new consumers coexist and roll back. Remove the class only after metrics
 and tests show that no caller depends on aliasing or deallocation behavior.
 
 ### Trade-offs

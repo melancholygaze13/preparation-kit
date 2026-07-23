@@ -23,8 +23,8 @@ tags:
 
 ## Mental Model
 
-An `if` chooses based on predicates. A `switch` partitions a value's state space
-using ordered patterns:
+An `if` chooses a branch from Boolean conditions. A `switch` divides all possible
+values into branches using patterns checked in order:
 
 ```mermaid
 flowchart LR
@@ -32,8 +32,8 @@ flowchart LR
     Pattern --> Branch["Branch"]
 ```
 
-Exhaustiveness proves that every representable input has a branch. Ordering
-decides precedence when more than one pattern could match.
+An exhaustive switch handles every possible input. When more than one pattern
+could match, the first matching case wins.
 
 ## How It Works
 
@@ -72,7 +72,7 @@ let warning: String? = if temperature <= 0 {
 ```
 
 Expression branches are intentionally constrained. If a branch needs substantial
-logging, mutation, or several steps, a statement with definite initialization or
+logging, mutation, or several steps, use a statement that assigns every path or
 an extracted function is usually clearer.
 
 ### Exhaustive switch
@@ -118,9 +118,9 @@ default:
 }
 ```
 
-Reversing the first two cases makes the exact case unreachable in behavior. The
+Reversing the first two cases means the exact case can never run. The
 compiler can diagnose some unreachable patterns, but reviewers should treat case
-order as decision precedence.
+order as part of the decision.
 
 ### Pattern Forms and Bindings
 
@@ -182,18 +182,20 @@ An expression can throw or terminate on a branch that cannot produce a value.
 Do not hide broad side effects inside value construction merely to avoid a local
 variable.
 
-### Enum Resilience and Unknown Cases
+### Enums That May Gain New Cases
 
 For enums whose cases are under the same module's control, spelling every case
-keeps the compiler involved in model evolution. For nonfrozen enums from another
-module, future versions can add cases. `@unknown default` handles runtime-unknown
+lets the compiler find code that needs updating when the enum changes. A
+nonfrozen enum from another module may gain cases in a future version.
+`@unknown default` handles runtime-unknown
 cases while asking the compiler to warn when currently known cases are omitted.
 
 The fallback still needs a product policy: preserve data, disable a feature,
 surface an unsupported state, or fail safely. Logging and telemetry should use a
-privacy-safe representation and avoid crash loops on forward-compatible input.
+form that does not expose private data. It should also avoid repeated crashes when
+a newer producer sends an unknown case.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Every switch input matches at least one case.
 - Exactly the first matching case executes unless explicit `fallthrough` changes
@@ -201,7 +203,7 @@ privacy-safe representation and avoid crash loops on forward-compatible input.
 - Overlap precedence is intentional and reviewed.
 - Bindings exist only after their pattern succeeds.
 - Expression branches produce compatible values or do not return.
-- Unknown-state handling matches the enum's resilience boundary.
+- Unknown-state handling matches whether future versions may add cases.
 
 ### Constraints and Guarantees
 
@@ -209,7 +211,7 @@ privacy-safe representation and avoid crash loops on forward-compatible input.
 - `default` ensures coverage but suppresses compiler pressure to name known cases.
 - `where` refines a matched pattern; it does not make a nonexhaustive switch
   exhaustive.
-- Pattern matching doesn't validate semantic constraints that the pattern does
+- Pattern matching does not validate domain rules that the pattern does
   not express.
 - `if case` and `for case` discard nonmatching values by design.
 
@@ -228,10 +230,10 @@ privacy-safe representation and avoid crash loops on forward-compatible input.
 
 ### Trade-offs
 
-Exhaustive switches increase change friction intentionally: every consumer must
-consider a new case. Defaults reduce source churn but can hide semantic drift.
-Pattern-rich cases are compact, but complex nested patterns may be harder to read
-and instrument than an initial decomposition followed by simpler decisions.
+Exhaustive switches intentionally require more work when the model changes: every
+consumer must consider a new case. Defaults reduce code changes but can hide new
+states. Cases with many nested patterns are compact, but may be harder to read and
+measure than extracting values first and making simpler decisions afterward.
 
 ## References
 

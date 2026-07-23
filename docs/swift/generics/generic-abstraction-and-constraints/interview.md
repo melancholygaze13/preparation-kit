@@ -19,7 +19,7 @@ last_reviewed: 2026-07-12
 
 | Question | Level | Focus |
 |---|---|---|
-| [How does a generic parameter differ from an existential?](#q1-generic-versus-existential) | Senior | Type relationships and runtime heterogeneity |
+| [How does a generic parameter differ from an existential?](#q1-generic-versus-existential) | Senior | Type relationships and mixed runtime types |
 | [How should you choose constraints for a reusable algorithm?](#q2-constraint-selection) | Staff | Minimal capability and behavior rules |
 
 ---
@@ -31,15 +31,16 @@ last_reviewed: 2026-07-12
 
 A generic parameter represents one concrete type selected for a call and preserves
 relationships involving that type. An existential stores some conforming value behind a
-runtime abstraction and may erase relationships callers need. Use generics for static
-composition and existentials for intentional runtime heterogeneity.
+runtime abstraction and may hide relationships callers need. Use generics for compile-time
+composition and existentials when an API must store mixed concrete types at runtime.
 
 ### Expanded Answer
 
 `func copy<S: Sequence>(_ source: S) -> [S.Element]` retains the exact element relationship.
 A value typed `any Sequence` hides its concrete sequence type and may require opening or
 additional constraints for operations involving its element. The choice affects storage,
-dispatch, API propagation, and substitution rather than being syntax preference.
+dispatch, how types spread through the API, and which values can be substituted. It is
+not only a syntax preference.
 
 ### Trade-offs
 
@@ -58,21 +59,21 @@ Its encoding helper remains generic because input and encoded output types must 
 
 ### Short Answer
 
-Constrain only the capabilities needed to prove correctness, but include semantic
-requirements the type checker cannot enforce in documentation and tests. Avoid concrete
+Require only the capabilities needed for correctness. Document and test behavior
+requirements that the type checker cannot enforce. Avoid concrete
 or stronger protocol constraints added only for implementation convenience.
 
 ### Expanded Answer
 
 Start from operations used by the body: iteration, equality, ordering, hashing, isolation,
 or ownership. Decide whether each is part of the public contract or belongs in a private
-adapter. Weak constraints expand valid callers; underconstraints make the body invalid;
-overconstraints couple clients and make future generalization a migration problem.
+adapter. Weak constraints allow more callers. Missing constraints make the body invalid.
+Overly strong constraints couple clients and make later generalization harder.
 
 ### Trade-offs
 
 - Narrow capability protocols improve reuse but add abstraction vocabulary.
-- Concrete constraints simplify implementation but leak policy and reduce substitutability.
+- Concrete constraints simplify implementation but leak policy and allow fewer substitutes.
 
 ### Example
 

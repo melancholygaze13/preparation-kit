@@ -17,9 +17,11 @@ last_reviewed: 2026-06-22
 
 ## Mental Model
 
-Every edge in an object graph answers “does this source own the destination's lifetime?” Strong
-means yes. Weak means no and absence is valid. Unowned means no, but presence is required whenever
-the edge is used. A cycle is a modeling error when every participant claims ownership of another.
+Each reference in an object graph answers one question: does this object own the
+referenced object's lifetime? A strong reference means yes. A weak reference means
+no, and the referenced object may disappear. An unowned reference also means no,
+but the referenced object must still exist whenever code uses the reference. A
+cycle is a design error when every object in it claims to own another.
 
 ## How It Works
 
@@ -65,13 +67,13 @@ Cycles can span many nodes through collections, delegates, timers, observation t
 and closures. Fix the ownership model or explicitly tear down registrations; changing an arbitrary
 edge to weak can turn a leak into missing required work.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Each non-owning edge corresponds to a documented domain lifetime relationship.
 - Weak disappearance has defined behavior rather than an accidental silent no-op.
-- Every unowned access is dominated by a proof that the owner remains alive.
+- Before every unowned access, the program's structure must guarantee that the owner is still alive.
 - Escaping children, tokens, and callbacks cannot invalidate unowned assumptions.
-- Cycle-breaking teardown is idempotent and owned by a clear lifecycle boundary.
+- The code that breaks a cycle has a clear owner and is safe to call more than once.
 
 ### Constraints and Guarantees
 
@@ -87,7 +89,8 @@ edge to weak can turn a leak into missing required work.
 ### When to Use It
 
 Use weak for observers, delegates, and back-references where independent disappearance is valid.
-Use unowned only for a mandatory relationship with a mechanically enforced owner lifetime.
+Use unowned only for a required relationship where the API or type structure
+prevents the referenced owner from dying first.
 
 ### When Not to Use It
 
@@ -107,13 +110,13 @@ is required. Give required work a strong operation owner and explicit cancellati
 
 ### Performance
 
-Choose semantics first. Weak/unowned operations have different runtime bookkeeping, but incorrect
+Choose lifetime behavior first. Weak and unowned operations have different runtime bookkeeping, but incorrect
 lifetime policy costs more than a micro-optimization. Profile only after graph correctness.
 
 ### Concurrency and Thread Safety
 
 A weak load can become `nil` between operations unless unwrapped into a strong local. That local
-extends lifetime but does not isolate state. Access the object on its required actor or lock domain.
+extends lifetime but does not isolate state. Access the object through its required actor or lock.
 
 ### Testing
 

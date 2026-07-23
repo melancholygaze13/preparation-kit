@@ -33,7 +33,8 @@ flowchart LR
 ```
 
 The environment can contain immutable snapshots, shared mutable storage, or
-references to objects. The arrow type does not reveal its size, ownership graph,
+references to objects. A function type such as `() -> Void` does not reveal the
+closure's size, ownership graph,
 or concurrency behavior.
 
 ## How It Works
@@ -53,8 +54,8 @@ func makeIncrementer(step: Int) -> () -> Int {
 
 The returned closure preserves `total` and `step` after `makeIncrementer` returns.
 `total` remains mutable state shared by every reference to that closure. Swift may
-optimize immutable captures, but code should rely on observable value and lifetime
-semantics rather than a particular box or allocation representation.
+optimize immutable captures, but code should rely only on visible value and lifetime
+behavior. It should not assume that Swift uses a particular box or allocation.
 
 ### Closures Are Reference Types
 
@@ -69,7 +70,7 @@ second()  // 4, using the same captured total
 ```
 
 This reference behavior does not give closures general equality or stable
-identity. It means copies of the closure value invoke the same behavior context.
+identity. It means copies of the closure value use the same captured values and state.
 Create the closure factory again when independent state is required.
 
 ### Ordinary Capture versus Value Capture
@@ -186,14 +187,14 @@ queue.enqueue { [userID] in
 ```
 
 Do not capture a value snapshot if correctness requires the latest state. Choose
-between snapshot, weak owner, strong operation owner, or actor lookup based on the
-domain's time semantics.
+between a snapshot, weak owner, strong operation owner, or actor lookup based on
+whether the work needs the earlier value or the latest value.
 
 ### Capture and inout Access
 
 An escaping closure cannot capture an `inout` parameter because the exclusive
 access is bounded to the function call. Allowing the closure to retain that access
-would escape the writeback lifetime. Nonescaping closures can participate in
+would keep the mutable access after the function returns. Nonescaping closures can participate in
 scoped access when the compiler can prove the lifetime.
 
 Copy the required value explicitly or redesign ownership; do not use unsafe
@@ -202,7 +203,7 @@ lifetime contract.
 
 ### Sendable Captures and Concurrency
 
-An `@Sendable` closure can cross concurrency domains only with captures satisfying
+An `@Sendable` closure can move between tasks or isolation boundaries only when its captures satisfy
 sendability rules. Capturing and mutating a local variable from concurrently
 executing work is rejected because the capture could race.
 
@@ -221,7 +222,7 @@ actor Counter {
 The closure can capture the actor reference and `await` its isolated operation.
 `@Sendable` does not inspect or protect arbitrary global state reached indirectly.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Every captured dependency remains valid for the closure's full lifetime.
 - Snapshot captures intentionally represent creation-time values.
@@ -308,8 +309,9 @@ visible in function types, affecting memory, cancellation, and incident diagnosi
 ### Decision Framework
 
 Review what is captured, whether it is snapshot or live state, who retains whom,
-maximum escape duration, release trigger, nil or deallocation policy, concurrent
-invocation, isolation, and operational visibility.
+how long the closure can escape, what releases it, and what happens if a captured
+object disappears. Also review concurrent calls, isolation, and the production
+signals needed to diagnose failures.
 
 ### Organizational Impact
 

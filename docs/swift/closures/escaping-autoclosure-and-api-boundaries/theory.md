@@ -43,8 +43,8 @@ part of that contract.
 
 ### Nonescaping by Default
 
-A closure parameter without `@escaping` must be fully used during the dynamic
-extent of the call:
+A closure parameter without `@escaping` must finish all of its work before the
+function returns:
 
 ```swift
 func repeatTwice(_ action: () -> Void) {
@@ -70,7 +70,7 @@ func measure(_ operation: () -> Void) -> Duration {
 ```
 
 The callee cannot store `operation` for ordinary later use. Nonescaping is a
-stronger contract for ownership and optimization, but it does not promise exactly
+clearer lifetime rule for ownership and optimization, but it does not promise exactly
 one invocation. The function could call the closure zero, one, or many times
 before returning unless its API says otherwise.
 
@@ -91,7 +91,8 @@ final class EventSource {
 }
 ```
 
-Asynchronous completions commonly escape, but storage is the defining property.
+Asynchronous completions commonly escape, but the defining rule is that the closure
+may remain usable after the function returns.
 An escaping closure can still run before the function returns. A nonescaping
 closure may run elsewhere only when the API still guarantees that it does not
 outlive the call.
@@ -99,7 +100,7 @@ outlive the call.
 ### Explicit self and Escaping Ownership
 
 When an escaping closure captures class instance state, explicit `self` or a
-capture-list entry surfaces the retention decision:
+capture-list entry makes the retention decision visible:
 
 ```swift
 source.observe { [weak self] event in
@@ -123,13 +124,13 @@ Stored callbacks need an explicit release path:
 - clear one-shot callbacks after invocation;
 - define behavior for owner deallocation and late events;
 - avoid using closure equality for removal;
-- make repeated cancellation idempotent where practical.
+- make repeated cancellation safe where practical.
 
 The source should not retain callbacks indefinitely after their useful lifecycle.
 The consumer should not be required to know the source's internal storage layout
 to deregister.
 
-### Autoclosure Semantics
+### Autoclosure Behavior
 
 An autoclosure automatically wraps a call-site expression in a zero-argument
 closure:
@@ -192,9 +193,9 @@ func enqueue<T>(_ value: @autoclosure @escaping () -> T) {
 }
 ```
 
-This is a high-risk readability boundary: the call site looks eager while the
-expression and its captures can outlive the call. Use it only when delayed
-semantics are conventional and unmistakable. An explicit `@escaping () -> T`
+This syntax can be hard to read because the call looks like it receives a value,
+while the expression and its captures can outlive the call. Use it only when
+delayed evaluation is expected and obvious. An explicit `@escaping () -> T`
 parameter is clearer for jobs, network work, transactions, and other effectful
 operations.
 
@@ -207,9 +208,9 @@ abstractions when callers need:
 - async or throwing work with visible effects;
 - inspection, cancellation, identity, or progress;
 - a stream or sequence of values;
-- explicit memoization or once-only evaluation.
+- explicit result caching or once-only evaluation.
 
-Autoclosure does not memoize. Every invocation re-evaluates the expression unless
+Autoclosure does not cache the result. Every invocation re-evaluates the expression unless
 the implementation stores its result separately.
 
 ### Assertion and Logging Boundaries
@@ -222,13 +223,13 @@ Do not write correctness logic that depends on a debug-only assertion condition
 or message being evaluated. Logging expressions should remain bounded and avoid
 capturing secrets or large graphs longer than the call.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Nonescaping callbacks do not remain usable after the call returns.
 - Every escaping registration has a defined owner and release trigger.
 - Captured lifetime matches all valid late invocations.
 - Autoclosure evaluation count and timing are documented and tested.
-- Required side effects do not depend on lazily optional diagnostics.
+- Required side effects do not depend on diagnostics that may never run.
 - Hidden expression syntax is used only when delayed evaluation is unsurprising.
 
 ### Constraints and Guarantees
@@ -249,7 +250,7 @@ capturing secrets or large graphs longer than the call.
 |---|---|
 | Immediate scoped behavior | Nonescaping closure |
 | Stored or deferred callback | `@escaping` closure with cancellation ownership |
-| Cheap-looking conventional lazy expression | `@autoclosure` |
+| Conventional expression that should run only when needed | `@autoclosure` |
 | Effectful or surprising deferred work | Explicit closure |
 | One async result | `async` return/throw when appropriate |
 | Repeated values over time | Async sequence or owned stream abstraction |
@@ -259,7 +260,7 @@ capturing secrets or large graphs longer than the call.
 
 Nonescaping gives stronger lifetime guarantees but cannot support deferred use.
 Escaping enables observers and asynchronous work while expanding ownership and
-concurrency risk. Autoclosure makes common lazy calls fluent but hides braces,
+concurrency risk. Autoclosure makes common lazy calls concise but hides braces,
 evaluation count, and captures from the call site.
 
 ## Production Application
@@ -273,8 +274,8 @@ repeated invocation can multiply cost. Measure call count and retained memory.
 
 ### Concurrency and Thread Safety
 
-Add `@Sendable` and actor isolation when escaping work crosses concurrency
-domains. These are separate from `@escaping`. Define whether cancellation removes
+Add `@Sendable` and actor isolation when escaping work moves between tasks or
+isolation boundaries. These are separate from `@escaping`. Define whether cancellation removes
 the stored closure and how racing invocation versus cancellation is resolved.
 Autoclosure expressions that capture mutable state have the same concurrency
 risks as explicit closures.
@@ -315,9 +316,9 @@ centralized.
 
 ### Decision Framework
 
-Record whether the callable escapes, who stores it, maximum lifetime, invocation
-count and timing, reentrancy, isolation, cancellation, release, capture policy,
-lazy evaluation count, failure, and migration strategy.
+Record whether the closure escapes, who stores it, and how long it can live.
+Also define its invocation count, timing, reentrancy, isolation, cancellation,
+release, capture rules, lazy evaluation, failure behavior, and migration plan.
 
 ### Organizational Impact
 

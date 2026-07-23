@@ -56,8 +56,8 @@ policy changes between scheduling and execution.
 
 ### Trade-offs
 
-- Snapshots are temporally stable but can become stale.
-- Live captures observe changes but increase shared-state coupling.
+- Snapshots do not change after capture but can become stale.
+- Live captures observe changes but depend more heavily on shared state.
 - Captured references retain identity and mutable object behavior.
 
 ### Example
@@ -86,8 +86,8 @@ the incrementer factory create separate totals. This behavior is observable even
 though the closure variables themselves are `let` constants: the reference is
 constant, not the captured state.
 
-Reference behavior does not provide general closure equality or persistence
-identity. Registration still requires explicit tokens.
+Reference behavior does not let closures support general equality or act as stable
+stored identifiers. Registrations still need explicit tokens.
 
 ### Trade-offs
 
@@ -104,7 +104,7 @@ and budgets independent.
 ---
 
 <a id="q3-reference-ownership"></a>
-## Q3: How Do Strong, weak, and unowned Captures Differ?
+## Q3: How Do Strong, Weak, and Unowned Captures Differ?
 
 ### Short Answer
 
@@ -128,7 +128,7 @@ runtime failure. Documentation such as “normally retained” is insufficient.
 
 - Strong preserves required work but extends lifetime.
 - Weak prevents retention while allowing disappearance.
-- Unowned simplifies access at crash risk when the invariant fails.
+- Unowned simplifies access but crashes if its lifetime rule is wrong.
 
 ### Example
 
@@ -144,15 +144,15 @@ weakly capturing only UI presentation preserves the required effect.
 ### Short Answer
 
 `inout` and a mutating value-type `self` provide exclusive mutable access bounded
-to the current call. An escaping closure could run after that access and writeback
-end, effectively preserving a mutable alias beyond its valid lifetime. Swift
+to the current call. An escaping closure could run after that access ends and
+keep a mutable alias beyond its valid lifetime. Swift
 rejects this. Copy the required value, return a result, or move long-lived mutable
 state into an explicit owner.
 
 ### Expanded Answer
 
 A nonescaping closure may use scoped mutable access when the compiler proves it
-does not outlive the call. Escaping turns that local borrow-like access into shared
+does not outlive the call. Escaping turns that temporary local access into shared
 mutation, conflicting with Swift's exclusivity and value-type model.
 
 Unsafe pointers are not a general workaround; they replace compiler enforcement
@@ -160,7 +160,7 @@ with a manual lifetime proof and should remain at justified low-level boundaries
 
 ### Trade-offs
 
-- Scoped mutation is efficient and locally verifiable.
+- Scoped mutation is efficient and can be checked within one call.
 - Copying creates snapshot semantics and possible cost.
 - Reference or actor ownership supports escape with a different API contract.
 
@@ -177,7 +177,7 @@ operation description instead.
 
 ### Short Answer
 
-Use `@Sendable` closure types at transfer boundaries and capture immutable
+Use `@Sendable` for closures that move between tasks or isolation boundaries. Capture immutable
 Sendable values, actors, or synchronized owners. Do not capture and mutate local
 variables from work that can overlap. Actor isolation or locks protect mutable
 state; `@Sendable` checks transfer and captures but does not synchronize global or
@@ -197,7 +197,7 @@ serialization across suspension.
 ### Trade-offs
 
 - Immutable snapshots are simple but may become stale.
-- Actors serialize state with await and reentrancy implications.
+- Actors serialize state, but calls can suspend and actor state can change during suspension.
 - Locks support synchronous critical sections with ordering risk.
 
 ### Example

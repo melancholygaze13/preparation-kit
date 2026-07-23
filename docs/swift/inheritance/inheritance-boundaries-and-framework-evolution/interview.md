@@ -87,7 +87,7 @@ Old subclasses access uninitialized state. A new opt-in hook with a safe default
 
 ### Short Answer
 
-Inventory subtype differences and base lifecycle dependencies, extract one orthogonal
+List subtype differences and base lifecycle dependencies, extract one independent
 behavior at a time into a strategy or contained component, and adapt existing subclasses
 to delegate to it. Add contract tests and telemetry, migrate construction at composition
 roots, then flatten or finalise classes only after old override use reaches zero.

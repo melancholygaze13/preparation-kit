@@ -19,7 +19,7 @@ last_reviewed: 2026-07-22
 
 | Question | Level | Focus |
 |---|---|---|
-| [What must be true when initialization completes?](#q1-complete-state) | Senior | Definite initialization and invariants |
+| [What must be true when initialization completes?](#q1-complete-state) | Senior | Definite initialization and required rules |
 | [How should multiple construction paths share validation?](#q2-delegation-design) | Senior | Delegation and API ownership |
 | [When should construction move to a factory?](#q3-initializer-or-factory) | Senior | Effects and failure |
 
@@ -31,7 +31,7 @@ last_reviewed: 2026-07-22
 ### Short Answer
 
 Every stored property must have an initial value, every constant must have its one
-allowed assignment, and all domain invariants must hold before the instance escapes.
+allowed assignment, and all domain rules must hold before the instance escapes.
 Compiler definite-initialization checks guarantee assigned storage, not business validity.
 
 ### Expanded Answer
@@ -41,7 +41,7 @@ no partial instance or externally registered reference.
 
 ### Trade-offs
 
-- Required inputs maximize explicitness.
+- Required inputs make every dependency explicit.
 - Valid defaults simplify common construction.
 - Factories better expose effectful setup.
 

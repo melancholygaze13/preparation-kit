@@ -58,7 +58,7 @@ an empty conformance extension can use synthesized requirements where supported,
 the extension location documents ownership. Protocol default implementations and dispatch
 need separate protocol-level reasoning; an extension does not create dynamic overriding.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - One accountable module owns each conformance's semantics and evolution.
 - Persistent or wire behavior does not depend accidentally on a foreign conformance.

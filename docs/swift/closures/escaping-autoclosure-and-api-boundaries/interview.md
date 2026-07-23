@@ -26,11 +26,11 @@ tags:
 
 | Question | Level | Focus |
 |---|---|---|
-| [What is the difference between escaping and nonescaping closure parameters?](#q1-escaping-versus-nonescaping) | Senior | Dynamic lifetime and storage |
+| [What is the difference between escaping and nonescaping closure parameters?](#q1-escaping-versus-nonescaping) | Senior | Lifetime and storage |
 | [Why does escaping capture require special attention to self?](#q2-escaping-self) | Senior | Ownership and value semantics |
 | [What does @autoclosure change?](#q3-autoclosure-semantics) | Senior | Hidden delayed evaluation |
 | [How should an autoclosure API handle side effects and evaluation count?](#q4-autoclosure-api) | Senior | Zero, one, or repeated invocation |
-| [How would you migrate a callback API to structured concurrency?](#q5-async-migration) | Staff | Cancellation, cardinality, and coexistence |
+| [How would you migrate a callback API to structured concurrency?](#q5-async-migration) | Staff | Cancellation, result count, and rollout |
 
 ---
 
@@ -43,7 +43,7 @@ A nonescaping parameter must finish use before the receiving function returns an
 is Swift's default. An `@escaping` parameter may be stored or invoked afterward.
 Escaping commonly supports asynchronous work but does not itself mean async,
 concurrent, delayed, or exactly once. The API must separately define timing,
-cardinality, isolation, cancellation, and release.
+invocation count, isolation, cancellation, and release.
 
 ### Expanded Answer
 
@@ -52,7 +52,7 @@ will later be called synchronously. Conversely, nonescaping only bounds lifetime
 the callee can call it zero or several times before returning.
 
 Escaping extends capture lifetime and can create cycles or races. Preserve
-nonescaping when later invocation is unnecessary, and return a token or
+the nonescaping default when later invocation is unnecessary, and return a token or
 cancellation owner for stored callbacks.
 
 ### Trade-offs
@@ -120,8 +120,8 @@ Assertions and logging use autoclosures to avoid constructing conditions or
 messages when disabled. The wrapped expression captures its dependencies exactly
 like an explicit closure.
 
-Adding `@escaping` lets the autoclosure outlive the call, further hiding lifetime
-behind eager-looking syntax. Explicit closure syntax is better for jobs, I/O, or
+Adding `@escaping` lets the autoclosure outlive the call, further hiding its lifetime
+behind syntax that looks like ordinary value passing. Explicit closure syntax is better for jobs, I/O, or
 side-effecting operations.
 
 ### Trade-offs
@@ -156,13 +156,13 @@ the result. If it intentionally retries or polls, autoclosure syntax is misleadi
 because each invocation reruns the expression.
 
 Assertions are especially important: optimized or configuration-specific behavior
-can omit evaluation. Conditions and messages must diagnose correctness, not
-perform correctness-critical mutation.
+can omit evaluation. Conditions and messages should report a problem. They must
+not perform mutations that the program needs for correct behavior.
 
 ### Trade-offs
 
 - Skipped evaluation saves cost.
-- Once-only caching changes memory and freshness semantics.
+- Once-only caching changes memory use and whether later reads see a fresh value.
 - Explicit behavior syntax adds braces while preventing hidden side effects.
 
 ### Example
@@ -178,7 +178,7 @@ making the message pure restores consistent behavior.
 
 ### Short Answer
 
-First document the callback's current timing, cardinality, errors, progress,
+First document the callback's current timing, invocation count, errors, progress,
 isolation, cancellation, and late-delivery behavior. A one-shot result can become
 an async throwing return only after enforcing exactly-once completion. Bridge
 cancellation in both directions, separate progress or streams, preserve isolation,
@@ -205,5 +205,5 @@ remove the callback surface under an explicit compatibility plan.
 ### Example
 
 A network callback can complete twice during retry races. Metrics and a state
-machine enforce one terminal transition before a continuation wrapper ships.
+machine allow only one completion before a continuation wrapper ships.
 Progress moves to a separate async sequence.

@@ -18,8 +18,9 @@ tags: [error-propagation, recovery, cancellation, observability]
 
 ## Mental Model
 
-Errors travel up ownership layers until one has the context and authority to decide.
-Each boundary may preserve, translate, retry, compensate, or present—but should not erase.
+Errors travel up through layers until one has enough context and responsibility to act.
+Each boundary may preserve, translate, retry, undo effects, or present the error. It
+should not erase useful information.
 
 ## How It Works
 
@@ -53,20 +54,20 @@ database codes, and localized strings should not leak as the domain contract.
 
 Retry only when the failure is classified as transient, the operation is safe to repeat,
 and one layer owns the attempt budget. Nested automatic retries multiply traffic and can
-push work beyond the user's deadline. Nonidempotent effects need an idempotency key,
-transaction, or compensation policy before retry is safe.
+push work beyond the user's deadline. Operations that are not safe to repeat need an
+idempotency key, transaction, or undo policy before retry is safe.
 
-Choose one layer to record the owned failure event. Lower layers can attach context,
-but logging and alerting at every catch produces duplicate events and can expose raw
+Choose one layer to record the owned failure event. Lower layers can add context,
+but logging and alerting at every `catch` produces duplicate events and can expose raw
 payloads. Preserve a correlation identifier as the error crosses boundaries.
 
-### Core Invariants
+### Rules That Must Stay True
 
-- Every catch has recovery, translation, compensation, or presentation policy.
+- Every `catch` has a recovery, translation, undo, or presentation policy.
 - Cancellation remains distinguishable and promptly propagates.
 - Retry is bounded, cancellable, and safe for the operation.
 - Cleanup runs on every exit path.
-- Observability records one owned failure without duplicate alerting/logging at every layer.
+- Metrics and logs record one owned failure without duplicates at every layer.
 
 ### Constraints and Guarantees
 
@@ -78,11 +79,11 @@ payloads. Preserve a correlation identifier as the error crosses boundaries.
 
 ## Engineering Judgment
 
-Propagate within a layer, translate at stable boundaries, and present only at the user-
-experience owner. Retry near the operation owner with idempotency evidence. Use explicit
-transactions or compensation for partial side effects.
+Propagate within a layer, translate at stable boundaries, and present only in the layer
+that owns the user experience. Retry near the operation owner only when repetition is
+safe. Use explicit transactions or undo actions for partial side effects.
 
-When a catch converts an error to a fallback, make that degradation observable if it
+When a `catch` converts an error to a fallback, record that reduced behavior if it
 changes freshness or completeness. Silent fallback can turn an incident into plausible
 stale data that is harder to diagnose than a visible failure.
 
@@ -90,13 +91,13 @@ stale data that is harder to diagnose than a visible failure.
 
 Test cancellation, retry exhaustion, redaction, cleanup, translation, and partial
 failure. Emit stable operation/category/retry/cancellation metrics with correlation IDs.
-Migrate taxonomies reader-first so old clients tolerate new server categories.
+Update readers first so old clients tolerate new server error categories.
 
 ## Staff and Principal Perspective
 
-Define an organization-wide error policy: ownership boundaries, retry budgets,
-idempotency keys, cancellation treatment, redaction, alerting, correlation, and public
-schema evolution. Error volume without decision ownership is operational debt.
+Define an organization-wide error policy. Cover ownership boundaries, retry limits,
+safe repetition, cancellation, redaction, alerts, request identifiers, and public
+schema changes. Many errors without a clear decision owner create ongoing operations work.
 
 ## References
 

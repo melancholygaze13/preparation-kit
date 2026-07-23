@@ -17,9 +17,9 @@ last_reviewed: 2026-07-12
 
 ## Mental Model
 
-Treat a generic signature as a proof boundary. The body may use exactly the facts stated
-by that signature. A caller supplies concrete types and proof that they satisfy every
-requirement. This separates reusable mechanics from type-specific policy without erasing
+Treat a generic signature as a list of facts the implementation may rely on. The body
+may use only the facts in that signature. A caller supplies concrete types that meet every
+requirement. This separates reusable code from type-specific policy without erasing
 the relationships the caller needs.
 
 ## How It Works
@@ -43,18 +43,19 @@ Generic types work the same way: a `struct Cache<Key: Hashable, Value>` is a dis
 concrete type for each `Key`/`Value` substitution. The type arguments are part of type
 identity; Swift does not support static stored properties in generic types.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - The signature states every operation required by the implementation.
-- Type parameters represent meaningful relationships rather than decorative flexibility.
+- Type parameters represent useful relationships rather than flexibility with no purpose.
 - Return types retain information promised by the signature.
-- Generic algorithms honor the behavior rules and complexity expectations of their constraints.
+- Generic algorithms follow the behavior and performance rules of their constraints.
 
 ### Constraints and Guarantees
 
 - Constraints are checked at compile time, including protocol, superclass, same-type, and layout requirements supported by the language.
 - Swift does not promise that every generic call is specialized or inlined.
-- Static overload resolution does not rediscover a more-specific overload after a generic function has been instantiated.
+- After Swift selects a generic function, it does not search again for a more
+  specific overload based on the concrete type.
 - The compiler checks declared requirements; it cannot generally verify behavior rules such as a valid equivalence relation.
 
 ## Engineering Judgment
@@ -67,7 +68,7 @@ identity; Swift does not support static stored properties in generic types.
 
 ### When Not to Use It
 
-- Runtime heterogeneity is the actual requirement and concrete relationships do not escape the boundary.
+- The API must store mixed concrete types at runtime and no concrete relationships cross the boundary.
 - The abstraction would expose implementation-only parameters and create widespread source coupling.
 - A small non-generic operation is clearer and the reuse case is speculative.
 
@@ -75,15 +76,15 @@ identity; Swift does not support static stored properties in generic types.
 
 | Choice | Benefits | Costs | Best fit |
 |---|---|---|---|
-| Generic parameter | Preserves type relationships and enables optimization | Propagates types and constraints into callers | Algorithms and compile-time composition |
-| Existential boundary | Stable storage and runtime substitution | Erases some relationships and can add indirection | Heterogeneous collections and plugin boundaries |
+| Generic parameter | Preserves type relationships and enables optimization | Spreads types and constraints into callers | Algorithms and compile-time composition |
+| Existential boundary | Stable storage and runtime substitution | Hides some relationships and can add indirection | Mixed-type collections and plugin boundaries |
 | Concrete overloads | Simple diagnostics for a small closed set | Duplication and poor scalability | Deliberately finite type families |
 
 ## Production Application
 
 ### Performance
 
-Generics permit specialization, but optimization depends on visibility, resilience,
+Generics permit specialization, but optimization depends on code visibility, library evolution,
 compiler decisions, and build mode. Measure the shipped configuration. Avoid assuming
 generic code is either always zero-cost or always dynamically dispatched.
 
@@ -101,8 +102,8 @@ than the type checker enforces.
 
 ### Observability and Debugging
 
-Log domain-level type names only when useful; generic mangled symbols and specialized
-frames can make crash reports harder to group. Preserve reproducing type substitutions in
+Log domain-level type names only when useful. Compiler-generated generic symbols and specialized
+frames can make crash reports harder to group. Preserve the exact concrete types in
 diagnostics and reduce inference failures to the smallest generic signature.
 
 ## Staff and Principal Perspective

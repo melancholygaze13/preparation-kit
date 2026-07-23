@@ -27,7 +27,7 @@ tags:
 | Question | Level | Focus |
 |---|---|---|
 | [How do SDK, deployment target, and runtime OS differ?](#q1-version-layers) | Senior | Build and execution contracts |
-| [What is the difference between @available, #available, and #unavailable?](#q2-availability-forms) | Senior | Declaration and control-flow refinement |
+| [What is the difference between `@available`, `#available`, and `#unavailable`?](#q2-availability-forms) | Senior | Declaration and runtime checks |
 | [Why is availability not the same as capability?](#q3-availability-versus-capability) | Senior | Product and runtime correctness |
 | [How should an organization own and retire compatibility paths?](#q4-compatibility-ownership) | Staff | Boundaries, testing, and migration |
 
@@ -40,9 +40,9 @@ tags:
 
 The SDK supplies declarations and availability metadata to the compiler. The
 deployment target is the oldest OS the binary promises to support. The runtime OS
-is the version currently executing it. A new SDK lets code know about a new API,
-but if that API is newer than the deployment target, references need an available
-context or runtime check before they are safe on older installations.
+is the version currently executing it. A new SDK makes a new API visible to the
+compiler. If that API is newer than the deployment target, protect its use with an
+available context or runtime check.
 
 ### Expanded Answer
 
@@ -71,7 +71,7 @@ The feature adds an adapter and fallback until product policy raises the target.
 ---
 
 <a id="q2-availability-forms"></a>
-## Q2: What Is the Difference Between @available, #available, and #unavailable?
+## Q2: What Is the Difference Between `@available`, `#available`, and `#unavailable`?
 
 ### Short Answer
 
@@ -112,9 +112,9 @@ owns the single `#available` selection and legacy implementation.
 ### Short Answer
 
 Availability proves that a symbol may be referenced on the running platform
-version. It does not prove the device has required hardware, the app has
-permission or entitlement, an account is eligible, a feature flag is enabled, a
-service is reachable, or the call will succeed. Check availability for symbol
+version. It does not prove that the device has the required hardware or that the
+app has permission. It also says nothing about account eligibility, feature flags,
+service access, or whether the call will succeed. Check availability for symbol
 safety, then use the relevant capability API and handle operation failure.
 
 ### Expanded Answer
@@ -124,7 +124,8 @@ still needs direct evidence: authorization status, supported interface, device
 capabilities, configuration, and returned errors. These facts can change without
 an OS update.
 
-Version proxies age poorly and can enable unsupported behavior on one device
+Using an OS version as a substitute for a capability check becomes inaccurate
+over time. It can enable unsupported behavior on one device
 while disabling supported behavior on another. A compatibility adapter can choose
 the API, while the feature's domain layer owns eligibility and failure.
 
@@ -149,16 +150,16 @@ the framework's capability check plus a fallback UI.
 
 Select modern or legacy implementations at a small owned adapter boundary, define
 one behavioral contract, and test the oldest supported OS, version boundary, and
-current OS. Track path usage and failures. Assign an owner and retirement
-criterion tied to an approved deployment-target increase; remove fallback only
+current OS. Track path usage and failures. Assign an owner and a condition for
+removal tied to an approved deployment-target increase. Remove fallback only
 after old runtimes are no longer supported and rollback builds no longer require
 them.
 
 ### Expanded Answer
 
 Scattered checks create many subtly different compatibility paths. One adapter
-contains thresholds and lets most feature code remain version-agnostic. It must
-normalize behavior that affects concurrency, cancellation, security,
+contains version thresholds and lets most feature code avoid version checks. It
+must provide consistent behavior for concurrency, cancellation, security,
 accessibility, and analytics—not only return types.
 
 Deployment-target changes require product, support, release, and sometimes
@@ -176,6 +177,6 @@ should be removed with the code, not before it.
 ### Example
 
 Five modules implement different checks for the same framework transition. A
-platform-owned adapter unifies semantics, path telemetry shows negligible legacy
-use, and product approves a target increase. The fallback is removed in a later
+platform-owned adapter provides one behavior, metrics show little legacy use, and
+product approves a target increase. The fallback is removed in a later
 release after the rollback window closes.

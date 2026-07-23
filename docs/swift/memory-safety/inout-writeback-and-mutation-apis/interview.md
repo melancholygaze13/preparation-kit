@@ -63,16 +63,16 @@ the logical value.
 ### Expanded Answer
 
 Do not place expensive or externally visible effects in observers without accounting for `inout`.
-Prefer explicit mutation methods when equality suppression or transactional behavior matters.
+Prefer explicit mutation methods when equal assignments should be ignored or all changes must commit together.
 
 ### Trade-offs
 
 - Property `inout` is convenient for reusable algorithms.
-- Writeback can make hidden effects and performance costs observable.
+- Writeback can reveal hidden effects and performance costs.
 
 ### Example
 
-A validation observer sends analytics on every assignment. A sorting helper passed the property
+A validation observer records an analytics event on every assignment. A sorting helper passed the property
 `inout` and emits redundant events; the API moves analytics to an explicit state transition.
 
 ---
@@ -83,12 +83,12 @@ A validation observer sends analytics on every assignment. A sorting helper pass
 ### Short Answer
 
 Return a value when the operation is computation, aliases may overlap, failure should commit nothing,
-or composition/reentrancy benefits from ending access before mutation. Use `inout` when one synchronous
+or composition and callbacks benefit from ending access before mutation. Use `inout` when one synchronous
 owner intentionally updates storage in place.
 
 ### Expanded Answer
 
-Named results clarify several outputs and make transactional commit explicit. `inout` is appropriate
+Named results clarify several outputs and let callers commit all changes together. `inout` is appropriate
 for measured in-place algorithms and focused state transitions, not as a substitute for return values.
 
 ### Trade-offs

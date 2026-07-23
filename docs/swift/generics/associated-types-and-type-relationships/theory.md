@@ -17,9 +17,9 @@ last_reviewed: 2026-07-12
 
 ## Mental Model
 
-A protocol with associated types describes a type family. `Sequence` does not mean one
-sequence type parameterized at each use; each conformance chooses an `Element`, and generic
-code refers to the relationship as `S.Element`.
+A protocol with associated types describes a group of related types. Each `Sequence`
+conformance chooses one `Element` type. Generic code refers to that relationship as
+`S.Element`.
 
 ## How It Works
 
@@ -39,24 +39,27 @@ brackets. That syntax supports constrained uses such as `some Repository<User>` 
 `any Repository<User>`, while the conformance still chooses the associated type. The
 generic function preserves the equalities among its argument, identifier, and result.
 
-An existential can store a runtime-selected conformer, but erasure may hide a relationship
+An existential can store a conforming value selected at runtime. Type erasure may hide a relationship
 the next operation needs. Constraining a primary associated type preserves selected facts;
 a generic parameter preserves the complete concrete relationship for the duration of the
 call. Choose the boundary from what the caller must prove, not from shorter syntax.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - A conformance has one coherent witness for each associated type.
 - Requirements referring to an associated type agree on the same selected type.
-- Same-type constraints encode real domain invariants, not incidental implementation details.
+- Same-type constraints encode real domain rules, not accidental implementation details.
 - Public primary-associated-type ordering and meaning remain stable or are migrated deliberately.
 
 ### Constraints and Guarantees
 
 - Associated types can have inherited protocol constraints and `where` requirements.
 - A type witness can often be inferred from method, property, or subscript witnesses.
-- Primary associated type syntax names selected associated types for constraint purposes; callers do not specialize a protocol declaration as if it were `Repository<User>` the generic type.
-- The usability of an existential with associated types depends on the operations and relationships needed at the use site; blanket claims that such protocols cannot be existentials are obsolete.
+- Primary associated type syntax names selected types for constraints. It does not turn
+  `Repository<User>` into a generic type declaration.
+- Whether an existential with associated types is usable depends on the operations and
+  relationships needed at the call site. The claim that such protocols can never be
+  existentials is obsolete.
 
 ## Engineering Judgment
 
@@ -65,7 +68,7 @@ family. Use an ordinary generic type parameter when the caller, rather than the
 conformance, should select the type independently for each use.
 
 Prefer the weakest relationship that proves correctness. Split protocols when different
-clients need independent capabilities; do not add same-type constraints only to silence a
+clients need independent capabilities. Do not add same-type constraints only to silence a
 local compiler error.
 
 When several associated types are always chosen together, confirm that one protocol
@@ -99,7 +102,7 @@ need availability and client-compilation review.
 ## Staff and Principal Perspective
 
 Associated types define dependency direction. A domain protocol should own domain
-relationships, while adapters map vendor-specific types at module edges. Review recursive
+relationships, while adapters map third-party types at module edges. Review recursive
 constraints for build-time impact and publish conformance examples as part of the contract.
 
 ## References

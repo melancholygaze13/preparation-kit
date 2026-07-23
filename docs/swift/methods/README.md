@@ -34,7 +34,7 @@ topics and appear here only where they affect method design.
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [Instance Methods and Self Semantics](instance-methods-and-self-semantics/README.md) | Attach behavior to the state and invariants it owns while keeping receiver and side effects explicit. | Reference | 6 min |
+| [Instance Methods and Self Semantics](instance-methods-and-self-semantics/README.md) | Attach behavior to the state and rules it owns while keeping the receiver and side effects clear. | Reference | 6 min |
 | [Mutating Value Types and State Transitions](mutating-value-types-and-state-transitions/README.md) | Use `mutating` methods to replace value state through validated, testable transitions. | Reference | 6 min |
 | [Type Methods and API Design](type-methods-and-api-design/README.md) | Use type-level behavior for operations about the type, not as a namespace for hidden global dependencies. | Reference | 6 min |
 

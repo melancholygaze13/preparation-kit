@@ -38,7 +38,7 @@ must follow the declaration's name specification, helping tooling reason about e
 Macros operate at compile time and cannot serve as dynamic runtime policy. Expanded
 code still obeys access control, type checking, isolation, availability, and overload rules.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Invocation and expansion have one documented behavior.
 - Generated names are predictable and collision-safe.

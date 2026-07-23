@@ -21,13 +21,13 @@ last_reviewed: 2026-07-22
 An array stores ordered elements of one type and supports random access. It has
 value semantics: after assignment, changing one array must not change the other.
 
-## Value Semantics and Elements
+## Value Semantics and Element Behavior
 
 Swift arrays normally use copy-on-write. Copies can share storage until one copy
 mutates. This is an implementation optimization; callers must observe independent
 array values.
 
-Element semantics still matter. If an array stores class references, copying the
+Element behavior still matters. If an array stores class references, copying the
 array copies those references. Both arrays can point to the same objects.
 
 ```swift
@@ -63,7 +63,7 @@ Do not use it as a correctness requirement.
 ## Constraints and Guarantees
 
 Value semantics is the public rule. Copy-on-write, capacity growth, and buffer
-sharing are implementation strategies. A performance-sensitive design may measure
+sharing are implementation details. A performance-sensitive design may measure
 them, but an API must remain correct if Swift copies earlier or stores differently.
 
 An array index identifies a position in one collection state. After insertion,
@@ -82,8 +82,8 @@ set for uniqueness and membership, or a dictionary for key-based lookup. Protect
 shared mutation with isolation; value semantics do not make simultaneous access
 to the same variable safe.
 
-When an operation repeatedly inserts or removes near the front, do not hide a
-linear algorithm behind a convenient array API. First check whether the data is
+When an operation repeatedly inserts or removes near the front, remember that
+each operation may move many elements. First check whether the data is
 small enough that simplicity wins. If measurements show a problem, choose a queue,
 deque, or another structure whose operations match the workload.
 

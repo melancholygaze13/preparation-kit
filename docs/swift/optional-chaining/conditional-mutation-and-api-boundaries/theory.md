@@ -67,7 +67,7 @@ Conditional UI decoration and best-effort local cleanup can fit chaining. Paymen
 persistence, authorization, and state-machine transitions usually need explicit missing-
 receiver handling so skipped work is visible and actionable.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Skipping a command is explicitly permitted.
 - Right-hand-side side effects are safe to skip.

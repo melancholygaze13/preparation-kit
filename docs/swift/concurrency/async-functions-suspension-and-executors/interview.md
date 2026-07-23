@@ -20,7 +20,7 @@ last_reviewed: 2026-07-12
 | Question | Level | Focus |
 |---|---|---|
 | [What is the difference between suspension and blocking?](#q1-suspension-versus-blocking) | Senior | Task and thread use |
-| [How do executor inheritance and @concurrent affect execution?](#q2-executor-inheritance) | Staff | Swift 6.2 placement |
+| [How do executor inheritance and `@concurrent` affect execution?](#q2-executor-inheritance) | Staff | Swift 6.2 placement |
 | [When should async operations run sequentially or concurrently?](#q3-sequential-or-concurrent) | Senior | Dependency and capacity |
 
 ---
@@ -30,8 +30,8 @@ last_reviewed: 2026-07-12
 
 ### Short Answer
 
-Suspension parks the task state and releases its thread for other work. Blocking keeps
-the thread occupied while it waits. `async` only permits suspension, `await` marks a
+Suspension pauses the task and frees its thread for other work. Blocking keeps the
+thread occupied while it waits. `async` only permits suspension, and `await` marks a
 possible suspension, and neither promises a background thread or parallel execution.
 
 ### Expanded Answer
@@ -55,7 +55,7 @@ Networking suspends correctly, but decoding still stalls UI and needs an explici
 ---
 
 <a id="q2-executor-inheritance"></a>
-## Q2: How Do Executor Inheritance and @concurrent Affect Execution?
+## Q2: How Do Executor Inheritance and `@concurrent` Affect Execution?
 
 ### Short Answer
 
@@ -71,7 +71,7 @@ with safe inputs/results, not for ordinary I/O that already suspends in framewor
 
 ### Trade-offs
 
-- Caller-actor execution improves approachable safety but can expose long CPU regions.
+- Caller-actor execution makes isolation easier to follow but can leave long CPU work on that actor.
 - Concurrent execution protects actor responsiveness but adds transfer and scheduling cost.
 - Per-module settings complicate cross-target reasoning.
 
@@ -94,14 +94,15 @@ resource budget allows overlap. `async` alone does not make consecutive calls co
 ### Expanded Answer
 
 Start from data dependencies, failure policy, and downstream capacity. `async let` fits
-a fixed small set of independent results. A bounded task group fits dynamic fan-out.
+a fixed small set of independent results. A task group with a concurrency limit fits
+a dynamic number of child tasks.
 Keep sequential code when overlap would violate ordering, rate limits, or mutation rules.
 
 ### Trade-offs
 
 - Concurrency can reduce latency but adds task, memory, and dependency pressure.
 - Sequential work is easier to reason about but can leave independent latency unhidden.
-- Unbounded fan-out can reduce total throughput after a dependency saturates.
+- Starting unlimited child tasks can reduce total throughput after a dependency reaches capacity.
 
 ### Example
 

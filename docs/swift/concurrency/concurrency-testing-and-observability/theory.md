@@ -17,8 +17,8 @@ last_reviewed: 2026-06-22
 
 ## Mental Model
 
-A reliable concurrency test controls a happens-before relationship. A reliable production
-system observes ownership and capacity at the same boundaries: task start/finish,
+A reliable concurrency test controls the exact order between important events. A
+reliable production system measures ownership and capacity at the same boundaries: task start and finish,
 suspension, actor queue, cancellation, stream buffer, and dependency call.
 
 ## How It Works
@@ -49,25 +49,25 @@ func cancellationStopsOwnedWork() async {
 ```
 
 The gate must itself be concurrency-safe and resume its waiters exactly once. Prefer a
-domain fake over sleeps or repeated yielding. Inject a `Clock`-generic dependency or
+fake that represents the real dependency over sleeps or repeated yielding. Inject a dependency based on `Clock` or a
 test scheduler for deadlines so virtual time advances deterministically.
 
 Use `confirmation(expectedCount:)` for observable events when the tested operation is
-fully awaited inside the closure. It is not an XCTest-style expectation that waits after
+fully awaited inside the closure. It is not an XCTest-style expectation that keeps waiting after
 the closure returns. Avoid globally serializing tests to hide shared mutable fixtures;
-give each test isolated state. Annotate a test or suite with `@MainActor` only when the
-production contract requires it.
+give each test its own state. Annotate a test or suite with `@MainActor` only when the
+production code requires main-actor isolation.
 
 Thread Sanitizer finds exercised runtime races in unsafe/legacy code. Instruments and
 signposts reveal executor and task behavior. Neither replaces static isolation review or
 deterministic assertions.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Tests await every operation they start or explicitly cancel and drain it.
 - Synchronization establishes order without wall-clock guesses.
 - Test fixtures are isolated under parallel execution.
-- Production metrics have bounded cardinality and preserve trace correlation.
+- Production metrics limit the number of distinct labels and keep related trace events connected.
 - Instrumentation does not change correctness or become a synchronization mechanism.
 
 ### Constraints and Guarantees
@@ -94,8 +94,8 @@ or serialize the suite to compensate for unsafe fixtures.
 |---|---|---|---|
 | Gate/fake dependency | Exact interleaving | Test support code | Reentrancy/cancellation |
 | Injected clock | Fast deterministic deadlines | API generic/injection design | Timeout policy |
-| TSan | Finds exercised memory races | Slow, incomplete coverage | CI/stress lane |
-| Metrics and traces | Production visibility | Cost/cardinality | Capacity and lifecycle |
+| TSan | Finds exercised memory races | Slow, incomplete coverage | CI stress tests |
+| Metrics and traces | Production visibility | Cost and too many distinct labels | Capacity and lifecycle |
 
 ### Alternatives
 
@@ -116,13 +116,13 @@ requires await through an explicit snapshot method.
 
 ### Testing
 
-Use parameterized tests for policy matrices, `#require` for prerequisites, and
+Use parameterized tests for combinations of policy choices, `#require` for prerequisites, and
 `#expect(throws:)` for typed failures. Keep UI tests in XCTest; Swift Testing does not
 support UI automation.
 
 ### Observability and Debugging
 
-Propagate correlation through task-local values where appropriate, but explicitly bridge
+Keep related trace events connected through task-local values where appropriate, but explicitly bridge
 detached/legacy boundaries. Use task names as diagnostic metadata, never correctness.
 
 ### Compatibility and Migration
@@ -134,18 +134,19 @@ Swift Testing API availability against the installed toolchain and deployment po
 
 ### System Impact
 
-Concurrency telemetry exposes saturation and ownership leaks before they become latency
+Concurrency metrics reveal dependencies at full capacity and ownership leaks before they become latency
 or battery incidents. Tests should enforce the same capacity and lifecycle policies.
 
 ### Decision Framework
 
-For each risk, identify the required interleaving, controllable boundary, invariant,
-runtime signal, and failure budget. Avoid tests that merely repeat work probabilistically.
+For each risk, identify the required event order, controllable boundary, rule that
+must stay true, runtime signal, and acceptable failure rate. Avoid tests that only
+repeat work and hope to trigger the right timing.
 
 ### Organizational Impact
 
 Provide shared concurrency-safe fakes, clocks, and metric conventions. Run strict compile,
-TSan, deterministic unit, and capacity tests in distinct CI lanes with clear ownership.
+Thread Sanitizer, repeatable unit, and capacity tests as distinct CI jobs with clear ownership.
 
 ## References
 

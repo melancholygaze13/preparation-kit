@@ -25,21 +25,21 @@ tags:
 
 | Question | Level | Focus |
 |---|---|---|
-| [How do you choose between for-in, while, and repeat-while?](#q1-loop-selection) | Senior | Traversal and first-pass semantics |
-| [Can every Sequence be iterated more than once?](#q2-sequence-consumption) | Senior | Generic iteration contracts |
-| [How do break, continue, labels, and fallthrough differ?](#q3-control-transfer) | Senior | Targeted exits and case behavior |
+| [How do you choose between `for`-`in`, `while`, and `repeat`-`while`?](#q1-loop-selection) | Senior | Traversal and first-pass behavior |
+| [Can every `Sequence` be iterated more than once?](#q2-sequence-consumption) | Senior | Generic iteration rules |
+| [How do `break`, `continue`, labels, and `fallthrough` differ?](#q3-control-transfer) | Senior | Targeted exits and case behavior |
 | [How do you make retry and polling loops production-safe?](#q4-production-loops) | Staff | Bounds, cancellation, and operations |
 
 ---
 
 <a id="q1-loop-selection"></a>
-## Q1: How Do You Choose Between for-in, while, and repeat-while?
+## Q1: How Do You Choose Between `for`-`in`, `while`, and `repeat`-`while`?
 
 ### Short Answer
 
-Use `for`-`in` when traversing a sequence, `while` when repetition depends on a
-condition that must be checked before any work, and `repeat`-`while` only when the
-body is valid and required at least once. For every condition-driven loop, define
+Use `for`-`in` to traverse a sequence. Use `while` when you must check the
+condition before doing any work. Use `repeat`-`while` only when the body must run
+at least once. For every condition-driven loop, define
 how state progresses, how it terminates, and how cancellation or errors exit.
 
 ### Expanded Answer
@@ -72,14 +72,14 @@ already failing service.
 ---
 
 <a id="q2-sequence-consumption"></a>
-## Q2: Can Every Sequence Be Iterated More Than Once?
+## Q2: Can Every `Sequence` Be Iterated More Than Once?
 
 ### Short Answer
 
 No. `Sequence` guarantees that it can produce an iterator, but it does not
-guarantee nondestructive or repeatable traversal. A second loop may restart,
-resume, be empty, or otherwise depend on the concrete sequence. Require
-`Collection` when multiple passes are part of the algorithm, or materialize the
+guarantee that another pass starts again without consuming state. A second loop
+may restart, resume, be empty, or otherwise depend on the specific sequence.
+Require `Collection` when multiple passes are part of the algorithm, or store the
 sequence once when the memory and lifetime cost is acceptable.
 
 ### Expanded Answer
@@ -89,15 +89,15 @@ generic distinction during testing. Stream-like and self-iterating sequences may
 consume state. A function constrained only to `Sequence` should make one pass
 unless its documentation and concrete type establish more.
 
-Materializing into an Array creates a repeatable snapshot but can consume an
-infinite sequence, allocate substantial memory, and delay processing. Strengthen
-the generic constraint when repeatability—not ownership—is the real requirement.
+Storing the elements in an `Array` creates a repeatable snapshot but can consume
+an infinite sequence, allocate substantial memory, and delay processing. Require
+`Collection` instead when repeated traversal is the real requirement.
 
 ### Trade-offs
 
 - `Sequence` accepts streaming and lazy inputs with a weaker contract.
 - `Collection` rejects single-pass inputs but enables repeated traversal.
-- Materialization stabilizes data at memory and latency cost.
+- Storing a snapshot stabilizes data but costs memory and delays processing.
 
 ### Example
 
@@ -108,7 +108,7 @@ them. The implementation folds validation and processing into one pass.
 ---
 
 <a id="q3-control-transfer"></a>
-## Q3: How Do break, continue, Labels, and fallthrough Differ?
+## Q3: How Do `break`, `continue`, Labels, and `fallthrough` Differ?
 
 ### Short Answer
 
@@ -148,21 +148,23 @@ function correctly ends the frame scan.
 
 ### Short Answer
 
-Define a maximum attempt count or deadline, retryable error policy, exponential
-backoff with jitter, cancellation behavior, idempotency, concurrency limit,
+Define a maximum attempt count or deadline and which errors can be retried. Use
+delays that increase after each failure, with a small random difference between
+clients. Define cancellation, whether repeated calls can cause duplicate effects, the concurrency limit,
 terminal result, and metrics. Each pass must make progress or wait deliberately.
-Centralize the policy so features do not create inconsistent retry storms, and
-roll out policy changes as operational changes.
+Centralize these rules so features do not send large, inconsistent waves of retries.
+Treat changes to retry behavior as production changes.
 
 ### Expanded Answer
 
 The loop should distinguish permanent failures from transient ones, honor server
 retry guidance, and stop on task cancellation or exceeded budget. Backoff reduces
-pressure; jitter prevents synchronized clients from retrying together. The
-operation needs an idempotency strategy before automatic replay.
+pressure. Random differences in delay prevent many clients from retrying together.
+The operation must be safe to repeat, or protect against duplicate effects, before automatic retries.
 
-Observability should record attempts, delay, elapsed time, exit reason, and final
-error. A circuit breaker or shared scheduler may be required when many callers
+Metrics should record attempts, delay, elapsed time, exit reason, and final error.
+A shared mechanism that temporarily stops calls to a failing dependency, or a
+shared scheduler, may be required when many callers
 target the same dependency.
 
 ### Trade-offs
@@ -170,10 +172,10 @@ target the same dependency.
 - More retries can mask transient faults but increase latency, energy, and load.
 - Central policy improves safety but may need per-operation configuration.
 - Persistence across launches improves delivery but expands ownership and
-  idempotency requirements.
+  requirements for safe repeated work.
 
 ### Example
 
 Thousands of devices poll a recovering endpoint every second. A shared policy
 adds capped exponential backoff, jitter, cancellation, server-directed delays,
-and rollout telemetry, preventing the clients from extending the outage.
+and rollout metrics, preventing the clients from extending the outage.

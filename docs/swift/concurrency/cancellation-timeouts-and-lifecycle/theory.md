@@ -17,9 +17,10 @@ last_reviewed: 2026-06-22
 
 ## Mental Model
 
-Cancellation is a request flowing through an ownership tree. A timeout is one policy
-that issues that request when a deadline wins. Neither is preemption: correctness depends
-on cancellation checks, cancellable suspension points, and idempotent cleanup.
+Cancellation is a request that flows from a task to the child tasks it owns. A
+timeout sends that request when a deadline passes. Cancellation does not forcibly
+stop code. The code must check for cancellation, call APIs that respond to it, and
+clean up safely even if cleanup runs more than once.
 
 ## How It Works
 
@@ -37,19 +38,20 @@ func transform(_ values: [Value]) async throws -> [Output] {
 ```
 
 Use `withTaskCancellationHandler` to forward cancellation to a legacy operation. Its
-`onCancel` closure can run concurrently with the operation, so shared handle state needs
-safe synchronization and the operation must tolerate cancel-before-start races.
+`onCancel` closure can run concurrently with the operation. Access to a shared
+operation handle therefore needs synchronization. The bridge must also handle
+cancellation that arrives before the operation has fully started.
 
-A timeout races the operation against clock sleep in a throwing task group. The first
-successful result or timeout error determines policy, and remaining children are
-cancelled. Because the group waits for children, a noncooperative operation can make
-observed duration exceed the nominal timeout.
+A timeout can start the operation and a clock sleep as child tasks in a throwing
+task group. Whichever finishes first decides the result, and the other child is
+cancelled. The group still waits for both children to finish. An operation that
+ignores cancellation can therefore run past the requested timeout.
 
 Prefer a deadline propagated from the request boundary over repeatedly creating full
 duration timeouts at every layer. `ContinuousClock` suits elapsed time; inject a clock
 or higher-level scheduler for deterministic tests.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Cancellation is checked before expensive or irreversible work and within long loops.
 - Cleanup restores consistency and is safe if invoked more than once.
@@ -69,7 +71,8 @@ or higher-level scheduler for deterministic tests.
 ### When to Use It
 
 Make user navigation, superseded requests, shutdown, and deadlines cancellation sources.
-Check at costly boundaries and consistency points rather than every instruction.
+Check before costly work and before changes that must leave state consistent. Do
+not check after every instruction.
 
 ### When Not to Use It
 
@@ -81,7 +84,7 @@ transaction rollback. Do not promise a hard deadline around noncooperative depen
 | Choice | Benefits | Costs | Best fit |
 |---|---|---|---|
 | Throwing check | Composes with error flow | Requires throwing API | Most cancellable work |
-| Boolean check | Custom partial result | Easy to forget propagation | Nonthrowing policy |
+| Boolean check | Can return a custom partial result | Easy to forget to pass cancellation onward | Nonthrowing policy |
 | Cancellation handler | Prompt legacy cancellation | Race-safe handle storage needed | Callback bridge |
 | Deadline race | Uniform timeout policy | Loser cleanup can extend duration | Cooperative operation |
 
@@ -99,8 +102,8 @@ Measure work performed after cancellation, not only request latency.
 
 ### Concurrency and Thread Safety
 
-Cancellation callbacks can overlap operation setup. Synchronize shared handles and make
-cancel/start/complete transitions idempotent.
+Cancellation callbacks can overlap operation setup. Synchronize shared handles.
+Make cancel, start, and complete transitions safe to repeat.
 
 ### Testing
 
@@ -121,8 +124,8 @@ single boundary. Preserve cancellation rather than wrapping it as an opaque erro
 
 ### System Impact
 
-Cancellation is load shedding. If it stops only UI updates but not network and CPU work,
-the system retains cost while hiding the result.
+Cancellation should remove work the system no longer needs. If it stops only UI
+updates but not network and CPU work, the system still pays the cost and discards the result.
 
 ### Decision Framework
 

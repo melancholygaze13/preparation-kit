@@ -18,8 +18,8 @@ tags: [errors, throws, typed-throws, api-design]
 
 ## Mental Model
 
-An error is a failed operation outcome with enough semantics for the next owner to
-decide retry, fallback, translation, compensation, or presentation.
+An error describes a failed operation. It gives the next owner enough information
+to retry, use a fallback, translate the error, undo effects, or show it to the user.
 
 ## How It Works
 
@@ -51,8 +51,8 @@ traps and process failures are outside ordinary recovery.
 
 ### Typed Throws
 
-Typed throws constrains the thrown type and improves exhaustive handling in narrow
-domain APIs. It can overcouple abstraction layers when underlying or future failures
+Typed throws limits a function to one declared error type. This supports exhaustive
+handling in narrow domain APIs. It can couple layers too tightly when current or future failures
 need expansion. Translate at a stable boundary rather than leaking transport errors or
 declaring one giant error enum.
 
@@ -67,11 +67,11 @@ Do not encode partial success as an ordinary success unless callers can tell wha
 missing. A batch can return per-item `Result` values, while an all-or-nothing operation
 should fail without publishing a misleading complete value.
 
-### Core Invariants
+### Rules That Must Stay True
 
-- Error cases correspond to recovery-relevant distinctions.
-- Successful return satisfies the full postcondition.
-- Failure leaves owned state consistent or explicitly compensated.
+- Error cases represent differences that change recovery.
+- A successful return meets every promised result condition.
+- After failure, owned state remains valid or completed effects are explicitly undone.
 - Public errors exclude secrets and unstable implementation details.
 - Typed contracts remain evolvable for their intended boundary.
 
@@ -80,18 +80,18 @@ should fail without publishing a misleading complete value.
 - Only values conforming to `Error` can be thrown.
 - A throwing call requires `try`, `try?`, or `try!`, unless handled in another permitted context.
 - `try?` converts failure to nil and loses the error value.
-- `try!` traps on a thrown error and requires a proven invariant.
+- `try!` traps on a thrown error. Use it only when you can prove failure is impossible.
 - Errors do not automatically roll back mutations or external effects.
 
 ## Engineering Judgment
 
-Design errors from caller decisions, not every internal event. Keep domain errors near
-the owning boundary, preserve underlying errors for diagnostics where safe, and use
-transaction/compensation design for effectful partial failure.
+Design errors around caller decisions, not every internal event. Keep domain errors near
+the boundary that owns them. Preserve underlying errors for safe diagnostics. Use a
+transaction or an undo policy when an operation can fail after producing side effects.
 
-Keep case payloads useful but stable. A public error can carry a domain identifier or
-retry hint without exposing a database code, localized message, token, or other detail
-that couples clients to one implementation or leaks sensitive data.
+Keep case payloads useful but stable. A public error can carry a domain identifier
+or retry hint. Do not expose database codes, localized messages, tokens, or other
+details that tie clients to one implementation or leak sensitive data.
 
 ## Production Application
 
@@ -101,7 +101,7 @@ error case can affect exhaustive clients and rollout policy.
 
 ## Staff and Principal Perspective
 
-Error taxonomies are system contracts. Standardize stable categories, retryability,
+Error categories are system contracts. Standardize stable categories, retry rules,
 redaction, ownership, translation, and versioning across client/service boundaries.
 
 ## References

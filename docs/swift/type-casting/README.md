@@ -33,7 +33,7 @@ are covered only where they affect casting decisions.
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
 | [Runtime Type Checks and Downcasting](runtime-type-checks-and-downcasting/README.md) | Use `is`, `as`, `as?`, and `as!` with explicit proof, failure, and substitutability policy. | Situational | 6 min |
-| [Heterogeneous Values and Boundary Design](heterogeneous-values-and-boundary-design/README.md) | Contain `Any` and `AnyObject` at interoperability boundaries and restore typed invariants promptly. | Situational | 6 min |
+| [Heterogeneous Values and Boundary Design](heterogeneous-values-and-boundary-design/README.md) | Keep `Any` and `AnyObject` at interoperability boundaries and convert them to checked types quickly. | Situational | 6 min |
 
 ## Related Topics
 

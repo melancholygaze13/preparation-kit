@@ -17,9 +17,10 @@ last_reviewed: 2026-07-12
 
 ## Mental Model
 
-Lifetime is a state machine layered over an ownership graph. The graph answers what keeps an object
-alive now. The state machine answers whether that retention is expected. Diagnosis requires both;
-a cycle can be intentionally rooted, while a noncyclic root path can still retain an object forever.
+Use two views of lifetime. An ownership graph shows which strong references keep an
+object alive now. Lifecycle states show whether the object should still be alive.
+You need both views to diagnose a leak. A live owner may intentionally retain a
+cycle, while a simple chain of references can retain an object forever by mistake.
 
 ## How It Works
 
@@ -35,7 +36,7 @@ func releasedAfterScope<Object: AnyObject>(_ make: () -> Object) -> Bool {
 ```
 
 A test can hold a weak reference, release all intended owners, drive cancellation and queued work to
-completion, then assert eventual release. This checks an external lifetime contract; it should not
+completion, then assert eventual release. This checks behavior visible outside the type. It should not
 replace explicit assertions about required completion and resource shutdown.
 
 A production investigation usually combines:
@@ -43,16 +44,16 @@ A production investigation usually combines:
 1. A reproducible create/use/close/dismiss cycle.
 2. Object-count or live-memory growth across repetitions.
 3. A memory graph showing strong paths from roots.
-4. Allocation stacks and task/registration telemetry.
-5. A fix tied to the correct owner and terminal transition.
+4. Allocation stacks and task or registration metrics.
+5. A fix tied to the correct owner and the event that ends the lifecycle.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Every long-lived object has a named owner and termination condition.
-- Registrations, callbacks, and tasks have idempotent release/cancellation paths.
-- Caches have capacity/eviction policy and are distinguishable from leaks.
+- Registrations, callbacks, and tasks can be released or cancelled safely more than once.
+- Caches have size and removal rules, so expected cached data can be distinguished from leaks.
 - Release tests also verify required work is not lost early.
-- Operational telemetry can correlate retained graphs with active business operations.
+- Production metrics can connect retained objects to active operations.
 
 ### Constraints and Guarantees
 
@@ -66,7 +67,7 @@ A production investigation usually combines:
 
 ### When to Use It
 
-Use graph tools for unexpected object lifetime, allocation profiling for growth and churn, and explicit
+Use graph tools for unexpected object lifetime, allocation profiling for growth and frequent allocation, and explicit
 lifecycle tracing for tasks/registrations. Start from a stated release expectation and reproduce it.
 
 ### When Not to Use It
@@ -81,19 +82,19 @@ confirming which component is responsible for completion.
 | Weak-probe test | Verifies expected release | Does not identify root | Regression contract |
 | Memory graph | Shows strong paths and cycles | Point-in-time snapshot | Root diagnosis |
 | Allocation profiling | Shows counts, stacks, churn | Needs representative workload | Growth/performance analysis |
-| Lifecycle telemetry | Connects retention to operations | Requires instrumentation discipline | Production diagnosis |
+| Lifecycle metrics | Connects retention to operations | Requires careful instrumentation | Production diagnosis |
 
 ## Production Application
 
 ### Performance
 
 Leaks increase the live set, but excessive allocation/ARC traffic can hurt without leaking. Track
-resident memory, object counts, allocation rate, retained size, and latency across repeated workflows.
+memory in use, object counts, allocation rate, retained size, and latency across repeated workflows.
 
 ### Concurrency and Thread Safety
 
 Tests must drain or cancel tasks deterministically and account for actor/queue hops. Protect lifecycle
-state transitions so finish/cancel cannot race into duplicate retention or premature release.
+state changes so concurrent finish and cancel calls cannot retain twice or release too early.
 
 ### Testing
 
@@ -107,8 +108,9 @@ than logging every retain/release. Capture diagnostic memory graphs near reprodu
 
 ### Compatibility and Migration
 
-Map old and new owners, introduce adapters, dual-record lifecycle metrics, migrate terminal actions,
-then remove old strong paths. Rollback must not create duplicate callbacks, tasks, or resource closure.
+Map old and new owners and introduce adapters. Record lifecycle metrics for both
+paths, then move the actions that end each lifecycle. Remove old strong references
+last. A rollback must not duplicate callbacks or tasks, or close a resource twice.
 
 ## Staff and Principal Perspective
 
@@ -120,7 +122,7 @@ Local ARC fixes fail when these layers disagree about who owns work and shutdown
 ### Decision Framework
 
 For each long-lived graph, record root owner, children, non-owning observers, terminal events,
-cancellation, resource cleanup, isolation, capacity, telemetry, and release test.
+cancellation, resource cleanup, isolation, capacity, metrics, and a release test.
 
 ### Organizational Impact
 

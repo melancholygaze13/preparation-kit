@@ -63,7 +63,7 @@ that invariants, dispatch, isolation, and evolution must account for. Omit `fina
 when subclassing is required within the permitted access boundary; use `open` for
 cross-module subclassing or overriding.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Every override satisfies the base signature and behavioral contract.
 - Required `super` calls occur exactly once and in the documented order.

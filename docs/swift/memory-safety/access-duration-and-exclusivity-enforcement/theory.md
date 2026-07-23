@@ -17,8 +17,9 @@ last_reviewed: 2026-07-12
 
 ## Mental Model
 
-For every access, identify location, read/write kind, and duration. Then ask whether another path
-can touch that location before the first access ends. Syntax can look different while storage aliases,
+For every access, identify its location, whether it reads or writes, and how long it
+lasts. Then ask whether another path can touch that location before the first access
+ends. Different syntax can refer to the same storage,
 and separate-looking properties can hide arbitrary code or whole-value access.
 
 ## How It Works
@@ -54,13 +55,13 @@ Each `inout` access lasts for the call. Passing one variable twice means two wri
 same storage. Other conflicts arise when the callee reads a global/property that aliases its `inout`
 argument or invokes reentrant code while holding mutating access.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Mutation is not observed through another alias while incomplete.
 - Long-term access ends before storage is reused through another path.
 - Runtime exclusivity traps are fixed as design defects, not suppressed as expected errors.
 - Synchronization is applied separately for truly concurrent shared state.
-- Unsafe code preserves equivalent aliasing invariants manually.
+- Unsafe code manually preserves the same rules for overlapping access.
 
 ### Constraints and Guarantees
 
@@ -68,7 +69,7 @@ argument or invokes reentrant code while holding mutating access.
 - One overlapping write conflicts with another read or write to the same location.
 - Static and dynamic enforcement implement the same language rule at different proof points.
 - A mutating value-type method holds write access to `self` for the method call.
-- Safe exclusivity does not guarantee multi-operation transaction atomicity.
+- Safe exclusive access does not make a multi-operation update indivisible.
 
 ## Engineering Judgment
 
@@ -90,7 +91,8 @@ looks exclusive. Use Swift concurrency guarantees or synchronization at the shar
 
 ### Testing
 
-Compile negative alias cases, test reentrancy, and run realistic callbacks/concurrency paths. Preserve
+Compile examples that must reject aliases. Test callbacks into the same object and run
+realistic concurrency paths. Preserve
 symbolicated exclusivity diagnostics because they identify access starts and conflicts.
 
 ### Observability and Debugging

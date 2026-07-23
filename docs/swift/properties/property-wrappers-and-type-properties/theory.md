@@ -27,7 +27,7 @@ tags:
 
 A wrapper is a small type that owns one property's storage behavior. It should make a
 local policy reusable without hiding system ownership. Type properties are global
-state scoped by a type name and deserve the same lifecycle and concurrency scrutiny.
+state placed under a type name. They need the same careful lifecycle and concurrency review as global state.
 
 ## How It Works
 
@@ -76,13 +76,13 @@ clients depend on generated storage names or exact lowering.
 An `init(wrappedValue:)` enables `@Wrapper var value = initial`. Additional wrapper
 arguments configure the wrapper. The declaration's access level, memberwise
 initialization, mutability, projected value, and enclosing type semantics all affect
-the resulting API. Review the expanded interface rather than treating the attribute
+the resulting API. Review the generated interface rather than treating the attribute
 as decoration.
 
 Wrappers can also be used for local variables and parameters under their applicable
-language rules. They are not a universal substitute for computed properties or
-domain types; a validated `EmailAddress` type preserves meaning wherever the value
-travels, while `@Validated var email: String` may protect only one storage location.
+language rules. They do not replace every computed property or domain type. A
+validated `EmailAddress` keeps its rules wherever the value travels.
+`@Validated var email: String` may protect only one storage location.
 
 ### Wrapper Semantics and Composition
 
@@ -109,7 +109,7 @@ Global constants and variables are also initialized lazily. Local variables are 
 Namespace syntax does not create ownership: a mutable static property is shared global
 state and should normally be immutable or actor-isolated.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Wrapper behavior matches the property's advertised domain contract.
 - Generated storage and reference semantics do not escape accidentally.
@@ -130,7 +130,7 @@ state and should normally be immutable or actor-isolated.
 ## Engineering Judgment
 
 Use a wrapper for repeated, local storage policy with a small stable interface. Use a
-domain type when invariants must follow the value. Use a service or actor when policy
+domain type when required rules must follow the value. Use a service or actor when policy
 requires I/O, lifecycle, coordination, or asynchronous state. Use immutable type
 properties for constants and isolated owners for genuinely shared mutable state.
 

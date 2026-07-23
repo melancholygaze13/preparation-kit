@@ -18,7 +18,7 @@ last_reviewed: 2026-06-22
 ## Quick Recall
 
 - Actor isolation protects access, not a whole method across `await`.
-- Recheck state after suspension when an invariant depends on it.
+- Recheck state after suspension when a required rule depends on it.
 - `@MainActor` expresses UI isolation, not a manual thread dispatch.
 - Use `nonisolated` only for code that does not need isolated state.
 

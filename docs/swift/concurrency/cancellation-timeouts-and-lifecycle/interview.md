@@ -37,12 +37,12 @@ a cancellable API. A cancellation handler forwards the signal promptly; it does 
 
 CPU loops need periodic checks at safe boundaries. Preserve `CancellationError` instead
 of retrying it. Cancellation handlers can race operation setup, so the underlying handle
-storage and cancel/start/complete transitions must be synchronized and idempotent.
+storage must be synchronized. The cancel, start, and complete transitions must be safe to repeat.
 
 ### Trade-offs
 
 - Frequent checks reduce latency with small overhead.
-- Cleanup protects invariants but delays completion.
+- Cleanup keeps required rules true but delays completion.
 - Partial results can be useful but need an explicit contract.
 
 ### Example
@@ -58,13 +58,14 @@ bridge synchronizes token publication and immediately cancels if cancellation wo
 ### Short Answer
 
 Represent a timeout as a deadline, race cooperative operation and clock sleep, cancel
-the loser, and propagate the remaining budget downstream. Owners cancel stored task
-handles during replacement or teardown and await/drain work where shutdown correctness requires it.
+the loser, and pass the remaining time to downstream calls. Owners cancel stored task
+handles during replacement or teardown. When correct shutdown depends on work finishing,
+the owner also waits for that work to finish or clean up.
 
 ### Expanded Answer
 
-A nominal timeout is not a hard bound if the operation ignores cancellation because a
-structured group waits for children. Cleanup must be idempotent and leave consistent
+A requested timeout is not a hard limit if the operation ignores cancellation,
+because a structured group waits for its children. Cleanup must be safe to repeat and leave consistent
 state. Recreating a full timeout at every layer accidentally expands the end-to-end budget.
 
 ### Trade-offs
@@ -75,4 +76,4 @@ state. Recreating a full timeout at every layer accidentally expands the end-to-
 ### Example
 
 A request gets a ten-second deadline. Each service derives remaining duration; database
-and network calls receive the same deadline, and telemetry records cancellation drain time.
+and network calls receive the same deadline. Metrics record how long cancelled work takes to finish.

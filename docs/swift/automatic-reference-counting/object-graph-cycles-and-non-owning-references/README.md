@@ -20,7 +20,7 @@ last_reviewed: 2026-06-22
 - `weak` references are optional and become `nil` after deallocation.
 - `unowned` references assume the target is still alive when accessed.
 - Use `weak` when the observed object may end first.
-- Use `unowned` only when another invariant guarantees the lifetime.
+- Use `unowned` only when another rule guarantees the lifetime.
 
 ## Study
 

@@ -18,7 +18,7 @@ last_reviewed: 2026-06-22
 ## Mental Model
 
 An ordinary generic parameter is one unknown type. A type pack is an unknown-length row of
-types. A repetition pattern is checked once and instantiated element-by-element, preserving
+types. Swift checks a repetition pattern once, then applies it to each element while preserving
 each position's concrete type.
 
 ## How It Works
@@ -55,7 +55,7 @@ struct Product<each Value> {
 let product = Product(42, "ready", true)
 ```
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Repeated packs have compatible length and positional relationships.
 - Each element satisfies constraints declared on its type pack.

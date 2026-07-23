@@ -36,10 +36,10 @@ tags:
 
 ### Short Answer
 
-Use a nested function when one enclosing algorithm is its only conceptual owner,
-nearby captures make dependencies clearer, it has no independent lifecycle, and
-testing through the outer behavior is sufficient. It keeps implementation detail
-out of wider scope. Extract it when reuse, direct testing, or independent semantics
+Use a nested function when only the enclosing algorithm needs it. Nearby captures
+should make dependencies clearer, and the function should have no separate
+lifecycle. Testing through the outer behavior should be enough. Nesting keeps the
+implementation detail out of wider scope. Extract it when reuse, direct testing, or independent behavior
 become important.
 
 ### Expanded Answer

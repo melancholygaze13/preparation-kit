@@ -17,10 +17,11 @@ last_reviewed: 2026-06-22
 
 ## Mental Model
 
-An async sequence is a pull-shaped consumer interface over possibly push-shaped work.
-The adapter owns impedance mismatch: rate, buffering, completion, cancellation, error,
-and producer lifetime. A continuation temporarily represents a suspended task, not a
-general event emitter.
+An async sequence lets a consumer ask for each value, even when an external source
+pushes values whenever they arrive. The adapter must handle different production
+and consumption speeds. It also owns buffering, completion, cancellation, errors,
+and the producer's lifetime. A continuation represents one suspended task. It is
+not a tool for sending many events.
 
 ## How It Works
 
@@ -53,27 +54,29 @@ source.onEvent = { event in
 ```
 
 The specific bridge must synchronize callbacks if the source invokes them concurrently.
-`onTermination` may race production; cleanup must be idempotent. One stream value should
-normally have one consuming iteration. Implement multicast with an explicit actor-owned
-subscriber registry and a buffer/policy per subscriber.
+`onTermination` may run at the same time as the producer; cleanup must be safe to
+repeat. One stream value should
+normally have one consuming iteration. To send the same events to several consumers,
+use an actor-owned subscriber list with a separate buffer and policy for each consumer.
 
 Use `withCheckedContinuation` or `withCheckedThrowingContinuation` for exactly one
 result. Resume on success, failure, cancellation, and every early-exit path exactly once.
 When bridging cancellable callbacks, coordinate continuation and operation handle so
 cancel-before-registration and callback-after-cancel cannot double resume.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - A checked continuation is resumed exactly once.
-- Producer shutdown is idempotent and reachable from consumer termination.
+- Producer shutdown is safe to repeat and can be reached when the consumer stops.
 - Buffer size and overflow behavior are explicit and observable.
 - A single-consumer stream is not accidentally exposed as broadcast.
 - Cancellation and normal end-of-stream remain distinguishable where policy requires it.
 
 ### Constraints and Guarantees
 
-- Async-sequence protocols define iteration shape, not producer cancellation semantics.
-- `AsyncStream` buffering is not backpressure unless the producer responds to yield outcomes.
+- Async-sequence protocols define how iteration looks, not how producer cancellation behaves.
+- `AsyncStream` buffering does not slow the producer when the consumer falls behind.
+  That requires the producer to respond to `yield` results.
 - Checked continuations diagnose misuse but do not automatically bridge cancellation or lifetime.
 
 ## Engineering Judgment
@@ -85,8 +88,8 @@ Use checked continuations for one-shot callbacks when no native async API exists
 
 ### When Not to Use It
 
-Do not wrap a single result in a stream, use a continuation for multiple events, or
-choose a lossy buffer for an audit/logging contract.
+Do not wrap a single result in a stream or use a continuation for multiple events.
+Do not choose a buffer that drops data when audit or logging rules require every event.
 
 ### Trade-offs
 
@@ -121,7 +124,7 @@ and assert source cleanup. Test buffer overflow and continuation terminal races.
 
 ### Observability and Debugging
 
-Expose yields by result, buffer high-water mark, termination reason, producer lifetime,
+Count each `yield` result, record the highest buffer use, termination reason, producer lifetime,
 and continuation age for diagnosing never-resumed operations.
 
 ### Compatibility and Migration
@@ -133,12 +136,14 @@ boundary and avoid exposing continuation types in domain APIs.
 
 ### System Impact
 
-Backpressure and broadcast semantics are system contracts. A default buffer choice can
-turn a local adapter into memory pressure or silent data loss across the product.
+The rules for slowing producers and sending events to several consumers affect the
+whole system. A default buffer can turn a local adapter into memory pressure or
+silent data loss across the product.
 
 ### Decision Framework
 
-Classify cardinality, loss tolerance, producer control, consumer count, completion,
+Define how many values can arrive, whether loss is acceptable, whether the producer
+can slow down, and how many consumers exist. Then define completion,
 failure, cancellation, and replay needs before choosing the abstraction.
 
 ### Organizational Impact

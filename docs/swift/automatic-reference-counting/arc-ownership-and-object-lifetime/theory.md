@@ -17,9 +17,11 @@ last_reviewed: 2026-06-22
 
 ## Mental Model
 
-Draw a directed ownership graph. Nodes are objects; strong edges keep destination nodes alive.
-External roots include active scopes, global/static state, framework storage, tasks, closures, and
-collections. An object becomes reclaimable when no strong path from a live root requires it.
+Think of ownership as a graph. Each node is an object. A strong reference is an
+arrow that keeps the referenced object alive. Roots include local variables in
+active scopes, global and static state, framework storage, tasks, closures, and
+collections. Swift can deallocate an object when no chain of strong references
+connects it to a live root.
 
 ## How It Works
 
@@ -38,15 +40,16 @@ func useSession() {
 }
 ```
 
-Both local bindings strongly reference one instance. ARC balances retains and releases according
-to Swift's ownership semantics and optimization. Code must not depend on a particular retain count
-or exact release instruction placement; it may depend on the instance remaining alive while used.
+Both local variables strongly reference the same instance. ARC adds the operations
+needed to keep the instance alive and later release it. The compiler may optimize
+those operations. Code must not depend on an exact retain count or a specific
+release instruction. It can depend on the instance remaining alive while it is used.
 
 ARC applies to class instances. Value types have value semantics, but their storage can contain
 class references whose lifetimes ARC manages. Closures are reference types and may strongly own
 their capture context.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Every required object has a strong owner for its full required lifetime.
 - Ownership roots and release points are identifiable in the architecture.
@@ -67,7 +70,8 @@ their capture context.
 ### When to Use It
 
 Use ordinary strong ownership when a holder requires an object to remain alive. Prefer one clear
-owner for services/resources and explicit borrowing through method calls or scoped closures.
+owner for services and resources. Give other code temporary access through method
+calls or closures that cannot escape their scope.
 
 ### When Not to Use It
 
@@ -97,8 +101,9 @@ mutation. Use actors, immutability, or encapsulated synchronization and audit re
 
 ### Testing
 
-Use weak probes after releasing all intended owners, test explicit shutdown separately, and bound
-asynchronous completion/cancellation. Avoid asserting an exact internal retain count.
+Use weak probes after releasing all intended owners. Test explicit shutdown
+separately. Give asynchronous completion and cancellation tests a clear timeout.
+Avoid asserting an exact internal retain count.
 
 ### Observability and Debugging
 
@@ -107,13 +112,14 @@ Memory graphs show a snapshot; confirm which root owns the unexpected strong pat
 
 ### Compatibility and Migration
 
-Changing a property, capture, cache, or callback between strong and non-owning is a semantic change.
+Changing a property, capture, cache, or callback between strong and non-owning changes behavior.
 Stage ownership migration with lifecycle assertions and tests for both early release and leaks.
 
 ## Staff and Principal Perspective
 
-Ownership is system topology. Document root owners, long-lived registries, shutdown order, and module
-boundaries. A memory incident often exposes unclear service ownership rather than one missing `weak`.
+Ownership is part of the system's structure. Document root owners, long-lived
+registries, shutdown order, and module boundaries. A memory incident often reveals
+unclear service ownership, not only one missing `weak` reference.
 
 ## References
 

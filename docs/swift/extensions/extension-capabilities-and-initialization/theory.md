@@ -65,13 +65,13 @@ For classes, extensions can add convenience initializers but not designated init
 or deinitializers. They cannot override inherited or declared behavior; use subclassing,
 composition, protocol requirements, or an explicit wrapper when replacement is required.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Extension behavior preserves the original type's stored representation.
 - Added initializers establish every invariant through an authorized initialization path.
 - Computed members do not hide unsafe global mutable state.
 - Public additions have names and semantics consistent with the original type.
-- File splitting does not obscure the authoritative owner of an invariant.
+- File splitting does not hide which code owns a required rule.
 
 ### Constraints and Guarantees
 

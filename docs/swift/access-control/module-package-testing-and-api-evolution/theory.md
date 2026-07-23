@@ -39,7 +39,7 @@ Clients can call `isZero`, and their optimizer can see its body. `rawValue` rema
 ordinary source API but becomes ABI-relevant for inlinable code. This is a compatibility cost, not a
 way to bypass intentional access design.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Module/package boundaries match dependency ownership and release cadence.
 - Tests validate supported seams without forcing production visibility growth.

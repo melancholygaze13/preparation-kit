@@ -54,7 +54,7 @@ Erasure restricts operations when the hidden type occurs in an input position. T
 `any Equatable` values cannot be compared with `==` in general: each box may hold a different
 concrete type, while `Equatable.==` requires both operands to have one `Self` type.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Every stored value conforms to the existential's protocol composition.
 - Code does not assume independently boxed values share a concrete type.

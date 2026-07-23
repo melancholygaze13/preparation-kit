@@ -17,9 +17,10 @@ last_reviewed: 2026-06-22
 
 ## Mental Model
 
-An actor is an owner and serialization boundary, not a monitor lock around an entire
-async method. Every suspension ends one isolated transaction; the resumed segment starts
-later against potentially different state. Actor topology should mirror invariant ownership.
+An actor owns mutable state and allows only one piece of actor-isolated code to use
+that state at a time. It does not lock an entire async method. Other work can change
+the actor's state while a method is suspended at `await`. Group state in actors based
+on which rules must change together.
 
 ## How It Works
 
@@ -63,10 +64,11 @@ actor Cache {
 }
 ```
 
-An in-flight task table can deduplicate identical work, but define whether one caller's
-cancellation cancels shared work or only stops that caller waiting.
+An actor can track running tasks to avoid starting the same work twice. Define
+whether one caller's cancellation stops the shared task or only stops that caller
+from waiting for it.
 
-Use `@MainActor` for UI and lifecycle state whose invariant belongs to the main actor.
+Use `@MainActor` for UI and lifecycle state whose required rule belongs to the main actor.
 Custom global actors coordinate a process-wide domain, so use them sparingly. An
 `isolated` actor parameter lets a helper execute synchronously in the borrowed actor
 context. `nonisolated` members cannot rely on isolated state and are useful for immutable
@@ -77,13 +79,13 @@ toolchains. The former constrains use of the conformance to its actor; the latte
 teardown access actor-isolated state but remains synchronous—async cleanup needs an
 explicit lifecycle API.
 
-### Core Invariants
+### Rules That Must Stay True
 
-- One authoritative isolation owner protects each mutable invariant.
+- One isolation owner protects each rule for mutable state.
 - Actor state is revalidated after suspension before commit.
 - Mutable references do not escape isolated storage unprotected.
 - `nonisolated` and isolated conformance annotations describe real access requirements.
-- Cross-actor workflows do not pretend to be one atomic transaction.
+- A workflow across several actors does not claim that all steps happen as one indivisible change.
 
 ### Constraints and Guarantees
 
@@ -97,7 +99,7 @@ explicit lifecycle API.
 ### When to Use It
 
 Use an actor when shared mutable state has async clients and one owner can preserve its
-invariants. Use global actors for a truly global execution domain such as UI state.
+required rules. Use global actors for a truly global execution domain such as UI state.
 
 ### When Not to Use It
 
@@ -122,8 +124,9 @@ audited synchronization for synchronous APIs that cannot become actor-isolated.
 
 ### Performance
 
-Measure actor queue delay, hop count, long synchronous segments, deduplication ratio,
-and rejected stale commits. Coarsening ownership simplifies invariants but can bottleneck.
+Measure actor queue delay, hop count, long synchronous segments, duplicate work,
+and rejected stale updates. Putting more state in one actor simplifies coordination,
+but that actor can become a bottleneck.
 
 ### Concurrency and Thread Safety
 
@@ -149,13 +152,15 @@ boundaries, not individual properties, and account for module isolation settings
 
 ### System Impact
 
-Actor boundaries define transaction and scalability boundaries. Several actors cannot
-provide atomicity across remote effects; coordination needs idempotency and compensation.
+Actor boundaries define where one indivisible state change can happen and where
+contention can grow. Several actors cannot make remote effects atomic. Cross-actor
+work needs operations that are safe to retry and a way to repair partial failure.
 
 ### Decision Framework
 
-Identify authoritative state, invariant scope, suspension points, message shape, and hop
-budget. Choose the fewest owners that preserve useful independent concurrency.
+Identify the mutable state, the rules that protect it, suspension points, message
+shape, and acceptable hop cost. Use as few owners as possible while keeping useful
+work independent.
 
 ### Organizational Impact
 

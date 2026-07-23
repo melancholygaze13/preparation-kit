@@ -81,15 +81,15 @@ fail even though the object is still in storage.
 
 The default-value subscript inserts its default only when needed for mutation. It
 is useful for counters and grouping, but the chosen default must be a true
-identity value for the operation. A default that hides missing required
-configuration turns an input error into plausible but incorrect data.
+correct neutral starting value for the operation, such as zero for addition. A default that hides missing required
+configuration turns an input error into data that looks valid but is wrong.
 
 Copy-on-write preserves independent dictionary values, not deep copies of reference
 values. Two dictionary copies may still contain references to the same mutable objects.
 
 ## Production Application
 
-Treat merge behavior as part of the boundary contract. For cached data, “new wins”
+Treat merge behavior as part of the API rules. For cached data, “new wins”
 may be valid. For configuration or financial records, duplicate keys may require a
 hard error with source information. Preserve enough context to explain the conflict.
 

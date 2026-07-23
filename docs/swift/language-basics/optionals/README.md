@@ -22,7 +22,7 @@ last_reviewed: 2026-07-22
 - `guard` is useful when the value is required for the remaining scope.
 - Optional chaining propagates absence through member access.
 - `map` preserves one optional layer; `flatMap` avoids a nested optional.
-- Force unwrap only when a nearby invariant proves the value exists.
+- Force unwrap only when a nearby rule proves the value exists.
 
 ## Study
 

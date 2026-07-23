@@ -43,7 +43,7 @@ A value stored behind a protocol existential can be conditionally cast to anothe
 protocol or concrete type when its dynamic value conforms. Prefer declaring required
 capabilities in the original protocol rather than downcasting every consumer.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Forced casts are backed by a narrow, testable invariant.
 - Failed conditional casts receive explicit domain policy.

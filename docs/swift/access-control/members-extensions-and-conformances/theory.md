@@ -43,7 +43,7 @@ private extension Record {
 The public conformance uses the public `id` witness. `revision` and its helper remain implementation
 details. The conformance's effective accessibility follows the accessible type and protocol.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Published members mention only sufficiently visible types.
 - Witness visibility supports every context where the conformance is used.

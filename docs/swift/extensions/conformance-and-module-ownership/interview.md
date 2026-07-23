@@ -63,9 +63,9 @@ resolve a future duplicate. Prefer an owned wrapper.
 
 ### Expanded Answer
 
-If the conformance is unavoidable in a closed deployment, assign one owner, inventory
-clients, monitor upstream betas, avoid persistent semantics where possible, and prepare
-a migration to an adapter or wrapper.
+If a closed deployment cannot avoid the conformance, assign one owner and list all
+clients. Monitor upstream betas. Avoid storing data that depends on the conformance
+when possible, and prepare a move to an adapter or wrapper.
 
 ### Trade-offs
 
@@ -84,9 +84,9 @@ from shared libraries and has an expiry tied to the vendor's next SDK release.
 
 ### Short Answer
 
-Assign public extensions and conformances to modules that own the semantics, register
-retroactive conformances centrally, prohibit them in broadly distributed libraries by
-default, compile downstream fixtures, and test platform betas for collisions.
+Put public extensions and conformances in modules that own the behavior. Register
+retroactive conformances in one place. By default, prohibit them in widely shared
+libraries. Compile downstream test clients and test platform betas for collisions.
 
 ### Expanded Answer
 

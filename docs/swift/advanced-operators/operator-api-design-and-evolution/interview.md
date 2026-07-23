@@ -29,9 +29,10 @@ last_reviewed: 2026-06-22
 
 ### Short Answer
 
-Meaning, operand/result units and types, algebraic laws, normalization, overflow, failure, mutation,
-side effects, complexity, precedence/associativity for custom infix forms, and a named equivalent when
-the symbol is not self-evident.
+Document the operator's meaning, units, operand types, result type, mathematical
+rules, normalization, overflow, failure, mutation, side effects, and cost. For a
+custom infix operator, also document precedence and associativity. Provide a named
+function when the symbol's meaning is not obvious.
 
 ### Expanded Answer
 

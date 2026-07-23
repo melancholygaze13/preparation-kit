@@ -17,10 +17,12 @@ last_reviewed: 2026-07-12
 
 ## Mental Model
 
-A task runs synchronous segments separated by suspension points. An executor schedules
-those segments; an actor supplies isolation and an executor. Reason about task lifetime
-and isolation, not thread identity. Asynchrony improves waiting; parallelism improves
-independent CPU throughput only when work and capacity justify it.
+A task runs one synchronous section at a time, separated by possible suspension
+points. An executor decides when those sections run. An actor adds protected state
+and uses an executor for its work. Reason about the task's lifetime and actor
+isolation, not a specific thread. Suspension lets a thread do other work while a
+task waits. Parallel execution helps CPU work only when the operations are independent
+and the system has enough capacity.
 
 ## How It Works
 
@@ -48,13 +50,13 @@ helper is suspended, but the helper resumes on the caller's actor. Use `@concurr
 when the helper itself must leave that actor for CPU-heavy, sendable work. Do not use
 it merely because a function performs I/O.
 
-### Core Invariants
+### Rules That Must Stay True
 
-- Actor-isolated state is accessed only on its isolation domain.
+- Actor-isolated state is accessed only through that actor.
 - No semaphore or blocking wait is used to obtain an async result.
-- Independent work is made concurrent explicitly and remains capacity-bounded.
-- CPU-intensive synchronous segments do not run on latency-sensitive executors.
-- Module isolation settings are part of the API's execution semantics.
+- Independent work becomes concurrent only when requested, with a limit on how much runs at once.
+- Long CPU work does not run on an executor that must stay responsive, such as the main actor.
+- Module isolation settings are part of the API's execution behavior.
 
 ### Constraints and Guarantees
 
@@ -69,14 +71,15 @@ it merely because a function performs I/O.
 
 ### When to Use It
 
-Use async functions for naturally suspendable operations and asynchronous entry points.
+Use async functions for operations that wait and for asynchronous entry points.
 Use `@concurrent` for substantial CPU work whose inputs and results can safely cross
 isolation. Keep UI state transitions on `@MainActor`.
 
 ### When Not to Use It
 
-Do not make trivial synchronous APIs async, use async as a background-thread synonym,
-or offload ordinary network waits. Do not introduce concurrency when ordering is required.
+Do not make trivial synchronous APIs async or treat async as meaning “background
+thread.” Do not offload ordinary network waits. Do not introduce concurrency when
+ordering is required.
 
 ### Trade-offs
 
@@ -122,18 +125,19 @@ Moving a public API from synchronous to async is source-breaking and propagates 
 
 ### System Impact
 
-Execution placement is a capacity decision: one CPU-heavy helper inherited by a shared
-actor can serialize an entire feature or service boundary.
+Where code runs affects system capacity. One CPU-heavy helper that runs on a shared
+actor can force an entire feature or service to wait behind it.
 
 ### Decision Framework
 
-Classify work as ordered or independent, waiting or CPU-bound, actor-owned or transferable,
+Classify work as ordered or independent, waiting or CPU-bound, and actor-owned or safe to transfer,
 then select suspension, child tasks, or explicit concurrent execution.
 
 ### Organizational Impact
 
-Publish target isolation settings and profiling budgets. Review API execution contracts
-when modules migrate because identical source can have different semantics by setting.
+Publish target isolation settings and performance limits. Review where public APIs
+run when modules migrate, because identical source can behave differently under
+different settings.
 
 ## References
 

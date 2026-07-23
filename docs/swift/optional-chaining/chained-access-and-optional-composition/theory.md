@@ -65,7 +65,7 @@ The result has the same basic optional depth as the accessed value: accessing `I
 through a chain yields `Int?`; accessing `Int?` also yields `Int?`, not `Int??`.
 Multiple chained receivers likewise do not stack a new optional layer per `?.`.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Nil short-circuits the remaining chain.
 - No forced access occurs implicitly.

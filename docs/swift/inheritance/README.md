@@ -36,7 +36,7 @@ inheritance decision depends on them.
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
 | [Subclassing and Override Semantics](subclassing-and-override-semantics/README.md) | Override methods, properties, and subscripts deliberately while preserving base behavior and extension controls. | Situational | 7 min |
-| [Behavioral Contracts and Substitutability](behavioral-contracts-and-substitutability/README.md) | Require every subtype to honor the base type's invariants, failure behavior, effects, and concurrency contract. | Situational | 8 min |
+| [Behavioral Contracts and Substitutability](behavioral-contracts-and-substitutability/README.md) | Require every subtype to honor the base type's rules, failures, effects, and concurrency contract. | Situational | 8 min |
 | [Inheritance Boundaries and Framework Evolution](inheritance-boundaries-and-framework-evolution/README.md) | Choose inheritance only for stable is-a extension points and evolve open hierarchies as public protocols. | Situational | 9 min |
 
 ## Related Topics

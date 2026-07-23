@@ -64,7 +64,7 @@ default value. `self.id` means the property on the new instance, while the `id` 
 the right is the initializer parameter.
 
 Both can model rich behavior. A class is justified when reference identity,
-shared mutable state, inheritance, or deinitialization is semantically required.
+shared mutable state, inheritance, or deinitialization is part of the model.
 Marking a class `final` communicates that subclassing is not an extension point and
 allows reasoning without unknown overrides.
 
@@ -91,7 +91,7 @@ The exact synthesized signature depends on stored properties, defaults, explicit
 initializers, extensions, and access control. It is not a substitute for learning
 the full initialization rules.
 
-### Public Construction Is an Invariant Boundary
+### Public Construction Must Create Valid Values
 
 An explicit initializer prevents callers from depending on representation:
 
@@ -107,9 +107,10 @@ struct Percentage {
 ```
 
 For a public struct, the synthesized memberwise initializer does not automatically
-become a public API. Even where accessible, exposing storage-shaped construction
-couples callers to property names and representation. Prefer intent-shaped
-initializers or factories for exported types and validated domain values.
+become a public API. Even where accessible, an initializer that mirrors stored
+properties couples callers to property names and storage details. For exported
+types and validated domain values, prefer initializers or factories named for what
+callers want to create.
 
 ### Struct-versus-Class Decision
 
@@ -124,15 +125,15 @@ semantics.
 
 Type size alone is insufficient. Swift may optimize value copying, while reference
 types pay allocation, indirection, and synchronization costs. Measure the real
-workload after choosing correct semantics.
+workload after choosing the copy and sharing behavior the model requires.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Every fully initialized instance satisfies its domain constraints.
 - Type choice makes assignment behavior match the domain.
 - Public construction expresses intent rather than exposing storage accidentally.
 - Shared resources have one explicit lifecycle owner.
-- Representation changes do not silently change caller-visible semantics.
+- Storage changes do not silently change behavior that callers can observe.
 
 ### Constraints and Guarantees
 
@@ -172,7 +173,7 @@ semantics.
 
 Do not infer performance from the keyword. Profile allocation, retain/release
 traffic, copying, cache locality, and mutation frequency. Keep public semantics
-stable even if storage later adopts copy-on-write or reference-backed internals.
+stable even if storage later adopts copy-on-write or reference-backed implementation details.
 
 ### Concurrency and Thread Safety
 
@@ -186,28 +187,28 @@ mutation of a shared variable.
 Test every initializer's valid boundaries and rejection paths. Add semantic tests:
 copy a value and mutate one copy, or alias a reference and verify deliberate shared
 observation. Public API tests should construct through supported intent-shaped
-entry points rather than synthesized implementation details.
+entry points rather than compiler-generated implementation details.
 
 ### Compatibility and Migration
 
 Adding, removing, or renaming stored properties can change synthesized initializer
 availability. Moving between struct and class can alter identity, mutation through
 `let`, equality expectations, lifetime, and concurrency behavior. Introduce an
-adapter or new type, migrate boundary by boundary, and instrument mixed-model bugs.
+adapter or new type, migrate one boundary at a time, and measure bugs caused by old and new models interacting.
 
 ## Staff and Principal Perspective
 
 ### System and Organizational Impact
 
-A shared model's semantics propagate into caches, reducers, network boundaries,
-tests, UI observation, concurrency domains, and team conventions. Document whether
+A shared model's copy and sharing behavior affects caches, state reducers, network
+boundaries, tests, UI observation, concurrency boundaries, and team conventions. Document whether
 it is a snapshot, identity-bearing entity, or resource owner. Require review when a
 change introduces identity, reference-backed storage, or public construction.
 
 ### Decision Framework
 
 Write down the required copy behavior, identity definition, lifecycle owner,
-invariants, mutation authority, concurrency boundary, API stability needs, and
+required rules, mutation authority, concurrency boundary, API stability needs, and
 measured performance constraints. Select the type only after those answers agree.
 
 ## References

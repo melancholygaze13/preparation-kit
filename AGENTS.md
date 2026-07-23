@@ -16,10 +16,12 @@ selected topic.
 
 Optimize every page for:
 
-1. Recall under interview pressure.
-2. Coverage of questions that are likely for the target role.
-3. Correct engineering judgment and production trade-offs.
-4. Progressive depth: learn the essential answer first, then expand only when
+1. Simple wording and explanations that are easy to understand on the first
+   read.
+2. Recall under interview pressure.
+3. Coverage of questions that are likely for the target role.
+4. Correct engineering judgment and production trade-offs.
+5. Progressive depth: learn the essential answer first, then expand only when
    the topic warrants it.
 
 Prefer a smaller set of high-value concepts learned well over broad but shallow
@@ -231,6 +233,8 @@ editing; use roughly 200 words per minute plus time for code and tables.
   slightly.
 - Use plain English that is clear to a non-native speaker. Treat this as a
   hard requirement, not a style preference.
+- Make the explanation easy to understand on the first read. If a sentence
+  makes the reader stop and decode it, rewrite it or split it.
 - Prefer common words, active voice, and one idea per sentence. If a simpler
   word keeps the meaning, use it.
 - Avoid dense abstract words when a plain phrase works. Prefer:
@@ -524,6 +528,7 @@ facts but do not preserve structure or length that conflicts with this guide.
 
 Before considering content complete, verify that:
 
+- The wording is simple, and each explanation is clear on the first read.
 - Priority reflects realistic interview value and controls depth.
 - Reading time is within budget and front matter matches the content.
 - The first minute gives the candidate the essential mental model.

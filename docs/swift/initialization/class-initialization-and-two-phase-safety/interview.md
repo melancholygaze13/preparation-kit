@@ -42,7 +42,7 @@ Initializer inheritance is conditional, so subclasses must not assume all base e
 
 ### Trade-offs
 
-- Few designated paths simplify invariants.
+- Few designated paths simplify required rules.
 - Convenience forms improve ease of use but expand API surface.
 - Factories fit asynchronous or subtype-selecting construction.
 
@@ -88,7 +88,7 @@ storage is ready. Registration moves to an explicit start step after constructio
 
 External code or an overridable callback can observe the instance before the complete
 hierarchy has finished setup. Keep `self` private during construction. Register the
-object or invoke extension hooks only after all invariants are established.
+object or invoke extension hooks only after all required rules are satisfied.
 
 ### Expanded Answer
 

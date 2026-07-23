@@ -28,7 +28,7 @@ tags:
 |---|---|---|
 | [What is included in a Swift function type?](#q1-function-type) | Senior | Inputs, outputs, effects, and labels |
 | [What changes when a function parameter is escaping?](#q2-escaping-lifetime) | Senior | Storage, capture lifetime, and ownership |
-| [What does @Sendable guarantee and not guarantee?](#q3-sendable-functions) | Senior | Transfer safety versus synchronization |
+| [What does `@Sendable` guarantee and not guarantee?](#q3-sendable-functions) | Senior | Transfer safety versus synchronization |
 | [When should you inject a function instead of a protocol?](#q4-function-versus-protocol) | Senior | Abstraction shape and lifecycle |
 
 ---
@@ -51,19 +51,19 @@ isolation of the value it invokes.
 
 Converting a named declaration to a function value removes its external labels
 from call syntax. Type aliases can name the shape but do not create a distinct
-nominal type, so two semantically different callbacks can remain interchangeable.
+named type, so two callbacks with different meanings can remain interchangeable.
 
 ### Trade-offs
 
 - Function types support lightweight substitution.
 - Effect annotations improve correctness while constraining callers.
-- Named wrappers add semantic separation at API cost.
+- Named wrappers make different meanings distinct but add API code.
 
 ### Example
 
 Two callbacks share `(Data) -> Void`: one persists data and one only observes it.
 They are accidentally swapped. Distinct labeled parameters or wrapper types make
-the semantic roles visible.
+their different roles visible.
 
 ---
 
@@ -93,7 +93,7 @@ Closures topic.
 
 - Escaping enables deferred work and observers.
 - It increases memory, lifecycle, and concurrency complexity.
-- Nonescaping limits flexibility while preserving a clear dynamic extent.
+- Nonescaping limits flexibility while keeping the lifetime bounded by the call.
 
 ### Example
 
@@ -104,7 +104,7 @@ defining capture ownership closes the lifecycle.
 ---
 
 <a id="q3-sendable-functions"></a>
-## Q3: What Does @Sendable Guarantee and Not Guarantee?
+## Q3: What Does `@Sendable` Guarantee and Not Guarantee?
 
 ### Short Answer
 
@@ -146,7 +146,7 @@ remains. Moving storage into an actor supplies the missing isolation.
 
 Inject a function for one focused operation with no durable identity or related
 capabilities. Use a protocol or concrete strategy when behavior has multiple
-cohesive methods, configuration, state, lifecycle, cancellation, identity, or
+related methods, configuration, state, lifecycle, cancellation, identity, or
 discoverable capabilities. A function is an excellent test seam until its
 captures become a hidden object model.
 
@@ -157,14 +157,14 @@ repository, transaction, transport, or observer system usually owns more than on
 operation and a lifecycle.
 
 Returning or injecting several unrelated closures can recreate a protocol without
-naming its invariants. Conversely, a one-method protocol may add unnecessary
+naming its required rules. Conversely, a one-method protocol may add unnecessary
 types when a labeled function parameter expresses the contract fully.
 
 ### Trade-offs
 
-- Functions minimize ceremony and compose naturally.
+- Functions require little extra code and combine naturally.
 - Protocols expose capabilities and support stateful implementations.
-- Concrete types can enforce stronger construction and ownership invariants.
+- Concrete types can enforce stronger construction and ownership rules.
 
 ### Example
 

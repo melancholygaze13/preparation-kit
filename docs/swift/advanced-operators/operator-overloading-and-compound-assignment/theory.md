@@ -45,7 +45,7 @@ struct Vector: Equatable {
 `+` returns a new value; `+=` visibly mutates its left operand; prefix `-` expresses additive inverse.
 These choices align with caller expectations and value semantics.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Operators preserve the algebraic/domain laws clients rely on.
 - Compound assignment agrees semantically with the corresponding binary operator when both exist.

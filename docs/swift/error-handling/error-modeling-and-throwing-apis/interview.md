@@ -19,7 +19,7 @@ last_reviewed: 2026-07-12
 
 | Question | Level | Focus |
 |---|---|---|
-| [When should an API throw instead of return optional?](#q1-error-or-optional) | Senior | Failure semantics |
+| [When should an API throw instead of return optional?](#q1-error-or-optional) | Senior | Meaning of failure |
 | [When are typed throws appropriate?](#q2-typed-throws) | Staff | Closed contracts and evolution |
 | [How should error cases be chosen?](#q3-error-case-design) | Senior | Recovery-relevant categories |
 
@@ -30,7 +30,7 @@ last_reviewed: 2026-07-12
 
 ### Short Answer
 
-Return optional when callers need only present-or-absent and all absence has one benign
+Return an optional when callers need only present-or-absent and all absence has one harmless
 meaning. Throw when failure categories change recovery, retry, diagnostics, or user
 feedback. Use preconditions for programmer-contract violations, not expected runtime input.
 
@@ -91,7 +91,7 @@ one case per low-level event or collapse different recovery policies into “unk
 
 ### Expanded Answer
 
-The public taxonomy is a decision contract. It should remain stable while network,
+The public set of error cases is a decision contract. It should remain stable while network,
 database, and framework errors change underneath it. Payloads must be safe to expose
 and useful for the decision the case represents.
 

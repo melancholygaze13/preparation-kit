@@ -83,7 +83,7 @@ the byte limit without claiming it equals visible characters or rendered width.
 Swift `String` and `Character` equality uses Unicode canonical equivalence, so
 precomposed and canonically equivalent decomposed forms compare equal. It isn't
 locale-sensitive and doesn't automatically provide case-insensitive comparison,
-search collation, or confusable protection. Those require an explicit domain and
+locale-aware search ordering, or protection from look-alike characters. Those require an explicit domain and
 often Foundation policy.
 
 ### Expanded Answer
@@ -108,7 +108,7 @@ User-facing search and sorting need locale-aware APIs and product expectations.
 
 - Standard equality is deterministic and Unicode-aware without locale context.
 - Locale-aware comparison better matches users but can vary by locale and purpose.
-- Restrictive identifier profiles reduce spoofing risk but limit accepted names.
+- Restrictive identifier rules reduce impersonation risk but limit accepted names.
 
 ### Example
 

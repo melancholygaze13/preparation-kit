@@ -11,9 +11,10 @@ last_reviewed: 2026-06-22
 
 ## Scope
 
-Opaque `some` types that hide a callee-selected concrete type, boxed `any` existential
-types that erase runtime values, constrained and implicitly opened existentials, and
-production decisions about abstraction boundaries, performance, and API evolution.
+This topic covers opaque `some` types, which hide a concrete type selected by the
+function. It also covers boxed `any` existential types, which erase a runtime
+value's concrete type. Later pages explain constrained and implicitly opened
+existentials, performance, and API evolution.
 
 Protocol declaration, conformance, and extension dispatch belong to the Protocols topic;
 generic parameter and constraint mechanics belong to Generics.

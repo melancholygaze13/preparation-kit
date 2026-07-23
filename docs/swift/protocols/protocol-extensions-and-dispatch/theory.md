@@ -17,8 +17,9 @@ last_reviewed: 2026-07-12
 
 ## Mental Model
 
-Requirement calls go through conformance witnesses. Extension-only calls are ordinary
-statically selected members. The same spelling can therefore produce different behavior
+Calls to protocol requirements use the conforming type's implementation. Calls to
+extension-only methods are selected from the compile-time type. The same spelling can
+therefore produce different behavior
 after a value is viewed through a protocol type.
 
 ## How It Works
@@ -53,10 +54,10 @@ available when `Self` meets extra constraints, but overlapping defaults make beh
 hard to predict and evolve. Prefer one obvious default or separate named capabilities
 when policies differ.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Polymorphic behavior is represented by a requirement.
-- Defaults obey the same postconditions and complexity expectations.
+- Defaults produce the same promised results and meet the same performance expectations.
 - Constrained defaults do not create ambiguous or behavior-changing overlaps.
 - Extension helpers do not masquerade as overridable customization points.
 
@@ -87,8 +88,8 @@ supplies its own witness. Concrete-only tests are insufficient for dispatch beha
 
 ## Staff and Principal Perspective
 
-Default implementations are ecosystem policy. Version them cautiously, document laws,
-and compile external conformer fixtures before adding requirements or overlapping defaults.
+Default implementations affect every conforming type. Change them cautiously, document
+their rules, and compile small external conformers before adding requirements or overlapping defaults.
 
 ## References
 

@@ -82,9 +82,10 @@ and completion-based release instead of passing an array's temporary buffer poin
 
 ### Short Answer
 
-Inventory and minimize unsafe boundaries, assign owners, require invariant/lifetime documentation and
-specialized review, expose safe APIs, run sanitizers/fuzzing, benchmark necessity, track foreign ABI
-changes, and define rollback and incident response.
+List and minimize unsafe boundaries, then assign an owner to each one. Require
+documentation for required rules and lifetimes, plus review by someone with relevant
+expertise. Expose safe APIs, run sanitizers and fuzz tests, and prove that unsafe code
+is needed with benchmarks. Track foreign ABI changes and define rollback and incident response.
 
 ### Expanded Answer
 

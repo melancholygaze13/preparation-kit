@@ -26,7 +26,7 @@ tags:
 
 | Question | Level | Focus |
 |---|---|---|
-| [What makes up a function declaration, and how do labels shape its API?](#q1-labels-and-names) | Senior | Declaration syntax and call-site semantics |
+| [What makes up a function declaration, and how do labels shape its API?](#q1-labels-and-names) | Senior | Declaration syntax and call-site meaning |
 | [When should an API use defaults, variadics, or collection parameters?](#q2-defaults-and-variadics) | Senior | Convenience versus policy and scale |
 | [What does inout guarantee?](#q3-inout-semantics) | Senior | Writeback and exclusive access |
 | [When should a function return a tuple, optional, throwing result, or named type?](#q4-return-contracts) | Senior | Output and failure modeling |
@@ -142,10 +142,10 @@ boundary or an actor-owned operation restores one access owner.
 
 ### Short Answer
 
-Use a labeled tuple for a small local grouping with no independent invariants.
+Use a labeled tuple for a small local grouping with no rules of its own.
 Use optional for one normal absence state where no failure detail is needed. Throw
 when callers need to distinguish or propagate failure. Use a named type when the
-result has invariants, behavior, several states, public reuse, or likely evolution.
+result has required rules, behavior, several states, public reuse, or likely evolution.
 An optional tuple makes the entire group absent; a tuple of optionals models each
 field independently.
 
@@ -164,7 +164,7 @@ evolve with explicit compatibility decisions.
 - Optional is concise but carries little diagnostic information.
 - Throws preserves failure detail but adds handling paths.
 - Tuples are lightweight but weak for evolution.
-- Named types add declarations and stronger semantics.
+- Named types add declarations and make the meaning clearer.
 
 ### Example
 

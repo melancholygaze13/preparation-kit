@@ -13,7 +13,8 @@ last_reviewed: 2026-07-22
 # Stored-Property Initialization and Delegation
 
 > Initialization must assign every stored property a valid value before the instance
-> is used; delegation should converge on a small set of invariant-owning initializers.
+> is used. Delegation should lead to a small set of initializers that enforce the
+> type's required rules.
 
 ## Quick Recall
 

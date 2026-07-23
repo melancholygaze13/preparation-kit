@@ -33,8 +33,8 @@ flowchart LR
 ```
 
 The compiler rejects an unguarded reference whose required OS exceeds the
-deployment target. An availability condition creates a region where the compiler
-knows a stronger runtime version fact.
+deployment target. An availability condition creates a branch where the compiler
+knows that the runtime meets a newer version requirement.
 
 ## How It Works
 
@@ -50,7 +50,7 @@ Building with a new SDK does not raise the deployment target automatically, and
 knowing an API at compile time does not make it present on an older runtime.
 Availability annotations and checks bridge that gap.
 
-### Declaration Availability with @available
+### Declaration Availability with `@available`
 
 Annotate a declaration when its implementation or contract requires a platform
 version:
@@ -66,11 +66,12 @@ Callers must already be in an equally available context or prove availability at
 runtime. This moves the requirement into the API contract instead of relying on
 every caller to know implementation details.
 
-Availability attributes can also express deprecation, obsoletion, unavailability,
-renaming, and messages. Deprecation warns about supported-but-discouraged use; it
+Availability attributes can also say that an API is discouraged, no longer
+available, unavailable on a platform, or renamed. They can include a message.
+Deprecation warns about supported-but-discouraged use; it
 is not the same as runtime absence.
 
-### Runtime Refinement with #available
+### Runtime Checks with `#available`
 
 ```swift
 if #available(iOS 17, *) {
@@ -109,7 +110,7 @@ if #unavailable(iOS 17) {
 }
 ```
 
-It is the semantic inverse of the corresponding availability check. In an
+It reverses the meaning of the corresponding availability check. In an
 `if #unavailable`, stronger symbol availability applies to the `else` path, not
 the unavailable branch.
 
@@ -126,8 +127,8 @@ if #available(iOS 17, macOS 14, *) {
 ```
 
 The compiler selects the entry for the current target platform. The wildcard
-means unspecified platforms use their minimum deployment target, supporting
-future platform compilation. It does not mean “all platforms make this true” in
+means unspecified platforms use their minimum deployment target. This lets the
+code compile for future platforms. It does not mean “all platforms make this true” in
 an OR expression.
 
 Keep platform entries aligned with the declaration actually used. Large lists
@@ -185,15 +186,15 @@ func makeRenderer() -> any Rendering {
 ```
 
 The rest of the feature depends on one behavior contract rather than repeated OS
-checks. Verify that both implementations provide equivalent required semantics;
+checks. Verify that both implementations provide the same required behavior;
 a fallback that merely compiles may still lose accessibility, privacy, data, or
 transaction guarantees.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Every API reference occurs in a context meeting its declared availability.
 - The fallback uses only APIs valid at its deployment baseline.
-- Runtime version checks and compile-time platform checks are not conflated.
+- Runtime version checks and compile-time platform checks remain separate.
 - Capability, permission, and operational errors remain separately handled.
 - Availability branching is owned at a small compatibility boundary.
 

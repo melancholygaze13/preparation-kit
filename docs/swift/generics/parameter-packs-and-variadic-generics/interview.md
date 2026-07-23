@@ -63,9 +63,9 @@ build time, binary size, and runtime before staged deprecation.
 ### Expanded Answer
 
 The new declaration may infer differently or require newer syntax in generated interfaces.
-Keep old entry points as shims if deployment or toolchain policy requires them, avoid
-ambiguous overlap, compile real clients, and remove the ladder only after adoption data
-shows it is safe.
+Keep old entry points as wrappers if deployment or toolchain policy requires them.
+Avoid ambiguous overlap and compile real clients. Remove the old overloads only
+after adoption data shows that doing so is safe.
 
 ### Trade-offs
 

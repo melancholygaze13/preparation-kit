@@ -17,16 +17,18 @@ last_reviewed: 2026-06-22
 
 ## Mental Model
 
-Isolation answers who may access state. Sendability answers what can cross between those
-owners. Region-based isolation adds flow-sensitive proof that a non-sendable value is
-disconnected and transferred rather than aliased. Migration is the work of making these
-ownership facts explicit across every module boundary.
+Isolation controls who may access state. Sendability controls which values may
+move between tasks, actors, or other isolation boundaries. Region-based isolation
+lets the compiler follow how a non-sendable value is used. The compiler can allow
+a transfer when the original code keeps no other reference to that value. Swift 6
+migration makes these ownership rules explicit at every module boundary.
 
 ## How It Works
 
-`Sendable` is a marker protocol with behavior requirements. Internal value types can
-often infer conformance when every stored value is sendable. Public and resilient API
-surfaces should state the intended contract explicitly. Actors and global-actor-isolated
+`Sendable` is a marker protocol: it has no required methods, but conformance promises
+that a value can safely cross an isolation boundary. Internal value types can
+often infer conformance when every stored value is sendable. Public APIs designed
+to remain compatible across library versions should state this promise explicitly. Actors and global-actor-isolated
 types are safe to send because access remains isolated.
 
 `@Sendable` function types require safe captures. A mutable local captured by concurrently
@@ -34,23 +36,24 @@ executing closures is not made safe by capturing syntax; restructure into immuta
 an actor, or a synchronized owner.
 
 `sending` parameters and results describe transfer: after a non-sendable value is sent,
-the source isolation domain must not retain/use aliases that would race. Region-based
-isolation lets the compiler reason about connected object graphs rather than rejecting
-all non-sendable values categorically.
+the sending task or actor must not keep or use other references that could race. Region-based
+isolation lets the compiler examine connected objects instead of rejecting every
+non-sendable value in the same way.
 
-`@unchecked Sendable` moves the proof burden to the author. Acceptable cases are narrow:
-a final reference type whose complete mutable state is consistently protected by a
-documented lock/atomic/queue protocol, including callbacks and nested references.
+`@unchecked Sendable` makes the author responsible for proving safety. Use it only
+in narrow cases. For example, a final class may qualify when one documented lock,
+atomic strategy, or serial queue protects all mutable state. The proof must include
+callbacks and referenced objects, not only direct stored properties.
 
-Migration should start with warnings under complete strict checking, inventory global
-state and boundary diagnostics, isolate authoritative state, adopt native async APIs,
+Migration should start by enabling warnings under complete strict checking. List global
+state and errors at module boundaries. Isolate shared mutable state, adopt native async APIs,
 then enable Swift 6 mode target by target. `@preconcurrency` is a temporary import/boundary
 tool for dependencies that have not expressed concurrency contracts; it does not make
 unsafe code safe.
 
-### Core Invariants
+### Rules That Must Stay True
 
-- Every cross-isolation value is sendable or proven transferred without aliases.
+- Every value crossing isolation is sendable or transferred without another usable reference.
 - Closure captures remain valid under the closure's isolation and lifetime.
 - Unchecked conformances have documented synchronization and stress/TSan coverage.
 - Target build settings and imported module contracts are recorded during migration.
@@ -85,7 +88,7 @@ or treat strict-concurrency warnings as compiler noise.
 
 ### Alternatives
 
-Redesign a boundary around identifiers or immutable DTOs, keep non-sendable objects within
+Redesign a boundary around identifiers or immutable data-transfer objects, keep non-sendable objects within
 one actor, or wrap legacy callbacks in an isolated adapter.
 
 ## Production Application
@@ -120,8 +123,8 @@ Use adapters around Objective-C, GCD, Operation, delegate, and Combine boundarie
 
 ### System Impact
 
-Sendable API shapes become architecture: they determine which modules own mutable state
-and how schemas evolve between independently migrated components.
+Sendable API types shape the architecture. They determine which modules own mutable
+state and how shared data formats evolve while components migrate at different times.
 
 ### Decision Framework
 
@@ -130,8 +133,9 @@ and lowest-risk fix. Suppress only with an expiry and named proof owner.
 
 ### Organizational Impact
 
-Set a diagnostics budget and target rollout order. Library owners publish isolation and
-sendability contracts; platform teams provide shared adapters and track suppression debt.
+Set a limit and timeline for unresolved diagnostics, then choose the target rollout
+order. Library owners publish isolation and sendability rules. Platform teams provide
+shared adapters and track every temporary suppression until it is removed.
 
 ## References
 

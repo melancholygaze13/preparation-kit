@@ -21,7 +21,7 @@ last_reviewed: 2026-07-12
 |---|---|---|
 | [When should a protocol use an associated type?](#q1-associated-type-selection) | Senior | Conformance-owned type families |
 | [What do primary associated types change?](#q2-primary-associated-types) | Staff | Constraint syntax and API design |
-| [How do generics and constrained existentials preserve different facts?](#q3-preserving-type-facts) | Staff | Erasure boundary |
+| [How do generics and constrained existentials preserve different facts?](#q3-preserving-type-facts) | Staff | Type-erasure boundary |
 
 ---
 
@@ -36,15 +36,15 @@ method-level generic parameter when the caller should choose independently on ea
 
 ### Expanded Answer
 
-Associated types make the choice part of conformance identity. That supports requirements
+Associated types make the choice part of the conformance. That supports requirements
 like `load(ID) -> Entity` without casts. It is a poor fit when operations need unrelated
 types per invocation or when one oversized protocol forces clients to accept relationships
 they do not use.
 
 ### Trade-offs
 
-- Associated types preserve coherent families and static checking.
-- They can increase constraint propagation and complicate mixed-type storage.
+- Associated types preserve related types and compile-time checking.
+- They can spread constraints through an API and complicate mixed-type storage.
 
 ### Example
 
@@ -65,13 +65,13 @@ generic type: the conformance still chooses the associated type witness.
 ### Expanded Answer
 
 In `protocol ImageFetching<Image>`, `Image` must name an associated type. Clients can write
-constraints such as `some ImageFetching<UIImage>`. Ordering and semantics become public API
+constraints such as `some ImageFetching<UIImage>`. Their order and meaning become public API
 choices, and the underlying associated-type constraints still determine valid conformances.
 
 ### Trade-offs
 
 - Concise constrained spelling improves API usability.
-- Publishing primary positions creates naming, ordering, and migration obligations.
+- Publishing primary positions requires stable names, order, and a migration plan.
 
 ### Example
 

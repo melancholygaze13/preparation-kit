@@ -46,7 +46,7 @@ but `final` prevents overriding, so the base class keeps control of its sequence
 ### Inheritance Versus Composition
 
 Inheritance fits a true is-a relationship with stable shared invariants and controlled
-variation. Composition fits orthogonal strategies, decorators, dependencies, and
+variation. Composition fits independent strategies, decorators, dependencies, and
 behaviors that should be replaceable without changing identity or lifecycle.
 
 Deep hierarchies multiply state and override ordering. A final coordinator containing
@@ -72,7 +72,7 @@ An actor-isolated or global-actor-isolated hierarchy must preserve that boundary
 extensions. Module defaults may differ, so public isolation should be explicit where it
 is contractual. Do not retrofit unchecked sendability onto an open mutable hierarchy.
 
-### Core Invariants
+### Rules That Must Stay True
 
 - Open hooks are few, documented, and safe under unknown implementations.
 - The base owns sequencing and protects private representation.

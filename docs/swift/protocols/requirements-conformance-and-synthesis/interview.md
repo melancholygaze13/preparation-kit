@@ -19,7 +19,7 @@ last_reviewed: 2026-07-12
 
 | Question | Level | Focus |
 |---|---|---|
-| [What does protocol conformance guarantee?](#q1-conformance-guarantees) | Senior | Shape versus laws |
+| [What does protocol conformance guarantee?](#q1-conformance-guarantees) | Senior | Required shape versus behavior rules |
 | [When is synthesized conformance unsafe as domain policy?](#q2-synthesized-conformance) | Staff | Identity and schema |
 | [How do you choose equality, hashing, and identity for a model?](#q3-equality-hashing-identity) | Senior | Domain identity contracts |
 
@@ -31,19 +31,19 @@ last_reviewed: 2026-07-12
 ### Short Answer
 
 The compiler guarantees matching witnesses for requirements and applicable isolation/type
-rules. It usually cannot prove behavior rules, complexity, idempotency, equality consistency,
+rules. It usually cannot prove behavior rules, performance, safe repetition, equality consistency,
 or lifecycle behavior; those need documentation and shared conformance tests.
 
 ### Expanded Answer
 
 Property requirements specify capability rather than storage. Mutating requirements permit
 value conformers to change `self`. Initializer requirements must remain available through
-nonfinal class hierarchies. Marker protocols can carry semantics without members.
+nonfinal class hierarchies. Marker protocols can express rules without callable members.
 
 ### Trade-offs
 
-- Minimal contracts improve substitutability.
-- Rich protocols reduce boilerplate but couple unrelated concerns.
+- Minimal contracts allow more valid substitutes.
+- Large protocols reduce repeated code but couple unrelated concerns.
 
 ### Example
 
@@ -70,7 +70,7 @@ stable DTO when compatibility must not follow storage mechanically.
 ### Trade-offs
 
 - Synthesis is concise and consistent with representation.
-- Explicit witnesses carry maintenance cost but stabilize semantics.
+- Explicit implementations cost more to maintain but keep behavior stable.
 
 ### Example
 

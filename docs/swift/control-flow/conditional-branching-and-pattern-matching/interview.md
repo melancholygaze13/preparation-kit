@@ -25,22 +25,22 @@ tags:
 
 | Question | Level | Focus |
 |---|---|---|
-| [What guarantees does Swift switch provide?](#q1-switch-guarantees) | Senior | Exhaustiveness and first-match behavior |
-| [When should you use pattern conditions instead of switch?](#q2-pattern-conditions) | Senior | Selective matching and silent nonmatches |
-| [How do if and switch expressions differ from statement forms?](#q3-branch-expressions) | Senior | Result typing and side effects |
+| [What guarantees does Swift `switch` provide?](#q1-switch-guarantees) | Senior | Exhaustiveness and first-match behavior |
+| [When should you use pattern conditions instead of `switch`?](#q2-pattern-conditions) | Senior | Selective matching and silent nonmatches |
+| [How do `if` and `switch` expressions differ from statement forms?](#q3-branch-expressions) | Senior | Result typing and side effects |
 | [How should enum switches handle API evolution?](#q4-enum-evolution) | Staff | Exhaustiveness, resilience, and rollout |
 
 ---
 
 <a id="q1-switch-guarantees"></a>
-## Q1: What Guarantees Does Swift switch Provide?
+## Q1: What Guarantees Does Swift `switch` Provide?
 
 ### Short Answer
 
 A Swift switch must be exhaustive. It evaluates cases in source order and runs
 the first matching case. Cases do not fall through implicitly, so execution
 normally leaves the switch after that case. Overlapping pattern order is therefore
-semantic. An explicit `fallthrough` enters the next body without checking its
+part of the behavior. An explicit `fallthrough` enters the next body without checking its
 pattern.
 
 ### Expanded Answer
@@ -70,43 +70,43 @@ boundary tests restores the intended recovery flow.
 ---
 
 <a id="q2-pattern-conditions"></a>
-## Q2: When Should You Use Pattern Conditions Instead of switch?
+## Q2: When Should You Use Pattern Conditions Instead of `switch`?
 
 ### Short Answer
 
-Use `if case` when one matching shape triggers optional work, `guard case` when
-that shape is required for the rest of the scope, and `for case` when a loop
-intentionally processes only matching elements. Use switch when all states need
+Use `if case` when one matching shape triggers optional work. Use `guard case`
+when the rest of the scope requires that shape. Use `for case` when a loop should
+process only matching elements. Use `switch` when all states need
 explicit handling, observability, or validation. Pattern-condition nonmatches are
 silently skipped unless you add an else path.
 
 ### Expanded Answer
 
 Pattern conditions combine structural matching and bindings without a one-case
-switch. A `where` clause can refine the match. Their concision is valuable only
+switch. A `where` clause can add another condition after a pattern matches. Their short form is useful only
 when nonmatching data is truly irrelevant.
 
 In ingestion, sync, security, or accounting code, ignored states often need a
-metric or failure. An exhaustive switch makes that policy visible. For simple UI
-projection where only loaded data renders, `if case .loaded(let value)` can be the
-clearest contract.
+metric or failure. An exhaustive switch makes that rule visible. For simple UI
+code where only loaded data renders, `if case .loaded(let value)` can be the
+clearest choice.
 
 ### Trade-offs
 
-- Pattern conditions reduce ceremony but de-emphasize discarded states.
+- Pattern conditions use less code but make discarded states less visible.
 - Switch adds explicit coverage and branch-level testing.
 - Early `guard case` flattens success paths but exits the whole enclosing scope.
 
 ### Example
 
 A `for case .success` import loop silently drops decoding failures. Replacing it
-with a switch records errors and enforces a failure budget while continuing valid
+with a switch records errors while continuing valid
 records.
 
 ---
 
 <a id="q3-branch-expressions"></a>
-## Q3: How Do if and switch Expressions Differ from Statement Forms?
+## Q3: How Do `if` and `switch` Expressions Differ from Statement Forms?
 
 ### Short Answer
 
@@ -155,14 +155,14 @@ handler instead of being hidden in presentation branches.
 For an owned closed enum, list every case so additions force consumers to decide.
 For a nonfrozen external enum, handle all known cases and use `@unknown default`
 with a safe forward-compatibility policy. A plain default may be appropriate for
-truly equivalent residual values, but should not be added merely to silence the
+remaining values that truly need the same behavior, but should not be added merely to silence the
 compiler. Coordinate persisted and distributed enum changes with tolerant readers
 before new writers.
 
 ### Expanded Answer
 
 Exhaustive compilation pressure is useful when the organization controls the
-state space. A new case is a semantic migration, and compile failures identify
+set of states. A new case changes behavior, and compile failures identify
 consumers needing policy.
 
 Framework or library enums may add cases without recompiling the client.
@@ -170,15 +170,15 @@ Framework or library enums may add cases without recompiling the client.
 currently known cases. The fallback might disable a capability, preserve unknown
 data, or report unsupported state; it should avoid destructive guesses.
 
-For wire and persistence formats, source exhaustiveness is insufficient. Older
-deployed clients need a decoding and fallback strategy before producers emit new
+For network and stored formats, exhaustive source code is not enough. Older
+deployed clients need decoding and fallback rules before producers emit new
 cases.
 
 ### Trade-offs
 
 - Exhaustive switches maximize review pressure but widen coordinated changes.
-- Unknown fallback improves forward compatibility but can mask product gaps if
-  unobserved.
+- Unknown fallback improves forward compatibility but can hide missing product
+  behavior if no metric records its use.
 - Versioned payloads add complexity but protect mixed client populations.
 
 ### Example
