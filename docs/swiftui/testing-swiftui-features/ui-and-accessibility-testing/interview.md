@@ -8,9 +8,9 @@ levels:
   - senior
   - staff
 interview_priority: high
-estimated_read_minutes: 3
+estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 ---
 
 # UI and Accessibility Testing: Interview Questions
@@ -36,6 +36,9 @@ I use XCTest UI tests for a small set of critical journeys and SwiftUI integrati
 contracts: launch, navigation, presentation, semantics, and system interaction.
 Business rules and state permutations stay in fast Swift Testing tests below the UI.
 
+Swift Testing does not provide UI automation. The UI target uses XCTest and
+XCUIAutomation, while new state and integration tests use Swift Testing.
+
 ### Expanded Answer
 
 A UI test proves that the assembled app works from a user's entry point to a visible
@@ -59,6 +62,10 @@ owns its state. Queries use roles, labels, or dedicated identifiers where labels
 localized or ambiguous. Failures attach the current screen and diagnostics. If an
 async boundary lacks a reliable visible condition, I add an app readiness contract
 rather than increase an arbitrary timeout.
+
+Test-only dependency selection happens at the composition root. I avoid production
+branches scattered through views because they can make the tested app unlike the
+shipping composition.
 
 ### Trade-offs
 

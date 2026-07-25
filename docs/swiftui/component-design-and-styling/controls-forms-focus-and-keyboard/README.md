@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: high
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - controls
   - focus-state
@@ -19,8 +19,9 @@ tags:
 
 # Controls, Forms, Focus, and Keyboard
 
-> Use semantic controls bound to one source of truth. Model focus as temporary
-> presentation state and make validation, submission, and keyboard navigation explicit.
+> A control accepts or displays user input. A form groups related controls. Focus
+> identifies the active input target, and the keyboard is one possible input device.
+> Bind them to one source of truth and make submission explicit.
 
 ## Quick Recall
 
@@ -29,6 +30,10 @@ tags:
 - Use optional focus enums for multi-field forms.
 - Focus identity must be unique; avoid binding multiple fields to one ambiguous value.
 - Keyboard configuration improves input but does not validate or secure it.
+
+Use `@FocusState` for SwiftUI focus coordination, not as saved domain data. A keyboard
+type, content type, or submit label is a platform hint. Pasted text, dictation, and
+hardware keyboards can still provide other input.
 
 ## Study
 

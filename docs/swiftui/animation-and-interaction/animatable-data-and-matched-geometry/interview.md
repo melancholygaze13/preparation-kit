@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - animatable
   - matched-geometry
@@ -47,6 +47,9 @@ The rendering function runs for intermediate values, so it must be cheap and fre
 effects. I test the full range, including angle wraparound, path topology, and invalid
 input, not only start and end.
 
+The 2025 `@Animatable` macro synthesizes ordinary cases. I use manual `animatableData`
+for older targets or custom clamping, normalization, and derived interpolation.
+
 <a id="q2-how-does-matched-geometry-work"></a>
 ## Q2: How does matched geometry work?
 
@@ -61,6 +64,9 @@ state changes the actual hierarchy.
 It does not move one view instance or preserve its task and focus lifetime. IDs must
 be unique, source selection unambiguous, and navigation correct without animation.
 I provide a reduced-motion fallback.
+
+The application changes the hierarchy. Matched geometry only supplies visual
+continuity between the source and destination descriptions.
 
 <a id="q3-how-would-you-diagnose-a-broken-hero-animation"></a>
 ## Q3: How would you diagnose a broken hero animation?

@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 5
+estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - layout
   - grids
@@ -49,6 +49,10 @@ peer layers; an overlay or background better expresses decoration attached to on
 base view. `Grid` supports cross-row column alignment and spanning, which nested
 stacks often approximate poorly.
 
+For an eager `Grid`, `GridRow` children define successive cells. A direct child of
+the grid spans its columns, and `gridCellColumns` can set an explicit span. Flexible
+cells may need `gridCellUnsizedAxes` so they do not widen the whole grid.
+
 I do not choose from device class alone. If card count should change with available
 width, an adaptive grid or another container-driven composition handles resizing,
 multitasking, and new platforms more reliably.
@@ -72,6 +76,10 @@ are simpler and avoid lazy-container bookkeeping.
 I profile with production-scale data. A lazy container will not fix repeated sorting,
 synchronous decoding, unstable IDs, or expensive `body` computation.
 
+I also do not rely on an exact visibility threshold. SwiftUI can prepare nearby
+rows and later discard them. View lifetime is not a cache or a signal that an item
+has been seen exactly once.
+
 <a id="q3-how-do-grid-item-types-differ"></a>
 ## Q3: How do fixed, flexible, and adaptive grid items differ?
 
@@ -91,6 +99,10 @@ The grid policy still needs testing with spacing, long text, minimum readable wi
 and accessibility sizes. If each column's width must be derived from all cell content,
 a bounded eager grid or custom layout may better express that relationship.
 
+`GridItem` configures columns for `LazyVGrid` and rows for `LazyHGrid`; eager `Grid`
+derives tracks from its cells instead. Mixing those models is a common source of
+incorrect expectations.
+
 <a id="q4-how-should-a-bottom-bar-interact-with-scrolling-content"></a>
 ## Q4: How should a bottom bar interact with scrolling content?
 
@@ -105,6 +117,10 @@ above it. An overlay alone draws above content without expressing that reservati
 I let a full-bleed background ignore the safe area separately, while keeping the bar's
 controls and essential content in safe interactive space. I verify behavior with the
 keyboard, home indicator, sheets, rotation, split windows, and large text.
+
+I distinguish container and keyboard regions. Ignoring the keyboard safe area can
+leave controls covered, so I apply `ignoresSafeArea` narrowly to artwork unless the
+product intentionally keeps content fixed behind the keyboard.
 
 ### Trade-offs
 

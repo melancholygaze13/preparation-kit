@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - layout
   - size-proposal
@@ -22,6 +22,9 @@ tags:
 > SwiftUI layout is a negotiation: a parent proposes a size, each child chooses and
 > reports a concrete size, then the parent places the child. A proposal guides the
 > response; it is not always a hard constraint.
+
+The response is the size the child chooses. Placement is the position the parent
+assigns after measurement.
 
 ## Quick Recall
 

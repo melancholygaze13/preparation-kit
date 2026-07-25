@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 8
+estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - instruments
   - hitches
@@ -23,6 +23,11 @@ tags:
 [Concept overview](README.md) · [Interview questions](interview.md)
 
 ## Mental Model
+
+**Profiling** records how an app uses time and resources while it runs. A **hitch** is
+a visible interruption because work for a frame misses its deadline. **Memory use**
+includes live allocations, cached resources, virtual memory, and objects retained by
+ownership relationships.
 
 Performance diagnosis is causal investigation:
 
@@ -67,6 +72,16 @@ sensitive values.
 
 One trace often leads to another. A hitch trace identifies a time interval; Time
 Profiler explains synchronous stacks inside it; allocations reveal a decode spike.
+
+In current Instruments, the SwiftUI template combines SwiftUI-specific evidence with
+Time Profiler and responsiveness instruments. Long View Body Updates identifies slow
+view evaluation. The Cause & Effect Graph links an update to the state change or
+dependency that produced it. Instrument names and presentation can change with Xcode,
+so confirm the labels in the installed version.
+
+Select the smallest interval that contains the symptom. A complete recording can mix
+startup, idle work, background callbacks, and the target gesture. Narrow selection
+makes call-tree percentages and causal links meaningful.
 
 ### Main-Thread Hangs
 
@@ -127,6 +142,11 @@ Do not add `[weak self]` mechanically. First identify the intended owner and lif
 A required operation may need strong ownership; a long-lived callback may need explicit
 cancellation. Weak capture can hide the symptom without establishing correct cleanup.
 
+A **leak** is memory that the program can no longer use or release as intended. A
+retain cycle is one possible cause. An unbounded cache may remain reachable and usable,
+yet still be a serious memory defect. A large but bounded working set may be expected.
+The ownership path and required lifetime decide which case applies.
+
 ### Allocation Churn
 
 Objects may deallocate correctly yet allocate so frequently that CPU and memory
@@ -144,6 +164,11 @@ metrics. After a fix, repeat exactly and verify both performance and functional 
 Microbenchmarks help isolate algorithms but do not replace end-to-end interaction
 traces. A faster transformation may not improve the screen if layout or networking
 dominates.
+
+Record both the central result and its variability. Median interaction time describes
+the common case, while a high percentile or worst representative hitch captures the
+delays users remember. Keep datasets and device conditions fixed before comparing two
+implementations.
 
 ### Production Observability
 
@@ -171,6 +196,8 @@ performance. Budgets and traces close the loop.
 - Average CPU or frame rate can hide severe tail latency and individual hitches.
 - Moving work off the main actor can improve responsiveness but may not reduce total cost.
 - Instrumentation has overhead, so compare equivalent configurations.
+- Instruments provides measured evidence, not a compile-time guarantee about future
+  framework scheduling or object lifetime.
 
 ## Engineering Decisions
 

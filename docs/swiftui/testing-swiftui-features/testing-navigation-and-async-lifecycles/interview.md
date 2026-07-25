@@ -8,9 +8,9 @@ levels:
   - senior
   - staff
 interview_priority: high
-estimated_read_minutes: 3
+estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 ---
 
 # Testing Navigation and Async Lifecycles: Interview Questions
@@ -59,6 +59,10 @@ Cancellation is cooperative, so checking only `Task.isCancelled` or waiting for 
 delay is insufficient. The operation must observe cancellation, and the state owner
 should still validate request relevance before committing a result. The test awaits
 explicit gates or task handles. No wall-clock delay is required.
+
+Swift Testing confirmations count events only while their closure runs. I use them
+when event count is the contract and make sure the tested work finishes inside that
+scope. They do not replace awaiting a task or controlled dependency.
 
 ### Trade-offs
 

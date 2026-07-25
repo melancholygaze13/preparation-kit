@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 5
+estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - observation
   - model-ownership
@@ -54,6 +54,11 @@ survives repeated view values for that identity. A child receives the same insta
 as a plain property. Creating the model inside `body` would produce unstable
 identity, repeated allocation, and lost in-flight state.
 
+Here, ownership means responsibility for the model session, not exclusive memory
+retention. Children and tasks can hold strong references. The feature root still
+decides when the session starts, when replacement is valid, and what should happen
+to work associated with the old model.
+
 ### Example
 
 ```swift
@@ -67,6 +72,9 @@ struct FeatureScreen: View {
 ```
 
 The screen owns the instance; `@Observable` makes the model's properties trackable.
+With Xcode 27, SwiftUI also initializes this class lazily once for the view lifetime.
+Earlier toolchains preserve the stored reference but can create and discard extra
+default instances when the view value is initialized again.
 
 <a id="q2-which-wrapper-should-a-view-use-for-an-observable-model"></a>
 ## Q2: Which wrapper should a view use for an observable model?
@@ -138,6 +146,11 @@ Before editing syntax, I document who owns each instance, which views mutate it,
 its actor isolation, and its deployment constraints. Observation invalidates views
 based on properties read by `body`, unlike the broader published-object model, so I
 test flows that depended on manual `objectWillChange` or incidental refreshes.
+
+Observation requires iOS 17 and aligned platform versions. An older deployment
+target can keep the legacy model at the compatibility boundary while newer
+features migrate. That is a supported incremental design, not a reason to expose
+both notification systems from every model.
 
 Incremental coexistence is supported and is often safer for large applications.
 I keep `ObservableObject` around Combine-heavy or older-platform boundaries and

@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 8
+estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - derived-state
   - source-of-truth
@@ -23,6 +23,10 @@ tags:
 [Concept overview](README.md) · [Interview questions](interview.md)
 
 ## Mental Model
+
+An *independent fact* can change without being calculated from another current
+value. A *derived value* is determined completely by other values. Its *source of
+truth* is the authority that owns those inputs.
 
 Store facts that can change independently. Compute values that are functions of
 those facts:
@@ -37,6 +41,10 @@ flowchart LR
 If two mutable properties represent the same information, every update needs a
 synchronization rule. Removing the duplicate usually removes an entire class of
 bugs.
+
+The phrase “derived state” can be misleading. A derived value often has no stored
+state. It may be a local expression or computed property that SwiftUI evaluates
+from current inputs.
 
 ## How It Works
 
@@ -84,6 +92,11 @@ counts, validation messages, enabled state, and a selected object found by ID.
 Keep presentation-only derivation near the view when it is small. Put reusable
 domain rules in the model so they can be tested independently.
 
+A computed property is not automatically cheap. The rule here is about authority,
+not performance. Start with direct derivation for correctness. If measurement later
+shows that a calculation is too expensive, add a cache whose invalidation follows
+the same source-of-truth model.
+
 ### Avoid Synchronizing Copies with onChange
 
 This pattern creates two mutable representations:
@@ -105,6 +118,10 @@ var normalizedQuery: String {
 Use `onChange` for an actual effect or boundary notification, not routine
 in-memory synchronization. If several fields must change together, expose one
 model operation that enforces the invariant.
+
+The current `onChange` forms accept either no value parameters or both the old and
+new values. Keep the closure short because the system can run it on the main actor.
+Start asynchronous or expensive work through a suitable task or model boundary.
 
 ### Derived Values Are Usually Read-Only
 
@@ -158,10 +175,19 @@ Missing one input produces stale UI. Prefer computing directly until profiling
 shows the transform matters. Then move the cache to the owner of the inputs, key it
 by every relevant dependency, and test invalidation.
 
+Invalidation can use replacement, versioning, or a key. For example, a sorted
+search result may depend on the source revision, query, sort order, permissions,
+and locale. A cache key that omits locale can display the wrong order after the
+user changes language even though the source records did not change.
+
 Do not put a derived collection in view `@State` merely to avoid recomputation. The
 view then owns a second mutable copy and must synchronize it with model changes.
 For high-volume search, a model can debounce requests, cancel obsolete work, and
 publish one result associated with the current query or request ID.
+
+Asynchronous derivation also needs stale-result protection. Cancellation is
+cooperative, so an older request may still return. Compare its query, generation,
+or request ID with the current source before publishing the result.
 
 ### Model Valid State, Not Boolean Combinations
 
@@ -188,6 +214,10 @@ This makes invalid combinations unrepresentable and gives every transition one
 place to update. Do not force a simple enum when states genuinely overlap. A refresh
 can show existing content while loading, so the model may need content plus a
 separate refresh phase. The type should represent actual product states.
+
+An enum lists a closed set of cases. An associated value stores data that exists
+only for one case, such as loaded items or an error message. A `switch` over the
+enum makes the view handle every case, and the compiler reports a missing case.
 
 ### Drafts Are Intentional Copies
 
@@ -265,3 +295,4 @@ write path only after rollback and conflict behavior are verified.
 - [Managing data flow between views](https://developer.apple.com/tutorials/app-dev-training/managing-data-flow-between-views)
 - [Discover Observation in SwiftUI](https://developer.apple.com/videos/play/wwdc2023/10149/)
 - [`onChange(of:initial:_:)`](https://developer.apple.com/documentation/swiftui/view/onchange%28of%3Ainitial%3A_%3A%29)
+- [Maintaining state in your apps](https://developer.apple.com/documentation/swift/maintaining-state-in-your-apps)

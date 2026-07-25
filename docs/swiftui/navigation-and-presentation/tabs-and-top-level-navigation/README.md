@@ -7,9 +7,9 @@ levels:
   - senior
   - staff
 interview_priority: core
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-25
 tags:
   - tabs
   - tab-view
@@ -22,9 +22,13 @@ tags:
 > Tabs select among a small set of peer destinations. Store selection as stable
 > typed state, and let each tab own the navigation state for its flow.
 
+Top-level navigation moves between the app's main areas. It is separate from the
+pushes, sheets, and selections that happen inside one area.
+
 ## Quick Recall
 
-- Use the modern `Tab` API with an enum-backed `TabView(selection:)`.
+- On iOS 18 and related releases, use `Tab` with an enum-backed `TabView(selection:)`.
+- For older deployment targets, use the same typed selection with `tabItem` and `tag`.
 - Tabs represent peer destinations, not steps in one task.
 - Preserve independent path, selection, and scroll state for each tab when users expect continuity.
 - A deep link selects its owning tab, then builds validated navigation inside that flow.

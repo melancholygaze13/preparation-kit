@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: high
-estimated_read_minutes: 6
+estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - styles
   - environment
@@ -24,9 +24,13 @@ tags:
 
 ## Mental Model
 
-Styles customize the appearance of semantic controls. Environment values carry
-context down a hierarchy. Design tokens name repeated design decisions. Use each for
-its intended scope instead of one global theme object that controls everything.
+A **style** customizes a family of semantic SwiftUI controls. An **environment value**
+is typed context that flows from a view to its descendants. A **design token** is an
+application convention that gives a semantic name to a repeated design decision.
+Design tokens are not a special SwiftUI runtime feature.
+
+Use each tool for its intended scope instead of one global theme object that controls
+everything.
 
 The system remains a participant: text styles, control roles, tint, materials,
 contrast, accessibility, and platform conventions should adapt where possible.
@@ -44,6 +48,25 @@ button, and test disabled, pressed, destructive role, keyboard, pointer, and Voi
 
 Use a custom component rather than a style when the element owns additional structure,
 content, or workflow beyond appearance.
+
+```swift
+struct PrimaryButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .padding(.horizontal, 16)
+            .padding(.vertical, 10)
+            .background(configuration.isPressed ? .blue.opacity(0.7) : .blue)
+            .foregroundStyle(.white)
+            .clipShape(.capsule)
+    }
+}
+
+Button("Save") { save() }
+    .buttonStyle(PrimaryButtonStyle())
+```
+
+The button still owns activation and its semantic role. The style owns presentation
+and may use configuration state such as `isPressed`.
 
 ### Environment Scope
 
@@ -63,6 +86,11 @@ Use environment for values many descendants legitimately interpret. Required fea
 services are usually clearer through initializer injection. Hiding every dependency
 in environment values creates runtime coupling and difficult previews.
 
+`@Entry` arrived with the SwiftUI tools from the 2024 platform releases. Code that
+must build with older toolchains defines an `EnvironmentKey` and adds a computed
+property to `EnvironmentValues` instead. Check the package's supported Xcode versions
+before adopting the macro.
+
 Defaults must be safe. A missing analytics or destructive service should not silently
 fall back to production behavior in a preview or test.
 
@@ -71,6 +99,18 @@ fall back to production behavior in a preview or test.
 Tokens name semantic roles such as `surfacePrimary`, `spacingCompact`, or
 `cornerControl`, not arbitrary values like `gray4` or `padding17` without intent.
 Semantic naming lets implementation change while usage remains meaningful.
+
+```swift
+enum AppSpacing {
+    static let compact: CGFloat = 8
+    static let related: CGFloat = 12
+    static let section: CGFloat = 24
+}
+```
+
+The enum is only one possible representation. A token can live in an asset catalog,
+package, or configuration type. Its value comes from team policy, not a guarantee that
+one number works in every adaptive layout.
 
 Prefer system values where they already adapt correctly: semantic text styles,
 hierarchical foreground styles, materials, standard control spacing, and asset-catalog
@@ -142,6 +182,8 @@ or features do not share mutable theme state accidentally.
 - Tokens improve consistency only when names and ownership preserve behavior.
 - Asset and system semantic styles adapt; exact appearance is not identical across platforms.
 - A public design-system change has broad compatibility and rollout cost.
+- Custom environment defaults are used when no ancestor writes another value. They
+  should be safe for previews and tests.
 
 ## Engineering Decisions
 

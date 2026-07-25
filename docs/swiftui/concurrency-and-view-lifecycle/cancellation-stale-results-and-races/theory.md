@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 8
+estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - cancellation
   - stale-results
@@ -32,6 +32,11 @@ stop code. Correct UI concurrency uses two defenses:
 
 The second defense is essential because cancellation can race with completion and
 some dependencies do not cooperate.
+
+A **stale result** was produced for intent that is no longer current. A **data race**
+is unsynchronized simultaneous access where at least one access writes. A **logical
+race** can use fully actor-safe accesses yet still commit results in the wrong order.
+Cancellation reduces wasted work; relevance validation protects correctness.
 
 ## How It Works
 
@@ -61,6 +66,11 @@ loop makes cancellation ineffective.
 `withTaskCancellationHandler` bridges cancellation to an underlying operation such
 as a legacy request's `cancel()`. Its cancellation closure must be safe to run under
 the API's concurrency rules and should not perform arbitrary UI mutation.
+
+The cancellation handler can run immediately when cancellation is requested, even
+while the operation is suspended, and it may run on any thread. The operation and
+handler must not race over an unsafe mutable handle. Prefer an underlying handle
+whose own `cancel()` operation is documented as thread-safe.
 
 ### Cancellation Is Not Failure
 
@@ -170,6 +180,11 @@ When a parent cancels, structured child tasks and task groups receive cancellati
 Children still need to cooperate. A throwing task group cancels remaining children
 when one throws, but the group scope cannot return until its children finish. One
 child that ignores cancellation can therefore delay the whole operation.
+
+`Task {}` and `Task.detached {}` create unstructured tasks. They do not become
+structured children merely because they are created inside another task. Keep their
+handles and cancel them explicitly, or use `async let` and task groups when the work
+should share the enclosing lifetime.
 
 A timeout is a race between useful work and a clock, followed by cancellation of the
 loser. The underlying work must cooperate, and a timed-out server request may still

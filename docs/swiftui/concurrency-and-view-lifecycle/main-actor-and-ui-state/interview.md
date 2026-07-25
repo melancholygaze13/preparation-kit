@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - main-actor
   - actor-isolation
@@ -52,6 +52,9 @@ result.
 It does not mean every dependency should be main-actor isolated. Shared caches may
 use actors, and immutable services may need no actor.
 
+In Swift 6.2 an app module can use main-actor default isolation, so I check the
+target setting before assuming a missing annotation means missing isolation.
+
 <a id="q2-does-await-move-work-off-the-main-actor"></a>
 ## Q2: Does await move work off the main actor?
 
@@ -66,6 +69,10 @@ work still blocks its executor and must be moved deliberately.
 Network I/O normally suspends, so wrapping it in a detached task is unnecessary.
 Parsing or image processing may be CPU-heavy. In Swift 6.2, I can design a
 nonisolated `@concurrent` function for that work and return a `Sendable` value.
+
+The main actor is closely tied to UI execution, but I explain correctness through
+actor isolation rather than thread checks. The compiler protects access across
+suspension and executor changes.
 
 I measure first. Offloading tiny transforms adds isolation crossings without a user
 benefit.
@@ -87,6 +94,9 @@ use a generation token, or cancel and validate before commit.
 
 I capture inputs before suspension and perform a small atomic state transition on
 return rather than spreading partial mutation across several awaits.
+
+An actor method is only uninterrupted between suspension points. `await` is where I
+discard assumptions about mutable actor state and check them again.
 
 ### Example
 

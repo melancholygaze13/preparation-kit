@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - instruments
   - hitches
@@ -19,8 +19,9 @@ tags:
 
 # Profiling, Hitches, and Memory
 
-> Start from a reproducible user symptom, record the relevant time interval, and
-> correlate SwiftUI updates with main-thread work, rendering, allocation, and lifetime evidence.
+> Profiling records runtime evidence. A hitch is a visible delay because a frame
+> missed its deadline. Memory diagnosis explains allocation and object lifetime.
+> Start with one reproducible user symptom and inspect its exact time interval.
 
 ## Quick Recall
 
@@ -29,6 +30,10 @@ tags:
 - Use Time Profiler, SwiftUI Instruments, hangs/hitches, allocations, and memory graph as needed.
 - Confirm a retain cycle from ownership paths; do not infer it from high memory alone.
 - Fix the measured bottleneck and repeat the same trace to verify improvement.
+
+High CPU, frequent view updates, a hitch, and growing memory are different symptoms.
+They can happen together, but each needs its own evidence. Do not call retained memory
+a leak until an object outlives its intended owner.
 
 ## Study
 

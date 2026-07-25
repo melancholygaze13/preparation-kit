@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - lazy-containers
   - scrolling
@@ -19,8 +19,9 @@ tags:
 
 # Lazy Containers and Scroll Performance
 
-> Lazy containers defer child creation, but smooth scrolling still requires stable
-> identity, cheap rows, bounded resources, predictable layout, and measured image work.
+> A lazy container creates child descriptions near the visible region instead of
+> creating every child at once. It reduces eager work, but smooth scrolling still
+> needs stable identity, cheap rows, bounded resources, and measured image work.
 
 ## Quick Recall
 
@@ -29,6 +30,10 @@ tags:
 - Keep row construction and `body` free of repeated transforms and synchronous I/O.
 - Decode and resize images near their display size, then cache with limits.
 - Diagnose scroll hitches in release-like builds with realistic data and interactions.
+
+Laziness is a scheduling strategy, not a row-lifetime guarantee. SwiftUI decides how
+far ahead to create content and when to release it. Put important state in an owner
+whose lifetime does not depend on an offscreen row being destroyed.
 
 ## Study
 

@@ -11,7 +11,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - app-lifecycle
   - scenes
@@ -47,6 +47,9 @@ presentation state. View-local state remains below both.
 one global window causes navigation and sheets in different windows to interfere. A
 scene should hold a stable identifier for the content it presents and resolve current
 data through shared repositories.
+
+The `App` declares scene recipes. The system owns their creation and visible window
+lifecycle; application code owns the data and policy placed at each lifetime boundary.
 
 <a id="q2-how-should-an-app-react-to-scenephase"></a>
 ## Q2: How should an app react to scenePhase?

@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: situational
-estimated_read_minutes: 3
+estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - shapes
   - canvas
@@ -24,6 +24,10 @@ tags:
 
 ## Mental Model
 
+A **shape** is scalable SwiftUI geometry that implements `path(in:)`. A **path** is a
+collection of lines, curves, arcs, and subpaths. A **canvas** is an immediate drawing
+surface whose renderer receives a `GraphicsContext` and size.
+
 Use a shape when one drawable object should participate as SwiftUI content. Use a
 canvas when many drawing operations belong to one rendered surface. The choice changes
 identity, accessibility, hit testing, and update cost, not only syntax.
@@ -34,15 +38,33 @@ identity, accessibility, hit testing, and update cost, not only syntax.
 a `Path` using that coordinate space. Build proportionally from the rectangle when the
 shape should scale; fixed coordinates make the result depend on one size.
 
+```swift
+struct DiagonalLine: Shape {
+    func path(in rect: CGRect) -> Path {
+        Path { path in
+            path.move(to: CGPoint(x: rect.minX, y: rect.maxY))
+            path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY))
+        }
+    }
+}
+```
+
+The parent supplies `rect`. The line uses its bounds, so it scales with the proposed
+size instead of depending on one screen coordinate system.
+
 A path contains geometry such as lines, curves, arcs, and closed subpaths. Fill and
 stroke are presentation applied to that geometry. Stroke width is centered on the path,
 so half can extend outside the nominal boundary. `InsettableShape` supports an inset
 operation, allowing `strokeBorder` to keep the stroke inside the available bounds.
 
-Shapes conform to `Animatable`. On current targets, the `@Animatable` macro can expose
+Shapes conform to `Animatable`. On 2025 platform targets, the `@Animatable` macro can expose
 continuous properties while `@AnimatableIgnored` excludes discrete configuration.
 Animation requires compatible path topology and meaningful interpolation; morphing
 unrelated point sets rarely produces a useful result.
+
+`Canvas` is available from the 2021 platform releases, including iOS 15 and macOS 12.
+Older targets use shapes, Core Graphics, or a platform-view wrapper. Shader modifiers
+and newer animation macros have later requirements and need separate availability checks.
 
 Prefer semantic SwiftUI composition around the shape. A custom chart mark may be a
 shape, but its label, selected state, and action should still be real views when users

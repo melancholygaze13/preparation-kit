@@ -11,7 +11,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - state-restoration
   - scene-storage
@@ -46,6 +46,9 @@ persistence for authoritative user data.
 Scene restoration is best effort, so the stored value cannot be the only copy of user
 work. I store stable identifiers rather than models and validate them during restore.
 This also lets two windows restore different selections over one shared data store.
+
+`@SceneStorage` is per scene and best effort. `@AppStorage` is app-wide preference
+storage. Neither replaces explicit durable persistence for user records or documents.
 
 <a id="q2-how-would-you-restore-navigation-safely"></a>
 ## Q2: How would you restore navigation safely?

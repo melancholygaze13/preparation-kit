@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: high
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - accessibility-tree
   - voiceover
@@ -19,8 +19,9 @@ tags:
 
 # Accessibility Tree, Labels, and Actions
 
-> The accessibility tree should expose the interface's meaning and operations, not
-> reproduce every visual layer. Prefer semantic controls, then adjust grouping and labels.
+> The accessibility tree is the semantic interface exposed to assistive technology.
+> Labels name elements, and actions describe what users can do. Expose meaning and
+> operations rather than every decorative visual layer.
 
 ## Quick Recall
 
@@ -29,6 +30,10 @@ tags:
 - Group visual fragments when they form one understandable element.
 - Provide named actions for gesture-only or contextual operations.
 - Verify order, focus, values, traits, and actions with real assistive technology.
+
+Start with `Button`, `Toggle`, `Text`, and other semantic views. Add accessibility
+modifiers only when the derived tree does not express the intended meaning. A visually
+complex row may be one element, several controls, or a container of both.
 
 ## Study
 

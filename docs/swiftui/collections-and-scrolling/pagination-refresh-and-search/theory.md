@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: high
-estimated_read_minutes: 6
+estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - pagination
   - refresh
@@ -24,7 +24,11 @@ tags:
 
 ## Mental Model
 
-Pagination, refresh, and search are state transitions over one collection model. The
+**Pagination** loads a collection in pages instead of requesting every item at once.
+**Refresh** rechecks already visible content against its source. **Search** derives or
+requests results for a user query.
+
+All three are state transitions over one collection model. The
 model owns query, loaded items, cursor, freshness, request identity, and user-visible
 phases. Views provide triggers and render progress or errors.
 
@@ -76,6 +80,20 @@ can corrupt order, so every path checks a request generation or snapshot identit
 Initial-load failure may replace the screen. Refresh and next-page failures usually
 keep existing content and offer a scoped retry.
 
+The view syntax should await the same model operation that owns freshness:
+
+```swift
+List(model.items) { item in
+    ItemRow(item: item)
+}
+.refreshable {
+    await model.refresh()
+}
+```
+
+The refresh indicator reflects the lifetime of this async action. It does not decide
+cache age, conflict policy, or whether the repository used local or remote data.
+
 ### Search
 
 Search state includes raw text, normalized query, current result set, and phase. Local
@@ -94,6 +112,21 @@ volume; cancellation and validation prevent stale results.
 
 Define empty query behavior: show recent items, all content, suggestions, or no
 results. A successful empty result is different from an error.
+
+`searchable(text:)` binds the interface to query state:
+
+```swift
+List(model.results) { result in
+    ResultRow(result: result)
+}
+.searchable(text: $model.query, prompt: "Search messages")
+.task(id: model.query) {
+    await model.searchCurrentQuery()
+}
+```
+
+This example relies on `.task(id:)` cancellation when the query changes. The model
+still checks the query before commit because cancellation is cooperative.
 
 ### Loading Phases
 
@@ -130,6 +163,8 @@ cover the trigger and presentation; model tests cover ordering and merge policy.
 - Cancellation is cooperative, so stale-result validation remains necessary.
 - Search and page ordering depend on repository/server contracts.
 - Stable IDs are required to merge and retain correct row state.
+- Loading indicators describe operation state. They do not by themselves prevent
+  duplicate requests or stale commits.
 
 ## Engineering Decisions
 

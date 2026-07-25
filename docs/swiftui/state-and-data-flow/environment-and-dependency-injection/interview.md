@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 5
+estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - environment
   - dependency-injection
@@ -54,6 +54,10 @@ The choice affects failure behavior. Initializer injection fails at compile time
 when a caller omits a dependency. A custom environment entry supplies a default,
 which can hide missing configuration. Typed observable environment lookup requires
 an injected instance and otherwise fails at runtime.
+
+In both cases, injection means the live implementation is chosen outside the leaf
+view. It improves previews and tests, but it does not by itself define ownership,
+actor isolation, or failure handling.
 
 ### Trade-offs
 
@@ -104,6 +108,11 @@ read it with typed `@Environment`.
 Observation tracks properties descendants read from that instance, but neither
 `@Environment` nor `@Bindable` creates a new owner. Replacing the injected instance
 is an owner decision and may represent a new session.
+
+More precisely, the environment can retain the reference. It does not become the
+architectural owner that decides when the feature session starts or ends. If the
+model is genuinely optional, a descendant can request `AccountModel?`; SwiftUI then
+returns `nil` instead of throwing when no instance was supplied.
 
 Every entry point that renders the descendant must supply the required type,
 including previews and test hosts. If two instances of the same type need to appear

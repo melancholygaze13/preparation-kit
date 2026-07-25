@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - view-identity
   - state-lifetime
@@ -19,9 +19,9 @@ tags:
 
 # View Identity and Lifetime
 
-> Identity tells SwiftUI whether successive view values represent the same UI
-> element. The identity's lifetime scopes retained state, tasks, transitions, and
-> other framework-managed storage.
+> Identity answers whether a new view value represents the same UI element as
+> before. Its lifetime is the period during which that identity remains present.
+> SwiftUI ties local state and other framework-managed behavior to that lifetime.
 
 ## Quick Recall
 

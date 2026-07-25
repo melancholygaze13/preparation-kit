@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 7
+estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - lazy-containers
   - scrolling
@@ -49,6 +49,8 @@ IDs, and transformation occurs outside row builders. A short settings screen usu
 does not benefit from lazy complexity.
 
 Container choice follows product semantics first, then measured performance.
+Lazy creation does not promise exact reuse or destruction behavior, so important data
+and resource policy cannot depend on a row disappearing at a particular time.
 
 <a id="q2-what-commonly-causes-scrolling-hitches"></a>
 ## Q2: What commonly causes scrolling hitches?
@@ -66,6 +68,10 @@ cached with limits. Visible work has priority and tasks are bounded.
 
 I profile device, release-like code, real data, Dynamic Type, pagination, and updates.
 A CPU optimization will not fix a blur or compositing bottleneck, so I separate stages.
+
+I use SwiftUI update causes to find broad invalidation, Time Profiler for row or decode
+CPU work, and hitch evidence for missed frames. Allocation traces show whether image
+or temporary object growth accompanies the hitch.
 
 <a id="q3-how-would-you-implement-pagination"></a>
 ## Q3: How would you implement pagination?

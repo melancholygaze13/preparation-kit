@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - unidirectional-data-flow
   - state-transitions
@@ -22,6 +22,10 @@ tags:
 > State flows down into view descriptions, user and system events flow up as typed
 > actions, and one owner applies each transition and starts any resulting effects.
 
+An action describes something that happened or was requested. A transition changes
+state. An effect performs work outside that state, such as networking or storage,
+and returns its result to the owner.
+
 ## Quick Recall
 
 - Every mutable value has one authoritative owner.
@@ -29,6 +33,7 @@ tags:
 - Bindings are appropriate for narrow mutations, not unrestricted feature access.
 - Async results return as events and must be checked for relevance.
 - Add reducer-style machinery only when transition complexity justifies it.
+- One-way flow improves traceability but adds ceremony when applied too broadly.
 
 ## Study
 

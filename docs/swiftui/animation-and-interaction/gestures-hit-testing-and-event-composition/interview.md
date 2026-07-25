@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - gestures
   - hit-testing
@@ -62,6 +62,9 @@ I avoid writing every movement into broad shared state. Raw coordinates are conv
 to a stable item, normalized progress, or bounded position. The settle or rollback
 animates after the gesture, while direct movement follows input.
 
+`@GestureState` resets automatically when recognition ends or cancels. `@State` or a
+model stores the accepted final value because it must survive that reset.
+
 <a id="q3-how-do-you-resolve-competing-gestures"></a>
 ## Q3: How do you resolve competing gestures?
 
@@ -76,3 +79,6 @@ scrolling, and system gestures remain available.
 For a horizontal row drag inside vertical scrolling, I wait for enough directional
 evidence before claiming it. I test taps, cancellations, edges, nested controls,
 pointer input, VoiceOver actions, and navigation gestures rather than only the ideal path.
+
+I choose simultaneous, sequenced, or priority composition from the product rule. A
+high-priority gesture is narrow because it can block child controls or system behavior.

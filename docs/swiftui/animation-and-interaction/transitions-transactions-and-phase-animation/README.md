@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: high
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - transitions
   - transactions
@@ -19,8 +19,9 @@ tags:
 
 # Transitions, Transactions, and Phase Animation
 
-> A transition animates insertion or removal of a view identity. Transactions carry
-> animation context, while phase and keyframe APIs describe deliberate multi-stage motion.
+> A transition describes insertion or removal. A transaction carries update context,
+> including animation. A phase animation moves through discrete presentation states.
+> These mechanisms do not own business state or async workflow timing.
 
 ## Quick Recall
 
@@ -29,6 +30,9 @@ tags:
 - Transactions can replace or disable animation for a subtree.
 - Use phase animation for discrete ordered states and keyframes for timed tracks.
 - Sequence animations with completion or phase APIs, not arbitrary sleeps.
+
+A transition does nothing when the view remains in the hierarchy and only a property
+changes. The insertion or removal must also happen in an animated transaction.
 
 ## Study
 

@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: situational
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - image-renderer
   - export
@@ -19,9 +19,9 @@ tags:
 
 # Image Rendering and Export
 
-> `ImageRenderer` renders a SwiftUI view into a bitmap or caller-provided graphics
-> context. Export code must explicitly define point size, pixel scale, environment,
-> color and alpha policy, output format, and the lifetime of sensitive temporary files.
+> Image rendering converts a SwiftUI view into pixels or draws it into a graphics
+> context. Export delivers that result outside the current screen, such as a PNG, JPEG,
+> PDF, share item, or file.
 
 ## Quick Recall
 
@@ -30,6 +30,10 @@ tags:
 - Supply export-specific environment values instead of depending on the visible screen.
 - Use the render callback for a `CGContext`, including a PDF context.
 - Large exports can consume substantial memory and may contain unsupported hosted views.
+
+Use `ImageRenderer` with explicit point size, pixel scale, environment, color, alpha,
+and output format. Treat temporary-file protection, cleanup, cancellation, and private
+content as part of the export contract.
 
 ## Study
 

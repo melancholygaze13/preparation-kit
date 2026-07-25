@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - navigation-split-view
   - adaptive-navigation
@@ -51,6 +51,9 @@ the owner clears the ID or shows an unavailable state according to product polic
 This model works in expanded and compact presentations. It also gives deep linking
 and restoration one value to set and validate.
 
+For a three-column flow, I add a second optional selection. Changing the sidebar
+selection clears or revalidates that dependent content selection in one operation.
+
 ### Example
 
 `List(projects, selection: $projectID)` controls `ProjectDetail(id: projectID)`;
@@ -71,6 +74,10 @@ reselects the detail.
 `preferredCompactColumn` can express which column should be on top, especially for
 a deep link, but it is a preference and changes as navigation occurs. Expanded
 column visibility is separate and is ignored when the split view is collapsed.
+
+The API begins with iOS 16 and the related platform releases. On an older deployment
+target, I isolate a `NavigationView` compatibility branch instead of mixing two state
+models throughout every feature.
 
 The important design rule is that compact and expanded UI are projections of one
 state. Separate phone and tablet routers easily drift and make restoration
@@ -96,6 +103,9 @@ stacks around every column by default.
 A detail might push audit history and then an event. That history belongs to the
 detail column and can reset when the primary selection changes. Wrapping the whole
 split view in another stack often makes toolbar and title ownership unclear.
+
+SwiftUI already manages navigation between split columns. The nested stack is only
+for destinations beyond the detail root, not a requirement for every column.
 
 I define how a deep link sets both the leading selections and the nested detail
 path. The complete state changes together to avoid briefly displaying an unrelated

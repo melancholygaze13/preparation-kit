@@ -4,12 +4,12 @@ domain: "SwiftUI"
 page_type: topic-index
 interview_priority: core
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 ---
 
 # Concurrency and View Lifecycle
 
-## Learning Path
+## Preparation Paths
 
 ### Rapid Review
 
@@ -31,7 +31,7 @@ long-lived observations.
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [Task Modifier and View Lifetime](task-modifier-and-view-lifetime/README.md) | Ties asynchronous work to view identity and lifetime. | Core | 15 min |
-| [MainActor and UI State](main-actor-and-ui-state/README.md) | Keeps UI state changes in the correct isolation domain. | Core | 15 min |
-| [Cancellation, Stale Results, and Races](cancellation-stale-results-and-races/README.md) | Prevents obsolete work from committing UI state. | Core | 16 min |
-| [Async Loading, Refresh, and Streams](async-loading-refresh-and-streams/README.md) | Models loading, refresh, and values arriving over time. | Core | 16 min |
+| [Task Modifier and View Lifetime](task-modifier-and-view-lifetime/README.md) | Ties asynchronous work to view identity and lifetime. | Core | 18 min |
+| [MainActor and UI State](main-actor-and-ui-state/README.md) | Keeps UI state changes in the correct isolation domain. | Core | 18 min |
+| [Cancellation, Stale Results, and Races](cancellation-stale-results-and-races/README.md) | Prevents obsolete work from committing UI state. | Core | 18 min |
+| [Async Loading, Refresh, and Streams](async-loading-refresh-and-streams/README.md) | Models loading, refresh, and values arriving over time. | Core | 18 min |

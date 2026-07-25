@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 8
+estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - custom-layout
   - adaptive-ui
@@ -28,6 +28,11 @@ Adaptive layout chooses a composition from current constraints, content, and use
 settings. It should not infer space from a device model. Start with built-in flexible
 containers, move to explicit alternatives, and implement `Layout` only when the app
 owns a reusable placement algorithm.
+
+A **composition** is the structure and arrangement of views. **Adaptive composition**
+means choosing a suitable structure or arrangement for the current conditions. A
+**custom layout** is a Swift type that conforms to `Layout` and owns a child measurement
+and placement algorithm.
 
 ```mermaid
 flowchart LR
@@ -58,6 +63,11 @@ Built-in options cover many responsive designs:
 These options keep the decision in layout. Storing every geometry change in state adds
 an update path and is unnecessary when layout alone can select the result.
 
+No single signal describes “compact.” A narrow container, long translated text, large
+Dynamic Type, and fewer available input methods can each require a different result.
+Name the design rule directly, such as “actions stack when the horizontal version no
+longer fits,” instead of creating one global `isCompact` flag for the whole app.
+
 ## ViewThatFits
 
 `ViewThatFits` evaluates alternatives in declaration order and chooses the first whose
@@ -81,6 +91,11 @@ ViewThatFits(in: .horizontal) {
 The compact alternative must remain semantically complete. Do not remove an essential
 action merely to make it fit. Fitting also depends on content, font, and modifiers, so
 test localized strings and accessibility sizes rather than assuming one breakpoint.
+
+By default, `ViewThatFits` checks both axes. Passing `.horizontal` checks only width;
+passing `.vertical` checks only height. This is a fit test against each alternative's
+ideal size on those axes. It is not a general priority system and does not gradually
+compress several alternatives together.
 
 Use `ViewThatFits` for a small ordered set of meaningful alternatives. If many branches
 repeat nearly identical content, switching only the layout algorithm can preserve a
@@ -126,6 +141,19 @@ mirror SwiftUI's layout process:
 measurement under a `ProposedViewSize`, placement, dimensions, spacing, and explicit
 layout values. The custom layout does not reach into a child's application state.
 
+Use a layout value like any other container at the call site:
+
+```swift
+EqualWidthRow {
+    Button("Save") { save() }
+    Button("Share a Copy") { share() }
+}
+```
+
+SwiftUI supplies one proxy for each direct child created by the layout's content
+builder. The `Layout` implementation asks those proxies how they respond to proposed
+sizes. It never stores or manually renders the original `View` values.
+
 ```swift
 struct EqualWidthRow: Layout {
     func sizeThatFits(
@@ -165,6 +193,12 @@ spacing, empty content, proposal constraints, alignment, and remeasurement under
 final cell width. Text height can change when width changes, so reusing an ideal height
 after a narrower proposal can be incorrect.
 
+A proposal is not a command. A child may return a different size. The proposal can
+contain a concrete value, `nil` for an unspecified dimension, zero when a parent asks
+for a minimum, or infinity when it asks for a maximum. A parent may measure the same
+layout several times with different proposals before placement. Return finite,
+nonnegative sizes and document how the algorithm treats an unspecified main axis.
+
 The bounds origin passed to placement is not guaranteed to be zero. Place relative to
 `bounds.minX` and `bounds.minY`. Measurement and placement can run repeatedly, so they
 must be deterministic and free of network work, logging assumptions, or state changes.
@@ -183,6 +217,11 @@ The optional layout cache stores derived measurement data shared across sizing a
 placement. `makeCache` creates it, and `updateCache` can rebuild it when the subview set
 changes. Cache only work that is expensive enough to justify invalidation complexity.
 Never make correctness depend on a particular number or order of measurement calls.
+
+Subview changes are not the only possible cache input. If cached line breaks depend on
+the proposal, spacing policy, or layout configuration, include those values in the
+cached result or recompute it. Apple's sample notes that most simple layouts gain
+little from a cache, so measure before adding this state.
 
 ## Engineering Decisions
 
@@ -218,5 +257,8 @@ failures, and a fallback when content cannot fit any preferred presentation.
 - [`AnyLayout`](https://developer.apple.com/documentation/swiftui/anylayout)
 - [`Layout`](https://developer.apple.com/documentation/swiftui/layout)
 - [`LayoutSubview`](https://developer.apple.com/documentation/swiftui/layoutsubview)
+- [`sizeThatFits`](https://developer.apple.com/documentation/swiftui/layout/sizethatfits%28proposal%3Asubviews%3Acache%3A%29)
+- [`Layout.Cache`](https://developer.apple.com/documentation/swiftui/layout/cache)
 - [`containerRelativeFrame`](https://developer.apple.com/documentation/swiftui/view/containerrelativeframe%28_%3Aalignment%3A%29)
+- [Composing custom layouts with SwiftUI](https://developer.apple.com/documentation/swiftui/composing-custom-layouts-with-swiftui)
 - [Compose custom layouts with SwiftUI](https://developer.apple.com/videos/play/wwdc2022/10056/)

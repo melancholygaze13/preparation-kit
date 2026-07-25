@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - expensive-work
   - caching
@@ -19,8 +19,9 @@ tags:
 
 # Expensive Work and Caching
 
-> Move costly transformation, decoding, and I/O out of hot view evaluation paths.
-> Cache only after measuring, with explicit ownership, key, invalidation, and memory policy.
+> Expensive work takes enough CPU, memory, I/O, or network time to affect the user.
+> A cache stores a reusable result. Move costly work out of view evaluation, and add
+> a cache only when its correctness and resource rules are clear.
 
 ## Quick Recall
 
@@ -29,6 +30,10 @@ tags:
 - Cache at the narrowest reusable owner, not in arbitrary leaf views.
 - Async suspension does not move CPU-heavy synchronous work off the main actor.
 - A stale or unbounded cache is a correctness or memory defect, not an optimization.
+
+Every cache needs an owner, a complete key, a freshness rule, and a size limit. A
+cached value must remain correct after data, account, locale, permissions, or display
+requirements change.
 
 ## Study
 

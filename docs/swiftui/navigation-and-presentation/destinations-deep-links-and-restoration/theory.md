@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 8
+estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - deep-links
   - state-restoration
@@ -27,6 +27,11 @@ tags:
 A deep link and a restored session are inputs to navigation state. Parse the input,
 validate it against current application rules, then replace the relevant tab,
 selection, modal, and path state as one operation.
+
+A **destination** is the application state and screen reached by navigation. A **deep
+link** is an external reference that asks the app to open a destination. **Restoration**
+rebuilds a scene's useful interface state after that scene was discarded or the app
+launches again.
 
 ```mermaid
 flowchart LR
@@ -49,8 +54,8 @@ transport formats. Convert them into a transport-independent route:
 
 ```swift
 enum AppRoute: Equatable {
-    case product(Product.ID)
-    case order(Order.ID)
+    case product(Int)
+    case order(Int)
     case search(query: String)
 }
 
@@ -72,6 +77,21 @@ different application meanings. Keep credentials and one-time tokens out of the
 long-lived navigation path; exchange them at a security boundary and retain only
 the resulting safe intent.
 
+In SwiftUI, `onOpenURL` is the normal scene-level entry point for Universal Links and
+custom URLs. The handler should hand the URL to the route boundary instead of parsing
+it inside a destination view:
+
+```swift
+AppRoot(navigation: navigation)
+    .onOpenURL { url in
+        navigation.receive(url)
+    }
+```
+
+SwiftUI chooses a receiving scene from the app's scene structure and configuration.
+Multiwindow products still need an explicit policy for whether to reuse that scene or
+open content in another one.
+
 ### Translate Routes into Complete State
 
 A route often changes more than a stack path. Opening an order might require the
@@ -79,8 +99,13 @@ account tab, an order-list sidebar selection, and an order detail. Model the res
 as a coherent navigation state rather than several delayed mutations.
 
 ```swift
+enum AppTab: Equatable {
+    case home
+    case account
+}
+
 struct AppNavigationState: Equatable {
-    var tab: Tab = .home
+    var tab: AppTab = .home
     var accountPath: [AccountRoute] = []
     var presentedSheet: SheetRoute?
 }
@@ -122,6 +147,12 @@ ephemeral loading flags, fetched model snapshots, or secrets.
 A typed route model that conforms to `Codable` can be encoded directly.
 `NavigationPath` offers a codable representation only when every stored value is
 codable. A typed route array is easier to inspect, migrate, and validate.
+
+`@SceneStorage` is useful for small property-list values scoped to one scene. The
+system controls when it saves them and makes no persistence-frequency guarantee. Its
+storage disappears when the scene is explicitly destroyed, and Apple advises against
+putting sensitive or large model data there. Encode a route snapshot yourself when it
+needs a schema, migration, validation, or stronger storage policy.
 
 Persisted navigation needs a schema version independent from implementation type
 names. On decode:
@@ -219,5 +250,6 @@ intended valid state or a deliberate fallback.
 - [Bringing robust navigation structure to your SwiftUI app](https://developer.apple.com/videos/play/wwdc2022/10054/)
 - [`NavigationPath`](https://developer.apple.com/documentation/swiftui/navigationpath)
 - [Restoring your app's state with SwiftUI](https://developer.apple.com/documentation/swiftui/restoring-your-app-s-state-with-swiftui)
+- [`SceneStorage`](https://developer.apple.com/documentation/swiftui/scenestorage)
 - [`onOpenURL(perform:)`](https://developer.apple.com/documentation/swiftui/view/onopenurl%28perform%3A%29)
 - [Managing scenes in your SwiftUI app](https://developer.apple.com/documentation/swiftui/managing-scenes-in-your-swiftui-app)

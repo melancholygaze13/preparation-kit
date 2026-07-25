@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - derived-state
   - source-of-truth
@@ -22,6 +22,9 @@ tags:
 > Store the smallest set of independent facts and derive the rest. Duplicate
 > mutable representations require synchronization, create invalid combinations,
 > and make it unclear which value wins.
+
+Derived state is a value determined completely by other current values. It often
+needs no storage at all. The source of truth is the authority for its inputs.
 
 ## Quick Recall
 

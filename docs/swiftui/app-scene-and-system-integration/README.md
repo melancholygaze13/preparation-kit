@@ -4,7 +4,7 @@ domain: "SwiftUI"
 page_type: topic-index
 interview_priority: situational
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-25
 ---
 
 # App, Scene, and System Integration
@@ -32,6 +32,6 @@ roles, rehearse the relevant lifecycle and integration concept in full.
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [App, Scene, and Window Lifecycle](app-scene-and-window-lifecycle/README.md) | Models process, scene, and multiwindow responsibilities. | Situational | 6 min |
-| [Scene Storage, State Restoration, and Documents](scene-storage-state-restoration-and-documents/README.md) | Preserves user context across scene recreation. | Situational | 6 min |
-| [Commands, Settings, Widgets, and System Actions](commands-settings-widgets-and-system-actions/README.md) | Connects features to platform entry points. | Situational | 6 min |
+| [App, Scene, and Window Lifecycle](app-scene-and-window-lifecycle/README.md) | Models process, scene, and multiwindow responsibilities. | Situational | 8 min |
+| [Scene Storage, State Restoration, and Documents](scene-storage-state-restoration-and-documents/README.md) | Preserves user context across scene recreation. | Situational | 8 min |
+| [Commands, Settings, Widgets, and System Actions](commands-settings-widgets-and-system-actions/README.md) | Connects features to platform entry points. | Situational | 8 min |

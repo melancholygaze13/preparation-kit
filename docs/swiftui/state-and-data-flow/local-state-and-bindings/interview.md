@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - state
   - binding
@@ -111,6 +111,12 @@ for an editing draft, but the component then needs explicit commit, reset, and
 external-conflict behavior. If the child should always reflect the parent, it
 should use the input directly. If it should edit parent-owned data, it should use a
 binding.
+
+With Xcode 27, initializer-supplied state must omit an inline default. If both are
+present, the inline value wins and the assignment in `init` is discarded. Ordinary
+stored properties must also be initialized before assigning to state. Those
+compiler rules do not change the ownership decision: initializer input is still
+only the starting value for a new view identity.
 
 Changing `.id` can force state reinitialization, but it also resets focus, tasks,
 animation continuity, and all other identity-scoped state. I use that only when a

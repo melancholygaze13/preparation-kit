@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 8
+estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - modularization
   - migration
@@ -31,6 +31,11 @@ and coordination costs.
 
 Modularize in response to change patterns and constraints, then migrate through
 small compatibility seams that can be measured and reversed.
+
+**Modularization** divides code into enforced compilation and access-control
+boundaries. A **migration** moves behavior or ownership from one implementation to
+another. **Ownership** identifies who approves changes, maintains the API, responds
+to failures, and eventually removes obsolete paths.
 
 ## How It Works
 
@@ -116,6 +121,12 @@ Packages can group several targets and expose selected library products. Local
 packages are useful for modular application code; remote packages add versioning and
 distribution concerns.
 
+A package is therefore not the same thing as a module. The package is the SwiftPM
+distribution and dependency unit; each target it contains compiles as a module. An
+app can also have Xcode targets that form modules without moving them into separate
+packages. Choose packaging for build and distribution needs, not as a synonym for
+source organization.
+
 Pin and update external dependencies through a deliberate policy. A third-party
 package adds supply-chain, platform, migration, binary size, and maintenance risk.
 Wrap it only where substitution or domain translation is valuable; a wrapper that
@@ -172,6 +183,20 @@ while preserving accountability for repayment.
 At Principal scope, optimize for organizational flow as well as code shape. A boundary
 that requires three teams to approve every feature change is not autonomous even if
 its dependency graph is technically clean.
+
+### Pros and Cons
+
+| Benefits | Costs |
+|---|---|
+| Compiler-enforced dependency direction | More targets, manifests, linking, and graph management |
+| Clear feature and team ownership | Public APIs need compatibility and documentation |
+| Potentially smaller incremental build impact | Central modules can still invalidate much of the graph |
+| Independent tests and controlled migration seams | More boundaries can increase cross-team coordination |
+
+Modularization fits a stable capability with measurable build, ownership, or
+distribution needs. It does not fit a rapidly changing boundary whose callers and
+API are still being discovered. Begin with source organization and access control,
+then extract a target when enforcement repays its continuing cost.
 
 ## Constraints and Guarantees
 

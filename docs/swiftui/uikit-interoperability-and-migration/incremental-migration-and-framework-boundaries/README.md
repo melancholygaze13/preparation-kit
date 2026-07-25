@@ -5,16 +5,16 @@ topic: "UIKit Interoperability and Migration"
 page_type: concept-index
 levels: [senior, staff, principal]
 interview_priority: situational
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-29
+last_reviewed: 2026-07-25
 ---
 
 # Incremental Migration and Framework Boundaries
 
-> Incremental migration succeeds when each framework boundary has one owner for
-> state, navigation, lifecycle, and side effects. The goal is controlled adoption,
-> not a permanent mix of unclear UIKit and SwiftUI responsibilities.
+> Incremental migration replaces UIKit with SwiftUI in bounded steps. A framework
+> boundary is the contract where the two UI systems meet. Each boundary needs one
+> owner for state, navigation, lifecycle, and side effects.
 
 ## Quick Recall
 

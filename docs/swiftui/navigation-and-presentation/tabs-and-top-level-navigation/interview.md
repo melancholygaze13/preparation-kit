@@ -8,9 +8,9 @@ levels:
   - senior
   - staff
 interview_priority: core
-estimated_read_minutes: 5
+estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-25
 tags:
   - tabs
   - tab-view
@@ -48,6 +48,9 @@ Tabs should represent a small set of peer destinations. A role such as search co
 meaning to SwiftUI; it should not be used only to force placement. The selection owner may
 record analytics or coordinate cross-tab routes, but ordinary feature behavior stays inside
 the selected flow.
+
+The `Tab` syntax requires iOS 18 or the related 2024 platform releases. For an older
+deployment target, I keep the enum selection but attach `tabItem` and `tag` to each child.
 
 ### Trade-offs
 
@@ -130,6 +133,10 @@ policy. Required destinations should remain protected.
 Adaptive presentation must not create a second feature-state model. Persisted customization
 becomes product data: renamed or removed tabs need tolerant migration. Keep the destination
 set understandable even when sections are available.
+
+`TabViewCustomization` applies to the `.sidebarAdaptable` style. Participating tabs and
+sections need stable customization IDs. Existing saved order can outlive a change to the
+builder order, so a redesign needs an explicit reset or migration policy.
 
 ### Trade-offs
 

@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 8
+estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - unidirectional-data-flow
   - state-transitions
@@ -40,6 +40,11 @@ flowchart LR
 One owner decides each mutation. SwiftUI renders the resulting state. This pattern
 does not require a particular library, one global store, or an action enum for every
 button.
+
+An **event** or **action** describes something that happened or was requested. A
+**transition** produces the next state. An **effect** interacts with the outside
+world and later returns a result. A **reducer** is a function or type that applies an
+action to state and describes any effects to start.
 
 ## How It Works
 
@@ -195,6 +200,20 @@ transitions, effect ordering, test needs, or multi-team consistency justify it.
 
 Conversely, dozens of flags mutated from views, callbacks, and notifications are not
 simple. Centralizing legal transitions can remove entire classes of invalid state.
+
+### Pros and Cons
+
+| Benefits | Costs |
+|---|---|
+| One visible owner for each mutation | Events and effect plumbing add types and code |
+| Async results return through the same transition rules | Simple field edits can feel indirect |
+| State transitions are easy to test and trace | A global store can increase invalidation and team contention |
+| Feature boundaries can compose through typed events | Reducer tooling creates a learning and migration cost |
+
+This approach fits state with several interacting transitions, async effects, or
+strong debugging needs. It does not fit every local toggle or short form. Start with
+ordinary SwiftUI ownership and add explicit actions or reducers only where they make
+the mutation path easier to understand.
 
 ## Constraints and Guarantees
 

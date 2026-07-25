@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: high
-estimated_read_minutes: 6
+estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - list
   - foreach
@@ -24,10 +24,12 @@ tags:
 
 ## Mental Model
 
-`ForEach` maps identifiable data to repeated view descriptions. `List` is a
+`ForEach` is a view that maps data to repeated child descriptions. `List` is a
 platform collection container with scrolling, row behavior, selection, editing, and
-accessibility semantics. SwiftUI uses each data ID to associate new descriptions with
-retained row state.
+accessibility support. **Data identity** is the stable value that says whether two
+values from different updates represent the same logical item.
+
+SwiftUI uses each data ID to associate new descriptions with retained row state.
 
 Identity answers “is this the same logical entity?” It is not the row's position or
 the equality of every displayed field.
@@ -60,6 +62,22 @@ after mutation and can attach state or animation to the wrong row.
 IDs must also be unique in the relevant collection. Duplicate IDs make association
 ambiguous and indicate the data should be normalized or given occurrence identity.
 
+When data does not conform to `Identifiable`, provide an ID key path:
+
+```swift
+ForEach(messages, id: \.messageID) { message in
+    MessageRow(message: message)
+}
+```
+
+The selected property must be `Hashable`. `id: \.self` is safe only when the entire
+value is a stable, unique identity. It is often wrong for mutable domain models because
+changing an ordinary field then changes identity.
+
+Do not confuse the data ID passed to `ForEach` with the `.id(_:)` view modifier.
+`ForEach` identity associates collection elements with rows. The modifier explicitly
+changes a view's identity and can intentionally reset its state.
+
 ### Transform before Rendering
 
 Filtering and sorting in the `List` initializer can repeat whenever the parent
@@ -85,6 +103,17 @@ reconstructed rows can disagree with the source of truth.
 For editable rows, a binding collection can give each row direct access to its model
 value. Use semantic actions for operations with validation or side effects. A row
 should emit `onDelete(message.id)` rather than changing unrelated loading or alert flags.
+
+Binding iteration uses `$` to provide a binding for each element:
+
+```swift
+ForEach($messages) { $message in
+    Toggle(message.subject, isOn: $message.isRead)
+}
+```
+
+This is suitable for direct local editing. Use a model action when a change requires
+validation, persistence, analytics, authorization, or rollback.
 
 ### List versus Custom Scroll Composition
 
@@ -132,6 +161,8 @@ manual index bookkeeping.
 - `List` behavior and appearance adapt by platform and environment.
 - Row creation and appearance are framework-managed and not exactly-once events.
 - Stable identity supports correct association but does not guarantee zero recomputation.
+- IDs are an application contract. SwiftUI does not infer that two different IDs refer
+  to the same server record.
 
 ## Engineering Decisions
 

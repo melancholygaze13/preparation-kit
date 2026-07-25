@@ -4,12 +4,12 @@ domain: "SwiftUI"
 page_type: topic-index
 interview_priority: high
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-25
 ---
 
 # Animation and Interaction
 
-## Learning Path
+## Preparation Paths
 
 ### Rapid Review
 
@@ -20,8 +20,8 @@ last_reviewed: 2026-07-12
 
 Complete rapid review, then study:
 
-3. [Gestures, Hit Testing, and Event Composition](gestures-hit-testing-and-event-composition/README.md)
-4. [Animatable Data and Matched Geometry](animatable-data-and-matched-geometry/README.md)
+3. [Animatable Data and Matched Geometry](animatable-data-and-matched-geometry/README.md)
+4. [Gestures, Hit Testing, and Event Composition](gestures-hit-testing-and-event-composition/README.md)
 
 Rapid review covers common state-driven animation questions. Add custom interpolation
 and gesture composition when the role includes interaction-heavy or visual UI.
@@ -30,7 +30,7 @@ and gesture composition when the role includes interaction-heavy or visual UI.
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [Implicit and Explicit Animation](implicit-and-explicit-animation/README.md) | Connects state changes to animated transactions. | High | 10 min |
-| [Transitions, Transactions, and Phase Animation](transitions-transactions-and-phase-animation/README.md) | Controls insertion, removal, and animation scope. | High | 12 min |
-| [Gestures, Hit Testing, and Event Composition](gestures-hit-testing-and-event-composition/README.md) | Resolves competing input and interaction regions. | High | 12 min |
-| [Animatable Data and Matched Geometry](animatable-data-and-matched-geometry/README.md) | Supports custom interpolation and shared visual motion. | High | 10 min |
+| [Implicit and Explicit Animation](implicit-and-explicit-animation/README.md) | Connects state changes to animated transactions. | High | 14 min |
+| [Transitions, Transactions, and Phase Animation](transitions-transactions-and-phase-animation/README.md) | Controls insertion, removal, and animation scope. | High | 14 min |
+| [Animatable Data and Matched Geometry](animatable-data-and-matched-geometry/README.md) | Supports custom interpolation and shared visual motion. | High | 14 min |
+| [Gestures, Hit Testing, and Event Composition](gestures-hit-testing-and-event-composition/README.md) | Resolves competing input and interaction regions. | High | 14 min |

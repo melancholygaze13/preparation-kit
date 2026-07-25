@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 8
+estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - environment
   - dependency-injection
@@ -24,7 +24,11 @@ tags:
 
 ## Mental Model
 
-The environment is a typed context that flows down the view hierarchy:
+The *environment* is typed context that flows down the view hierarchy.
+*Dependency injection* means a parent or composition root supplies a dependency
+instead of letting a leaf view create the live implementation. A *composition
+root* is the boundary where the application chooses and connects those
+implementations.
 
 ```mermaid
 flowchart TD
@@ -71,6 +75,24 @@ Prefer a dedicated modifier when SwiftUI provides one. A modifier may express
 intent more clearly or perform propagation behavior beyond directly setting a key.
 For example, use `preferredColorScheme(_:)` for a presented interface rather than
 assuming a direct color-scheme assignment has identical presentation semantics.
+
+### What Dependency Injection Changes
+
+Without injection, a leaf view might construct a database, network client, or live
+analytics service itself. That hides configuration, fixes the implementation in
+place, and makes previews perform real work.
+
+With injection, the view declares what it needs. A composition root supplies the
+live implementation, while a preview or test supplies a deterministic substitute.
+SwiftUI commonly uses three forms:
+
+- an initializer parameter for a visible, feature-specific requirement;
+- an environment value for inherited subtree context;
+- a typed observable environment entry for a shared mutable model.
+
+These forms solve wiring. They do not automatically define who owns a model, which
+actor protects it, or how failures are reported. Those contracts still belong to
+the dependency type and composition root.
 
 ### Explicit Injection versus Environment
 
@@ -133,6 +155,11 @@ a required dependency if it silently turns missing production configuration into
 lost data or disabled security. Required dependencies should fail clearly during
 composition or use explicit injection.
 
+`@Entry` generates the environment-key plumbing that older code wrote manually
+with an `EnvironmentKey` type and a computed `EnvironmentValues` property. The
+older form remains relevant when maintaining code built with an earlier compiler,
+but new code should use `@Entry`.
+
 For shared libraries, expose a focused modifier that wraps the key-path assignment.
 This gives callers a stable semantic API and leaves the key available for tests.
 
@@ -159,14 +186,34 @@ struct AccountSummary: View {
 }
 ```
 
-The root owns the model. The environment only makes the reference available to
-descendants. Observation tracks properties read from that instance. If a consumer
-needs bindings, it can create a local `@Bindable` projection.
+The root owns the model's lifecycle policy. The environment stores and distributes
+the reference, so it can participate in retaining the object. It does not decide
+when a session should start, be replaced, or end. Observation tracks properties
+read from that instance. If a consumer needs bindings, it can create a local
+`@Bindable` projection.
 
 Retrieving a required observable type that no ancestor supplied fails at runtime.
 Every preview, test host, sheet root, and alternate app entry point must establish
 the dependency. Keep the injection point near the feature root so this requirement
 is easy to audit.
+
+If absence is valid, request an optional value instead:
+
+```swift
+struct OptionalAccountBadge: View {
+    @Environment(AccountModel.self) private var account: AccountModel?
+
+    var body: some View {
+        if let account {
+            Text(account.displayName)
+        }
+    }
+}
+```
+
+SwiftUI returns `nil` when no matching object is present. Use this only when the
+view has meaningful behavior without the dependency. Do not make every required
+model optional merely to avoid configuring previews correctly.
 
 Type-based injection also needs clear scoping. When nested ancestors provide the
 same type, the nearer value is the one descendants see. If two independent values
@@ -230,8 +277,9 @@ leak configuration into each other and parallel execution becomes unsafe.
 - A nearer override shadows the inherited value for that subtree.
 - SwiftUI updates views that depend on an environment value when it changes.
 - Custom `EnvironmentValues` entries have defaults; typed observable lookup requires
-  an injected instance.
-- Environment access does not create ownership of an observable reference.
+  an injected instance unless the view requests an optional.
+- Environment storage can retain an observable reference, but lifecycle ownership
+  remains a composition decision.
 - Environment storage does not define actor isolation, sendability, persistence, or
   cancellation.
 
@@ -264,5 +312,6 @@ container into one environment key.
 - [`Environment`](https://developer.apple.com/documentation/swiftui/environment)
 - [`EnvironmentValues`](https://developer.apple.com/documentation/swiftui/environmentvalues)
 - [Environment values](https://developer.apple.com/documentation/swiftui/environment-values)
+- [`Entry()`](https://developer.apple.com/documentation/swiftui/entry%28%29)
 - [Managing model data in your app](https://developer.apple.com/documentation/swiftui/managing-model-data-in-your-app)
 - [Migrating from ObservableObject to Observable](https://developer.apple.com/documentation/swiftui/migrating-from-the-observable-object-protocol-to-the-observable-macro)

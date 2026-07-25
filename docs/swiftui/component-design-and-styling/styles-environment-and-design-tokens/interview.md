@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - styles
   - environment
@@ -47,6 +47,9 @@ A `ButtonStyle` is preferable to drawing a view with a tap gesture. I test press
 disabled, destructive, pointer, keyboard, VoiceOver, and platform states. The style
 should accept semantic variants rather than expose internal color switches.
 
+A style receives control configuration and returns its appearance. It does not replace
+the `Button`, `Toggle`, or other control that owns the semantic action.
+
 <a id="q2-what-belongs-in-the-swiftui-environment"></a>
 ## Q2: What belongs in the SwiftUI environment?
 
@@ -61,6 +64,9 @@ are usually clearer through initializer injection.
 I define custom entries with modern typed APIs, provide safe defaults, and override
 them at a deliberate subtree boundary. I avoid turning the environment into a global
 service locator because requirements and lifetime become hidden.
+
+`@Entry` provides concise custom entries with modern toolchains. Older supported
+toolchains use `EnvironmentKey`. In both forms, the closest ancestor write wins.
 
 <a id="q3-how-would-you-scale-a-design-system"></a>
 ## Q3: How would you scale a design system?
@@ -85,3 +91,6 @@ changes, and remove deprecated variants after consumers migrate.
 Strong consistency reduces duplicated decisions but can block product needs if the
 system is rigid. Unlimited customization increases adoption superficially while
 destroying consistency. Support real semantic variants and govern exceptions.
+
+Design tokens are an application design-system convention, not a SwiftUI guarantee.
+Their value comes from semantic naming, ownership, and controlled migration.

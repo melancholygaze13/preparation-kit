@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - dynamic-type
   - content-sizing
@@ -46,6 +46,9 @@ content and actions remain available.
 Custom fonts scale from semantic styles. I test with long localization, keyboard,
 VoiceOver, split windows, and validation states because size never varies alone.
 
+Dynamic Type changes font metrics. The surrounding layout still needs explicit reflow,
+wrapping, scrolling, and priority decisions; the framework cannot infer product hierarchy.
+
 <a id="q2-how-do-you-fix-a-row-that-breaks-at-large-text-sizes"></a>
 ## Q2: How do you fix a row that breaks at large text sizes?
 
@@ -73,3 +76,6 @@ it and users can access the full value. It is not a default solution for essenti
 I document the hierarchy and test localization and accessibility. Shrinking with
 `minimumScaleFactor` can undermine the user's chosen size, so reflow or disclosure is
 usually safer.
+
+I restrict the supported Dynamic Type range only for a justified surface with an
+accessible alternative, never merely to preserve a screenshot.

@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - invalidation
   - body-recomputation
@@ -19,9 +19,9 @@ tags:
 
 # Invalidation and Body Recomputation
 
-> State changes invalidate dependent view descriptions. `body` recomputation is
-> expected and usually cheap; performance depends on dependency scope, work per
-> update, identity stability, and the resulting render changes.
+> Invalidation marks a view description as needing an update. SwiftUI then calls
+> `body` again to produce a new description. This is expected and does not mean the
+> whole screen is rebuilt or redrawn.
 
 ## Quick Recall
 
@@ -30,6 +30,10 @@ tags:
 - Read observable state only where the view needs it to narrow invalidation.
 - Preserve structural and data identity across updates.
 - Measure update causes before adding `EquatableView` or manual caching.
+
+SwiftUI compares the new description with its existing view graph. It updates only
+the parts whose data, identity, layout, or drawing changed. The main performance
+questions are how often updates start and how much work follows each update.
 
 ## Study
 

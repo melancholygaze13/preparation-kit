@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - scroll-position
   - scroll-view-reader
@@ -47,6 +47,10 @@ For a deep link, I load the required page, merge it into the collection, then sc
 to the ID. I do not schedule a fixed delay. I choose an anchor and animation according
 to context and reduced-motion policy.
 
+The target is declared with `.id` for `ScrollViewReader`, or inside a
+`.scrollTargetLayout()` for a position binding. I use availability checks when newer
+scroll APIs exceed the app's deployment target.
+
 <a id="q2-how-would-you-restore-scroll-position"></a>
 ## Q2: How would you restore scroll position?
 
@@ -79,3 +83,6 @@ anchor so visible content does not jump.
 
 I distinguish observed user movement from programmatic commands to avoid a binding
 feedback loop that overrides gestures.
+
+For “near the bottom,” I derive one Boolean from scroll geometry instead of publishing
+every offset. This reduces update traffic and keeps geometric details local to the view.

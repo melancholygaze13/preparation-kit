@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 8
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - observation
   - invalidation
@@ -24,17 +24,11 @@ tags:
 
 ## Mental Model
 
-Treat a SwiftUI interface as a dependency graph. A view description depends on
-inputs from its parent and on framework-managed values it reads. When a dependency
-changes, SwiftUI invalidates affected work and evaluates enough of the graph to
-produce the next interface.
-
-```mermaid
-flowchart LR
-    Change["Dependency changes"] --> Invalidate["Affected view invalidated"]
-    Invalidate --> Body["body may run"]
-    Body --> Children["Children update"]
-```
+Treat a SwiftUI interface as a dependency graph. A *dependency* is an input a
+view needs to produce its current description. *Dependency tracking* records
+those relationships. When a dependency changes, *invalidation* marks affected
+work as out of date. *Update propagation* carries the resulting work through the
+affected parts of the hierarchy.
 
 Invalidation, `body` evaluation, layout, and drawing are different stages. A
 mutation does not imply an immediate full-screen redraw.
@@ -228,11 +222,15 @@ identity, and metrics that distinguish model latency from view-update cost.
 
 ## Production Application
 
-Start diagnosis from a visible symptom, then measure. Instruments can locate hangs
-and hitches caused by slow updates. Apple demonstrates `Self._printChanges()` as a
-debugging aid for why a body was evaluated, but the underscore marks it as an
-unsupported API. Remove it from shipping code and do not make tests depend on its
-output.
+Start diagnosis from a visible symptom, then measure. The SwiftUI instrument in
+Instruments 26 shows update groups, long body updates, and a cause-and-effect
+graph. Use that graph to connect a state or model change to the views it updates.
+It is more useful than counting console messages because it shows both the cause
+and the resulting work.
+
+Apple has also demonstrated `Self._printChanges()` as a temporary debugging aid.
+The underscore marks it as an unsupported API. Remove it from shipping code and
+do not make tests depend on its output.
 
 Test state propagation at the model boundary and use focused UI tests for wiring.
 Include changes to read and unread properties, conditional dependency paths,
@@ -241,10 +239,17 @@ Observation migration, compare update scope and responsiveness, retain adapters
 where needed, and roll out by owned feature rather than replacing every model at
 once.
 
+Record the before-and-after user symptom, not only update counts. Fewer evaluations
+are useful only when they preserve correctness and improve measured responsiveness,
+memory, or energy for the same interaction.
+
 ## References
 
 - [Discover Observation in SwiftUI](https://developer.apple.com/videos/play/wwdc2023/10149/)
 - [Demystify SwiftUI performance](https://developer.apple.com/videos/play/wwdc2023/10160/)
+- [Optimize SwiftUI performance with Instruments](https://developer.apple.com/videos/play/wwdc2025/306/)
+- [Understanding and improving SwiftUI performance](https://developer.apple.com/documentation/xcode/understanding-and-improving-swiftui-performance)
+- [Managing model data in your app](https://developer.apple.com/documentation/swiftui/managing-model-data-in-your-app)
 - [Observation](https://developer.apple.com/documentation/observation)
 - [`withObservationTracking(_:onChange:)`](https://developer.apple.com/documentation/observation/withobservationtracking%28_%3Aonchange%3A%29)
 - [`Environment`](https://developer.apple.com/documentation/swiftui/environment)

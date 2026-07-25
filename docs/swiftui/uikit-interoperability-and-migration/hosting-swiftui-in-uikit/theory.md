@@ -6,9 +6,9 @@ concept: "Hosting SwiftUI in UIKit"
 page_type: theory
 levels: [senior, staff, principal]
 interview_priority: situational
-estimated_read_minutes: 5
+estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-06-29
+last_reviewed: 2026-07-25
 ---
 
 # Hosting SwiftUI in UIKit: Theory
@@ -17,7 +17,11 @@ last_reviewed: 2026-06-29
 
 ## Mental Model
 
-Hosting SwiftUI in UIKit is the opposite direction from
+**Hosting SwiftUI in UIKit** means using SwiftUI as a child of a UIKit-owned screen or
+flow. `UIHostingController` is a UIKit view controller whose root content is a SwiftUI
+view. `UIHostingConfiguration` supplies SwiftUI content to compatible UIKit cells.
+
+This is the opposite direction from
 `UIViewRepresentable`. UIKit remains the outer owner. SwiftUI renders a subtree
 inside a `UIHostingController`, or inside a cell through `UIHostingConfiguration`.
 
@@ -32,6 +36,10 @@ owns the local view description and invalidation inside the hosted root.
 | `UIHostingController` as a screen | A UIKit flow pushes or presents a SwiftUI feature. | Split navigation ownership |
 | `UIHostingController` as a child | A UIKit screen embeds a SwiftUI section. | Incorrect containment or sizing |
 | `UIHostingConfiguration` | A cell needs SwiftUI content in a modern list. | State tied to cell reuse |
+
+`UIHostingConfiguration` is available from iOS 16 and tvOS 16. Apps supporting older
+systems need a hosting-controller cell approach or another fallback. Prefer the
+configuration API when its lifecycle and deployment requirement fit.
 
 `UIHostingController` is a real view controller. When embedding it, use normal
 UIKit containment: add it as a child, add its view, constrain the view, then call
@@ -108,6 +116,10 @@ how the parent measures and updates it, especially inside scrolling containers.
 Avoid creating a new hosting controller every time data changes. Update the
 model or assign a new `rootView` only when that is the intended identity boundary.
 Unnecessary recreation loses SwiftUI local state and can restart `.task` work.
+
+When replacing `rootView`, remember that a SwiftUI view is a value description. The
+new value should use the same owned model when state is meant to continue. Creating a
+new model during every assignment silently changes the feature lifetime.
 
 ## Engineering Decisions
 

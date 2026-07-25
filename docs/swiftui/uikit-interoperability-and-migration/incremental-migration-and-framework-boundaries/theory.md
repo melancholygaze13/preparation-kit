@@ -6,9 +6,9 @@ concept: "Incremental Migration and Framework Boundaries"
 page_type: theory
 levels: [senior, staff, principal]
 interview_priority: situational
-estimated_read_minutes: 5
+estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-06-29
+last_reviewed: 2026-07-25
 ---
 
 # Incremental Migration and Framework Boundaries: Theory
@@ -17,7 +17,11 @@ last_reviewed: 2026-06-29
 
 ## Mental Model
 
-UIKit-to-SwiftUI migration is an ownership problem before it is a syntax problem.
+**Incremental migration** moves a product from UIKit to SwiftUI through separately
+shippable steps. A **framework boundary** is the explicit contract where UIKit and
+SwiftUI exchange values, user intents, lifecycle events, layout, or ownership.
+
+Migration is an ownership problem before it is a syntax problem.
 The hard questions are who owns navigation, source of truth, lifecycle, side
 effects, and design-system behavior while both frameworks coexist.
 
@@ -108,6 +112,10 @@ dynamic type, VoiceOver labels, deep links, and cancellation during dismissal.
 The end state should be simpler than the transition state. If temporary adapters,
 dual models, or old coordinators remain forever, the migration has added another
 architecture instead of replacing one.
+
+Every temporary adapter needs an owner and a removal condition. A wrapper can also be
+a valid long-term boundary for an SDK or platform capability. Labeling the decision
+prevents teams from waiting for infrastructure that is intentionally permanent.
 
 ## References
 

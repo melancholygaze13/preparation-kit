@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: high
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - scroll-position
   - scroll-view-reader
@@ -19,8 +19,9 @@ tags:
 
 # Scroll Position and Programmatic Scrolling
 
-> Model semantic scroll targets with stable IDs. Treat exact offsets as presentation
-> state and restore them only when the product truly needs that precision.
+> Scroll position describes where content is visible. Programmatic scrolling changes
+> that position from code. Prefer a stable item ID over an exact pixel offset when
+> content size can change.
 
 ## Quick Recall
 
@@ -29,6 +30,10 @@ tags:
 - Use scroll-position bindings when position itself is application state.
 - Separate user scrolling from programmatic commands to avoid feedback loops.
 - Restore a semantic item and anchor when data or row heights can change.
+
+Use `ScrollViewReader` for a one-time command such as “jump to unread.” Use a position
+binding when the current position must be read and written as feature state. Newer
+scroll APIs need availability checks when the app supports older operating systems.
 
 ## Study
 

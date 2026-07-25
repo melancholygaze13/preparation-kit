@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: high
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - adaptive-layout
   - size-classes
@@ -19,8 +19,9 @@ tags:
 
 # Adaptive Layout, Size Classes, and Input
 
-> Adapt to the actual container, content, and input capabilities. Device names and
-> screen bounds are weak proxies for the space and interaction available now.
+> Adaptive layout changes composition for current space and content. Size classes are
+> coarse environment categories. Input includes touch, pointer, keyboard, remote, and
+> assistive technology. Adapt to these facts, not a device name.
 
 ## Quick Recall
 
@@ -29,6 +30,10 @@ tags:
 - Windows resize, split, rotate, and move across displays.
 - Support touch, pointer, keyboard, focus, and accessibility activation.
 - Preserve one feature state while presentation changes across environments.
+
+The same iPad can host several window sizes and several input methods. A component may
+also occupy only part of a window. Global screen bounds therefore do not describe the
+space proposed by its parent.
 
 ## Study
 

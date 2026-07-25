@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - feature-boundaries
   - view-modeling
@@ -22,6 +22,10 @@ tags:
 > A feature owns a user outcome, its state transitions, and its dependencies. Views
 > describe presentation; a model coordinates policy only when the feature needs it.
 
+A feature boundary groups one user capability and its owner. View modeling decides
+which state remains local to a view and which state needs a longer-lived feature
+model. A view model is useful only when it owns real feature state or policy.
+
 ## Quick Recall
 
 - Start with the smallest boundary that keeps one source of truth.
@@ -29,6 +33,7 @@ tags:
 - Use an observable model for shared policy, async work, or coordinated state.
 - Pass values and actions to reusable leaf views instead of the entire feature model.
 - Split by behavior and ownership, not by arbitrary file size or screen count.
+- Models improve testability but add lifetime, dependency, and indirection costs.
 
 ## Study
 

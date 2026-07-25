@@ -8,9 +8,9 @@ levels:
   - senior
   - staff
 interview_priority: high
-estimated_read_minutes: 4
+estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 ---
 
 # Snapshot Testing and Visual Regressions: Theory
@@ -18,6 +18,9 @@ last_reviewed: 2026-06-23
 [Concept overview](README.md) · [Interview questions](interview.md)
 
 ## Mental Model
+
+A **snapshot test** captures a known output and compares it with an approved baseline.
+A **visual regression** is an unintended change to rendered appearance.
 
 A visual regression test renders a known UI state, captures output, and compares it
 with a reviewed baseline. A difference means the rendering changed. It does not mean
@@ -60,6 +63,11 @@ testing scenarios. XCUIAutomation can capture screenshots from the running app.
 Neither API by itself defines baseline storage, image diff policy, or approval
 workflow. Teams commonly build that policy around a chosen test utility.
 
+`ImageRenderer` is useful for views that can be rendered without a complete app
+process. XCUIAutomation screenshots capture assembled app and system composition.
+Choose the lower boundary that still includes the rendering risk. Neither proves
+interaction or accessibility semantics.
+
 ## Choose a High-Value Matrix
 
 Name states by product meaning: `empty`, `loaded`, `validation-error`, `offline`, or
@@ -94,6 +102,14 @@ Threshold comparison reduces noise but can hide subtle defects. Prefer eliminati
 nondeterminism before increasing tolerance. If tolerance is necessary, document its
 scope and keep a visual diff artifact.
 
+Do not record and compare a new baseline in one test run. That only proves the output
+equals itself. Baselines are reviewed artifacts created in a controlled recording
+mode, then read-only inputs during normal comparison.
+
+When a system runtime changes, keep the old canonical job long enough to distinguish
+framework rendering changes from product changes. Review the new runtime as a bounded
+migration instead of accepting a repository-wide diff without inspection.
+
 ## Production Strategy
 
 Keep snapshot coverage intentionally small and monitor runtime, storage, and failure
@@ -105,6 +121,10 @@ At Staff scope, define baseline ownership, supported rendering environments, nam
 review expectations, and retirement rules. A design-system change can create hundreds
 of downstream diffs; stage it, publish the expected impact, and let feature owners
 review exceptional changes rather than silently accepting the entire set.
+
+Snapshot coverage needs removal criteria. Delete a baseline when the component no
+longer exists, its risk is covered at a clearer boundary, or environment churn costs
+more than the distinct signal it provides.
 
 ## References
 

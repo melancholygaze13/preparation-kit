@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: situational
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-06-29
+last_reviewed: 2026-07-25
 ---
 
 # Incremental Migration and Framework Boundaries: Interview Questions
@@ -119,6 +119,9 @@ follow.
 Rollout should be staged. Critical flows need flags, monitoring, accessibility
 checks, and clear reversal. Teams also need removal criteria so temporary
 adapters and duplicate models do not become permanent infrastructure.
+
+I record which boundaries are approved long term, such as an SDK view, and which are
+temporary. Both kinds still need ownership, tests, and lifecycle rules.
 
 ### Trade-offs
 

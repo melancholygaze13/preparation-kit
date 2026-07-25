@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: situational
-estimated_read_minutes: 3
+estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - commands
   - widgets
@@ -24,7 +24,12 @@ tags:
 
 ## Mental Model
 
-Commands, settings, widgets, shortcuts, and system actions are alternate entry points
+**Commands** are menu and keyboard actions. A **Settings** scene provides
+platform-integrated preference UI. A **widget** renders timeline entries in a separate,
+system-managed extension. **System actions** are typed requests such as opening a URL,
+dismissing a presentation, or opening a window.
+
+These surfaces are alternate entry points
 into product capabilities. They should reuse domain operations and authorization, while
 adapting lifecycle and presentation to each platform surface.
 
@@ -40,6 +45,10 @@ scene. Focused values and focused bindings let the active view hierarchy publish
 capability or action upward to command definitions. Define custom focused entries with
 the `@Entry` macro. Disable a command when the focused scene cannot perform it.
 
+`@Entry` requires the SwiftUI tools from the 2024 platform releases. Projects that
+must build with an older Xcode define the focused key manually. This toolchain choice
+does not change the rule that commands resolve the currently focused capability.
+
 Do not capture the first document model created by the app. That works in one window
 and mutates the wrong document when focus changes. Keep validation in the application
 operation because commands can be invoked through menus, shortcuts, automation, or
@@ -49,6 +58,23 @@ A `Settings` scene provides platform-integrated app settings, especially on macO
 Store small preferences in an appropriate settings store and inject a typed interface
 into features. Settings that trigger migration, sign-out, or destructive work need an
 explicit operation and failure presentation, not only a property-wrapper assignment.
+
+Scenes declare these integrations at the app boundary:
+
+```swift
+@main
+struct EditorApp: App {
+    var body: some Scene {
+        WindowGroup { EditorView() }
+            .commands { EditorCommands() }
+
+        Settings { SettingsView() }
+    }
+}
+```
+
+Availability and presentation differ by platform. Keep command and settings content
+small, semantic, and backed by the same operations used elsewhere.
 
 ## Widgets and Timelines
 

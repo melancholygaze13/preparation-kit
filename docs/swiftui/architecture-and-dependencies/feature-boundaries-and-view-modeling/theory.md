@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 8
+estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - feature-boundaries
   - view-modeling
@@ -30,6 +30,11 @@ and send user intent back to the owner of that state.
 
 Do not create a view model for every view. Add a model when state or policy needs an
 identity and lifetime beyond a small value-typed view.
+
+A **feature boundary** groups a user capability, its state transitions, and the
+dependencies required to deliver it. **View modeling** decides how presentation
+state is represented and owned. A **view model** is a reference-type state owner
+used by views; it is an architectural choice, not a SwiftUI requirement.
 
 ## How It Works
 
@@ -172,6 +177,20 @@ the lifetime of the state machine, not the shape of the view tree.
 When a child needs only one operation, pass the action instead of forwarding a model
 through several layers. When many descendants need the same coordinated state, pass
 the feature model or inject it at that feature root rather than creating proxy models.
+
+### Benefits and Costs
+
+| Choice | Benefits | Costs |
+|---|---|---|
+| State stays in the view | Few types, direct data flow, simple previews | Harder to share policy or preserve state beyond that identity |
+| Feature observable model | Testable transitions, explicit lifetime, coordinated async work | Extra reference lifetime, dependency setup, and indirection |
+| One model per screen | Predictable naming and initial organization | Artificial boundaries and duplicated flow state |
+| One large model | Easy cross-screen access at first | Broad invalidation, unclear ownership, and high change coupling |
+
+Use a model when its benefits solve a present ownership problem. Keep a small view
+local when extraction would only move the same code behind another type. When one
+workflow spans several screens, prefer one flow model over copies that must stay in
+sync.
 
 ### Persistence and Restoration
 

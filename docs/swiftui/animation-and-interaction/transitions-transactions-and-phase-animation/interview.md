@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - transitions
   - transactions
@@ -47,6 +47,9 @@ I also inspect ancestor identity. If a parent is replaced, the intended transiti
 may not have a stable container. Temporary borders and simplified structure help
 confirm what enters and leaves.
 
+I confirm the Boolean or enum actually adds and removes the view. If the view remains
+present, `.transition(...)` is the wrong tool for an opacity, frame, or scale change.
+
 <a id="q2-when-would-you-modify-a-transaction"></a>
 ## Q2: When would you modify a transaction?
 
@@ -75,3 +78,6 @@ business operations.
 The model owns durable state and async completion; animation derives from it. I define
 repeat and interruption policy and provide a reduced-motion alternative. For simple
 one-step changes, ordinary animation remains clearer.
+
+These animator APIs require the 2023 platform releases or later. Deployment targets
+may require a simpler availability-gated fallback.

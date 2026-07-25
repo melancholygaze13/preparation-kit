@@ -5,16 +5,16 @@ topic: "UIKit Interoperability and Migration"
 page_type: concept-index
 levels: [senior, staff, principal]
 interview_priority: situational
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-25
 ---
 
 # UIViewRepresentable and Coordinators
 
-> `UIViewRepresentable` is the boundary adapter for using a UIKit view inside
-> SwiftUI. SwiftUI owns the wrapper value and update cycle; UIKit owns the
-> concrete view instance and delegate-style callbacks.
+> `UIViewRepresentable` adapts a UIKit view for use inside SwiftUI. A coordinator is
+> an optional reference object for delegates, data sources, targets, and callbacks.
+> SwiftUI owns the update cycle; UIKit owns the concrete view instance.
 
 ## Quick Recall
 

@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 8
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - view-identity
   - state-lifetime
@@ -24,17 +24,12 @@ tags:
 
 ## Mental Model
 
-SwiftUI creates many short-lived values from a view declaration. Identity connects
-the values that represent one conceptual UI element over time:
+SwiftUI creates many short-lived view values. *Identity* connects the values that
+represent the same UI element over time. *Lifetime* is the period during which
+that identity remains present in the view hierarchy.
 
-```mermaid
-flowchart LR
-    Same["Same identity + new value"] --> Update["Update the existing element"]
-    New["New identity"] --> Replace["Remove one element and insert another"]
-```
-
-The lifetime of framework-managed state follows that identity. When identity ends,
-local state and other identity-scoped resources end with it.
+The lifetime of framework-managed state follows the identity. When the identity
+ends, its local state and other identity-scoped resources end with it.
 
 ## How It Works
 
@@ -107,12 +102,12 @@ between enabled and disabled should normally retain one identity.
 ### Explicit Identity
 
 Data-driven containers need identity that survives insertion, deletion, movement,
-and sorting. `ForEach` uses an element's `Identifiable.ID` or an explicit `id` key
-path:
+and sorting. The Swift `Identifiable` protocol requires an `id` property.
+`ForEach` can use that property or an explicit `id` key path:
 
 ```swift
 struct Message: Identifiable {
-    let id: MessageID
+    let id: UUID
     let author: String
     let body: String
 }
@@ -122,22 +117,26 @@ ForEach(messages) { message in
 }
 ```
 
-The identifier should represent the domain entity. A database primary key or
-server-issued immutable ID is usually appropriate. The ID must stay stable while
-the data represents the same entity and must be unique among siblings in that
-container.
+The ID type must conform to `Hashable`, which lets SwiftUI use its values as stable
+keys. The identifier should represent the domain entity. A database primary key
+or server-issued immutable ID is usually appropriate. The ID must stay stable
+while the data represents the same entity and must be unique among siblings in
+that container.
 
 Position is not entity identity. Using array indices for editable or reorderable
 data can associate row state with the wrong element after an insertion or move.
 Likewise, a computed `UUID()` creates a new identity on every access and turns
-updates into replacements. `\.self` is suitable only when each value is unique and
-the entire value is its stable identity.
+updates into replacements. The key path `\.self` tells `ForEach` to use the whole
+value as its ID. Use it only when each value is unique and the whole value is its
+stable identity.
 
 ### State Storage Follows Identity
 
-`@State` declares storage managed by SwiftUI. The initial value is used when the
-storage is first created for a view identity. Later body evaluations retrieve the
-existing storage:
+`@State` declares storage managed by SwiftUI. The source syntax is the same across
+current toolchains. Xcode 27 implements it as a macro; earlier toolchains expose
+it as a property wrapper. In both cases, the identity rule is the same: SwiftUI
+uses the initial value when it creates storage for a new identity. Later body
+evaluations retrieve the existing storage:
 
 ```swift
 struct DraftEditor: View {
@@ -243,3 +242,4 @@ coordinate the identifier contract across persistence and deep-link boundaries.
 - [`ForEach.init(_:content:)`](https://developer.apple.com/documentation/swiftui/foreach/init%28_%3Acontent%3A%29-6oy5i)
 - [`State`](https://developer.apple.com/documentation/swiftui/state)
 - [Managing user interface state](https://developer.apple.com/documentation/swiftui/managing-user-interface-state)
+- [TN3211: Resolving SwiftUI source incompatibilities for State and ContentBuilder](https://developer.apple.com/documentation/technotes/tn3211-resolving-swiftui-source-incompatibilities-for-state-and-contentbuilder)

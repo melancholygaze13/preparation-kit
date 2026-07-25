@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 8
+estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - navigation-stack
   - navigation-path
@@ -27,6 +27,11 @@ tags:
 `NavigationStack` shows a root and an ordered stack of destinations. In
 value-based navigation, the path contains route values. SwiftUI finds a matching
 `navigationDestination(for:)` registration and builds the view for each value.
+
+A **route** is application data that names a destination, such as “product 42.” A
+**path** is the ordered collection of routes above the root. A **destination** is the
+view SwiftUI creates for a route. Keeping these terms separate prevents views from
+becoming the application's navigation state.
 
 ```mermaid
 flowchart LR
@@ -61,8 +66,8 @@ test the stack:
 
 ```swift
 enum ShopRoute: Hashable {
-    case product(Product.ID)
-    case reviews(Product.ID)
+    case product(Int)
+    case reviews(Int)
 }
 
 @State private var path: [ShopRoute] = []
@@ -84,6 +89,21 @@ Appending a route pushes. Removing the last route pops. Replacing the array chan
 the complete visible hierarchy. User-driven back navigation also updates the
 binding.
 
+The `$path` syntax passes a `Binding`, which gives `NavigationStack` read and write
+access to the state. The array begins empty, so only the root is visible. Common
+operations are direct collection changes:
+
+```swift
+path.append(.product(42))       // Push one destination.
+path.removeLast()               // Pop one destination when nonempty.
+path.removeAll()                // Pop to the root.
+path = [.product(42), .reviews(42)] // Replace the visible flow.
+```
+
+Guard `removeLast()` or use `popLast()` when the path might be empty. These mutations
+state the desired result. SwiftUI owns the platform transition and destination view
+lifetime.
+
 Prefer route operations that preserve invariants over exposing raw array edits
 throughout the view tree. A flow can provide `showProduct`, `showReviews`,
 `popToRoot`, and `replace(with:)` operations. Each operation can reject duplicates,
@@ -104,6 +124,11 @@ checks every path mutation, and tests can compare expected routes directly.
 It is useful when independently owned features register distinct route types. Type
 erasure costs static exhaustiveness and makes inspection harder. It should solve a
 real composition need, not replace a route model by default.
+
+`NavigationPath` supports `append`, `removeLast`, `count`, and `isEmpty`, but it does
+not expose a typed sequence of its stored elements. That limit matters when business
+rules need to inspect or rewrite particular routes. A typed enum array is usually
+simpler for one owned flow, even when the enum has several cases.
 
 Path elements should be lightweight identifiers or immutable route parameters.
 Putting a large model object in the path couples navigation lifetime to a stale
@@ -130,6 +155,12 @@ A direct `NavigationLink` owns a destination view instead. It is reasonable for 
 strictly local, fire-and-forget push, but it does not add an application-visible
 value to a bound path. Avoid mixing state-controlled and opaque pushes in a flow
 that requires reliable restoration or replacement.
+
+SwiftUI can track both styles internally, but the binding contains only value-based
+destinations. Apple's navigation guide also documents that pushing a value while a
+view-based destination is on top removes those view-based levels first. A flow that
+needs a complete, restorable history should therefore use value-based destinations
+consistently.
 
 The Boolean and item forms of `navigationDestination` are useful for a single
 programmatic destination that does not belong in a general route collection. The
@@ -180,7 +211,8 @@ not on observing each transition callback.
 ## Constraints and Guarantees
 
 - A stack's root remains present; path elements describe destinations above it.
-- A typed bound path must be a mutable random-access collection of `Hashable` values.
+- A typed bound path must be a mutable, random-access, range-replaceable collection
+  whose elements conform to `Hashable`. An `Array` meets these requirements.
 - `NavigationPath` accepts mixed-type `Hashable` elements.
 - A destination modifier must be visible to the stack and should not be inside a
   lazy container.
@@ -226,5 +258,6 @@ separate from view construction.
 - [`NavigationStack`](https://developer.apple.com/documentation/swiftui/navigationstack)
 - [Understanding the navigation stack](https://developer.apple.com/documentation/swiftui/understanding-the-navigation-stack)
 - [`NavigationPath`](https://developer.apple.com/documentation/swiftui/navigationpath)
+- [`NavigationStack.init(path:root:)`](https://developer.apple.com/documentation/swiftui/navigationstack/init%28path%3Aroot%3A%29-3bt4q)
 - [`navigationDestination(for:destination:)`](https://developer.apple.com/documentation/swiftui/view/navigationdestination%28for%3Adestination%3A%29)
 - [Migrating to new navigation types](https://developer.apple.com/documentation/swiftui/migrating-to-new-navigation-types)

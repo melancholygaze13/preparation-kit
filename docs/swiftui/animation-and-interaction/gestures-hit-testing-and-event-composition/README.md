@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: high
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - gestures
   - hit-testing
@@ -19,8 +19,9 @@ tags:
 
 # Gestures, Hit Testing, and Event Composition
 
-> Use semantic controls for standard actions. Use gestures when location, duration,
-> velocity, or continuous movement is the actual interaction requirement.
+> A gesture recognizes input over time. Hit testing chooses which view region receives
+> input. Event composition defines how several gestures recognize together or compete.
+> Use a semantic control for ordinary activation.
 
 ## Quick Recall
 
@@ -29,6 +30,10 @@ tags:
 - Gesture composition expresses simultaneous, sequenced, or precedence relationships.
 - Keep transient drag state separate from committed model state.
 - Provide keyboard and accessibility alternatives for gesture-only interaction.
+
+Use a gesture when location, duration, velocity, or continuous movement is part of the
+meaning. Keep temporary movement in `@GestureState`, then commit a semantic result to
+durable state when the gesture ends.
 
 ## Study
 

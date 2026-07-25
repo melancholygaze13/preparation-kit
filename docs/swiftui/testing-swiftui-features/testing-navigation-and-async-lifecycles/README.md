@@ -7,15 +7,16 @@ levels:
   - senior
   - staff
 interview_priority: high
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 ---
 
 # Testing Navigation and Async Lifecycles
 
-> Treat routes and async lifecycle events as state transitions. Control completion
-> and cancellation explicitly so tests never depend on scheduler timing.
+> Navigation testing verifies route and presentation state. Async lifecycle testing
+> verifies start, completion, cancellation, restart, and stale-result behavior. Control
+> these events explicitly instead of depending on scheduler timing.
 
 ## Quick Recall
 
@@ -24,6 +25,10 @@ last_reviewed: 2026-06-23
 - Assert cancellation at an observable boundary, not by assuming when a task runs.
 - Test stale-result rejection separately from task cancellation.
 - Launch the app into deterministic states for deep-link and restoration UI tests.
+
+Cancellation and stale-result rejection are separate contracts. A canceled dependency
+may still return because cancellation is cooperative. The model must also verify that
+the result still belongs to the current request before committing it.
 
 ## Study
 

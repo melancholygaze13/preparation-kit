@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 7
+estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - sheets
   - popovers
@@ -31,6 +31,11 @@ binding. The state owner defines both presentation ownership and lifetime.
 Choose state that cannot represent contradictory conditions. If a sheet edits a
 selected item, one optional item should answer both “is it presented?” and “which
 item?”
+
+A **sheet** presents a focused task over the current context. A **popover** anchors
+contextual content to a source view. An **alert** communicates important information
+or a small blocking decision. A **confirmation dialog** offers related actions, often
+including a destructive choice.
 
 ## How It Works
 
@@ -79,10 +84,15 @@ than several Booleans:
 
 ```swift
 enum ModalRoute: Identifiable {
-    case profile(User.ID)
+    case profile(Int)
     case filters
 
-    var id: String { /* stable case and payload identity */ }
+    var id: String {
+        switch self {
+        case .profile(let userID): "profile-\(userID)"
+        case .filters: "filters"
+        }
+    }
 }
 ```
 
@@ -105,6 +115,19 @@ constraint, such as losing unsubmitted required input. Preventing dismissal with
 an accessible cancel or completion path traps the user. For editable forms, a
 confirmation flow often communicates the consequence better.
 
+Read `dismiss` inside the presented view. An action read from the presenter's
+environment may refer to a different presentation and may not close the sheet:
+
+```swift
+struct SettingsScreen: View {
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        Button("Done") { dismiss() }
+    }
+}
+```
+
 ### Sheets and Popovers
 
 A sheet is appropriate for a focused task or self-contained flow. It can define
@@ -121,6 +144,18 @@ A popover is anchored to a source and suits contextual information or controls.
 Its adaptive behavior can differ in compact environments. The product must remain
 usable when the system adapts presentation style; do not make correctness depend on
 an arrow or exact size.
+
+```swift
+Button("Help") { showsHelp = true }
+    .popover(isPresented: $showsHelp) {
+        HelpSummary()
+            .padding()
+    }
+```
+
+In a horizontally compact environment, a popover uses a sheet appearance by default.
+`presentationCompactAdaptation` can request another behavior, but it remains a
+platform presentation preference. Test the actual supported environments.
 
 ### Alerts and Confirmation Dialogs
 
@@ -227,5 +262,6 @@ set of presentation routes, analytics conventions, and rules for unsaved work.
 - [Modal presentations](https://developer.apple.com/documentation/swiftui/modal-presentations)
 - [`sheet(item:onDismiss:content:)`](https://developer.apple.com/documentation/swiftui/view/sheet%28item%3Aondismiss%3Acontent%3A%29)
 - [`popover(item:attachmentAnchor:arrowEdge:content:)`](https://developer.apple.com/documentation/swiftui/view/popover%28item%3Aattachmentanchor%3Aarrowedge%3Acontent%3A%29)
+- [`presentationCompactAdaptation`](https://developer.apple.com/documentation/swiftui/view/presentationcompactadaptation%28horizontal%3Avertical%3A%29)
 - [`confirmationDialog`](https://developer.apple.com/documentation/swiftui/view/confirmationdialog%28_%3Aispresented%3Atitlevisibility%3Aactions%3A%29)
 - [`dismiss`](https://developer.apple.com/documentation/swiftui/environmentvalues/dismiss)

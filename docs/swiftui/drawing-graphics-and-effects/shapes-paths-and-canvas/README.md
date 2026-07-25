@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: situational
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - shapes
   - canvas
@@ -19,9 +19,9 @@ tags:
 
 # Shapes, Paths, and Canvas
 
-> A `Shape` is retained SwiftUI content with normal layout, styling, animation, and
-> accessibility composition. `Canvas` is immediate-mode drawing for many related marks,
-> but its individual operations are not separate views or accessibility elements.
+> A `Shape` produces scalable geometry. A `Path` stores lines and curves. `Canvas`
+> draws many operations into one surface. Shape content participates in ordinary
+> SwiftUI composition; individual canvas draw calls do not become separate views.
 
 ## Quick Recall
 
@@ -30,6 +30,10 @@ tags:
 - `Canvas` draws through `GraphicsContext` and can reuse resolved images, text, or symbols.
 - Canvas marks need separate interaction and accessibility semantics.
 - Measure before adding `drawingGroup`; offscreen rendering has memory and compositing cost.
+
+Use a shape for one drawable SwiftUI element. Use a canvas for dense related marks
+whose identity and layout do not need separate views. Build a second semantic layer
+when canvas content needs focus, actions, or accessibility navigation.
 
 ## Study
 

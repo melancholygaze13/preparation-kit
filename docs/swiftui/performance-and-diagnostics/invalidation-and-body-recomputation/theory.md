@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 8
+estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - invalidation
   - body-recomputation
@@ -24,13 +24,27 @@ tags:
 
 ## Mental Model
 
-SwiftUI view values are descriptions. When a tracked dependency changes, SwiftUI
-invalidates dependent views, reevaluates their `body`, compares the new description
-with retained framework state, and applies necessary updates.
+SwiftUI view values are descriptions. **Invalidation** marks a dependent view as
+needing an update after one of its inputs changes. **Body recomputation** means
+SwiftUI calls that view's `body` property again to create a new description.
+
+SwiftUI compares the new description with retained framework state and applies the
+needed changes. This comparison is often called reconciliation. It uses identity,
+type, position, and data to decide what continues and what changes.
 
 A `body` call is not equivalent to recreating every underlying view or redrawing the
 whole screen. Optimize the expensive work and excessive propagation revealed by
 measurement, not recomputation itself.
+
+Keep four stages separate when reasoning about cost:
+
+1. A state change invalidates a dependent view.
+2. SwiftUI evaluates `body` and creates new view values.
+3. SwiftUI reconciles the description with its retained graph.
+4. Changed output may cause layout, drawing, animation, or platform-view updates.
+
+A debug log proves that evaluation occurred. It does not prove that all later stages
+ran or that users experienced a delay.
 
 ## How It Works
 
@@ -183,6 +197,18 @@ Temporary counters or `Self._printChanges()` can help local debugging, but under
 APIs are diagnostic tools, not production contracts. Instruments provides stronger
 evidence about duration and call stacks.
 
+In current Instruments, start with the SwiftUI template. The **Long View Body
+Updates** lane identifies slow view updates. The **Cause & Effect Graph** connects an
+update to the state or dependency that caused it. Use Time Profiler beside these
+lanes to find the synchronous code responsible for the time. The exact tool labels
+depend on the installed Xcode version, so treat the workflow as stable and the user
+interface as version-specific.
+
+Select a slow interval instead of scanning the complete recording. First follow the
+cause backward to the mutation. Then follow the effect forward into view evaluation,
+layout, or rendering. This avoids optimizing a visible row when the real cause is an
+upstream timer or repeated repository publication.
+
 Also inspect the cause of the mutation itself. A timer that publishes while its screen
 is inactive, a repository that replaces equal arrays, or a binding setter that writes
 on every keystroke can create valid but unnecessary update traffic upstream.
@@ -194,6 +220,9 @@ on every keystroke can create valid but unnecessary update traffic upstream.
 - Observation tracks accessed properties, but dependency scope still follows view structure.
 - Stable IDs preserve logical association; they do not guarantee a row avoids reevaluation.
 - Skipping updates through equality is safe only when equality covers every rendered input.
+- SwiftUI does not promise a fixed number or order of `body` evaluations.
+- Instruments reports observed runtime behavior. Its thresholds are diagnostics, not
+  Swift language or framework guarantees.
 
 ## Engineering Decisions
 

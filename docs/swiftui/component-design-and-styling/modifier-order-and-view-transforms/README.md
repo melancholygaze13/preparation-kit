@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: high
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - modifiers
   - view-transforms
@@ -19,8 +19,9 @@ tags:
 
 # Modifier Order and View Transforms
 
-> Each modifier wraps or transforms the view produced before it. Order changes which
-> bounds, environment, drawing, hit testing, and accessibility semantics later modifiers receive.
+> A view modifier returns a changed view. A view transform changes layout, drawing,
+> interaction, environment, or another part of that view. Each modifier receives the
+> result before it, so order is part of the behavior.
 
 ## Quick Recall
 
@@ -29,6 +30,10 @@ tags:
 - A visual transform may not change the layout space reserved by the parent.
 - Apply environment values above the descendants that must read them.
 - Use temporary borders and backgrounds at different points to diagnose wrapper bounds.
+
+`padding().background(...)` draws behind the padded area.
+`background(...).padding()` adds clear space outside the earlier background. Read the
+chain from the base view downward, one result at a time.
 
 ## Study
 

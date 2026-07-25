@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: situational
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-25
 ---
 
 # UIViewRepresentable and Coordinators: Theory
@@ -17,7 +17,11 @@ last_reviewed: 2026-07-12
 
 ## Mental Model
 
-`UIViewRepresentable` is an adapter between SwiftUI's value-driven rendering and
+`UIViewRepresentable` is a protocol that adapts a `UIView` for SwiftUI's view hierarchy.
+A **coordinator** is an optional stable reference object created by the representable
+to receive UIKit delegate, data-source, target-action, or callback events.
+
+The representable is an adapter between SwiftUI's value-driven rendering and
 UIKit's reference-driven view model. The representable struct is cheap and can be
 created many times. The UIKit view returned from `makeUIView(context:)` is the
 long-lived object that SwiftUI manages for the current identity.
@@ -57,6 +61,10 @@ that look like user actions.
 `dismantleUIView` is available when a wrapper must stop external work, unregister
 observers, or release resources that UIKit will not clean up by ordinary
 deallocation. Many wrappers do not need it.
+
+SwiftUI decides when construction, update, and dismantling occur for a representable's
+identity. Do not depend on an exact update count. Make creation one-time in meaning,
+updates repeatable, and cleanup safe when called.
 
 ## Coordinator Responsibilities
 

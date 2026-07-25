@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - adaptive-layout
   - size-classes
@@ -47,6 +47,9 @@ Breakpoints come from when content fails, including localization and Dynamic Typ
 The same feature state survives presentation changes, and I test live resize, split
 view, rotation, keyboard, and accessibility sizes.
 
+`ViewThatFits` handles alternate compositions, and a custom `Layout` handles reusable
+placement rules. Size classes remain useful for coarse navigation decisions.
+
 <a id="q2-what-are-size-classes-good-for"></a>
 ## Q2: What are size classes good for?
 
@@ -60,6 +63,9 @@ They are not reliable device detection or exact width measurements.
 Two windows with the same class can have different usable space. I combine class with
 container-driven layout where needed and keep selection and routes independent from
 the compact or expanded presentation.
+
+I never persist a size class as domain state. It can change during live resizing while
+the feature and its semantic selection remain alive.
 
 <a id="q3-how-do-you-support-multiple-input-methods"></a>
 ## Q3: How do you support multiple input methods?

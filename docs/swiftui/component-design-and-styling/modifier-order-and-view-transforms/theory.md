@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: high
-estimated_read_minutes: 5
+estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - modifiers
   - view-transforms
@@ -23,6 +23,10 @@ tags:
 [Concept overview](README.md) · [Interview questions](interview.md)
 
 ## Mental Model
+
+A **view modifier** is a method that returns a changed view. A **view transform** is
+that change: it may affect layout, drawing, interaction, environment, identity, or
+accessibility.
 
 A modifier generally returns a new view that wraps or transforms the previous result.
 Read a chain from the base outward:
@@ -53,6 +57,19 @@ cover only the text's earlier bounds, then adds clear padding outside it.
 A frame is a layout wrapper. It proposes a size to its child, chooses its own size,
 and aligns the child. It does not mutate the child's intrinsic behavior or clip
 overflow automatically.
+
+Repeated frames create repeated wrappers:
+
+```swift
+Text("Save")
+    .frame(maxWidth: .infinity, alignment: .leading)
+    .padding()
+    .background(.blue)
+```
+
+The inner frame accepts available width and aligns the text. Padding expands that
+result. The background sees the final padded bounds. Reordering these calls describes
+a different layout and decoration.
 
 `offset` and visual transforms move drawing without changing the space the parent
 reserved. Use layout placement when siblings should reflow; use visual movement when
@@ -91,6 +108,10 @@ keyboard, focus, and accessibility behavior.
 A visual overlay may intercept input if it participates in hit testing. Disable hit
 testing on decorative layers or attach interaction to the correct container.
 
+`contentShape` changes the shape used for interaction without painting anything. It
+does not enlarge the layout by itself. Add padding when the control also needs a larger
+accessible target, then define the intended interaction shape at that wrapper level.
+
 ### Animation and Identity
 
 Apply `.animation(_:value:)` to the subtree and value that should animate. A broad
@@ -122,6 +143,8 @@ state the intended layout, drawing, and interaction scope for each modifier.
 - Visual transforms do not necessarily change parent layout.
 - Environment values flow down through the modified subtree.
 - Built-in implementation details beyond documented behavior are not API contracts.
+- A modifier's returned concrete type is usually hidden behind `some View`, but the
+  compiler still knows the full static type and order.
 
 ## Engineering Decisions
 

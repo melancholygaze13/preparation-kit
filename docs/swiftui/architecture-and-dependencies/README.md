@@ -4,12 +4,12 @@ domain: "SwiftUI"
 page_type: topic-index
 interview_priority: core
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 ---
 
 # Architecture and Dependencies
 
-## Learning Path
+## Preparation Paths
 
 ### Rapid Review
 
@@ -31,7 +31,7 @@ graphs, team ownership, and incremental adoption.
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [Feature Boundaries and View Modeling](feature-boundaries-and-view-modeling/README.md) | Separates feature policy from view composition. | Core | 15 min |
-| [Unidirectional Data Flow](unidirectional-data-flow/README.md) | Makes state transitions and event ownership traceable. | Core | 15 min |
-| [Side Effects and Dependency Boundaries](side-effects-and-dependency-boundaries/README.md) | Isolates external work for replacement and testing. | Core | 16 min |
-| [Modularization, Migration, and Ownership](modularization-migration-and-ownership/README.md) | Addresses boundaries and rollout in larger codebases. | Core | 16 min |
+| [Feature Boundaries and View Modeling](feature-boundaries-and-view-modeling/README.md) | Separates feature policy from view composition. | Core | 18 min |
+| [Unidirectional Data Flow](unidirectional-data-flow/README.md) | Makes state transitions and event ownership traceable. | Core | 18 min |
+| [Side Effects and Dependency Boundaries](side-effects-and-dependency-boundaries/README.md) | Isolates external work for replacement and testing. | Core | 18 min |
+| [Modularization, Migration, and Ownership](modularization-migration-and-ownership/README.md) | Addresses boundaries and rollout in larger codebases. | Core | 18 min |

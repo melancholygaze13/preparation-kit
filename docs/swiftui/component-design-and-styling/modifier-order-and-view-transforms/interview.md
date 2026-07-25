@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - modifiers
   - view-transforms
@@ -47,6 +47,9 @@ I reason about layout, drawing, interaction, and environment separately. Frames 
 wrappers, clipping is separate from sizing, and environment values affect descendants
 below their position. I use borders at several stages to inspect actual bounds.
 
+Modifier calls do not mutate one platform view. Each call produces another SwiftUI
+view value, and later calls operate on that result.
+
 <a id="q2-why-can-offset-cause-overlap"></a>
 ## Q2: Why can offset cause overlap?
 
@@ -75,3 +78,6 @@ layers should not intercept input.
 I attach the interaction to the semantic owner and prefer a standard control so
 keyboard and accessibility activation work. The visible artwork, layout bounds, and
 hit region can differ, so I verify all three plus the minimum accessible target size.
+
+`contentShape` can define the interactive shape, but it does not add layout space.
+If the target is too small, I add appropriate padding before defining the shape.

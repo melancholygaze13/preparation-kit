@@ -8,9 +8,9 @@ levels:
   - senior
   - staff
 interview_priority: high
-estimated_read_minutes: 3
+estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 ---
 
 # Testing State and Presentation Logic: Interview Questions
@@ -44,6 +44,9 @@ dependencies and test the model directly. Assertions cover user-visible outcomes
 not private helper calls. One UI test can then prove that a button sends the intent
 and the resulting state drives the expected presentation.
 
+For new unit tests, I use Swift Testing with struct suites and `#expect`. I use
+`#require` when a failed precondition should stop the rest of the test.
+
 <a id="q2-presentation-dependencies"></a>
 ## Q2: How do you make presentation logic deterministic?
 
@@ -60,6 +63,9 @@ can append an order route. A stubbed operation chooses either result immediately
 The test owns its model and fixtures so parallel execution is safe. If a value is
 derived from other state, I test the derivation rather than store a second source of
 truth solely for testing.
+
+I do not serialize the suite to hide shared state. Current `.serialized` behavior is
+for parameterized test cases, so true isolation remains the reliable design.
 
 ### Trade-offs
 

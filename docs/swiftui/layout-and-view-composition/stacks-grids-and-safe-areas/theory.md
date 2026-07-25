@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 8
+estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - layout
   - grids
@@ -24,16 +24,33 @@ tags:
 
 ## Mental Model
 
-A SwiftUI container owns a layout relationship. A stack allocates one primary axis,
-a grid coordinates tracks on two axes, and a safe-area modifier changes the region
-descendants may use. Pick the smallest container that expresses the relationship,
-then test it under actual window, text, and system-inset constraints.
+A SwiftUI *container* arranges child views. A *stack* arranges them on one primary
+axis or layers them in depth. A *grid* coordinates row and column tracks. A *safe
+area* describes unobscured space available inside the current container.
+
+Pick the smallest container that expresses the relationship, then test it under
+actual window, text, keyboard, and system-inset constraints.
 
 ## Linear and Layered Stacks
 
 `HStack` and `VStack` arrange children horizontally or vertically. The stack accounts
 for spacing, proposes space to its children, and aligns them on the cross axis.
 Children still choose sizes through the normal proposal-response process.
+
+The initializer exposes the common decisions directly:
+
+```swift
+VStack(alignment: .leading, spacing: 12) {
+    Text("Account")
+        .font(.headline)
+    Text("Payment methods and purchase history")
+}
+```
+
+Here, vertical order is the primary relationship. The leading alignment applies
+across the horizontal axis, and `spacing` controls the gap between adjacent direct
+children. `Spacer` consumes available space on the stack's primary axis. `Divider`
+draws a separator appropriate to the surrounding stack orientation.
 
 Alignment is a shared reference, not padding. A `VStack(alignment: .leading)` aligns
 the leading guides of its direct children. Nested content does not automatically
@@ -56,6 +73,30 @@ represents a row; a child placed directly in the grid can span the full grid wid
 Grid-specific modifiers support column spanning, cell alignment, and unsized axes.
 Use `Grid` when the dataset is bounded and cross-row alignment is the important rule.
 
+```swift
+Grid(alignment: .leading, horizontalSpacing: 16, verticalSpacing: 8) {
+    GridRow {
+        Text("Name").bold()
+        Text("Role").bold()
+    }
+    GridRow {
+        Text("Mina")
+        Text("Engineer")
+    }
+    Text("Two team members")
+        .gridCellColumns(2)
+}
+```
+
+The row with the most cells determines the column count. Rows with fewer cells get
+empty trailing cells. To create an intentional blank cell in the middle of a row,
+use an invisible view such as `Color.clear`; `EmptyView` produces no cell at all.
+
+A flexible view such as `Divider`, `Color`, or `Spacer` can make a grid wider than
+its text requires. Apply `gridCellUnsizedAxes(.horizontal)` when that cell should
+not contribute its flexible horizontal size. Use `gridCellAnchor`, row alignment,
+or column alignment when the default cell placement is not correct.
+
 `LazyVGrid` and `LazyHGrid` create content as it approaches the visible region. They
 are designed for scrollable or otherwise large collections. Their track definitions
 come from arrays of `GridItem` values:
@@ -75,11 +116,20 @@ the grid configuration and proposed space, not by globally measuring all cell
 content first. If data requires table-like column widths derived from every value,
 use a bounded `Grid`, define explicit track policy, or adopt a custom layout.
 
+`GridItem` configures the minor axis: columns in `LazyVGrid`, or rows in
+`LazyHGrid`. It does not configure eager `Grid`. Spacing stored on a grid item is
+the spacing after that track, while the lazy grid's own spacing parameter separates
+items along its scrolling axis.
+
 ## What Laziness Guarantees
 
 Laziness limits how much child content must be created for the current presentation.
 It is not an application lifecycle contract. A row can be created, updated, removed,
 and created again as identity, data, viewport, or framework decisions change.
+
+“Lazy” means SwiftUI creates cells as needed, not necessarily only when every pixel
+is visible. The framework can prepare nearby content. Code must not depend on an
+exact creation distance or destruction time.
 
 Keep row initializers and `body` evaluation cheap. Move asynchronous work to `.task`
 or `.task(id:)` and make cancellation safe. Cache images or decoded data at a layer
@@ -95,9 +145,10 @@ need, not serve as an automatic replacement for every stack or grid.
 
 ## Safe Areas as Layout Input
 
-The safe area describes regions where content can avoid system UI or device features.
-It varies by platform, window, keyboard, bars, and presentation. Treat it as dynamic
-container information rather than a device constant.
+The safe area describes space not obscured by system UI, device features, or
+container chrome. SwiftUI models at least the container and keyboard safe-area
+regions. They vary by platform, window, bars, keyboard, and presentation. Treat
+them as dynamic container information rather than device constants.
 
 Three APIs express different policies:
 
@@ -108,6 +159,11 @@ Three APIs express different policies:
   introducing separate inset content.
 - `ignoresSafeArea` allows a view hierarchy to extend into selected safe-area regions
   and edges. Apply it narrowly, commonly to a background.
+
+The `SafeAreaRegions` argument matters. `.container` refers to regions created by
+the device and surrounding UI, while `.keyboard` refers to the software keyboard.
+Ignoring `.keyboard` means content may stay behind the keyboard instead of moving
+or resizing. That is appropriate for some backgrounds, but rarely for a form.
 
 ```swift
 ScrollView {
@@ -121,7 +177,8 @@ ScrollView {
     CheckoutBar()
 }
 .background {
-    Color.surface.ignoresSafeArea()
+    Color.blue.opacity(0.08)
+        .ignoresSafeArea()
 }
 ```
 
@@ -166,6 +223,8 @@ spacing, safe-area ownership, and supported adaptive ranges in shared components
 - [`Grid`](https://developer.apple.com/documentation/swiftui/grid)
 - [`LazyVGrid`](https://developer.apple.com/documentation/swiftui/lazyvgrid)
 - [`GridItem`](https://developer.apple.com/documentation/swiftui/griditem)
+- [`GridRow`](https://developer.apple.com/documentation/swiftui/gridrow)
 - [`safeAreaInset`](https://developer.apple.com/documentation/swiftui/view/safeareainset%28edge%3Aalignment%3Aspacing%3Acontent%3A%29)
+- [`SafeAreaRegions`](https://developer.apple.com/documentation/swiftui/safearearegions)
 - [`ignoresSafeArea`](https://developer.apple.com/documentation/swiftui/view/ignoressafearea%28_%3Aedges%3A%29)
 - [Demystify SwiftUI performance](https://developer.apple.com/videos/play/wwdc2023/10160/)

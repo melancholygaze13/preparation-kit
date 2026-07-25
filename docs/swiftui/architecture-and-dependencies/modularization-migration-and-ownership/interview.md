@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 7
+estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - modularization
   - migration
@@ -51,6 +51,9 @@ boundary is still evolving.
 Tiny targets can increase manifest, linking, test, and API maintenance cost. A
 volatile low-level module can also invalidate the entire graph, so module placement
 matters more than quantity.
+
+If source organization and access control already give enough clarity, I delay the
+target split until the entry API stabilizes.
 
 <a id="q2-how-should-feature-modules-depend-on-each-other"></a>
 ## Q2: How should feature modules depend on each other?

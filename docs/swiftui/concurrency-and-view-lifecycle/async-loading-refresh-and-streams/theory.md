@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 8
+estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - loading-state
   - refreshable
@@ -32,6 +32,11 @@ Async UI has two separate concerns:
 Do not reduce the state machine to `isLoading`. Initial load, refresh with existing
 content, empty success, failure, and stale offline content have different rendering
 and interaction policies.
+
+**Async loading** waits for one operation to produce a result. **Refresh** requests a
+new result for content the user may already have. An **asynchronous sequence** can
+produce zero or more values over time. `AsyncStream` is one way to adapt a callback
+or delegate producer into such a sequence.
 
 ## How It Works
 
@@ -143,6 +148,29 @@ per row or per recomputation is usually the wrong lifetime.
 Use `AsyncStream.makeStream` or `AsyncThrowingStream.makeStream` to obtain the stream
 and continuation without awkward capture. Yield each event, finish exactly once
 when production ends, and set `onTermination` to stop underlying work.
+
+```swift
+let (stream, continuation) = AsyncStream.makeStream(
+    of: Status.self,
+    bufferingPolicy: .bufferingNewest(1)
+)
+
+observer.onStatus = { status in
+    continuation.yield(status)
+}
+observer.onComplete = {
+    continuation.finish()
+}
+continuation.onTermination = { _ in
+    observer.stop()
+}
+```
+
+The newest-value buffer fits replaceable status: a slow consumer needs the current
+state, not every intermediate state. The default is `.unbounded`, which can grow
+without limit when a producer outruns its consumer. `onTermination` can run as part
+of cancellation, so cleanup must follow the same thread-safety and deadlock rules as
+a task cancellation handler.
 
 Choose buffering deliberately:
 
@@ -258,4 +286,6 @@ behavior, retry budgets, observability, and resource limits as platform contract
 - [`RefreshAction`](https://developer.apple.com/documentation/swiftui/refreshaction)
 - [`AsyncSequence`](https://developer.apple.com/documentation/swift/asyncsequence)
 - [`AsyncStream`](https://developer.apple.com/documentation/swift/asyncstream)
+- [`AsyncStream.Continuation.onTermination`](https://developer.apple.com/documentation/swift/asyncstream/continuation/ontermination)
+- [`AsyncStream` buffering policies](https://developer.apple.com/documentation/swift/asyncstream/continuation/bufferingpolicy)
 - [Meet AsyncSequence](https://developer.apple.com/videos/play/wwdc2021/10058/)

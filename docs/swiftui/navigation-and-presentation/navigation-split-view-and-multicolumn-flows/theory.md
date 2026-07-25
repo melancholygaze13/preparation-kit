@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 8
+estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - navigation-split-view
   - adaptive-navigation
@@ -40,6 +40,15 @@ flowchart LR
 Adaptive navigation is not two unrelated implementations. It is one navigation
 state rendered differently for the available environment.
 
+A **split view** places related navigation levels in columns. A **multicolumn flow**
+uses a sidebar, an optional middle content column, and a detail column. **Collapse**
+means SwiftUI presents those same levels as one compact stack when side-by-side space
+is unavailable.
+
+`NavigationSplitView` is available from iOS 16, iPadOS 16, macOS 13, tvOS 16,
+watchOS 9, and visionOS 1. Earlier deployment targets require an availability branch
+and the older `NavigationView`, or a higher minimum deployment target.
+
 ## How It Works
 
 ### Selection Drives Columns
@@ -47,7 +56,7 @@ state rendered differently for the available environment.
 A two-column flow commonly binds a `List` selection and derives detail content:
 
 ```swift
-@State private var selectedProjectID: Project.ID?
+@State private var selectedProjectID: Int?
 
 var body: some View {
     NavigationSplitView {
@@ -69,6 +78,22 @@ For three columns, the sidebar selection usually scopes content data, and the
 content selection determines detail. When a parent selection changes, clear or
 revalidate dependent selections. Otherwise, detail can show an item that does not
 belong to the visible content context.
+
+The three-column initializer makes each role explicit:
+
+```swift
+NavigationSplitView {
+    ProjectList(selection: $selectedProjectID)
+} content: {
+    TaskList(projectID: selectedProjectID, selection: $selectedTaskID)
+} detail: {
+    TaskDetail(taskID: selectedTaskID)
+}
+```
+
+This is a structural example: the project selection limits the tasks, and the task
+selection determines detail. The state owner must clear or validate
+`selectedTaskID` when `selectedProjectID` changes.
 
 Use stable identifiers as selections and resolve current models from a repository.
 An optional selection naturally represents the empty-detail state. On platforms
@@ -111,6 +136,19 @@ became hidden can destroy context when it reappears.
 Column width modifiers also express preferred minimum, ideal, and maximum widths.
 The system can adjust them for the window and platform. Design content that remains
 valid outside the ideal width instead of relying on exact geometry.
+
+```swift
+@State private var visibility: NavigationSplitViewVisibility = .automatic
+
+NavigationSplitView(columnVisibility: $visibility) {
+    Sidebar()
+} detail: {
+    Detail()
+}
+```
+
+The binding records both app requests and framework changes. In a collapsed split
+view, SwiftUI ignores this expanded-column visibility control.
 
 Search, toolbar items, and navigation titles should be attached to the column whose
 content they affect. A sidebar search may filter top-level collections, while a
@@ -215,3 +253,4 @@ nested paths. This lets features compose without assuming a fixed device class.
 - [`NavigationSplitViewColumn`](https://developer.apple.com/documentation/swiftui/navigationsplitviewcolumn)
 - [Bringing robust navigation structure to your SwiftUI app](https://developer.apple.com/videos/play/wwdc2022/10054/)
 - [Migrating to new navigation types](https://developer.apple.com/documentation/swiftui/migrating-to-new-navigation-types)
+- [TN3154: Adopting SwiftUI navigation split view](https://developer.apple.com/documentation/technotes/tn3154-adopting-swiftui-navigation-split-view)

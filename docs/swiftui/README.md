@@ -3,22 +3,24 @@ title: "SwiftUI"
 page_type: domain-index
 interview_priority: core
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-25
 ---
 
 # SwiftUI
 
-## Stack
+SwiftUI is Apple's declarative UI framework. You describe the interface for the
+current data, and SwiftUI updates the displayed result when tracked data changes.
 
-1. View system and rendering
-2. State and data flow
-3. Layout and view composition
-4. Navigation and presentation
-5. Concurrency and view lifecycle
-6. Architecture and dependencies
-7. Performance, accessibility, and testing
+The fastest useful path is to learn how view descriptions, identity, state, and
+updates work. Those rules explain many layout, navigation, lifecycle, and
+performance problems that otherwise look unrelated.
 
-## Rapid Review
+## Preparation Paths
+
+### Rapid Review
+
+Use this path for an imminent interview. Follow the order because later topics
+depend on the earlier mental models.
 
 1. [View System and Rendering](view-system-and-rendering/README.md)
 2. [State and Data Flow](state-and-data-flow/README.md)
@@ -28,7 +30,7 @@ last_reviewed: 2026-07-12
 6. [Architecture and Dependencies](architecture-and-dependencies/README.md)
 7. [Performance and Diagnostics](performance-and-diagnostics/README.md)
 
-## Standard Preparation
+### Standard Preparation
 
 Complete the rapid-review path, then add these high-priority topics:
 
@@ -38,10 +40,14 @@ Complete the rapid-review path, then add these high-priority topics:
 4. [Accessibility and Adaptive UI](accessibility-and-adaptive-ui/README.md)
 5. [Testing SwiftUI Features](testing-swiftui-features/README.md)
 
-## Role-Specific Depth
+### Role-Specific Depth
 
 Choose role-specific topics only when they match the job description, product,
 or known interview format. They are not prerequisites for the core path.
+
+1. [App, Scene, and System Integration](app-scene-and-system-integration/README.md)
+2. [UIKit Interoperability and Migration](uikit-interoperability-and-migration/README.md)
+3. [Drawing, Graphics, and Effects](drawing-graphics-and-effects/README.md)
 
 ## Topics
 
@@ -74,3 +80,7 @@ or known interview format. They are not prerequisites for the core path.
 | [App, Scene, and System Integration](app-scene-and-system-integration/README.md) | Covers multiwindow lifecycle, restoration, documents, and system entry points. |
 | [UIKit Interoperability and Migration](uikit-interoperability-and-migration/README.md) | Covers representables, hosting, ownership boundaries, and incremental adoption. |
 | [Drawing, Graphics, and Effects](drawing-graphics-and-effects/README.md) | Provides role-specific depth for custom rendering and visual effects. |
+
+## Official Documentation
+
+- [SwiftUI](https://developer.apple.com/documentation/swiftui)

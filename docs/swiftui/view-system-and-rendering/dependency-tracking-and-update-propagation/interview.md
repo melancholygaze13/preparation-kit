@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - observation
   - invalidation
@@ -129,10 +129,12 @@ change.
 
 ### Expanded Answer
 
-I start with Instruments rather than counting console prints. I inspect model
-mutation frequency, view inputs, environment reads, and substantial transforms in
-`body`. Apple demonstrates `Self._printChanges()` for temporary debugging, but it
-is unsupported and must not ship.
+I start with the SwiftUI instrument rather than counting console prints. Its
+update groups identify frequent work, and its cause-and-effect graph connects a
+model or state change to the bodies it updates. I also inspect view inputs,
+environment reads, and substantial transforms in `body`. Apple demonstrates
+`Self._printChanges()` for temporary debugging, but it is unsupported and must
+not ship.
 
 Passing a full value model to a small image view can make unrelated field changes
 produce new view values. Passing the image itself creates a narrower contract.

@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: situational
-estimated_read_minutes: 3
+estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - state-restoration
   - scene-storage
@@ -23,6 +23,10 @@ tags:
 [Concept overview](README.md) · [Interview questions](interview.md)
 
 ## Mental Model
+
+**Scene storage** keeps small restorable values for one scene. **State restoration**
+uses stored context to rebuild a user interface after recreation. A **document** is
+durable user data with a file format and system-managed open and save lifecycle.
 
 Durable data and restoration state solve different problems. Durable storage preserves
 the user's work. Restoration state records enough context to reconstruct a scene, such
@@ -49,6 +53,14 @@ an onboarding flag. It is not a database and does not provide domain transaction
 Keep persistence ownership out of an `@Observable` view model when the property wrapper
 would not produce the expected observation behavior; inject a settings abstraction or
 bind storage at the view boundary.
+
+```swift
+@SceneStorage("selected-note-id") private var selectedNoteID: String?
+@AppStorage("sort-order") private var sortOrder = "modified"
+```
+
+The first value can differ between windows. The second is an app-wide preference.
+Neither property is an appropriate store for note contents or transactional records.
 
 ## Reconstructing a Scene
 

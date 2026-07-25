@@ -8,9 +8,9 @@ levels:
   - senior
   - staff
 interview_priority: high
-estimated_read_minutes: 3
+estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 ---
 
 # Snapshot Testing and Visual Regressions: Interview Questions
@@ -44,6 +44,9 @@ permutation. Component snapshots usually localize failures better than full-scre
 captures. Each baseline has ongoing storage, runtime, and review cost, so low-risk
 standard controls may be better covered by behavior and UI tests.
 
+SwiftUI provides `ImageRenderer`, and XCUIAutomation can capture the running app.
+The baseline comparison and approval workflow still belong to the team's chosen tools.
+
 <a id="q2-determinism"></a>
 ## Q2: How do you make visual tests reliable?
 
@@ -59,6 +62,9 @@ When a diff appears, I first classify it as product change, fixture drift, runti
 change, or nondeterministic rendering. I eliminate the source before adding image
 tolerance. Exact comparison is sensitive; perceptual thresholds can hide small real
 defects. Either policy must emit old, new, and diff artifacts for review.
+
+Recording and comparison are separate modes. A normal test never silently rewrites
+its expected image, because that would remove the human-reviewed assertion.
 
 ### Trade-offs
 

@@ -8,9 +8,9 @@ levels:
   - senior
   - staff
 interview_priority: high
-estimated_read_minutes: 6
+estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 ---
 
 # Testing Navigation and Async Lifecycles: Theory
@@ -19,7 +19,11 @@ last_reviewed: 2026-06-23
 
 ## Mental Model
 
-Navigation and asynchronous work are difficult to test when they are encoded only
+**Navigation testing** verifies route, selection, presentation, deep-link, and
+restoration policy. **Async lifecycle testing** verifies when operations start, stop,
+restart, complete, and become irrelevant.
+
+Both are difficult to test when they are encoded only
 as view modifiers and untracked tasks. Make both observable:
 
 - typed route, selection, and presentation state describe where the UI should be;
@@ -110,6 +114,15 @@ A confirmation observes events only while its closure is executing; it is not a
 general wait primitive for a task that has been discarded. The tested operation must
 complete inside the confirmation's scope, or the test must await another explicit
 completion handle.
+
+Use `confirmation(expectedCount:)` when the number of callbacks is the contract. The
+tested callback-producing work must finish before the confirmation closure returns.
+For Swift 6.1 or later, a range such as `1...3` can express an allowed count. Do not
+use confirmation as a timeout or a substitute for awaiting the operation.
+
+Swift Testing time limits use `.timeLimit(.minutes(...))`. They are safety bounds,
+not synchronization. A test should still wait for a deterministic event, task handle,
+continuation, or suspending test dependency.
 
 ## Test Repeated Appearance and Refresh
 

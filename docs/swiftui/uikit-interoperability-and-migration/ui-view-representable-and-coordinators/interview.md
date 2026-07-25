@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: situational
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-25
 ---
 
 # UIViewRepresentable and Coordinators: Interview Questions
@@ -75,6 +75,9 @@ The coordinator bridges imperative callbacks back into SwiftUI. It should
 translate events, not become a separate feature owner. If the coordinator starts
 holding domain state or deciding navigation, the wrapper is hiding architecture
 inside UIKit.
+
+SwiftUI controls when these methods run. I do not assume a fixed update count, and
+`dismantleUIView` performs only cleanup that the wrapped object cannot handle itself.
 
 ### Example
 

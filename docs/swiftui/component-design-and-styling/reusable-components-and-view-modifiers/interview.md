@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - reusable-components
   - view-modifier
@@ -47,6 +47,9 @@ The component receives semantic values and actions, or narrow bindings for real
 editing. Generic content slots preserve composition when callers supply structure.
 It owns accessibility and adaptation as part of its contract.
 
+I use a dedicated `View` when the abstraction owns structure or a semantic control.
+Repeated syntax alone can remain private until real use cases reveal stable variation.
+
 <a id="q2-when-do-you-use-a-viewmodifier"></a>
 ## Q2: When do you use a ViewModifier?
 
@@ -64,6 +67,9 @@ unrelated feature state.
 
 For semantic controls, a control style is often better because it retains the control's
 pressed, disabled, role, focus, and accessibility behavior.
+
+`ViewModifier.Content` is the caller's view at the modifier's application point. The
+modifier should make one focused transformation and leave unrelated feature policy visible.
 
 <a id="q3-how-would-you-design-a-shared-component-api"></a>
 ## Q3: How would you design a shared component API?

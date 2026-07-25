@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 7
+estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - cancellation
   - stale-results
@@ -50,6 +50,10 @@ legacy cancellation with `withTaskCancellationHandler`. I treat
 
 Before committing a result I check cancellation and relevance, because cancellation
 can arrive after the dependency already completed.
+
+Cancellation propagates through structured children such as `async let` and task
+groups. An unstructured `Task` needs its own stored handle and explicit cancellation.
+Its creation inside another task does not make it a child task.
 
 <a id="q2-how-do-you-prevent-stale-search-results"></a>
 ## Q2: How do you prevent stale search results?
@@ -118,6 +122,9 @@ suspended and verify no failure or stale state commits.
 
 I also test duplicate calls and shared in-flight work. Tests should observe public
 model state or repository events rather than expose actor internals only for tests.
+
+The fake records when each request reaches a suspension point, so the test knows when
+it is safe to resume or cancel. That signal replaces timing guesses.
 
 ### Trade-offs
 

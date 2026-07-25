@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: situational
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - materials
   - shaders
@@ -19,9 +19,9 @@ tags:
 
 # Materials, Shaders, and Visual Effects
 
-> Prefer system materials and glass for adaptive surfaces. Use shaders when a pixel or
-> sampling algorithm is genuinely part of the product, declare sampling bounds
-> correctly, and preserve legibility, accessibility, and a measured frame-time budget.
+> A material is an adaptive backdrop style. A shader is a GPU function that changes
+> pixels or sampling positions. A visual effect changes rendered appearance without
+> becoming the source of layout or feature state.
 
 ## Quick Recall
 
@@ -30,6 +30,10 @@ tags:
 - `colorEffect`, `distortionEffect`, and `layerEffect` have different sampling contracts.
 - `maxSampleOffset` must cover how far an effect reads or moves pixels.
 - Provide fallbacks for Reduce Transparency, Reduce Motion, contrast, and unsupported GPUs.
+
+Prefer system materials and glass for appropriate surfaces. Use a shader only when its
+pixel algorithm is part of the product. Declare its sampling bounds, measure real frame
+cost, and preserve meaning when the effect is unavailable or reduced.
 
 ## Study
 

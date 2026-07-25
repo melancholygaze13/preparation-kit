@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: situational
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-06-29
+last_reviewed: 2026-07-25
 ---
 
 # Hosting SwiftUI in UIKit: Interview Questions
@@ -41,6 +41,9 @@ Good examples are a new SwiftUI feature in an existing UIKit app, a reusable
 SwiftUI component embedded in a UIKit screen, or cell content that fits
 `UIHostingConfiguration`. I avoid hosting when the boundary would split ownership
 of the same navigation state, form state, or side effects.
+
+`UIHostingConfiguration` requires iOS 16 or tvOS 16. I choose it for supported reusable
+cell content and use `UIHostingController` for screens or child-controller containment.
 
 The contract should say what data enters the SwiftUI root and what intents come
 back out. That keeps the hosted view from depending on UIKit details that make

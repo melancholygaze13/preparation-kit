@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: high
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - reusable-components
   - view-modifier
@@ -19,8 +19,9 @@ tags:
 
 # Reusable Components and View Modifiers
 
-> Extract a component when it has a meaningful visual responsibility or repeated
-> contract. Use a `ViewModifier` for a reusable transformation of arbitrary content.
+> A reusable component is a `View` with a stable visual or interaction contract. A
+> `ViewModifier` applies one reusable transformation to caller-owned content. Extract
+> a concept, not every repeated line of syntax.
 
 ## Quick Recall
 
@@ -29,6 +30,10 @@ tags:
 - Store the built content value unless deferred construction is required.
 - Do not make every one-off style a public component.
 - A reusable API includes accessibility, adaptation, previews, and supported states.
+
+Use a component when the abstraction owns structure. Use a modifier when the caller's
+content stays central. Use a control style when standard controls need shared appearance
+without losing their roles and interaction behavior.
 
 ## Study
 

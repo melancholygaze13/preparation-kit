@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: high
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - list
   - foreach
@@ -19,8 +19,9 @@ tags:
 
 # List, ForEach, and Data Identity
 
-> `ForEach` creates repeated view descriptions; `List` adds platform collection
-> behavior. Both rely on stable domain identity to retain the correct row state.
+> `ForEach` creates one repeated view description for each data value. `List` adds
+> scrolling and platform list behavior. Data identity tells SwiftUI which logical
+> item each row represents across updates.
 
 ## Quick Recall
 
@@ -29,6 +30,10 @@ tags:
 - Transform data before the row builder and preserve IDs through filtering and sorting.
 - Row-local state follows row identity, not the current array position.
 - Choose `List` for list semantics and lazy stacks for custom scroll composition.
+
+An ID must be unique in the rendered collection and stable for the lifetime of the
+logical item. A changed title is still the same item. A newly generated UUID makes it
+a different item to SwiftUI, even when every visible field looks unchanged.
 
 ## Study
 

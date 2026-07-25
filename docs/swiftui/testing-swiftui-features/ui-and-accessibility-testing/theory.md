@@ -8,9 +8,9 @@ levels:
   - senior
   - staff
 interview_priority: high
-estimated_read_minutes: 5
+estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 ---
 
 # UI and Accessibility Testing: Theory
@@ -19,14 +19,21 @@ last_reviewed: 2026-06-23
 
 ## Mental Model
 
-A UI test launches the built app as another process and interacts through system
+A **UI test** launches the built app as another process and interacts through system
 automation. It provides confidence in integration that a model test cannot provide:
 real navigation registration, presentation, accessibility exposure, and process
 launch behavior. That confidence costs runtime and diagnostic precision.
 
+**Accessibility testing** checks the semantic tree, focus, labels, values, actions,
+layout adaptation, and alternate input paths. It includes automation and manual use
+of relevant assistive technologies.
+
 Use UI tests for critical journeys and framework boundaries. Keep business-rule
 matrices in Swift Testing. Swift Testing does not provide UI automation, so UI test
 targets continue to use XCTest with XCUIAutomation.
+
+This framework boundary is deliberate. Do not rewrite an XCUIAutomation test with
+Swift Testing macros; keep each kind of test in the framework that supports it.
 
 ## Build a Stable UI Test
 
@@ -70,6 +77,11 @@ Avoid `sleep`. Wait for existence, hittability, disappearance, or a state predic
 If every test needs a large retry helper, the app or fixture lacks a clear readiness
 signal.
 
+Keep launch arguments stable and documented. They are test infrastructure, not feature
+behavior. The composition root may select deterministic repositories, accounts,
+clocks, and animation policy. Production code below that boundary should not contain
+scattered `isUITesting` branches.
+
 ## Accessibility Is More Than Element Discovery
 
 UI automation operates through accessibility information, but a passing flow is not
@@ -103,6 +115,10 @@ a workflow is efficient with VoiceOver, or whether an announcement occurs at the
 right moment. Manual testing with real assistive settings closes that gap. Include
 disabled, loading, error, empty, and modal states because accessibility defects often
 appear during transitions.
+
+Run an audit only after navigating to a known state and waiting for it to settle. An
+audit covers the current hierarchy, not every route or data state in the app. Keep any
+issue handler narrow, with a reason and owner, so broad exclusions do not hide defects.
 
 ## Scope and Failure Diagnosis
 

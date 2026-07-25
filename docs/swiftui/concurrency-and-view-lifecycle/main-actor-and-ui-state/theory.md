@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 8
+estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - main-actor
   - actor-isolation
@@ -28,6 +28,11 @@ tags:
 Isolation is a compile-time ownership rule and runtime executor relationship. It is
 not simply “dispatch this closure to the main thread,” and it does not make slow
 synchronous code responsive.
+
+An **actor** protects mutable state by allowing isolated code to access it in turn.
+**Isolation** is the rule that says which actor owns a declaration. An **executor**
+schedules the work allowed to run in that isolation domain. `MainActor` is closely
+related to the main thread, but actor isolation is the more useful Swift rule.
 
 Place the UI state machine on the main actor. Let dependencies perform suspension,
 I/O, or explicitly concurrent CPU work, then return `Sendable` values for the model
@@ -58,6 +63,16 @@ context. SwiftUI `View` conformance is main-actor isolated in modern Swift, so v
 code can use such models naturally. Check project default-isolation settings before
 adding redundant annotations or comparing behavior across targets.
 
+An asynchronous call from another isolation domain uses `await` to enter the main
+actor. A synchronous call cannot silently hop there; it must already be in the right
+isolation context. This compiler rule is why annotating the state owner is stronger
+than placing selected assignments inside dispatch closures.
+
+Swift 6.2 lets a module choose main-actor isolation as its default. That setting is
+per target or module. A package can therefore require explicit annotations even when
+the app target does not. Record the setting at module boundaries instead of assuming
+all nearby code has the same isolation.
+
 Use `@State` when a view creates and owns an observable model. Pass it through
 ordinary properties, `@Bindable` when bindings are needed, or the environment for a
 genuinely hierarchy-wide dependency.
@@ -85,6 +100,11 @@ nonisolated struct Decoder {
 Do not offload ordinary async I/O. It already yields while waiting. Measure before
 moving small transforms across an isolation boundary, because crossing requires
 `Sendable` inputs and results and adds design complexity.
+
+`Sendable` means a value is safe to transfer between concurrency domains. Immutable
+value types often gain this conformance automatically when their stored properties
+are also sendable. A mutable reference type needs real isolation or synchronization;
+`@unchecked Sendable` only asserts safety and must not be used as a shortcut.
 
 ### Reentrancy across await
 
@@ -216,3 +236,4 @@ of shared mutable services. Migrate boundaries incrementally rather than spreadi
 - [Concurrency](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/concurrency/)
 - [Approachable concurrency](https://developer.apple.com/videos/play/wwdc2025/268/)
 - [Swift 6.2 released](https://www.swift.org/blog/swift-6.2-released/)
+- [Nonisolated nonsending by default](https://docs.swift.org/compiler/documentation/diagnostics/nonisolated-nonsending-by-default/)

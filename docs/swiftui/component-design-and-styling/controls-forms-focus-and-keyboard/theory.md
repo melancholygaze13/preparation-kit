@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: high
-estimated_read_minutes: 6
+estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-25
 tags:
   - controls
   - focus-state
@@ -23,6 +23,11 @@ tags:
 [Concept overview](README.md) · [Interview questions](interview.md)
 
 ## Mental Model
+
+**Controls** are interactive views such as `Button`, `Toggle`, and `TextField`.
+**Forms** group related controls using platform-appropriate layout. **Focus** identifies
+the input target that currently receives actions. The **keyboard** can be software or
+hardware and is only one way to enter or activate content.
 
 Semantic controls connect user input to one source of truth while supplying platform
 interaction, focus, keyboard, and accessibility behavior. Focus is temporary UI state;
@@ -98,6 +103,21 @@ enum Field: Hashable {
 }
 
 @FocusState private var focusedField: Field?
+
+var body: some View {
+    Form {
+        TextField("Email", text: $email)
+            .focused($focusedField, equals: .email)
+            .submitLabel(.next)
+
+        SecureField("Password", text: $password)
+            .focused($focusedField, equals: .password)
+            .submitLabel(.done)
+    }
+    .onSubmit {
+        focusedField = focusedField == .email ? .password : nil
+    }
+}
 ```
 
 Bind each field to one unique case. Binding several fields to the same Boolean or case
@@ -106,6 +126,10 @@ not repeatedly from `body` or every appearance.
 
 Focus should normally remain local to the form or flow. Lift it only when a parent
 coordinates navigation, restoration, or validation across subviews.
+
+Input focus is not identical to accessibility focus on every platform. Moving input
+focus may not produce the VoiceOver announcement a product needs. Test assistive
+technology behavior and present accessible errors instead of relying on focus alone.
 
 ### Submit and Validation
 
@@ -153,6 +177,8 @@ focus sequence, keyboard actions, accessibility, and the final integration.
 - Standard control appearance adapts by platform, container, and style.
 - A binding grants mutation access to its source and should match the component contract.
 - Programmatic focus requires a unique, currently available focus target.
+- SwiftUI coordinates focus with the platform, but an app does not control every
+  timing detail of keyboard presentation or dismissal.
 
 ## Engineering Decisions
 

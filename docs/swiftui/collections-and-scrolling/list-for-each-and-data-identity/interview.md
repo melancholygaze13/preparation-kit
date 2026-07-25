@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - list
   - foreach
@@ -47,6 +47,9 @@ I use a stable domain ID and keep it unchanged while display fields mutate. I av
 array offsets when the collection can reorder or insert, and never generate IDs during
 rendering. If one entity appears more than once, I model stable occurrence identity.
 
+`Identifiable` supplies `id`. Otherwise I pass an ID key path to `ForEach`. I use
+`id: \.self` only when the whole value is truly stable and unique.
+
 <a id="q2-when-would-you-choose-list-over-a-lazy-stack"></a>
 ## Q2: When would you choose List over a lazy stack?
 
@@ -79,3 +82,6 @@ conditional row structure that may replace a subtree.
 
 The fix establishes correct identity and one source of truth rather than copying
 values into additional local state.
+
+I also check whether `.id(_:)` was added to the row or an ancestor. Changing that
+modifier changes view identity and can deliberately or accidentally reset local state.

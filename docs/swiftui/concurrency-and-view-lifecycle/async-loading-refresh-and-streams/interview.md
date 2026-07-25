@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 7
+estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - loading-state
   - refreshable
@@ -93,6 +93,10 @@ event. A high-rate producer needs an explicit buffer or coalescing policy.
 If multiple screens need the same feed, a repository owns one connection and
 publishes shared state instead of each view opening a socket.
 
+For a custom `AsyncStream`, the producer finishes its continuation and installs an
+`onTermination` handler that releases the observer, delegate, or connection. A fast
+producer gets an explicit bounded buffer rather than the unbounded default.
+
 ### Example
 
 A detail screen uses `.task(id: accountID)` to consume account updates. Changing
@@ -117,6 +121,10 @@ buffer is acceptable only for replaceable values.
 Reconnect uses bounded backoff with jitter and stops for authentication failures or
 when no policy requires the connection. Telemetry covers connection state, lag,
 dropped values, retries, and time since last valid update.
+
+I document whether the feed is cold or shared and whether late subscribers receive
+current state, future events only, or a replay window. Those rules determine whether
+one consumer's cancellation should affect the underlying connection.
 
 ### Trade-offs
 

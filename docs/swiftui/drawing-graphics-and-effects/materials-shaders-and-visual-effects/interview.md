@@ -11,7 +11,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - materials
   - shaders
@@ -47,6 +47,9 @@ Material and glass adapt to context; they are not fixed colors. I test them over
 content, during scrolling, in both color schemes, and with accessibility contrast and
 transparency settings. Primary content should not depend on backdrop effects to remain
 legible.
+
+Shader and visual-effect APIs need the 2023 platform releases. Liquid Glass needs the
+2025 releases. I keep an availability fallback that preserves hierarchy and interaction.
 
 <a id="q2-how-do-swiftui-shader-modifiers-differ"></a>
 ## Q2: How do SwiftUI shader modifiers differ?

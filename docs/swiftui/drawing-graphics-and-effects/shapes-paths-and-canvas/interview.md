@@ -11,7 +11,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - shapes
   - canvas
@@ -46,6 +46,9 @@ operations should render as one surface and per-mark view identity is unnecessar
 Canvas can reduce hierarchy cost for dense charts or particles, but its draw calls do
 not become separate views. If each item needs focus, gestures, or accessibility, real
 views or a separate semantic layer may be the better design.
+
+A `Shape` returns a `Path` for the proposed rectangle. A `Canvas` receives one context
+and draws all marks into the same rendered surface.
 
 <a id="q2-why-use-insettableshape-for-borders"></a>
 ## Q2: Why use InsettableShape for borders?

@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: high
-estimated_read_minutes: 6
+estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - reusable-components
   - view-modifier
@@ -24,9 +24,11 @@ tags:
 
 ## Mental Model
 
-A reusable component owns a meaningful visual and interaction contract. A
-`ViewModifier` applies one reusable transformation to arbitrary content. Extract to
-reduce conceptual duplication, not merely repeated syntax.
+A **reusable component** is a `View` with a stable visual, layout, or interaction
+contract that several callers can use. A **view modifier** is a type conforming to
+`ViewModifier`; it transforms caller-owned content through `body(content:)`.
+
+Extract to reduce conceptual duplication, not merely repeated syntax.
 
 The API should expose semantic variation and preserve SwiftUI composition. It should
 not leak one feature's model, navigation, or infrastructure into every caller.
@@ -50,10 +52,17 @@ Prefer semantic values and actions:
 ```swift
 struct StatusCard<Content: View>: View {
     let title: LocalizedStringKey
-    let status: Status
+    let status: String
     @ViewBuilder let content: Content
 
-    var body: some View { /* composition */ }
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text(title).font(.headline)
+            Text(status).foregroundStyle(.secondary)
+            content
+        }
+        .padding()
+    }
 }
 ```
 
@@ -107,6 +116,17 @@ Expose a named `View` extension for discoverability. Keep order explicit because
 modifier wraps the state at its application point. Avoid modifiers that secretly
 perform networking, own navigation, or depend on distant global state.
 
+```swift
+extension View {
+    func cardSurface() -> some View {
+        modifier(CardSurface())
+    }
+}
+```
+
+This method preserves the modifier's application point. Calling `.cardSurface()`
+before or after `.frame(...)` can therefore produce different bounds.
+
 ### Preserve Semantics
 
 Build reusable actions from `Button`, toggles from `Toggle`, and selections from
@@ -154,6 +174,8 @@ of the design-system API.
 - Reuse does not guarantee performance; shared components still need realistic profiling.
 - Standard controls provide semantics that custom gestures do not automatically replicate.
 - Public component APIs create compatibility and ownership obligations.
+- `ViewModifier.Content` means the view at the call site. It is not the component's
+  feature model or a stored content collection.
 
 ## Engineering Decisions
 

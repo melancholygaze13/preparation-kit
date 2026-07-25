@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - pagination
   - refresh
@@ -49,6 +49,9 @@ is opaque. Page overlap is resolved by stable ID with defined ordering and updat
 I tune page size and trigger distance from latency, memory, and scroll behavior, not
 from a fixed row number alone.
 
+The trigger may run more than once. Correctness therefore lives in an idempotent model
+operation, not in an assumption that a sentinel appears exactly once.
+
 <a id="q2-how-do-refresh-and-pagination-interact"></a>
 ## Q2: How do refresh and pagination interact?
 
@@ -83,3 +86,6 @@ as an error, and an old failure cannot replace a newer success.
 
 For local user-facing filtering, I use locale-aware matching. Tests complete requests
 out of order and verify only the current query can change the UI.
+
+Debounce controls request rate. Cancellation saves work. The final relevance check is
+what prevents an obsolete response from replacing newer results.

@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 9
+estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - observation
   - model-ownership
@@ -24,7 +24,12 @@ tags:
 
 ## Mental Model
 
-Observation and ownership answer different questions:
+*Observation* lets a reader react when data it uses changes. *Model ownership*
+means responsibility for creating a model instance, deciding when to replace it,
+and ending its logical session. *Actor isolation* controls where code may access
+mutable model state.
+
+These ideas answer different questions:
 
 ```mermaid
 flowchart LR
@@ -36,11 +41,18 @@ flowchart LR
 A correct design states all three. Adding `@Observable` alone does not define a
 model's lifetime or make its mutation concurrency-safe.
 
+Lifecycle ownership is not exactly the same as memory retention. A child property,
+task, or callback can hold another strong reference and keep an object alive. The
+lifecycle owner is the architectural boundary that decides when the model should
+exist. ARC decides when memory can actually be released.
+
 ## How It Works
 
 ### What Observable Adds
 
-The `@Observable` macro adds Observation support to a model:
+The `@Observable` macro adds Observation support to a reference model. SwiftUI
+supports this system on iOS 17, iPadOS 17, macOS 14, tvOS 17, watchOS 10, and
+later releases:
 
 ```swift
 @MainActor
@@ -61,6 +73,10 @@ By default, accessible stored properties participate in observation. Mark intern
 state with `@ObservationIgnored` when changes should not notify observers, such as
 a stable service dependency or instrumentation detail. Do not ignore a property
 merely to hide excessive updates; first correct the view's dependency boundary.
+
+Applying the `Observable` protocol without the macro is not enough. The macro
+generates the property-access hooks that report reads and mutations. A manually
+declared conformance does not generate those hooks.
 
 Observation reports mutation. It does not save values, validate transitions,
 serialize access, or make a model a good feature boundary. Those remain application
@@ -87,6 +103,17 @@ struct LibraryScreen: View {
 SwiftUI preserves the reference for that view identity. Re-evaluating `body` does
 not create a new model. When the identity ends, SwiftUI releases its ownership;
 other references can still extend the object's memory lifetime.
+
+When built with Xcode 27, a class in `@State` is initialized lazily. SwiftUI creates
+the class once for the view lifetime instead of evaluating the default expression
+on every initialization of the view value. This behavior back-deploys to the OS
+versions where Observation first became available.
+
+With older Xcode versions, the stored model reference still remains stable, but
+the default expression can create temporary class instances during later view
+initializations. SwiftUI discards those extra instances. Keep model initialization
+cheap on older toolchains or defer expensive setup to an explicit lifecycle
+operation.
 
 Do not create a model inside `body`, a computed view property, or a frequently
 evaluated helper. That produces new identities, loses in-flight state, repeats
@@ -120,9 +147,11 @@ need an ownership wrapper simply to update. Its parent or another composition ro
 owns the model.
 
 This distinction makes replacement explicit. If the parent passes a different
-model instance, the child starts reading the new instance. The owner must decide
-whether replacement represents a new feature session and what happens to tasks,
-drafts, navigation, and cached state associated with the previous instance.
+model instance, the child starts reading the new instance. The plain property does
+hold a reference while that view value exists, but the child does not decide the
+model's lifecycle policy. The owner must decide whether replacement represents a
+new feature session and what happens to tasks, drafts, navigation, and cached state
+associated with the previous instance.
 
 Use the environment for values that are intentionally shared through a broad
 subtree. Do not put every feature model in a global environment to avoid initializer
@@ -216,12 +245,19 @@ targets, Combine pipelines, or framework integrations require them. Define the
 bridge clearly and avoid making one model publish through two mechanisms without a
 specific compatibility reason.
 
+Observation is available from iOS 17 and aligned releases. If the deployment
+target is older, the legacy system remains necessary at that boundary. Do not hide
+this compatibility decision behind a generic wrapper name; reviewers need to know
+which update mechanism a model uses.
+
 ## Constraints and Guarantees
 
 - Applying the `Observable` protocol alone is insufficient; use the macro to add
   observation support.
 - SwiftUI tracks observable properties that a view reads from specific instances.
 - `@State` preserves a view-owned model reference for the view identity.
+- Xcode 27 lazily initializes classes stored in state once per view lifetime and
+  back-deploys that behavior to Observation-capable OS releases.
 - A plain property can observe an injected observable model through reads in body.
 - `@Bindable` creates bindings but does not own the model.
 - `@ObservationIgnored` excludes a property from Observation tracking.
@@ -259,4 +295,5 @@ that cannot migrate simultaneously.
 - [`ObservationIgnored()`](https://developer.apple.com/documentation/observation/observationignored%28%29)
 - [Managing model data in your app](https://developer.apple.com/documentation/swiftui/managing-model-data-in-your-app)
 - [Discover Observation in SwiftUI](https://developer.apple.com/videos/play/wwdc2023/10149/)
+- [What's new in SwiftUI](https://developer.apple.com/videos/play/wwdc2026/269/)
 - [Migrating from ObservableObject to Observable](https://developer.apple.com/documentation/swiftui/migrating-from-the-observable-object-protocol-to-the-observable-macro)

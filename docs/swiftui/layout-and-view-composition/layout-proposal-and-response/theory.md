@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 8
+estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - layout
   - size-proposal
@@ -24,13 +24,9 @@ tags:
 
 ## Mental Model
 
-SwiftUI layout is a recursive proposal-response-placement process:
-
-```mermaid
-flowchart LR
-    Propose["Parent proposes size"] --> Choose["Child chooses size"]
-    Choose --> Place["Parent places child"]
-```
+SwiftUI layout is a recursive proposal-response-placement process. A *proposal* is
+the size a parent offers. A *response* is the concrete size a child chooses.
+*Placement* is the position and anchor the parent assigns after measurement.
 
 Each container repeats this process with its descendants. The child can respond
 based on its content and configuration, so a proposed size is not equivalent to an
@@ -58,6 +54,9 @@ A parent begins with space offered by its own parent. It proposes some or all of
 that space to a child. The child calculates a concrete size and reports it. The
 parent then chooses where to place the child within the parent's bounds.
 
+Sizes use points, Apple's logical layout unit. Points are not the same as physical
+screen pixels. The system applies the display scale later when rendering.
+
 For a text view, the response depends on the string, font, line limit, and proposed
 width. A narrow width can produce more lines and therefore a taller response. An
 image, shape, stack, or control has different sizing behavior.
@@ -66,6 +65,11 @@ Width and height are negotiated independently. A proposal can specify one
 dimension and leave the other unspecified. “Unspecified” means the container is
 asking the child for its ideal behavior in that dimension; it does not mean zero or
 infinity.
+
+In `ProposedViewSize`, an unspecified dimension is stored as `nil`. A finite value
+offers that many points. Zero and infinity are special measurement proposals used
+to ask about minimum and maximum behavior. They are not instructions to create an
+invisible or infinitely large interface.
 
 Containers may measure a child several times. A stack can ask about minimum,
 maximum, and ideal behavior before allocating space. Layout-related code must be
@@ -91,6 +95,11 @@ When implementing `Layout`, `sizeThatFits` reports the container's chosen size f
 its incoming proposal. `placeSubviews` positions child proxies inside the resulting
 bounds. The bounds origin is not guaranteed to be `(0, 0)`, and placement code must
 use the supplied rectangle.
+
+The `subviews` input contains `LayoutSubview` proxies, not the original view
+values. A proxy lets the layout ask for size, dimensions, spacing, priority, and
+custom layout values. Placement code must place each proxy exactly where the
+algorithm intends.
 
 ### Modifiers Are Layout Wrappers
 
@@ -160,6 +169,10 @@ a decorative detail. If many arbitrary priorities are needed, the composition ma
 not express the intended layout clearly. Test the hierarchy at large text sizes and
 with long localized content.
 
+A higher priority changes the order in which a container apportions limited space.
+It does not guarantee that the view receives its ideal size. The container still
+has to fit the complete layout into the proposal it accepts.
+
 ### Layout Size versus Drawing
 
 The rectangle allocated during layout is not always the extent of rendered pixels.
@@ -173,6 +186,10 @@ reflowing surrounding content.
 
 Hit testing and accessibility can also differ from visible artwork. Interactive
 content needs an adequate semantic target, not merely pixels that appear large.
+
+This distinction explains a common debugging trap: the artwork can appear outside
+a temporary border while sibling placement still uses the original layout bounds.
+Inspect layout and drawing separately before changing frames.
 
 ## Constraints and Guarantees
 
@@ -217,3 +234,4 @@ cross-platform differences.
 - [`fixedSize()`](https://developer.apple.com/documentation/swiftui/view/fixedsize%28%29)
 - [Compose custom layouts with SwiftUI](https://developer.apple.com/videos/play/wwdc2022/10056/)
 - [Inspecting view layout](https://developer.apple.com/documentation/swiftui/inspecting-view-layout)
+- [Layout fundamentals](https://developer.apple.com/documentation/swiftui/layout-fundamentals)

@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - animation
   - transactions
@@ -47,6 +47,9 @@ Both animate resulting animatable values; neither delays logical state. Scope ma
 because a transaction can affect several descendants. Insertions and removals also
 need a transition and stable identity.
 
+The `value` argument is the trigger for the attached implicit animation. It does not
+mean that only one rendered property below the modifier can animate.
+
 <a id="q2-what-happens-when-an-animation-is-interrupted"></a>
 ## Q2: What happens when an animation is interrupted?
 
@@ -60,6 +63,9 @@ model already contains the new target and should not track assumed animation pro
 This keeps rapid interaction responsive. I do not sequence business logic using
 fixed delays. For deliberate visual sequencing, I use completion, phase, or keyframe
 APIs and keep behavior correct when motion is disabled.
+
+Repeated input can preserve or transfer presentation velocity, depending on the
+animation. I test rapid reversal instead of assuming every animation starts from rest.
 
 <a id="q3-how-do-you-support-reduce-motion"></a>
 ## Q3: How do you support Reduce Motion?

@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - dependency-injection
   - side-effects
@@ -23,6 +23,10 @@ tags:
 > behind explicit capabilities. Inject them at composition boundaries and keep
 > feature decisions independent from concrete infrastructure.
 
+A side effect changes or reads something outside the feature's current state. A
+dependency boundary is the explicit contract through which the feature requests
+that work. Dependency injection supplies the implementation from outside.
+
 ## Quick Recall
 
 - Prefer initializer injection for required feature dependencies.
@@ -30,6 +34,7 @@ tags:
 - Keep environment values for hierarchy-scoped dependencies and presentation context.
 - Make async completion, cancellation, and error semantics part of the dependency contract.
 - Test policy with deterministic fakes; retain integration tests for real adapters.
+- Every abstraction adds API and maintenance cost; create one around meaningful behavior.
 
 ## Study
 

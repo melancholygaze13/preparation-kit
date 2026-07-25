@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: situational
-estimated_read_minutes: 3
+estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - app-lifecycle
   - scenes
@@ -24,7 +24,12 @@ tags:
 
 ## Mental Model
 
-`App` is the SwiftUI entry point and declares scene configurations. The system creates,
+An **app** is the process-level SwiftUI entry point. A **scene** is a declaration for
+a system-managed UI instance. A **window** is a visible scene presentation that can
+have its own navigation, selection, and transient state. **Lifecycle** describes how
+these instances become active, inactive, backgrounded, or discarded.
+
+`App` declares scene configurations. The system creates,
 activates, backgrounds, and discards scene instances. A `WindowGroup` is a recipe for
 windows, not a single global window.
 
@@ -38,6 +43,22 @@ Separate three lifetimes:
 
 An app can have one process with several active scenes. A global navigation model makes
 those windows fight over one path or selection.
+
+The basic declaration is a type marked with `@main`:
+
+```swift
+@main
+struct NotesApp: App {
+    var body: some Scene {
+        WindowGroup {
+            NotesView()
+        }
+    }
+}
+```
+
+`WindowGroup` is a reusable scene declaration. On multiwindow platforms, the system
+can create more than one instance of `NotesView` from it.
 
 ## Scene Construction and Ownership
 
@@ -66,6 +87,20 @@ Use phase changes to pause display-driven work, release replaceable resources, o
 request a final synchronization. Do not wait for a background transition to persist
 user data. The process can terminate without another callback, so durable mutations
 should be saved as part of the normal data workflow.
+
+```swift
+@Environment(\.scenePhase) private var scenePhase
+
+var body: some View {
+    ContentView()
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .background { model.requestSync() }
+        }
+}
+```
+
+The callback may repeat. `requestSync()` should be quick and idempotent, while normal
+edits already follow the app's durable save policy.
 
 Tasks attached with `.task` follow view lifetime and receive cancellation when their
 view disappears. Long-running shared work needs explicit ownership outside a transient

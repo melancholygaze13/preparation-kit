@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - task-modifier
   - view-lifetime
@@ -52,6 +52,9 @@ idempotent or cached because appearance is not guaranteed to occur only once.
 I use a manual `Task` at synchronous event boundaries such as a button action, not
 as a substitute for a declarative lifecycle modifier.
 
+The modifier closure cannot propagate a thrown error to SwiftUI. The operation
+handles real failures as model state and treats cancellation as normal control flow.
+
 <a id="q2-when-should-you-use-taskid"></a>
 ## Q2: When should you use `.task(id:)`?
 
@@ -72,6 +75,9 @@ arrive too late or a dependency might ignore it.
 
 `.task(id: productID) { await model.load(productID) }` replaces product 1's load when
 the same screen identity starts showing product 2.
+
+The restart is a cancellation request, not a guarantee that the old dependency has
+already stopped. I still validate the request key or generation before committing.
 
 <a id="q3-should-every-operation-cancel-when-its-view-disappears"></a>
 ## Q3: Should every operation cancel when its view disappears?
@@ -109,6 +115,10 @@ request, while the feature defines freshness and reload policy.
 I verify that navigation and conditional branches are not recreating the owner and
 that route identity excludes mutable display data. Metrics should distinguish
 requested loads from actual network requests after caching.
+
+I also check whether expensive synchronous code runs before the task's first
+suspension. Current SwiftUI can begin the task immediately on its actor, so parsing
+there can stall UI even though the closure is asynchronous.
 
 ### Trade-offs
 

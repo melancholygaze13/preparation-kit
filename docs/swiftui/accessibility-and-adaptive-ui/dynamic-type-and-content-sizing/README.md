@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: high
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - dynamic-type
   - content-sizing
@@ -19,8 +19,9 @@ tags:
 
 # Dynamic Type and Content Sizing
 
-> Use semantic text styles and layouts that reflow. At large sizes, preserve content
-> and actions by changing composition rather than shrinking or clipping text.
+> Dynamic Type applies the user's preferred text size. Content sizing is the layout's
+> response to the resulting text, controls, images, and available space. Use semantic
+> fonts and change composition instead of shrinking essential text.
 
 ## Quick Recall
 
@@ -29,6 +30,10 @@ tags:
 - Remove unsafe line limits and fixed heights for essential content.
 - Let controls grow; maintain reachable actions and adequate targets.
 - Test longest localization and every supported Dynamic Type category.
+
+Large accessibility sizes are supported layouts, not edge cases. Essential text must
+wrap, controls must remain reachable, and the screen may need to become vertical or
+scrollable even when its default layout is horizontal.
 
 ## Study
 

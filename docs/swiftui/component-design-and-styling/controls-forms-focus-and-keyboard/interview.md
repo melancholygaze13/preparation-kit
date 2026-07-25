@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - controls
   - focus-state
@@ -46,6 +46,9 @@ Focus stays local unless a parent coordinates the whole form. I avoid binding mu
 fields to the same Boolean or case because programmatic focus becomes ambiguous. I
 also test hardware keyboard order and accessibility focus, not only the software keyboard.
 
+Each field uses `.focused($focusedField, equals: .caseName)`. I change the enum after
+a submit event or validation decision, not repeatedly during `body` evaluation.
+
 <a id="q2-how-should-a-form-validate-input"></a>
 ## Q2: How should a form validate input?
 
@@ -77,3 +80,6 @@ those contracts automatically.
 I style a `Button` or `Toggle` to meet the design instead of rebuilding its behavior.
 This also allows platform adaptation and assistive technologies to work consistently.
 Custom interaction is justified only when the product is not semantically a standard control.
+
+Keyboard type, text content type, and submit label remain hints. Validation and secure
+storage are separate application responsibilities.

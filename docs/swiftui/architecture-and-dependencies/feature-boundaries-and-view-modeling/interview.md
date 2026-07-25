@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - feature-boundaries
   - view-modeling
@@ -51,6 +51,10 @@ that creates it stores it in `@State` so reconstruction does not recreate owners
 The model should not become a mirror of every label and color. Its value is preserving
 feature invariants and separating policy from presentation.
 
+The cost is another reference lifetime and dependency boundary. I add that cost only
+when the feature needs shared policy, coordinated effects, restoration, or direct
+state-transition tests.
+
 <a id="q2-what-state-stays-in-a-view"></a>
 ## Q2: What state stays in a view?
 
@@ -68,6 +72,9 @@ in a repository or feature model, not in the view merely because the view displa
 
 The scope should match lifetime: view, feature, flow, scene, or app. Moving everything
 to app scope reduces clarity and causes unrelated screens to invalidate or couple.
+
+I do not move state merely because a view file became long. Layout extraction and
+state ownership are separate decisions.
 
 <a id="q3-how-should-a-reusable-child-communicate-with-a-feature"></a>
 ## Q3: How should a reusable child communicate with a feature?

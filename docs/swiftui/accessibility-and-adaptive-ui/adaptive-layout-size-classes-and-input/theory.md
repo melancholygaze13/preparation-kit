@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: high
-estimated_read_minutes: 6
+estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - adaptive-layout
   - size-classes
@@ -23,6 +23,10 @@ tags:
 [Concept overview](README.md) · [Interview questions](interview.md)
 
 ## Mental Model
+
+**Adaptive layout** changes arrangement to fit current content and available space.
+A **size class** is a coarse horizontal or vertical environment category. **Input** is
+how a user interacts, including touch, pointer, keyboard, remote, and assistive technology.
 
 An interface adapts to its current container, content, platform conventions, and input
 capabilities. Device model and full-screen bounds do not describe a resizable window,
@@ -42,6 +46,23 @@ Size classes are coarse environmental hints. They can help choose navigation or
 composition, but they are not “iPhone versus iPad.” Different windows on one device
 can expose different space, and similar classes can still have meaningfully different widths.
 
+Read one when it represents a real composition decision:
+
+```swift
+@Environment(\.horizontalSizeClass) private var horizontalSizeClass
+
+var body: some View {
+    if horizontalSizeClass == .compact {
+        CompactAccountView()
+    } else {
+        AccountColumns()
+    }
+}
+```
+
+This is a coarse navigation or composition choice. A reusable card should usually
+respond to its proposal instead of assuming `.regular` means a particular width.
+
 ### Content-Driven Adaptation
 
 Choose breakpoints from when content no longer works, not from named devices. Long
@@ -50,6 +71,18 @@ Conversely, concise content can fit horizontally in a compact region.
 
 Avoid fixed frames unless content and scaling are controlled. Define minimum, ideal,
 maximum, overflow, and reflow behavior for shared components.
+
+`ViewThatFits` can select the first candidate that fits the proposed space:
+
+```swift
+ViewThatFits {
+    HStack { AccountFields() }
+    VStack(alignment: .leading) { AccountFields() }
+}
+```
+
+Put the preferred composition first. Both candidates must remain semantically correct,
+because localization and Dynamic Type may select the fallback at any window size.
 
 ### Navigation
 
@@ -109,6 +142,8 @@ feature screens are reviewed against the same adaptation expectations.
 - Layout proposals are local; global screen bounds can be unrelated to a component.
 - Input methods can coexist, so one platform is not limited to one interaction mode.
 - Presentation adaptation should not duplicate or corrupt feature state.
+- Size-class values can change while a view is alive. They are environment input, not
+  durable model state.
 
 ## Engineering Decisions
 

@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: high
-estimated_read_minutes: 5
+estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-25
 tags:
   - dynamic-type
   - content-sizing
@@ -23,6 +23,10 @@ tags:
 [Concept overview](README.md) · [Interview questions](interview.md)
 
 ## Mental Model
+
+**Dynamic Type** applies the user's preferred content-size category to scalable text.
+**Content sizing** is how the layout measures and arranges text, controls, images, and
+other content after that change.
 
 Dynamic Type changes both text size and layout requirements. A successful interface
 reflows, grows, scrolls, or changes composition while keeping essential content and
@@ -60,6 +64,10 @@ allow labels to wrap, and move secondary actions without changing their meaning.
 Avoid fixed heights, unsafe line limits, and `minimumScaleFactor` as the default fix.
 Scaling essential text down defeats the user's setting. Truncation is acceptable only
 when product semantics allow it and the full value remains accessible.
+
+Use `dynamicTypeSize` restrictions only when a documented surface truly cannot support
+the complete range and another accessible presentation exists. Restricting sizes is
+not a general layout fix. App screens should normally support all categories.
 
 ### Controls and Targets
 
@@ -118,6 +126,8 @@ guarantee space when split view, keyboard, or accessibility text reduces the con
 - Fixed frames and line limits can clip otherwise valid scaled content.
 - Dynamic Type does not automatically choose a different component composition.
 - Accessibility content sizes must be tested with localization and actual controls.
+- Dynamic Type scales text according to its font definition. It does not remove fixed
+  frames, line limits, or other constraints that prevent the result from fitting.
 
 ## Engineering Decisions
 

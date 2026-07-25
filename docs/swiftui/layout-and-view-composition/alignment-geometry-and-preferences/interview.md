@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 5
+estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - alignment
   - geometry
@@ -53,6 +53,11 @@ and result then become difficult to reason about across fonts and sizes.
 If the parent must run a broader multi-child algorithm, I use `Layout` rather than
 forcing that behavior through several guide adjustments.
 
+For a custom guide, I define an `AlignmentID`, implement `defaultValue(in:)`, and
+create a static `HorizontalAlignment` or `VerticalAlignment`. The enclosing container
+uses that alignment. Selected descendants can override their guide with
+`alignmentGuide`. This also supports alignment across nested stacks.
+
 <a id="q2-when-would-you-use-geometryreader"></a>
 ## Q2: When would you use GeometryReader?
 
@@ -72,6 +77,10 @@ I choose a named coordinate space when positions must be compared inside a compo
 I also derive only the needed value, such as whether width crosses a breakpoint,
 instead of storing a continuously changing global frame.
 
+The coordinate-space modifier goes on the ancestor that should define the origin. A
+descendant then asks for `proxy.frame(in: .named(...))`. Local and global coordinates
+can be correct, but I use them only when their ownership matches the requirement.
+
 <a id="q3-how-does-preferencekey-communicate-values"></a>
 ## Q3: How does PreferenceKey communicate values?
 
@@ -87,10 +96,19 @@ I use preferences for presentation facts that naturally travel upward, often a
 measurement or semantic contribution. `defaultValue` represents no contribution, and
 `reduce` must be cheap, deterministic, and free of side effects.
 
+A descendant calls `preference(key:value:)`. SwiftUI combines contributions in
+view-tree order, and the ancestor reads the result with `onPreferenceChange`. I choose
+a reduction such as `max` when possible, instead of depending on one child remaining
+the last contributor.
+
 Preferences are not general product-state flow. User actions and domain state should
 use explicit ownership, bindings, observable models, or action closures. If spatial
 data must be resolved in the ancestor's coordinate space, an anchor preference avoids
 prematurely converting it to a global rectangle.
+
+When descendants disappear, the value can return to the key's default. If the result
+must outlive the reporting view, an explicitly owned state value needs a clear reset
+rule.
 
 <a id="q4-how-do-you-prevent-geometry-driven-update-loops"></a>
 ## Q4: How do you prevent geometry-driven update loops?

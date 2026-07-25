@@ -4,23 +4,23 @@ domain: "SwiftUI"
 page_type: topic-index
 interview_priority: high
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-25
 ---
 
 # Collections and Scrolling
 
-## Learning Path
+## Preparation Paths
 
 ### Rapid Review
 
 1. [List, ForEach, and Data Identity](list-for-each-and-data-identity/README.md)
-2. [Pagination, Refresh, and Search](pagination-refresh-and-search/README.md)
+2. [Scroll Position and Programmatic Scrolling](scroll-position-and-programmatic-scrolling/README.md)
 
 ### Standard Preparation
 
 Complete rapid review, then study:
 
-3. [Scroll Position and Programmatic Scrolling](scroll-position-and-programmatic-scrolling/README.md)
+3. [Pagination, Refresh, and Search](pagination-refresh-and-search/README.md)
 4. [Selection, Editing, and Hierarchical Data](selection-editing-and-hierarchical-data/README.md)
 
 For an imminent interview, prioritize stable identity and loading ownership. Add
@@ -31,7 +31,7 @@ iPad, or macOS interfaces.
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [List, ForEach, and Data Identity](list-for-each-and-data-identity/README.md) | Preserves correct row identity during collection changes. | High | 12 min |
-| [Pagination, Refresh, and Search](pagination-refresh-and-search/README.md) | Connects user-driven loading to collection state. | High | 12 min |
-| [Scroll Position and Programmatic Scrolling](scroll-position-and-programmatic-scrolling/README.md) | Coordinates scroll state with application behavior. | High | 11 min |
-| [Selection, Editing, and Hierarchical Data](selection-editing-and-hierarchical-data/README.md) | Covers richer collection interaction and structure. | High | 12 min |
+| [List, ForEach, and Data Identity](list-for-each-and-data-identity/README.md) | Preserves correct row identity during collection changes. | High | 14 min |
+| [Scroll Position and Programmatic Scrolling](scroll-position-and-programmatic-scrolling/README.md) | Coordinates scroll state with application behavior. | High | 14 min |
+| [Pagination, Refresh, and Search](pagination-refresh-and-search/README.md) | Connects user-driven loading to collection state. | High | 14 min |
+| [Selection, Editing, and Hierarchical Data](selection-editing-and-hierarchical-data/README.md) | Covers richer collection interaction and structure. | High | 14 min |

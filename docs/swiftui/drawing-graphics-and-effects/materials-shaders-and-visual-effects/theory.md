@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: situational
-estimated_read_minutes: 3
+estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - materials
   - shaders
@@ -23,6 +23,10 @@ tags:
 [Concept overview](README.md) · [Interview questions](interview.md)
 
 ## Mental Model
+
+A **material** is a semantic SwiftUI shape style that adapts a translucent backdrop.
+A **shader** is a GPU program used through SwiftUI's shader APIs. A **visual effect**
+changes rendered appearance, such as offset, blur, color, distortion, or sampling.
 
 System effects communicate hierarchy by adapting to the content behind them and the
 current platform. Custom shaders transform rendered pixels. Both belong late in the
@@ -65,6 +69,11 @@ Shader input types, coordinate conventions, and function signatures are API cont
 Keep Swift and Metal definitions reviewed together. Invalid assumptions can compile on
 one side and produce incorrect pixels or unavailable functions at runtime.
 
+SwiftUI shader modifiers and `visualEffect` require the 2023 platform releases,
+including iOS 17 and macOS 14. Liquid Glass APIs require the 2025 releases, including
+iOS 26 and macOS 26. Keep a material, standard style, or no-effect fallback for older
+deployment targets.
+
 ## Geometry-Driven Effects
 
 `visualEffect` supplies a geometry proxy and a constrained effect builder for visual
@@ -97,3 +106,4 @@ without blocking the feature.
 - [`ShaderLibrary`](https://developer.apple.com/documentation/swiftui/shaderlibrary)
 - [`layerEffect`](https://developer.apple.com/documentation/swiftui/view/layereffect%28_%3Amaxsampleoffset%3Aisenabled%3A%29)
 - [Create custom visual effects with SwiftUI](https://developer.apple.com/videos/play/wwdc2023/10148/)
+- [Applying Liquid Glass to custom views](https://developer.apple.com/documentation/swiftui/applying-liquid-glass-to-custom-views)

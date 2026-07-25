@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: situational
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - commands
   - widgets
@@ -19,9 +19,9 @@ tags:
 
 # Commands, Settings, Widgets, and System Actions
 
-> System entry points are adapters around application capabilities. Route commands to
-> the focused scene, keep widgets timeline-driven, and make App Intents or environment
-> actions validate identifiers through the same domain boundaries as the main app.
+> Commands expose menu and keyboard actions. Settings provide platform preference UI.
+> Widgets show system-managed timeline entries. System actions ask the surrounding
+> platform to open, dismiss, or perform another capability.
 
 ## Quick Recall
 
@@ -31,6 +31,10 @@ tags:
 - Interactive widget actions use App Intents rather than arbitrary in-process closures.
 - Environment actions such as `openURL`, `dismiss`, and `openWindow` preserve system
   ownership of presentation.
+
+Treat every surface as an adapter around one authorized application operation. The
+focused scene, widget extension, App Intent, and main app have different lifetimes,
+but they should not implement different business rules.
 
 ## Study
 

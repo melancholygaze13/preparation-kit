@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 8
+estimated_read_minutes: 9
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - state
   - binding
@@ -24,8 +24,12 @@ tags:
 
 ## Mental Model
 
-State answers “who owns this mutable value and for how long?” A binding answers
-“who may read and write that existing value?”
+*State* is data that can change and affect the interface. A *source of truth* is
+the one storage location treated as authoritative for a value. A *binding* gives
+another view read-write access to that source without copying or owning it.
+
+State therefore answers “who owns this mutable value and for how long?” A binding
+answers “who may read and write that existing value?”
 
 ```mermaid
 flowchart LR
@@ -65,6 +69,10 @@ SwiftUI stores these values outside the ephemeral `SearchPanel` struct and
 associates them with its view identity. Mutating the state invalidates dependent
 views. If the identity ends, the storage ends.
 
+The `@State` spelling is an attribute attached to a property. Xcode 27 implements
+it with the `State()` macro. Older toolchains expose `State` as a property wrapper.
+The source syntax and main ownership rule remain the same.
+
 Declare state `private`. External initialization or mutation conflicts with the
 claim that this view owns the value. Lift the state to a parent when a larger
 subtree needs to coordinate it.
@@ -97,6 +105,42 @@ Later parent updates do not overwrite established state. This is useful for an
 intentional draft, but the component must define reset, commit, and conflict rules.
 If the parent remains the owner, pass a value or binding instead.
 
+### Initializing State from an Input
+
+Sometimes a view intentionally creates local state from an initial input. For
+example, an editor might start with a copy that the user can cancel before saving:
+
+```swift
+struct NameEditor: View {
+    @State private var draftName: String
+
+    init(initialName: String) {
+        draftName = initialName
+    }
+
+    var body: some View {
+        TextField("Name", text: $draftName)
+    }
+}
+```
+
+This code initializes a new editing session. It does not keep `draftName` equal to
+later `initialName` values. The view must define what starts a new session and how
+external changes are handled.
+
+Xcode 27 makes two initialization rules especially important:
+
+1. Initialize ordinary stored properties before assigning to a `@State` property
+   in `init`.
+2. If `init` supplies the state value, do not also give that property an inline
+   default. The inline value takes precedence and the assignment is discarded.
+
+For example, `@State private var draftName = ""` combined with
+`draftName = initialName` in `init` does not produce the intended result. Choose
+one source for the initial value. In most views, an inline default is the simplest
+choice. Use initializer-supplied state only when the value truly begins a new local
+session.
+
 ### Bindings Borrow Mutable Access
 
 A `Binding<Value>` reads and writes storage owned elsewhere:
@@ -124,6 +168,11 @@ struct PlayerView: View {
 The `$` accesses `State`'s projected value, which is a binding. In the child,
 reading or assigning `isPlaying` uses the binding's wrapped value. The child does
 not control storage initialization or lifetime.
+
+The property-wrapper syntax hides a normal initializer parameter. Swift synthesizes
+an initializer that accepts `Binding<Bool>` for `PlayButton`, so the parent passes
+`$isPlaying`, not the current Boolean value. Passing `isPlaying` without `$` would
+be a type error because that expression is a `Bool`, not a `Binding<Bool>`.
 
 Bindings can project writable members through dynamic member lookup. If a parent
 owns an editable structure in state, `$profile.displayName` can produce a binding
@@ -178,6 +227,10 @@ consumer needs bindings to that instance's properties. A plain property is enoug
 when the consumer only reads it. Observable model ownership is covered in the next
 concept.
 
+`@Bindable` is not a replacement for every `@Binding`. Use `@Binding` for a value
+whose storage already exists elsewhere. Use `@Bindable` to project bindings from
+the mutable properties of an observable reference model.
+
 ### Custom Bindings
 
 `Binding(get:set:)` adapts storage that does not already expose a binding. It can be
@@ -220,6 +273,8 @@ model boundary.
 - State lifetime follows view lifetime and is not persistence.
 - A sendable binding does not guarantee that cross-isolation reads and writes are
   safe; safety depends on how the binding was created.
+- Xcode 27 state initialization follows normal stored-property initialization
+  ordering and does not let an `init` assignment override an inline default.
 
 ## Engineering Decisions
 
@@ -253,3 +308,4 @@ standardize these contracts across design-system controls and feature boundaries
 - [`Bindable`](https://developer.apple.com/documentation/swiftui/bindable)
 - [Managing user interface state](https://developer.apple.com/documentation/swiftui/managing-user-interface-state/)
 - [Model data](https://developer.apple.com/documentation/swiftui/model-data)
+- [TN3211: Resolving SwiftUI source incompatibilities for State and ContentBuilder](https://developer.apple.com/documentation/technotes/tn3211-resolving-swiftui-source-incompatibilities-for-state-and-contentbuilder)

@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 7
+estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - dependency-injection
   - side-effects
@@ -52,6 +52,9 @@ behavioral boundary.
 The dependency contract includes cancellation, isolation, errors, freshness, and
 idempotency—not only the Swift method signature.
 
+The trade-off is extra composition and adapter code. I introduce the boundary around
+external or volatile behavior, not around every stable value or pure function.
+
 <a id="q2-when-do-you-use-the-environment"></a>
 ## Q2: When do you use the environment?
 
@@ -70,6 +73,10 @@ is hidden global access even if stored in the environment.
 
 I provide deliberate preview and test values and consider scene and account scope.
 Missing or stale environment setup should not silently use a dangerous production default.
+
+The environment reduces repetitive forwarding, but it also hides a requirement from
+the initializer. I reserve it for genuinely hierarchy-scoped context and keep the
+entry point responsible for supplying it.
 
 <a id="q3-what-makes-a-test-dependency-realistic-enough"></a>
 ## Q3: What makes a test dependency realistic enough?

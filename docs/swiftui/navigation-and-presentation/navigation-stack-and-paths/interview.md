@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 7
+estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - navigation-stack
   - navigation-path
@@ -54,6 +54,10 @@ Direct destination links can work for local navigation, but they do not provide 
 same app-visible path state. For deep links, tests, restoration, or replacing a
 flow, I keep the route sequence explicit.
 
+With a bound array, appending pushes, removing the last element pops, and assigning a
+new array replaces the visible value-based hierarchy. User-driven back navigation
+updates the same binding.
+
 ### Example
 
 `path.append(.order(orderID))` expresses the desired destination. The destination
@@ -76,6 +80,10 @@ support encoding. The cost is weaker compile-time visibility into the path. A ro
 enum often handles mixed-type screens without mixed-type element types, so I
 do not choose `NavigationPath` merely because the screens differ.
 
+It offers count, append, and removal operations, but not typed iteration over its
+elements. If routing rules must inspect cases or compare expected paths in tests, an
+array is clearer.
+
 For either choice, route values remain small and stable. Storing mutable model
 objects can make hash identity change and restoration stale.
 
@@ -84,6 +92,10 @@ objects can make hash identity change and restoration stale.
 A shared enum is easy to reason about but can become a cross-team merge and
 ownership hotspot. Separate route types reduce coupling but need explicit
 registration and composition rules.
+
+For restoration, `NavigationPath.codable` is optional and becomes `nil` if any stored
+type is not `Codable`. A typed `[Route]` can instead make `Codable` a compile-time
+requirement when restoration is part of the route contract.
 
 <a id="q3-where-should-navigation-state-live"></a>
 ## Q3: Where should navigation state live?

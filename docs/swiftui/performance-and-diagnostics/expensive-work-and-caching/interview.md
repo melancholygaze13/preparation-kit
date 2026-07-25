@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - expensive-work
   - caching
@@ -50,6 +50,9 @@ query, or derived-state calculation. Small pure display expressions remain in th
 View initializers follow the same rule. Networking uses `.task`; CPU-heavy transforms
 use an explicitly suitable concurrency boundary and return a small value for UI commit.
 
+`await` alone does not make CPU work concurrent. I verify isolation and executor
+behavior instead of assuming an async function keeps the main actor responsive.
+
 <a id="q2-when-should-derived-data-be-cached"></a>
 ## Q2: When should derived data be cached?
 
@@ -66,6 +69,8 @@ sort, locale, permissions, and content version as applicable. I avoid copying de
 collections into `@State` without one owner updating them.
 
 I verify both latency improvement and correctness after source changes and eviction.
+I also measure lookup cost and memory growth. A cache is useful only when avoided work
+is worth its added state, synchronization, and invalidation rules.
 
 <a id="q3-how-would-you-optimize-image-heavy-rows"></a>
 ## Q3: How would you optimize image-heavy rows?

@@ -11,7 +11,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - image-renderer
   - export
@@ -46,6 +46,9 @@ handle a nil result as a real export failure.
 The export view receives an immutable data snapshot and explicit environment values.
 I ensure asynchronous assets are ready before rendering and verify any platform-backed
 content, because not every hosted view renders correctly offscreen.
+
+`ImageRenderer` requires the 2022 platform releases. Older supported systems need a
+separate rendering implementation rather than calling it without availability handling.
 
 <a id="q2-how-do-point-size-and-scale-affect-an-export"></a>
 ## Q2: How do point size and scale affect an export?
@@ -82,3 +85,6 @@ instrument duration, failure category, and dimensions without logging private co
 Higher scale improves raster detail but increases memory, encoding time, and file size.
 PDF can preserve scalable operations, but effects and hosted content may rasterize, so
 the pipeline must verify actual output rather than assume vector fidelity.
+
+The exporter also owns privacy and cleanup. A correct image left indefinitely in an
+unprotected temporary location is still a production defect.

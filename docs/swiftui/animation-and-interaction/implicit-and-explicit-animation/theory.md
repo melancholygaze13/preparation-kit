@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: high
-estimated_read_minutes: 5
+estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - animation
   - transactions
@@ -23,6 +23,10 @@ tags:
 [Concept overview](README.md) · [Interview questions](interview.md)
 
 ## Mental Model
+
+An **implicit animation** is declared on a view with `.animation(_:value:)`. It applies
+when that watched value changes. An **explicit animation** is declared with
+`withAnimation` around a particular mutation.
 
 State changes immediately to its new logical value. An animation in the current
 transaction tells SwiftUI how to interpolate affected animatable presentation values
@@ -62,6 +66,11 @@ Card(isExpanded: isExpanded)
 
 Avoid the legacy unscoped animation form. A broad modifier can animate unrelated
 changes that happen in the same update. Place it close to the intended subtree and value.
+
+The `value` is a trigger, not a list of properties to animate. When it changes,
+animatable changes in the modified subtree that belong to the same update may animate.
+Keep unrelated mutations in a separate transaction or move the modifier closer to
+the intended result.
 
 ### Interruption and Velocity
 
@@ -136,6 +145,8 @@ VoiceOver semantics while views animate or change structure.
 - Transaction scope can affect multiple descendants updated together.
 - Not every property or structural change has an animatable representation.
 - Correctness cannot depend on an animation finishing at an exact wall-clock time.
+- The animation describes interpolation. It does not delay assignment to the source
+  state or make that state gradually change.
 
 ## Engineering Decisions
 

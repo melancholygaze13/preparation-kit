@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - declarative-ui
   - view-builder
@@ -28,7 +28,7 @@ tags:
 |---|---|---|
 | [What does a SwiftUI `View` value represent?](#q1-what-does-a-swiftui-view-value-represent) | Senior | Core rendering mental model |
 | [Why must `body` be cheap and free of uncontrolled side effects?](#q2-why-must-body-be-cheap-and-free-of-uncontrolled-side-effects) | Senior | Update behavior and production cost |
-| [What do `some View` and `@ViewBuilder` each do?](#q3-what-do-some-view-and-viewbuilder-each-do) | Senior | Type system and composition |
+| [What do `some View` and SwiftUI's result builder each do?](#q3-opaque-type-and-result-builder) | Senior | Type system and composition |
 | [When would you extract a separate view?](#q4-when-would-you-extract-a-separate-view) | Staff | Boundaries, dependencies, and reuse |
 
 ---
@@ -99,15 +99,16 @@ struct SearchResults: View {
 The search and ranking work happens before this view receives `results`; scrolling
 or an unrelated state update does not rerun the query in `body`.
 
-<a id="q3-what-do-some-view-and-viewbuilder-each-do"></a>
-## Q3: What do `some View` and `@ViewBuilder` each do?
+<a id="q3-opaque-type-and-result-builder"></a>
+## Q3: What do `some View` and SwiftUI's result builder each do?
 
 ### Short Answer
 
 `some View` is an opaque return type: callers do not see the concrete view type,
-but the compiler still knows one concrete type. `@ViewBuilder` is a result builder
-that combines child expressions and supported branches into a value conforming to
-`View`. They solve different problems and often work together in `body`.
+but the compiler still knows it. SwiftUI's result builder combines child
+expressions and supported branches into one result. Xcode 26 calls the
+view-specific builder `ViewBuilder`; Xcode 27 uses the unified name
+`ContentBuilder`. The opaque type and builder solve different problems.
 
 ### Expanded Answer
 
@@ -115,11 +116,11 @@ Modifier chains and containers generate deeply nested generic types. `some View`
 hides that spelling without using runtime type erasure. The implementation must
 still produce one underlying type for the declaration.
 
-`@ViewBuilder` transforms multiple expressions and conditional structure into
+The builder transforms multiple expressions and conditional structure into
 builder-specific concrete types. This allows an `if` branch in `body` even though
-the branches have different source-level types. It does not make arbitrary return
-types interchangeable, nor does it turn view construction into an imperative
-lifecycle callback.
+the branches have different source-level types. In a view context, the completed
+result must conform to `View`. A builder does not make arbitrary return types
+interchangeable or turn view construction into a lifecycle callback.
 
 ### Trade-offs
 

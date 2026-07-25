@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 5
+estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - custom-layout
   - adaptive-ui
@@ -53,6 +53,10 @@ I test long localization and accessibility text because content can force adapta
 without a window-size change. Each compact alternative must preserve essential actions
 and a coherent accessibility order.
 
+I write the rule in terms of the component: available container space, whether content
+fits, or a platform environment value. I avoid a shared device-width breakpoint because
+it becomes wrong in split views, sheets, widgets, and resizable windows.
+
 <a id="q2-how-do-viewthatfits-and-anylayout-differ"></a>
 ## Q2: How do ViewThatFits and AnyLayout differ?
 
@@ -67,6 +71,10 @@ which avoids replacing the content hierarchy just to rearrange it.
 I use `ViewThatFits` when wide and compact presentations are meaningful alternatives.
 Their order defines preference. I use `AnyLayout` when the content stays the same but
 changes from a horizontal to vertical or another arrangement.
+
+`ViewThatFits` tests both axes by default, or only the axes passed to its initializer.
+It uses each alternative's ideal size on those axes. `AnyLayout` does not perform that
+fit selection by itself; application logic still chooses the wrapped layout.
 
 ### Trade-offs
 
@@ -90,8 +98,16 @@ handle unspecified and finite proposals, empty content, spacing, alignment, and 
 that changes height under a final width. Placement uses the supplied bounds origin,
 not an assumed zero origin.
 
+A proposal can also be zero or infinite because a parent may probe the layout's
+flexibility. A child chooses its own response, so I measure again under the final cell
+width when wrapping can change height. I return finite, nonnegative container sizes.
+
 I add a cache only for repeatable, expensive derived measurements. Correctness must not
 depend on a fixed call order or one measurement per update.
+
+The call site looks like any other container: `MyLayout { ChildA(); ChildB() }`.
+SwiftUI creates proxies for those direct children and invokes the layout methods as
+needed.
 
 <a id="q4-how-would-you-design-a-reusable-flow-layout"></a>
 ## Q4: How would you design a reusable flow layout?

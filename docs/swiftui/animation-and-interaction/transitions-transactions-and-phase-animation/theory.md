@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: high
-estimated_read_minutes: 6
+estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - transitions
   - transactions
@@ -24,8 +24,11 @@ tags:
 
 ## Mental Model
 
-A transition describes how a view enters or leaves the hierarchy. A transaction
-carries animation context through an update. Phase and keyframe APIs describe
+A **transition** describes how a view identity enters or leaves the hierarchy. A
+**transaction** is update context that can carry an animation and related policy.
+A **phase animation** moves through a finite sequence of discrete presentation values.
+
+Phase and keyframe APIs describe
 multi-stage presentation without turning business state into animation bookkeeping.
 
 ## How It Works
@@ -85,6 +88,18 @@ presentation-only sequence triggered by state.
 Keep product state separate. For example, `isFavorite` is domain/UI state; a brief
 confirmation pulse is a phase sequence derived from the favorite action.
 
+```swift
+Image(systemName: "checkmark.circle.fill")
+    .phaseAnimator([false, true, false], trigger: saveCount) { content, emphasized in
+        content.scaleEffect(emphasized ? 1.2 : 1)
+    } animation: { _ in
+        .spring(duration: 0.25)
+    }
+```
+
+The phase values describe visual emphasis. `saveCount` starts a new sequence after a
+successful save event; the animation does not perform or verify the save.
+
 ### Keyframes
 
 Keyframes define timed tracks for properties that need precise multi-stage motion.
@@ -94,6 +109,9 @@ pause, or coordinated property tracks.
 Do not use keyframes to schedule network work or persistence. If the sequence must
 wait for business completion, the model owns that state and triggers the next visual
 state when the result arrives.
+
+Phase and keyframe animators are available from the 2023 platform releases. Apps with
+older deployment targets need a simpler animation or an availability-gated fallback.
 
 ### Sequencing and Interruption
 
@@ -121,6 +139,8 @@ rows. Scope the animated subtree and avoid animating offscreen or unrelated cont
 - Transactions are contextual values for an update, not durable state.
 - Phase and keyframe animation manage presentation sequences, not domain workflows.
 - Removal can end view lifetime while its transition is visually completing.
+- Transaction propagation follows the documented view hierarchy, but internal
+  rendering order is not an application contract.
 
 ## Engineering Decisions
 
@@ -139,3 +159,4 @@ rows. Scope the animated subtree and avoid animating offscreen or unrelated cont
 - [`Transaction`](https://developer.apple.com/documentation/swiftui/transaction)
 - [`phaseAnimator`](https://developer.apple.com/documentation/swiftui/view/phaseanimator%28_%3Atrigger%3Acontent%3Aanimation%3A%29)
 - [Wind your way through advanced animations in SwiftUI](https://developer.apple.com/videos/play/wwdc2023/10157/)
+- [Animating views and transitions](https://developer.apple.com/documentation/swiftui/animating-views-and-transitions)

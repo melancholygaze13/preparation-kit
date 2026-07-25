@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 8
+estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - dependency-injection
   - side-effects
@@ -30,6 +30,11 @@ Make that capability explicit at the feature boundary.
 
 The feature owns policy—when to load, retry, present, or commit. An adapter owns the
 mechanics of talking to an external system.
+
+A **side effect** reads or changes state outside the current feature value, such as
+networking, storage, time, or analytics. A **dependency** is a capability the feature
+uses but does not implement. A **dependency boundary** is its explicit contract. An
+**adapter** translates that contract to a concrete framework or service.
 
 ## How It Works
 
@@ -195,6 +200,19 @@ Reading flags directly throughout views spreads rollout policy and makes removal
 Adapters enforce authentication and data-classification rules. Feature models should
 receive authorized results, yet still handle revoked access because authorization can
 change between request and commit.
+
+### Benefits and Costs
+
+| Benefits | Costs |
+|---|---|
+| Required services are visible at construction | Initializers and composition need more setup |
+| Deterministic fakes make policy easy to test | Fakes and adapters must track contract changes |
+| Infrastructure can change without rewriting feature policy | Too many tiny protocols hide simple code |
+| Scope and account ownership can be explicit | A large container can become a disguised service locator |
+
+Use a boundary when external behavior, replacement, or ownership matters. Do not
+wrap every pure helper. Prefer a concrete value until volatility, nondeterminism, or
+cross-module ownership creates a real seam worth maintaining.
 
 ## Constraints and Guarantees
 

@@ -8,9 +8,9 @@ levels:
   - senior
   - staff
 interview_priority: high
-estimated_read_minutes: 6
+estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-06-30
+last_reviewed: 2026-07-25
 ---
 
 # Testing State and Presentation Logic: Theory
@@ -18,6 +18,9 @@ last_reviewed: 2026-06-30
 [Concept overview](README.md) · [Interview questions](interview.md)
 
 ## Mental Model
+
+**State testing** verifies feature data and its transitions. **Presentation logic**
+decides which content, route, alert, sheet, or control state the user should see.
 
 A SwiftUI feature has several observable layers. Most decisions can be tested
 without constructing a view:
@@ -98,6 +101,15 @@ Use `#require` for a precondition whose failure makes later assertions meaningle
 Use parameterized tests for a meaningful input matrix, such as validation rules.
 Tests must own their fixtures because Swift Testing can execute them in parallel.
 
+Prefer a struct suite. A type containing `@Test` methods is already a suite, so
+`@Suite` is needed only for a custom name or suite traits. Swift Testing does not use
+`XCTestCase`, `setUp`, or `XCTAssert` for these tests. Setup can happen in a suite
+initializer or in the test itself.
+
+Use `#expect(isLoading == false)` instead of hiding a Boolean expression behind
+`#expect(!isLoading)`. The expanded equality gives Swift Testing more useful failure
+details.
+
 ## Control Nondeterminism
 
 Production code often hides time, UUID generation, locale, persistence, or network
@@ -113,6 +125,10 @@ the capability the feature needs:
 Do not solve isolation by serializing the whole test suite. Shared mutable fixtures
 remain a design problem, and serial execution hides it. Also avoid production sleeps
 and polling in unit tests. Expose a completion point or controllable dependency.
+
+The `.serialized` trait is not a general fix for shared state. In current Swift
+Testing, it serializes cases of parameterized tests, not arbitrary independent tests.
+Remove shared mutable dependencies so tests can safely run in any order.
 
 ## Assert Contracts, Not Structure
 

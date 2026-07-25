@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - generics
   - opaque-types
@@ -27,7 +27,8 @@ tags:
 
 - Generic containers keep child types visible and enforce relationships at compile time.
 - `some View` hides one concrete type chosen by the implementation.
-- `@ViewBuilder` converts supported branches and child expressions into one type.
+- A result builder converts supported branches and child expressions into one
+  result. Xcode 27 exposes SwiftUI's unified builder as `ContentBuilder`.
 - `Group` groups content without adding stack-style layout.
 - `AnyView` is a runtime type-erased wrapper, not a routine fix for compiler errors.
 

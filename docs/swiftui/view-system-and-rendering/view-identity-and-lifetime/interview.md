@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - view-identity
   - state-lifetime
@@ -38,10 +38,10 @@ tags:
 
 ### Short Answer
 
-Identity is how SwiftUI decides whether two view values from different updates
-represent the same conceptual UI element. Structural identity comes from concrete
-type and hierarchy position. Explicit identity comes from stable data IDs or the
-`.id` modifier. Identity gives an element continuity over time.
+Identity is how SwiftUI decides whether view values from different updates
+represent the same UI element. Structural identity comes from concrete type and
+hierarchy position. Explicit identity comes from stable data IDs or the `.id`
+modifier. Identity gives an element continuity over time.
 
 ### Expanded Answer
 

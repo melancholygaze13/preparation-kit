@@ -8,9 +8,9 @@ levels:
   - senior
   - staff
 interview_priority: core
-estimated_read_minutes: 8
+estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-25
 tags:
   - tabs
   - tab-view
@@ -36,6 +36,9 @@ Tab selection and navigation within a tab are different state dimensions. Switch
 tabs should not accidentally replace a flow's path, draft, or selection. The owner at
 the tab boundary coordinates cross-tab events; each feature remains responsible for
 its internal navigation.
+
+A **tab** is one selectable top-level destination. **Top-level navigation** is the
+choice among the app's main peer areas. It is not the ordered history inside one area.
 
 ## Modern Tab API
 
@@ -73,6 +76,25 @@ struct AppRoot: View {
 The `Tab` API keeps label, value, role, and content in one declaration. Prefer it over
 the older pattern that attaches `tabItem` and `tag` modifiers to unrelated content.
 Stable enum cases are easier to test and restore than integer or string tags.
+
+`Tab`, `TabSection`, sidebar adaptation, and tab customization arrived with iOS 18,
+iPadOS 18, macOS 15, tvOS 18, and visionOS 2. If the app supports older releases, keep
+the same typed selection model and use the earlier syntax:
+
+```swift
+TabView(selection: $selection) {
+    HomeFlow()
+        .tabItem { Label("Home", systemImage: "house") }
+        .tag(AppTab.home)
+
+    LibraryFlow()
+        .tabItem { Label("Library", systemImage: "books.vertical") }
+        .tag(AppTab.library)
+}
+```
+
+The syntax changes, but the ownership rule does not. The selection value belongs at
+the top-level boundary, and each tab still owns its internal flow.
 
 Use a search-role tab when search is truly a top-level destination. The system can give
 it platform-appropriate placement and behavior. Do not add roles only to force a visual
@@ -178,6 +200,11 @@ or hide supported destinations and persist that choice. Give every customizable 
 stable customization identity. Protect required destinations from removal, and migrate
 persisted customization when tabs are renamed, split, or retired.
 
+Only the `.sidebarAdaptable` style supports `TabViewCustomization`. Passing a non-`nil`
+customization binding enables it. A tab or section that participates needs a
+customization ID. Changing the declared default order does not automatically replace an
+existing saved order; reset or migrate saved customization deliberately.
+
 Do not store sensitive state in `AppStorage`. Tab customization is presentation preference;
 authentication, account identifiers, and private user data need their appropriate secure
 or durable owner.
@@ -249,3 +276,6 @@ entry intents rather than mutate the global tab container directly.
 - [`TabView`](https://developer.apple.com/documentation/swiftui/tabview)
 - [`Tab`](https://developer.apple.com/documentation/swiftui/tab)
 - [`SidebarAdaptableTabViewStyle`](https://developer.apple.com/documentation/swiftui/sidebaradaptabletabviewstyle)
+- [`TabViewCustomization`](https://developer.apple.com/documentation/swiftui/tabviewcustomization)
+- [`tabViewCustomization`](https://developer.apple.com/documentation/swiftui/view/tabviewcustomization%28_%3A%29)
+- [Elevate your tab and sidebar experience in iPadOS](https://developer.apple.com/videos/play/wwdc2024/10147/)

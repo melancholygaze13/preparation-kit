@@ -4,7 +4,7 @@ domain: "SwiftUI"
 page_type: topic-index
 interview_priority: situational
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-07-25
 ---
 
 # Drawing, Graphics, and Effects
@@ -32,6 +32,6 @@ three concepts with emphasis on performance measurement and accessibility fallba
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [Shapes, Paths, and Canvas](shapes-paths-and-canvas/README.md) | Chooses retained or immediate drawing for custom visuals. | Situational | 6 min |
-| [Materials, Shaders, and Visual Effects](materials-shaders-and-visual-effects/README.md) | Adds advanced effects with explicit performance awareness. | Situational | 6 min |
-| [Image Rendering and Export](image-rendering-and-export/README.md) | Produces images from SwiftUI content for external use. | Situational | 6 min |
+| [Shapes, Paths, and Canvas](shapes-paths-and-canvas/README.md) | Chooses retained or immediate drawing for custom visuals. | Situational | 8 min |
+| [Materials, Shaders, and Visual Effects](materials-shaders-and-visual-effects/README.md) | Adds advanced effects with explicit performance awareness. | Situational | 8 min |
+| [Image Rendering and Export](image-rendering-and-export/README.md) | Produces images from SwiftUI content for external use. | Situational | 8 min |

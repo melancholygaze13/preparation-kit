@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: high
-estimated_read_minutes: 5
+estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-25
 tags:
   - scroll-position
   - scroll-view-reader
@@ -24,7 +24,11 @@ tags:
 
 ## Mental Model
 
-Scrolling has two forms of state. A semantic target identifies meaningful content,
+**Scroll position** describes which part of scrollable content is visible.
+**Programmatic scrolling** changes that position from code rather than from a direct
+user gesture.
+
+Scrolling has two useful forms of state. A semantic target identifies meaningful content,
 such as message 42. A geometric position describes an offset or anchor that can change
 when content size, locale, Dynamic Type, or container width changes.
 
@@ -64,6 +68,31 @@ A large jump may be clearer without animation.
 Modern scroll APIs can bind scroll position to an ID or position value and define
 target layout. This is useful when application behavior needs to observe or restore
 the current target. Keep the binding at the lowest owner that coordinates it.
+
+The ID-binding form works with a target layout:
+
+```swift
+@State private var visibleMessageID: Message.ID?
+
+ScrollView {
+    LazyVStack {
+        ForEach(messages) { message in
+            MessageRow(message: message)
+        }
+    }
+    .scrollTargetLayout()
+}
+.scrollPosition(id: $visibleMessageID, anchor: .top)
+```
+
+SwiftUI updates the binding during scrolling. Writing a new valid ID asks SwiftUI to
+scroll to that target. `ScrollPosition` supports IDs, edges, and offsets when a feature
+needs a richer position value.
+
+The ID-binding APIs arrived before the richer `ScrollPosition` and scroll-geometry
+observation APIs. If the deployment target cannot use the needed API, keep
+`ScrollViewReader` as the event-driven fallback rather than building an unrestricted
+preference-key offset pipeline.
 
 Do not write high-frequency geometric changes into a broad app model. This can
 invalidate unrelated views and create feedback loops when the model also commands
@@ -121,6 +150,11 @@ With `onScrollGeometryChange`, transform the full geometry into the smallest
 when that derived value changes. Publishing the raw offset into shared state on every
 movement defeats that filtering and can create unnecessary view updates.
 
+The visibility, geometry, phase, and `ScrollPosition` APIs require the SwiftUI version
+shipped with iOS 18, iPadOS 18, macOS 15, and related 2024 platform releases. Guard
+them with the app's deployment targets. `scrollPosition(id:anchor:)` and
+`scrollTargetLayout()` are available from the 2023 platform releases.
+
 Stable row height is not always possible or desirable. Dynamic Type and localization
 change geometry, reinforcing why semantic IDs are stronger restoration state.
 
@@ -131,6 +165,8 @@ change geometry, reinforcing why semantic IDs are stronger restoration state.
 - Content insertion, size changes, and filtering can move geometric offsets.
 - Position observation can be high frequency and should not automatically become global state.
 - Restoration must handle missing targets and changed data.
+- `scrollTo` is a request to SwiftUI. Exact animation timing and intermediate offsets
+  are not application contracts.
 
 ## Engineering Decisions
 
@@ -150,3 +186,4 @@ change geometry, reinforcing why semantic IDs are stronger restoration state.
 - [`scrollPosition`](https://developer.apple.com/documentation/swiftui/view/scrollposition%28_%3A%29)
 - [Scroll views](https://developer.apple.com/documentation/swiftui/scroll-views)
 - [Beyond scroll views](https://developer.apple.com/videos/play/wwdc2023/10159/)
+- [What’s new in SwiftUI](https://developer.apple.com/videos/play/wwdc2024/10144/)

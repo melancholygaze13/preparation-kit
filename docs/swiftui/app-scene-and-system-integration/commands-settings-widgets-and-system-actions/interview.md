@@ -11,7 +11,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - commands
   - widgets
@@ -47,6 +47,10 @@ The command invokes the same validated application operation as other entry poin
 Focus changes, window closure, and keyboard invocation are normal cases. Tests move
 focus between windows and verify that Save, Undo, or Duplicate reaches the correct one.
 
+Commands are scene declarations, but their operation comes from focused values or
+bindings published by the active hierarchy. I disable the command when no valid target
+exists.
+
 <a id="q2-how-is-a-widget-different-from-an-app-view"></a>
 ## Q2: How is a widget different from an app view?
 
@@ -61,6 +65,9 @@ requests are hints, and interactive controls perform bounded App Intents.
 The provider supplies placeholders, snapshots, and dated entries. Shared durable data
 needs an extension-safe store such as an App Group with a versioned schema. The widget
 must render useful stale, locked, redacted, and unavailable states.
+
+A reload request is a scheduling hint. The system decides when the extension runs, so
+correctness cannot depend on an immediate refresh or an in-memory app singleton.
 
 <a id="q3-how-would-you-share-a-capability-across-the-app-and-app-intents"></a>
 ## Q3: How would you share a capability across the app and App Intents?

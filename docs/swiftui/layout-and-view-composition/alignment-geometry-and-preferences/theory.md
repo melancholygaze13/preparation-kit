@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 8
+estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - alignment
   - geometry
@@ -25,6 +25,10 @@ tags:
 ## Mental Model
 
 These APIs solve three different layout communication problems:
+
+- **Alignment** gives a parent a reference point for placing a child.
+- **Geometry** describes a view's size or position in a coordinate space.
+- A **preference** lets descendants report values that an ancestor can combine and read.
 
 ```mermaid
 flowchart LR
@@ -70,6 +74,41 @@ or `VerticalAlignment`. Descendants can expose an explicit guide that a suitable
 ancestor container uses. This can align a label or control across nested subviews
 without measuring global frames.
 
+This example creates a vertical guide for a title's first text baseline. A view that
+does not supply the guide falls back to its bottom edge:
+
+```swift
+private struct TitleBaseline: AlignmentID {
+    static func defaultValue(in dimensions: ViewDimensions) -> CGFloat {
+        dimensions[VerticalAlignment.bottom]
+    }
+}
+
+extension VerticalAlignment {
+    static let titleBaseline = VerticalAlignment(TitleBaseline.self)
+}
+
+HStack(alignment: .titleBaseline) {
+    VStack {
+        Image("album-cover")
+        Text("Album")
+            .alignmentGuide(.titleBaseline) { dimensions in
+                dimensions[.firstTextBaseline]
+            }
+    }
+
+    Text("Now Playing")
+        .alignmentGuide(.titleBaseline) { dimensions in
+            dimensions[.firstTextBaseline]
+        }
+}
+```
+
+The enclosing `HStack` must use the custom alignment. SwiftUI can pass an explicit
+guide through nested containers, which is why the two `Text` views can align even
+though one is inside a `VStack`. `defaultValue(in:)` handles descendants that do not
+set an explicit value.
+
 Use a custom alignment when the requirement is “these landmarks line up.” Use a custom
 layout when the parent needs a broader placement algorithm. Avoid unexplained numeric
 guide adjustments that only work for one font size.
@@ -88,10 +127,31 @@ spaces. A frame has no useful meaning without the space in which it is expressed
 Named spaces usually express component intent better than global coordinates. Global
 positions change with sheets, windows, bars, and platform hosting details.
 
+Attach a name to the ancestor whose bounds define the component, then request values
+in that same space:
+
+```swift
+VStack {
+    DraggableBadge()
+}
+.coordinateSpace(.named("profile-card"))
+
+// Inside DraggableBadge, where proxy is a GeometryProxy:
+let frame = proxy.frame(in: .named("profile-card"))
+```
+
+The string is only an identifier. The modifier determines which ancestor owns the
+space. Scope names carefully in reusable code so unrelated components do not
+accidentally use the same name.
+
 `GeometryReader` is a layout container whose closure receives a proxy. It generally
 occupies the space proposed by its parent, so inserting one as a background-free leaf
 can change a composition's size. It is appropriate when children must be built from
 the available container geometry. It is not the default way to discover screen size.
+
+The proxy is a read-only description of the reader's layout context. Reading it does
+not change layout by itself. Layout changes when the closure returns content whose
+size or position depends on those values.
 
 For observation, prefer `onGeometryChange(for:of:action:)`. Its transform derives an
 `Equatable` value from geometry, and the action runs when that derived value changes:
@@ -126,20 +186,43 @@ private struct MaximumTitleWidthKey: PreferenceKey {
 }
 ```
 
-The reduction defines the meaning of multiple descendants. Replacement means “later
-reported value wins”; `max` computes a maximum; appending collects values. Choose a
-rule that remains correct when descendants appear, disappear, or are combined in a
-different subtree. Do not start work or mutate external state from `reduce`.
+The reduction defines the meaning of multiple descendants. SwiftUI supplies values in
+view-tree order. Assignment can mean “the next value wins”; `max` computes a maximum;
+appending collects values. Do not depend on a particular child always being last.
+Conditional content or a reordered collection can change which contribution is next.
+Choose a rule that still makes sense when descendants appear or disappear. Do not
+start work or mutate external state from `reduce`.
 
-An ancestor observes the combined value with `onPreferenceChange`. Geometry and
-preferences are often paired by measuring in a background or overlay and publishing a
-small value upward. Anchor preferences defer resolving spatial anchors until an
-ancestor has the coordinate space needed to interpret them.
+A descendant sets a value with `preference(key:value:)`. An ancestor observes the
+combined result with `onPreferenceChange`:
+
+```swift
+VStack {
+    Text("Account")
+        .preference(key: MaximumTitleWidthKey.self, value: 72)
+    Text("Notification Settings")
+        .preference(key: MaximumTitleWidthKey.self, value: 148)
+}
+.onPreferenceChange(MaximumTitleWidthKey.self) { maximumWidth in
+    model.setMaximumTitleWidth(maximumWidth)
+}
+```
+
+The constants keep this example focused on preference flow. Real measurement code
+would publish a value produced by geometry observation or a small measuring helper.
+Geometry and preferences are often paired by measuring in a background or overlay and
+publishing a small value upward. Anchor preferences defer resolving spatial anchors
+until an ancestor has the coordinate space needed to interpret them.
 
 Preferences are suitable for container-level presentation facts such as a descendant
 landmark, title contribution, or bounded measurement. They are not a replacement for
 bindings, observable models, actions, or dependency injection. Product state should
 have explicit ownership and normal data flow.
+
+Preference values are part of view evaluation, not durable storage. When no descendant
+contributes, the key supplies `defaultValue`. If the result must survive after the
+contributing view disappears, copy the meaningful result into state owned for that
+lifetime and define how stale values are cleared.
 
 ## Preventing Layout Feedback
 
@@ -185,8 +268,13 @@ document its coordinate space, aggregation rule, and supported hosting boundarie
 ## References
 
 - [`alignmentGuide`](https://developer.apple.com/documentation/swiftui/view/alignmentguide%28_%3Acomputevalue%3A%29)
+- [`AlignmentID`](https://developer.apple.com/documentation/swiftui/alignmentid)
 - [Aligning views within a stack](https://developer.apple.com/documentation/swiftui/aligning-views-within-a-stack)
+- [Aligning views across stacks](https://developer.apple.com/documentation/swiftui/aligning-views-across-stacks)
 - [`GeometryReader`](https://developer.apple.com/documentation/swiftui/geometryreader)
+- [`coordinateSpace`](https://developer.apple.com/documentation/swiftui/view/coordinatespace%28_%3A%29)
 - [`onGeometryChange`](https://developer.apple.com/documentation/swiftui/view/ongeometrychange%28for%3Aof%3Aaction%3A%29)
 - [`PreferenceKey`](https://developer.apple.com/documentation/swiftui/preferencekey)
+- [`PreferenceKey.reduce`](https://developer.apple.com/documentation/swiftui/preferencekey/reduce%28value%3Anextvalue%3A%29)
+- [`preference`](https://developer.apple.com/documentation/swiftui/view/preference%28key%3Avalue%3A%29)
 - [Demystify SwiftUI](https://developer.apple.com/videos/play/wwdc2021/10022/)

@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: high
-estimated_read_minutes: 6
+estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - gestures
   - hit-testing
@@ -24,9 +24,12 @@ tags:
 
 ## Mental Model
 
+A **gesture** recognizes a pattern of input such as a tap or drag. **Hit testing**
+decides which view and region can receive that input. **Event composition** defines
+whether several gesture recognizers operate together, in sequence, or with precedence.
+
 Use controls for semantic actions and gestures for spatial or continuous interaction.
-Hit testing decides which region can receive input; gesture composition decides how
-recognizers relate; state ownership decides what persists after interaction ends.
+State ownership decides what persists after interaction ends.
 
 ## How It Works
 
@@ -65,6 +68,17 @@ velocity, snapping, or cancellation policy.
 ```swift
 @GestureState private var translation: CGSize = .zero
 @State private var position: CGSize = .zero
+
+var drag: some Gesture {
+    DragGesture()
+        .updating($translation) { value, state, _ in
+            state = value.translation
+        }
+        .onEnded { value in
+            position.width += value.translation.width
+            position.height += value.translation.height
+        }
+}
 ```
 
 Rendering can combine committed position and transient translation. Avoid writing
@@ -79,6 +93,14 @@ choice follows product semantics, not a universal priority rule.
 Nested scroll views, row swipes, maps, and custom drags often compete. Establish the
 minimum distance and direction before claiming a drag so taps and scrolling remain
 responsive. Test interruption, cancellation, multiple touches, and pointer input.
+
+SwiftUI exposes composition directly. `first.simultaneously(with: second)` lets both
+recognize. `first.sequenced(before: second)` requires ordered recognition. View
+modifiers such as `.highPriorityGesture` and `.simultaneousGesture` change how an
+attached gesture relates to gestures already present in the hierarchy.
+
+Composition changes recognition policy, not feature ownership. A recognized gesture
+should still call one model operation for a durable reorder, delete, or selection.
 
 High-priority gestures can override child behavior and should be narrow. A broad
 gesture on a container can accidentally prevent buttons, links, selection, or system
@@ -127,6 +149,8 @@ often appear only at boundaries or during cancellation.
 - Gesture composition expresses recognition relationships, not domain ownership.
 - Raw coordinates depend on coordinate space and current layout.
 - Standard controls supply semantics that gestures do not automatically provide.
+- Gesture callbacks describe recognized input. They do not guarantee that raw screen
+  coordinates remain meaningful after layout changes.
 
 ## Engineering Decisions
 

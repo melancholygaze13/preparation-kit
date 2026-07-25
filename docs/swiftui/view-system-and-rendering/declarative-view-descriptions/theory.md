@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 7
+estimated_read_minutes: 8
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - declarative-ui
   - view-builder
@@ -43,7 +43,10 @@ a retained screen object or `body` as a one-time construction callback.
 
 ### The View Protocol
 
-A custom view conforms to `View` and provides a computed `body`:
+A custom view is usually a `struct` that conforms to the `View` protocol. A
+protocol states requirements that a type must meet. Here, the main requirement is
+a computed `body` property. A computed property calculates its value when code
+reads it instead of storing that value:
 
 ```swift
 struct ProfileHeader: View {
@@ -71,12 +74,42 @@ optimization without exposing a long generated type in the API.
 Leaf views eventually hand rendering work to SwiftUI. Custom views normally
 describe other views rather than drawing or retaining subviews directly.
 
-### View Builders and Branches
+### Content Builders and Branches
 
-The `body` requirement uses `@ViewBuilder`, a result builder. It combines several
-view expressions and supported control flow into one value conforming to `View`.
+SwiftUI applies a *result builder* to `body`. A result builder is a Swift feature
+that combines several expressions and supported control flow into one result.
 This is why `body` can contain multiple children and an `if` statement without an
 explicit `return` or manual type erasure.
+
+The SDK name is version-sensitive. Xcode 26 and earlier expose the view-specific
+builder as `@ViewBuilder`. Xcode 27 unifies SwiftUI's builders under
+`@ContentBuilder`. The ordinary `body` syntax above does not change, and existing
+`@ViewBuilder` source continues to work. When you declare a custom content
+closure with Xcode 27, use the current name:
+
+```swift
+struct Card<Content: View>: View {
+    let content: Content
+
+    init(@ContentBuilder content: () -> Content) {
+        self.content = content()
+    }
+
+    var body: some View {
+        content
+            .padding()
+            .background {
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(.gray.opacity(0.15))
+            }
+    }
+}
+```
+
+`ContentBuilder` removes a direct `View` constraint from the builder itself so
+the same builder can assemble other SwiftUI content kinds. The completed result
+still has to meet the requirement of its context. For `View.body`, that result
+must conform to `View`.
 
 Branches are structure, not imperative commands. A branch describes one concrete
 subtree or another for the current evaluation. Changing branches can affect
@@ -195,8 +228,8 @@ fragmenting a short, cohesive body into many helpers only to reduce line count.
   this can happen repeatedly.
 - `View.body` has one concrete associated type, even when exposed as `some View`.
 - View modifiers return new view values rather than mutating the receiver.
-- `@ViewBuilder` supports specific language constructs; it is not a general
-  imperative execution environment.
+- SwiftUI's result builder supports specific language constructs; it is not a
+  general imperative execution environment.
 - The timing and number of `body` evaluations are framework decisions. Code must
   not depend on a particular count.
 - Internal graph nodes, diffing strategies, and platform-view reuse are
@@ -221,10 +254,12 @@ styles, not expose one monolithic view that observes an entire application model
 ## Production Application
 
 When a screen hitches, first measure. Then inspect expensive initialization,
-formatting, filtering, and allocation reached from `body`. Narrow a subview's
-inputs when unrelated model changes cause reevaluation. Instruments and SwiftUI's
-debug-only change diagnostics can help locate unnecessary work, but underscore
-APIs are not production contracts.
+formatting, filtering, and allocation reached from `body`. Give subviews narrow
+inputs so their dependencies and update work remain clear. SwiftUI can still
+evaluate a child while updating its parent, so extraction alone is not a promise
+that evaluation stops. Instruments and SwiftUI's debug-only change diagnostics
+can help locate unnecessary work, but underscore APIs are not production
+contracts.
 
 Test business decisions below the view layer. Use previews and focused UI tests
 for composition, environment variants, Dynamic Type, localization, and
@@ -237,4 +272,6 @@ evaluation schedule the application does not control.
 - [View](https://developer.apple.com/documentation/swiftui/view)
 - [Declaring a custom view](https://developer.apple.com/documentation/swiftui/declaring-a-custom-view)
 - [ViewBuilder](https://developer.apple.com/documentation/swiftui/viewbuilder)
+- [ContentBuilder](https://developer.apple.com/documentation/swiftui/contentbuilder)
+- [TN3211: Resolving SwiftUI source incompatibilities for State and ContentBuilder](https://developer.apple.com/documentation/technotes/tn3211-resolving-swiftui-source-incompatibilities-for-state-and-contentbuilder)
 - [Demystify SwiftUI performance](https://developer.apple.com/videos/play/wwdc2023/10160/)

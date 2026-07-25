@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - deep-links
   - state-restoration
@@ -23,10 +23,15 @@ tags:
 > route model. Restore identifiers and intent, then resolve current data when the
 > destination appears.
 
+A destination is the app state and screen reached by navigation. A deep link is an
+external reference to that destination. Restoration rebuilds a previous scene after
+the system has removed it or the app launches again.
+
 ## Quick Recall
 
 - Parse URLs and activities at a boundary; views should receive typed routes.
-- Validate authorization, feature availability, and object existence before routing.
+- Validate authorization and feature availability before routing; handle data that
+  disappears before the destination loads.
 - Treat a deep link as a complete desired state, not a sequence of simulated taps.
 - Persist compact, versioned route data rather than view state or model objects.
 - Restoration is best effort because data, permissions, and app structure change.

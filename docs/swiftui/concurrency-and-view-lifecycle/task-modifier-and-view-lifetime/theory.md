@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 8
+estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - task-modifier
   - view-lifetime
@@ -25,9 +25,14 @@ tags:
 ## Mental Model
 
 `.task` declares asynchronous work as a dependency of a view identity. SwiftUI
-starts the work before or around appearance and can cancel it when that identity
+starts the work before appearance and can cancel it when that identity
 leaves the hierarchy. `.task(id:)` additionally cancels and replaces the task when
 its equatable ID changes.
+
+A **task** is a unit of asynchronous work. The **task modifier** attaches such work
+to a view. **View lifetime** is the time a particular view identity remains in the
+hierarchy. It is not the lifetime of the temporary `View` struct value and does not
+mean the view's pixels are currently visible.
 
 This is lifetime management, not guaranteed completion. The work and every API it
 calls must cooperate with cancellation.
@@ -60,6 +65,10 @@ The task modifier can run more than once during a screen's life because identity
 conditional structure, navigation, tabs, and container behavior can recreate or
 remove the view. Loading should therefore be idempotent, or the model should decide
 whether cached content is fresh enough to reuse.
+
+The closure returns `Void`, so it cannot pass a thrown error to SwiftUI. Catch real
+errors inside the model or modifier and turn them into explicit UI state. Let
+`CancellationError` exit without showing a failure.
 
 ### Cancellation Is Cooperative
 
@@ -106,6 +115,12 @@ the API cannot itself be async. Handle errors inside it or retain the handle whe
 the owner must cancel or await it. `Task.detached` drops actor, task-local, priority,
 and structured cancellation context and is rarely suitable for feature UI work.
 
+`Task {}` inherits the caller's actor, priority, and task-local values, but it is
+still unstructured. It does not receive parent cancellation as a child task would.
+Creating it inside `.task` therefore breaks the modifier's automatic lifetime unless
+the outer task explicitly awaits and cancels the new handle. Call the async operation
+directly or use structured children instead.
+
 ### Capture and Retention
 
 A task closure retains captured values until the task finishes. This is normally
@@ -126,6 +141,12 @@ correctness mechanism.
 
 Modern task APIs can attach names for diagnostics. A name helps identify an
 operation in logs or tooling, but it does not change lifetime or isolation.
+
+On iOS 26.4, macOS 26.4, and the aligned releases, SwiftUI task names become active
+diagnostic metadata. The name argument is a no-op on earlier systems. Current
+SwiftUI also starts the action immediately on its chosen actor until the first
+suspension. Treat this as scheduling behavior, not as a reason to place heavy
+synchronous work before the first `await`.
 
 ### Identity Is Not Visibility
 
@@ -203,4 +224,5 @@ screen tasks that outlive their purpose.
 - [`task(priority:_:)`](https://developer.apple.com/documentation/swiftui/view/task%28priority%3A_%3A%29)
 - [`task(id:name:priority:file:line:_:)`](https://developer.apple.com/documentation/swiftui/view/task%28id%3Aname%3Apriority%3Afile%3Aline%3A_%3A%29)
 - [`Task`](https://developer.apple.com/documentation/swift/task)
+- [Task cancellation](https://developer.apple.com/documentation/swift/task#Task-Cancellation)
 - [Concurrency](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/concurrency/)

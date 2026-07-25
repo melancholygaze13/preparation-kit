@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - invalidation
   - body-recomputation
@@ -47,6 +47,10 @@ does not imply rebuilding or redrawing the entire screen.
 The important costs are dependency scope, work performed during evaluation, identity
 changes, and the resulting layout or rendering. `body` should therefore be cheap,
 deterministic, and free of effects.
+
+Invalidation, evaluation, reconciliation, and rendering are separate stages. A log
+inside `body` proves evaluation only. It does not prove that SwiftUI replaced the
+platform hierarchy or rendered every pixel again.
 
 I first measure a slow interaction instead of counting body calls in isolation.
 
@@ -104,6 +108,11 @@ work caused by the update.
 I add product signposts to align state transitions with the trace and compare on the
 same device and data. The result should improve hitch time or interaction latency,
 not merely reduce a debug counter.
+
+With the current SwiftUI Instruments template, I select a slow interval in Long View
+Body Updates. I use the Cause & Effect Graph to trace backward to the mutation and
+Time Profiler to locate expensive synchronous work. I also check whether the update
+causes layout, image decoding, effects, or animation work.
 
 ### Trade-offs
 

@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - selection
   - editing
@@ -49,6 +49,10 @@ neighbor, or show unavailable content.
 
 Scene-specific selection stays scene-scoped in multiwindow apps.
 
+Single selection normally uses an optional ID. Multiple selection uses a set of IDs
+where the platform and product support it. I test edit mode, keyboard, and accessibility
+because interaction differs across environments.
+
 <a id="q2-how-do-you-safely-delete-from-a-filtered-list"></a>
 ## Q2: How do you safely delete from a filtered list?
 
@@ -83,3 +87,6 @@ ancestor chain, and restoration keeps the longest valid prefix.
 
 Performance tests use realistic breadth and depth, while interaction tests cover
 keyboard, accessibility, deletion, and compact multicolumn collapse.
+
+I distinguish a real leaf from unloaded, loading, loaded-empty, and failed child
+states. An optional children array alone cannot express all of those production cases.

@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: high
-estimated_read_minutes: 6
+estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - localization
   - right-to-left
@@ -24,9 +24,13 @@ tags:
 
 ## Mental Model
 
+**Localization** adapts user-facing content to a language and locale. **Right-to-left
+layout** follows a reading direction used by languages such as Arabic and Hebrew.
+**Reduced Motion** is an accessibility preference that asks apps to limit motion that
+can cause discomfort or distraction.
+
 Localization changes language, grammar, formatting, direction, and content length.
-Reduced Motion changes how a state transition should be presented. Both are runtime
-environments the same feature state must support.
+Reduced Motion changes presentation. The same feature state must work in every path.
 
 ## How It Works
 
@@ -38,6 +42,14 @@ and automatic inflection where supported.
 
 Avoid `Text` concatenation for styled fragments. It constrains translator reordering.
 Use localized interpolation and keep placeholders documented by meaning.
+
+```swift
+Text("Completed \(completedCount) of \(totalCount) tasks")
+```
+
+A string catalog stores this as one translatable message with placeholders. The
+translator can reorder the values and provide language-specific grammar. Joining
+separately localized words with `+` would prevent that control.
 
 Do not use localized visible text as an internal identifier, analytics key, route, or
 persistence value. Stable code values and localized presentation serve different roles.
@@ -72,6 +84,15 @@ Test mixed-direction strings containing names, numbers, URLs, and punctuation. M
 character reversal is never the solution; rely on Unicode bidirectional behavior and
 localization tools.
 
+Read `layoutDirection` only for custom behavior that cannot use leading and trailing:
+
+```swift
+@Environment(\.layoutDirection) private var layoutDirection
+```
+
+Do not branch an entire screen merely because direction changed. Standard stacks,
+alignments, controls, and directional symbols already adapt when used semantically.
+
 Gestures and navigation should follow platform convention. A custom directional drag
 needs validation in RTL rather than assuming the LTR sign of a translation.
 
@@ -80,6 +101,16 @@ needs validation in RTL rather than assuming the LTR sign of a translation.
 Read `accessibilityReduceMotion`. Replace large spatial movement, zoom, parallax, or
 repeated motion with opacity, a smaller effect, or immediate change. Preserve information,
 focus, completion feedback, and state hierarchy.
+
+```swift
+@Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+var transition: AnyTransition {
+    reduceMotion ? .opacity : .move(edge: .trailing).combined(with: .opacity)
+}
+```
+
+The feature still inserts and removes the same content. Only the presentation changes.
 
 Reduced motion does not always mean no animation. A short fade may improve continuity.
 Avoid motion required to discover an action or understand a result.
@@ -113,6 +144,8 @@ by locale without logging user content.
 - Locale-sensitive display formatting differs from stable data interchange.
 - Reduced Motion is an environment preference and can change presentation behavior.
 - Directional behavior must be tested for custom gestures and visuals.
+- Layout direction, locale, and motion preferences are environment values that can
+  change presentation while the feature remains alive.
 
 ## Engineering Decisions
 

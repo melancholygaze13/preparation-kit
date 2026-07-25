@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: high
-estimated_read_minutes: 5
+estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - animatable
   - matched-geometry
@@ -24,9 +24,10 @@ tags:
 
 ## Mental Model
 
-Custom animation requires a numeric representation SwiftUI can interpolate between
-old and new values. Matched geometry instead connects the frames and visual properties
-of separate view instances that represent one semantic element across a structural change.
+**Animatable data** is a value supporting vector arithmetic that SwiftUI can
+interpolate between old and new animation endpoints. **Matched geometry** relates the
+frames and selected visual properties of separate views that represent one semantic
+element across a structural change.
 
 Neither mechanism owns product state. State selects the source and destination;
 animation describes presentation between them.
@@ -55,6 +56,31 @@ cheap, and avoid side effects. Clamp or normalize inputs according to the shape'
 Discrete values such as Booleans, IDs, and modes should not be forced into numeric
 interpolation. Use them to choose state or phases and animate the continuous properties.
 
+The macro was introduced with SwiftUI in the 2025 platform releases. On earlier
+deployment targets, conform to `Animatable` and implement `animatableData` manually.
+Manual conformance also remains useful when interpolation requires clamping,
+normalization, or a derived representation.
+
+```swift
+struct LegacyProgressRing: Shape {
+    var progress: Double
+
+    var animatableData: Double {
+        get { progress }
+        set { progress = newValue }
+    }
+
+    func path(in rect: CGRect) -> Path {
+        Path { path in
+            path.addEllipse(in: rect.insetBy(dx: progress, dy: progress))
+        }
+    }
+}
+```
+
+SwiftUI writes intermediate `animatableData` values during the animation and asks the
+shape for a new path. The example makes the inset visibly change with `progress`.
+
 ### Multiple Values
 
 When several properties animate, each must be represented. The macro reduces manual
@@ -80,6 +106,21 @@ Thumbnail(item: item)
 The views must coexist in a hierarchy arrangement where SwiftUI can coordinate the
 transition. IDs must be unique within the namespace, and source designation must not
 be ambiguous.
+
+A complete source and destination use the same namespace and ID on different branches:
+
+```swift
+if isExpanded {
+    LargeArtwork(item: item)
+        .matchedGeometryEffect(id: item.id, in: artworkNamespace)
+} else {
+    Thumbnail(item: item)
+        .matchedGeometryEffect(id: item.id, in: artworkNamespace)
+}
+```
+
+Change `isExpanded` inside an animated transaction. When both views overlap, use
+`isSource` deliberately if SwiftUI cannot infer one clear source.
 
 Matched geometry does not move one actual view between parents. Two view descriptions
 represent the same semantic element and SwiftUI creates the visual relationship.
@@ -121,6 +162,8 @@ shows benefit.
 - Matched geometry requires stable IDs and namespace-scoped uniqueness.
 - Matched visuals do not merge view identity, task lifetime, or model ownership.
 - Correct navigation and accessibility cannot depend on the animation being available.
+- The `@Animatable` macro synthesizes conformance from eligible stored properties; it
+  does not make discrete values continuously interpolatable.
 
 ## Engineering Decisions
 
@@ -139,3 +182,4 @@ shows benefit.
 - [`matchedGeometryEffect`](https://developer.apple.com/documentation/swiftui/view/matchedgeometryeffect%28id%3Ain%3Aproperties%3Aanchor%3Aissource%3A%29)
 - [Explore SwiftUI animation](https://developer.apple.com/videos/play/wwdc2023/10156/)
 - [Wind your way through advanced animations in SwiftUI](https://developer.apple.com/videos/play/wwdc2023/10157/)
+- [What’s new in SwiftUI](https://developer.apple.com/videos/play/wwdc2025/256/)

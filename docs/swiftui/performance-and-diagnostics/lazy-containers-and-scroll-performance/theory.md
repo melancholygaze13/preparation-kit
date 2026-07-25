@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 8
+estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - lazy-containers
   - scrolling
@@ -24,9 +24,13 @@ tags:
 
 ## Mental Model
 
-Lazy containers defer creating child descriptions until needed near the visible
-region. They reduce eager work for large data, but do not make expensive rows, unstable
-identity, oversized images, or unbounded tasks cheap.
+A **lazy container** asks for child descriptions near the visible region instead of
+building all children eagerly. **Scroll performance** describes how quickly content
+appears and how smoothly it moves while the user scrolls.
+
+Lazy containers reduce eager work for large data. They do not make expensive rows,
+unstable identity, oversized images, or unbounded tasks cheap. They also do not
+promise an exact distance for creating or releasing offscreen children.
 
 Smooth scrolling is a frame-budget problem. Each frame competes for main-actor work,
 layout, display preparation, image decoding, rendering, and memory bandwidth.
@@ -42,6 +46,22 @@ management match the product.
 
 Lazy is not always faster. It adds deferred measurement and lifetime behavior. For a
 short settings screen, an eager stack can be simpler and entirely adequate.
+
+The common declarations are straightforward:
+
+```swift
+ScrollView {
+    LazyVStack(spacing: 12) {
+        ForEach(items) { item in
+            ItemRow(item: item)
+        }
+    }
+}
+```
+
+`List(items)` provides a more platform-defined list experience. A `ScrollView` with
+a lazy stack gives more layout control. Neither choice removes the need for stable
+IDs or cheap content.
 
 ### Stable Collection Identity
 
@@ -163,6 +183,11 @@ justifies nesting, then test focus and accessibility navigation as well as touch
 Tasks, observers, and streams need explicit lifetime ownership. A row-local `.task`
 fits row-only data. A list-wide live feed belongs to the list model or repository.
 
+Row-local `@State` is suitable for temporary presentation state that should follow
+that row's identity. It is not a durable store for downloaded data or edits that must
+survive removal, filtering, navigation, or process termination. Move durable values
+to the feature model or persistence layer, based on the required lifetime.
+
 ### Diagnosis
 
 Profile release-like builds with realistic item counts, long localized text, dynamic
@@ -177,6 +202,11 @@ type, real images, rapid scrolling, pagination, and updates. Correlate hitches w
 Change one suspected cause and repeat the same gesture. Simulator results can help
 functional diagnosis but do not replace device performance evidence.
 
+Use the SwiftUI Instruments template to connect long view updates to their causes.
+Use Time Profiler for synchronous CPU work and the hangs or hitches instruments for
+missed responsiveness deadlines. Allocation evidence helps distinguish temporary
+image peaks from retained growth. One tool rarely explains every stage.
+
 ## Constraints and Guarantees
 
 - Lazy containers defer work but do not guarantee a precise creation or destruction distance.
@@ -184,6 +214,8 @@ functional diagnosis but do not replace device performance evidence.
 - Row appearance can occur repeatedly and is not an exactly-once pagination event.
 - Main-actor, layout, rendering, and memory costs can independently cause scroll hitches.
 - Fixed row dimensions can improve predictability only when content and accessibility allow them.
+- Lazy creation is not virtualization API documentation. Do not depend on a fixed
+  reuse pool, preload distance, or destruction time.
 
 ## Engineering Decisions
 

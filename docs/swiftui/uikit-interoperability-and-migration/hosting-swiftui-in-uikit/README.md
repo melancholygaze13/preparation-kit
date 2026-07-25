@@ -5,16 +5,16 @@ topic: "UIKit Interoperability and Migration"
 page_type: concept-index
 levels: [senior, staff, principal]
 interview_priority: situational
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-29
+last_reviewed: 2026-07-25
 ---
 
 # Hosting SwiftUI in UIKit
 
-> Hosting SwiftUI in UIKit lets an existing UIKit flow adopt SwiftUI at a screen,
-> child view, or cell boundary. UIKit owns containment and lifecycle; SwiftUI
-> owns declarative rendering inside the hosted root view.
+> Hosting means placing SwiftUI content inside a UIKit-owned flow.
+> `UIHostingController` hosts a SwiftUI root as a view controller.
+> `UIHostingConfiguration` hosts SwiftUI content in modern reusable cells.
 
 ## Quick Recall
 
@@ -28,6 +28,10 @@ last_reviewed: 2026-06-29
   move, and remove the hosting controller correctly.
 - Avoid hiding navigation or side effects inside the hosted view when UIKit still
   owns the surrounding flow.
+
+UIKit owns containment and the surrounding lifecycle. SwiftUI owns declarative
+rendering inside the root. Choose one owner for shared state and navigation before
+adding the boundary.
 
 ## Study
 

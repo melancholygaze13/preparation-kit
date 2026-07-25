@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - localization
   - right-to-left
@@ -47,6 +47,9 @@ I use format styles for locale-sensitive values and keep stable identifiers sepa
 from localized presentation. Accessibility labels, errors, and actions are localized
 along with visible content.
 
+One string-catalog message lets translators reorder placeholders and apply correct
+grammar. Concatenated fragments fix an order that may exist only in the source language.
+
 <a id="q2-how-do-you-support-right-to-left-layout"></a>
 ## Q2: How do you support right-to-left layout?
 
@@ -61,6 +64,9 @@ media controls only when deliberate.
 I test mixed-direction text, navigation, custom gestures, alignment, forms, and
 VoiceOver. Device or language checks do not replace using the current layout direction.
 
+I use leading and trailing by default. I read `layoutDirection` only for custom
+directional behavior that standard layout cannot express.
+
 <a id="q3-what-should-reduce-motion-change"></a>
 ## Q3: What should Reduce Motion change?
 
@@ -74,3 +80,6 @@ smaller effect, fade, or immediate change while preserving meaning and completio
 The feature state and business timing remain independent from animation. Motion is
 never the only signal, and focus and accessibility order remain correct in both paths.
 Reduced motion can retain a short useful fade rather than disabling every transition.
+
+The model changes in the same way for both paths. Reduced Motion changes presentation,
+so correctness and async timing never depend on a spatial animation completing.

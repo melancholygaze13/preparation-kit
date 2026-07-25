@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: high
-estimated_read_minutes: 6
+estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - accessibility-tree
   - voiceover
@@ -24,7 +24,11 @@ tags:
 
 ## Mental Model
 
-Assistive technologies consume a semantic accessibility tree derived from the view
+The **accessibility tree** is a semantic hierarchy that assistive technologies use.
+An accessibility **label** names an element. An accessibility **action** describes an
+operation the user can invoke without reproducing its original touch gesture.
+
+Assistive technologies consume this tree, which SwiftUI derives from the view
 hierarchy. The tree should communicate what an element is, its current value and
 state, and what actions are available. It need not expose every decorative subview.
 
@@ -80,6 +84,18 @@ increment/decrement values. Route them through the same model methods as touch i
 Do not hide destructive behavior behind a generic action name. Preserve confirmation,
 authorization, disabled state, and error handling across every input path.
 
+```swift
+MessageRow(message: message)
+    .accessibilityElement(children: .combine)
+    .accessibilityAction(named: "Mark as read") {
+        model.markRead(message.id)
+    }
+```
+
+Combining is correct only when the row should be one focus stop. If the row contains
+independent buttons, keep those controls separate or use containment. The named action
+must call the same model policy as a menu or swipe action.
+
 ### Dynamic Updates and Focus
 
 Frequent value updates can overwhelm speech. Announce only changes that require timely
@@ -108,6 +124,11 @@ interaction sequence. Test empty, loading, error, disabled, and changing states.
 Automated tests can assert labels, identifiers, actions, and critical flows. They do
 not replace listening to the spoken order on supported devices.
 
+Test the accessibility tree as a user flow. Start before the element, reach it in a
+logical order, understand its label and value, perform each action, hear the result,
+and recover from an error. A technically present label can still be confusing in
+sequence.
+
 ## Constraints and Guarantees
 
 - SwiftUI derives accessibility semantics from standard views and modifiers.
@@ -115,6 +136,8 @@ not replace listening to the spoken order on supported devices.
 - Hidden decorative content should not create focus stops.
 - Stable input labels should not depend on rapidly changing visible values.
 - Assistive technologies and platform behavior vary, so device testing remains necessary.
+- Accessibility identifiers support automation. They are not spoken labels and do not
+  replace user-facing semantics.
 
 ## Engineering Decisions
 

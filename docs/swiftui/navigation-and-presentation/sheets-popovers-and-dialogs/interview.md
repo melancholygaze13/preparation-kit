@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - sheets
   - popovers
@@ -50,7 +50,8 @@ optional enum route models those legal states better than several Booleans.
 
 I decide how selection changes behave while the sheet is visible. Replacing the
 item, deferring the new request, and requiring dismissal are different product
-semantics.
+behaviors. SwiftUI's item form dismisses and replaces the sheet when the item's
+identity changes.
 
 ### Example
 
@@ -99,6 +100,10 @@ action and provide a cancel path where appropriate.
 Neither component should contain a complex workflow. If the user must review data,
 enter text, or make several decisions, I use a dedicated screen or sheet.
 
+A popover is different again: it provides contextual content anchored to a source.
+It commonly adapts to a sheet in compact width, so the workflow must not depend on an
+arrow or a fixed popover size.
+
 <a id="q4-how-would-you-make-an-async-editing-sheet-reliable"></a>
 ## Q4: How would you make an async editing sheet reliable?
 
@@ -118,6 +123,9 @@ because the sheet disappears. The UI shows progress and a retryable error.
 I do not use `onDisappear` as proof of save. On success, the model commits, the
 presenter receives the result, and then presentation state clears. On cancellation,
 the draft is discarded only according to the product's policy.
+
+If the sheet dismisses itself, it reads `@Environment(\.dismiss)` inside the
+presented content. The presenter still owns the item or Boolean and any durable result.
 
 ### Trade-offs
 

@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 7
+estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - deep-links
   - state-restoration
@@ -49,6 +49,10 @@ The URL parser is an adapter, not a view router. Notifications, activities, and 
 can all produce the same `AppRoute`. A coordinator decides the selected tab,
 columns, modal, and path in one state transition.
 
+For URLs, a scene can receive the value through `onOpenURL`. That handler forwards it
+to the same parser used by other transports. SwiftUI may choose the receiving scene,
+so a multiwindow app defines whether to reuse it or activate another scene.
+
 I treat inputs as untrusted and constrain every field. If authentication is needed,
 I retain the typed route, complete sign-in, then revalidate it. I avoid delayed
 simulated taps because they race lifecycle and rendering.
@@ -77,6 +81,10 @@ must never prevent launch.
 
 For multiple windows, each scene owns separate restoration state. I also verify the
 restored identifiers belong to the active account or tenant.
+
+`SceneStorage` can hold small, nonsensitive per-scene values, but the system does not
+guarantee when it persists them. For a versioned route snapshot, I use explicit
+encoding and storage with defensive decoding.
 
 ### Trade-offs
 

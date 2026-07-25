@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - observation
   - invalidation
@@ -25,10 +25,11 @@ tags:
 
 ## Quick Recall
 
-- Parent-produced view values and dynamic properties both create dependencies.
+- View inputs, state, environment values, and observable properties can be
+  dependencies.
 - `@Observable` tracks properties read from specific instances during `body`.
 - A computed property is tracked through the observable properties it reads.
-- Narrow inputs and extracted views reduce unnecessary update scope.
+- Narrow inputs and focused subviews can reduce unnecessary update work.
 - Observation reports changes; it does not provide actor isolation or thread safety.
 
 ## Study

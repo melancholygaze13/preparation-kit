@@ -7,16 +7,16 @@ levels:
   - senior
   - staff
 interview_priority: high
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 ---
 
 # UI and Accessibility Testing
 
-> UI tests prove a few critical user journeys through the accessibility tree.
-> Accessibility audits broaden coverage, but manual assistive-technology testing
-> remains necessary.
+> A UI test drives the built app as a user process. Accessibility testing checks the
+> semantic interface and alternate interaction paths. Use XCTest for automation;
+> Swift Testing does not support UI tests.
 
 ## Quick Recall
 
@@ -25,6 +25,10 @@ last_reviewed: 2026-06-23
 - Use launch arguments and environment values to create deterministic app state.
 - Treat accessibility identifiers as automation hooks, not user-facing labels.
 - Combine automated audits with VoiceOver, Dynamic Type, contrast, and motion checks.
+
+UI tests prove framework wiring and a few critical journeys. They are slower and less
+precise than model tests. Accessibility audits find supported technical issues, but
+manual assistive-technology use is still required to judge meaning and workflow.
 
 ## Study
 

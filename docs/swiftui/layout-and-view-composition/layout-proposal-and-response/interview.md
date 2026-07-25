@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 5
+estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - layout
   - size-proposal
@@ -50,6 +50,11 @@ unspecified. An unspecified dimension asks for ideal behavior; it is not unlimit
 space. Text might wrap under a finite width and return a larger height, while a
 shape or image can respond differently.
 
+`ProposedViewSize` represents an unspecified dimension with `nil`. Custom layouts
+can also use zero, infinity, and unspecified proposals to ask subviews about their
+minimum, maximum, and ideal sizes. Those probes are measurement questions, not
+absolute commands.
+
 Modifiers participate as wrapper views. Padding, frames, backgrounds, and other
 modifiers can transform proposals, responses, placement, or drawing. I avoid side
 effects in layout code because measurement count and order are not application
@@ -80,6 +85,10 @@ it is not automatically the right fix.
 I first decide the desired policy: wrapping, compression, scrolling, adaptive
 composition, or deliberate clipping. For user-facing text, I test long localization
 and Dynamic Type before accepting a fixed frame.
+
+I also separate layout bounds from drawing. An offset, shadow, or transform can
+draw outside the allocated rectangle without moving siblings. If sibling positions
+must change, the fix belongs in layout rather than a visual transform.
 
 ### Example
 

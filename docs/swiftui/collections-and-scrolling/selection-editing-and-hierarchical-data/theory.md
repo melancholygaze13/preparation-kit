@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: high
-estimated_read_minutes: 6
+estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - selection
   - editing
@@ -23,6 +23,10 @@ tags:
 [Concept overview](README.md) · [Interview questions](interview.md)
 
 ## Mental Model
+
+**Selection** records which items the user chose. **Editing** inserts, deletes, moves,
+or changes collection items. **Hierarchical data** arranges items as a tree of parents
+and children rather than one flat sequence.
 
 Collection interaction is state over stable IDs. Single selection is usually an
 optional ID; multiple selection is a set of IDs; expansion is a set of node IDs.
@@ -48,6 +52,18 @@ List(projects, selection: $selectedID) { project in
 A set supports multiple selection where platform and product semantics allow it.
 Selection state belongs to the flow that coordinates detail, commands, or navigation,
 not necessarily the row.
+
+```swift
+@State private var selectedIDs: Set<Project.ID> = []
+
+List(projects, selection: $selectedIDs) { project in
+    Text(project.name)
+}
+```
+
+The exact interaction for multiple selection depends on platform, edit mode, keyboard,
+and pointing-device support. Test the supported environments instead of assuming one
+gesture works everywhere.
 
 When selected data is deleted, filtered, becomes unauthorized, or moves under a
 different parent, validate the selection. Choose a nearby item, clear it, or show an
@@ -98,6 +114,25 @@ load children on demand and cache according to ownership and freshness policy.
 Avoid recursively flattening a large tree during every `body` evaluation. Compute the
 visible projection when tree or expansion inputs change, preserving node identity.
 
+For data whose children use the same node type, `OutlineGroup` can create the repeated
+hierarchy:
+
+```swift
+struct Folder: Identifiable {
+    let id: UUID
+    var name: String
+    var children: [Folder]?
+}
+
+OutlineGroup(folders, children: \.children) { folder in
+    Label(folder.name, systemImage: "folder")
+}
+```
+
+Here, `nil` means the value has no supplied child collection. A production model may
+need an explicit enum to distinguish a true leaf from children that are not loaded,
+currently loading, or failed.
+
 ### Navigation and Multicolumn Flows
 
 In a split view, sidebar selection scopes content selection, which scopes detail.
@@ -133,6 +168,8 @@ feedback for long operations. Profile expansion and collapse with realistic dept
 - Platform editing and multiple-selection behavior varies with environment and input device.
 - Hierarchical IDs must be unique within the rendered tree.
 - Expansion, navigation, and domain ownership are application policies, not inferred automatically.
+- An index is valid only for the collection snapshot that produced it. Swift does not
+  preserve its meaning after mutation.
 
 ## Engineering Decisions
 

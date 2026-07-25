@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - accessibility-tree
   - voiceover
@@ -47,6 +47,9 @@ I preserve stable identity and logical focus order. Actions such as favorite or 
 remain named and use the same feature operations as touch input. I test changing,
 disabled, error, and large-text states with VoiceOver.
 
+I combine children only when the row is one semantic element. Independent controls
+remain separate so each action has its own label, role, value, and disabled state.
+
 <a id="q2-how-do-you-expose-gesture-actions"></a>
 ## Q2: How do you expose gesture actions?
 
@@ -74,3 +77,6 @@ Voice Control, Switch Control, hardware keyboard, large text, contrast, and moti
 Inspector findings are a starting point. I listen to order, labels, values, actions,
 focus after updates and modals, and recovery from errors on representative devices.
 Automated tests protect critical labels and flows but cannot judge spoken usability alone.
+
+Accessibility identifiers help tests find elements, but they are not user-facing
+labels. I verify the actual spoken output and interaction order on supported devices.

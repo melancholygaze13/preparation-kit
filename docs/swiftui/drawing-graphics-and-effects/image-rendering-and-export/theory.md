@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: situational
-estimated_read_minutes: 3
+estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - image-renderer
   - export
@@ -24,6 +24,10 @@ tags:
 
 ## Mental Model
 
+**Image rendering** converts a SwiftUI view description into a bitmap or draws it into
+a graphics context. **Export** encodes and delivers that output beyond the current
+interface, often through a file, share sheet, print workflow, or service.
+
 Rendering is a separate presentation of data, not a screenshot side effect. Build an
 export view with explicit inputs, ask `ImageRenderer` to lay it out at a defined point
 size, and choose how those points map to output pixels or a graphics context.
@@ -33,6 +37,10 @@ size, and choose how those points map to output pixels or a graphics context.
 `ImageRenderer` is main-actor isolated and takes SwiftUI content. Its important inputs
 are `proposedSize`, `scale`, `isOpaque`, `colorMode`, and, on current platforms, allowed
 dynamic range. It can return a `CGImage` or platform image when rendering succeeds.
+
+`ImageRenderer` is available from the 2022 platform releases, including iOS 16 and
+macOS 13. Older deployments need a platform-specific rendering path. Availability does
+not guarantee that every hosted platform view can render offscreen.
 
 ```swift
 let renderer = ImageRenderer(
@@ -70,6 +78,10 @@ function that draws into a `CGContext`. A PDF exporter creates a PDF context, be
 page with the intended media box, invokes that drawing function, and closes the page and
 document. Some effects or embedded content may still rasterize, so test the resulting
 PDF rather than promising vector output.
+
+PDF is a graphics-context destination, not a promise that every SwiftUI operation stays
+vector-based. Inspect page dimensions, selectable-text expectations, image resolution,
+color, and import behavior in the actual destination tools.
 
 SwiftUI views backed by external platform views or services may not render like native
 SwiftUI content. Maps, web or media content, asynchronous images, and protected surfaces

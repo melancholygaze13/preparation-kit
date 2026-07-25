@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - unidirectional-data-flow
   - state-transitions
@@ -50,6 +50,9 @@ this with `@State`, bindings, and an observable model; no external store is requ
 I use semantic events such as submit or retry. The owner preserves invariants,
 handles cancellation, and prevents stale async results from committing. Views stay
 focused on rendering and interaction.
+
+The benefit is traceability. The cost is extra event and effect plumbing, so I keep
+local presentation state local and scale the pattern with feature complexity.
 
 <a id="q2-do-bindings-violate-one-way-data-flow"></a>
 ## Q2: Do bindings violate one-way data flow?

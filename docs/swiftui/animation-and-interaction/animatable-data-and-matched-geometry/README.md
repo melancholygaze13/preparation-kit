@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: high
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - animatable
   - matched-geometry
@@ -19,8 +19,9 @@ tags:
 
 # Animatable Data and Matched Geometry
 
-> Animatable data exposes the numeric values SwiftUI interpolates. Matched geometry
-> visually connects different view instances that represent the same semantic element.
+> Animatable data is the continuous value SwiftUI interpolates between animation
+> endpoints. Matched geometry connects the position and size of separate views that
+> represent one semantic element across a structural change.
 
 ## Quick Recall
 
@@ -29,6 +30,10 @@ tags:
 - Mark non-animating stored values with `@AnimatableIgnored` when needed.
 - Matched IDs must be stable and unique within the namespace.
 - Matched geometry coordinates visuals; application state still owns the transition.
+
+The `@Animatable` macro is a 2025 SwiftUI addition. Earlier deployment targets or
+custom interpolation logic use a manual `animatableData` conformance. Matched geometry
+does not preserve view-local state, tasks, or accessibility lifetime.
 
 ## Study
 

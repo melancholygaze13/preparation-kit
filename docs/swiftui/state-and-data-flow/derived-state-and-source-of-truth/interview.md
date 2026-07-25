@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 5
+estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - derived-state
   - source-of-truth
@@ -48,6 +48,11 @@ fact or a measured cache with a complete invalidation contract.
 Duplicating a projection creates two representations that can disagree. A computed
 property always reflects its current inputs, and Observation tracks observable
 stored properties read through that computation.
+
+“Derived state” does not imply stored state. A local expression or computed
+property is often enough. If the calculation is expensive, I preserve one
+authority for the inputs and treat any stored result as a cache, not a competing
+truth.
 
 I keep cheap presentation derivation near the view and reusable domain rules in the
 model. I do not use `onChange` to synchronize routine copies. If several source
@@ -100,6 +105,11 @@ safer.
 Caching exchanges CPU time for memory and stale-data risk. Inputs can include the
 source collection, query, sort order, permissions, locale, or feature configuration.
 Missing any one creates incorrect UI.
+
+For asynchronous derivation, invalidation also includes request ordering. I tag a
+result with its query or generation and refuse to publish it if the source has
+changed while the work was running. Cancellation helps, but it is cooperative and
+is not enough by itself.
 
 I avoid copying a model-derived collection into view `@State`; that gives the view
 a second source of truth. For high-volume search, the model can debounce input,

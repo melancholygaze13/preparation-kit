@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: situational
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - app-lifecycle
   - scenes
@@ -19,9 +19,9 @@ tags:
 
 # App, Scene, and Window Lifecycle
 
-> The app process can host several independent scenes. Put durable shared state above
-> scenes, scene-specific navigation and selection inside each scene, and treat lifecycle
-> notifications as opportunities to synchronize rather than guaranteed shutdown hooks.
+> `App` is the SwiftUI entry point. A scene declares a system-managed UI instance,
+> and a window is one visible scene presentation. One process can host several scenes
+> and windows with independent navigation and selection.
 
 ## Quick Recall
 
@@ -31,6 +31,10 @@ tags:
 - `scenePhase` reports `.active`, `.inactive`, or `.background` for lifecycle reactions.
 - Persist important changes continuously because background or termination callbacks
   are not guaranteed.
+
+Put durable shared data above scenes and keep presentation state inside each scene.
+Treat lifecycle changes as chances to pause or synchronize. They are not guaranteed
+shutdown hooks and must not be the only time user work is saved.
 
 ## Study
 

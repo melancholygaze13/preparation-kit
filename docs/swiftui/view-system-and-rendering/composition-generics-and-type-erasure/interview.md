@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - generics
   - opaque-types
@@ -66,9 +66,10 @@ on whether runtime type variation is a real requirement.
 
 ### Short Answer
 
-I make the container generic over `Content: View`, accept content through an
-`@ViewBuilder` initializer, and store the built `Content` value. This gives callers
-natural trailing-closure syntax while preserving the concrete child type.
+I make the container generic over `Content: View`, accept content through a result
+builder, and store the built `Content` value. This gives callers natural
+trailing-closure syntax while preserving the concrete child type. Xcode 27 calls
+the unified builder `ContentBuilder`; older SDKs expose `ViewBuilder`.
 
 ### Expanded Answer
 
@@ -76,7 +77,7 @@ natural trailing-closure syntax while preserving the concrete child type.
 struct Panel<Content: View>: View {
     let content: Content
 
-    init(@ViewBuilder content: () -> Content) {
+    init(@ContentBuilder content: () -> Content) {
         self.content = content()
     }
 
@@ -99,14 +100,15 @@ accessibility behavior, availability, and whether callers control spacing or sty
 
 ### Short Answer
 
-Put the conditional inside a `@ViewBuilder` context, such as `body`, a builder
-property, or a builder function. The builder encodes the branches into one composite
-concrete type, preserving their structural identity without runtime erasure.
+Put the conditional inside a result-builder context, such as `body`, a builder
+property, or a builder function. The builder encodes the branches into one
+composite concrete type. It preserves their structural identity without runtime
+erasure.
 
 ### Expanded Answer
 
 ```swift
-@ViewBuilder
+@ContentBuilder
 func screen(for state: AppState) -> some View {
     switch state {
     case .signedOut:

@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 8
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - generics
   - opaque-types
@@ -24,6 +24,10 @@ tags:
 
 ## Mental Model
 
+*Composition* builds a larger view from smaller views. A *generic* uses a type
+placeholder that becomes a concrete type at the call site. *Type erasure* wraps a
+value and hides its concrete type at runtime.
+
 SwiftUI's view hierarchy is also a nested generic type. Preserving that type gives
 the compiler and framework structural information. Choose the least dynamic
 abstraction that satisfies the API:
@@ -32,7 +36,7 @@ abstraction that satisfies the API:
 flowchart LR
     Known["Known relationship"] --> Generic["Generic View"]
     Hidden["Hidden implementation"] --> Opaque["some View"]
-    ControlFlow["Builder control flow"] --> Builder["@ViewBuilder composite"]
+    ControlFlow["Builder control flow"] --> Builder["ContentBuilder composite"]
     Runtime["Runtime-varying type"] --> Erasure["AnyView, used deliberately"]
 ```
 
@@ -69,7 +73,7 @@ A reusable container can accept any concrete child view without erasing it:
 struct Card<Content: View>: View {
     let content: Content
 
-    init(@ViewBuilder content: () -> Content) {
+    init(@ContentBuilder content: () -> Content) {
         self.content = content()
     }
 
@@ -116,13 +120,15 @@ share one underlying type. `some View` does not mean “any conforming type can 
 returned at runtime.” That behavior belongs to type erasure or another explicit
 runtime abstraction.
 
-### View Builders
+### Content Builders
 
-`@ViewBuilder` is a result builder that transforms supported child expressions and
-control flow into a single composite type:
+Xcode 27 unifies SwiftUI's result builders under `@ContentBuilder`. Earlier SDKs
+expose the view-specific name `@ViewBuilder`, which remains source-compatible.
+This page uses the current name. The builder transforms supported child
+expressions and control flow into a single composite type:
 
 ```swift
-@ViewBuilder
+@ContentBuilder
 func destination(for route: Route) -> some View {
     switch route {
     case .profile:
@@ -139,9 +145,8 @@ for each branch. Builders are useful for child-producing parameters and compact
 presentation logic. They should not hide business decisions or replace a named
 component whose boundary matters.
 
-Builder capabilities depend on the builder and SDK. Do not assume every builder
-supports the same expressions as `ViewBuilder`, and rely on compiler diagnostics
-rather than the generated underscored type names.
+Builder capabilities depend on the SDK and context. Rely on compiler diagnostics
+rather than generated underscored type names.
 
 ### Group Is Structural, Not Layout
 
@@ -163,18 +168,26 @@ requires spacing, background geometry, clipping, or one accessibility element.
 
 ### AnyView Erases the Concrete Type
 
-`AnyView` wraps a view while hiding its concrete type:
+`AnyView` wraps a view while hiding its concrete type. This makes mixed-type
+storage possible:
 
 ```swift
-let content: AnyView
+let storedViews: [AnyView] = [
+    AnyView(Text("Ready")),
+    AnyView(Image(systemName: "checkmark.circle"))
+]
 ```
 
 This permits one storage location or API to hold different view types at runtime.
 The flexibility has semantic cost. Apple documents that when the wrapped view type
 changes, SwiftUI destroys the old hierarchy and creates a new one. Erasure also
-hides structure that helps identity, diagnostics, and optimization. In large
-dynamic lists, broad erasure can force more content construction and worsen update
-performance.
+hides structure that helps identity, diagnostics, and optimization.
+
+In a `ForEach` inside `List` or `Table`, broad erasure can prevent the container
+from determining its row count cheaply and make it build more content up front.
+Outside such hot paths, Apple advises avoiding erasure when the alternative is
+simple, then profiling instead of distorting an architecture around hypothetical
+overhead.
 
 Avoid solving ordinary branch errors by wrapping each branch in `AnyView`. A
 builder, generic container, enum-driven component, or `Group` usually preserves
@@ -210,8 +223,8 @@ or persistence, not view values that capture transient environment and state.
 | Need | Prefer |
 |---|---|
 | Hide a view implementation's return type | `some View` |
-| Accept reusable child content | Generic `Content: View` with `@ViewBuilder` input |
-| Express conditional presentation | `@ViewBuilder` with `if` or `switch` |
+| Accept reusable child content | Generic `Content: View` with `@ContentBuilder` input |
+| Express conditional presentation | `@ContentBuilder` with `if` or `switch` |
 | Apply one modifier to several children | `Group` when no layout box is needed |
 | Store a closed set of screen kinds | Domain enum plus builder switch |
 | Store open-ended runtime view types | Narrow `AnyView` boundary |
@@ -234,12 +247,19 @@ whether the component evaluates or stores supplied content. At Staff and Princip
 scope, establish a small set of composition patterns so teams do not alternate
 between over-generic APIs and application-wide `AnyView` registries.
 
+When reviewing a component, inspect its call sites as well as its declaration. A type
+that is elegant in isolation can still produce unclear ownership, difficult compiler
+errors, or unnecessary erasure for every consumer.
+
 ## References
 
 - [`View`](https://developer.apple.com/documentation/swiftui/view)
 - [`ViewBuilder`](https://developer.apple.com/documentation/swiftui/viewbuilder)
+- [`ContentBuilder`](https://developer.apple.com/documentation/swiftui/contentbuilder)
+- [TN3211: Resolving SwiftUI source incompatibilities for State and ContentBuilder](https://developer.apple.com/documentation/technotes/tn3211-resolving-swiftui-source-incompatibilities-for-state-and-contentbuilder)
 - [`Group`](https://developer.apple.com/documentation/swiftui/group)
 - [`AnyView`](https://developer.apple.com/documentation/swiftui/anyview)
 - [Demystify SwiftUI](https://developer.apple.com/videos/play/wwdc2021/10022/)
+- [Power and Performance Group Lab](https://developer.apple.com/videos/play/wwdc2026/8003/)
 - [Opaque and boxed protocol types](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/opaquetypes/)
 - [Generics](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/generics/)

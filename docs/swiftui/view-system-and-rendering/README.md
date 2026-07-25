@@ -4,7 +4,7 @@ domain: "SwiftUI"
 page_type: topic-index
 interview_priority: core
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 ---
 
 # View System and Rendering
@@ -17,7 +17,7 @@ last_reviewed: 2026-06-23
 - **Role-specific depth:** Emphasize composition and type-erasure boundaries for
   design-system, UI-platform, or framework-heavy roles.
 
-## Learning Path
+## Preparation Paths
 
 1. [Declarative View Descriptions](declarative-view-descriptions/README.md)
 2. [View Identity and Lifetime](view-identity-and-lifetime/README.md)
@@ -28,7 +28,7 @@ last_reviewed: 2026-06-23
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [Declarative View Descriptions](declarative-view-descriptions/README.md) | Establishes what a SwiftUI view value represents. | Core | 13 min |
+| [Declarative View Descriptions](declarative-view-descriptions/README.md) | Establishes what a SwiftUI view value represents. | Core | 15 min |
 | [View Identity and Lifetime](view-identity-and-lifetime/README.md) | Connects identity to retained state and lifecycle. | Core | 14 min |
 | [Dependency Tracking and Update Propagation](dependency-tracking-and-update-propagation/README.md) | Explains what invalidates a view and propagates updates. | Core | 14 min |
 | [Composition, Generics, and Type Erasure](composition-generics-and-type-erasure/README.md) | Frames composition choices and abstraction costs. | Core | 14 min |

@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 8
+estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - expensive-work
   - caching
@@ -24,11 +24,18 @@ tags:
 
 ## Mental Model
 
+**Expensive work** is work whose CPU, memory, I/O, network, or energy cost can delay
+an interaction. **Caching** stores a previous result so the app can reuse it instead
+of repeating that work.
+
 Place work where its inputs change, not where its output happens to be displayed.
 View evaluation should read already prepared state and perform small pure composition.
 
 A cache trades memory and invalidation complexity for avoided work. It needs an owner,
 key, freshness rule, capacity, concurrency policy, and observability.
+
+Caching is not the first answer to all repeated computation. A small pure calculation
+may be cheaper than a lookup, synchronization, storage, and invalidation policy.
 
 ## How It Works
 
@@ -143,6 +150,11 @@ Use placeholders with stable layout to avoid repeated layout shifts. Cancel row-
 requests when identity disappears, while allowing a shared pipeline to continue work
 that other consumers still need.
 
+Keep the distinction between encoded and decoded data clear. JPEG or HEIF bytes may
+be small on disk, while the decoded pixel buffer is much larger. Cache cost should
+represent the decoded form when that is what remains in memory. A correctly sized
+thumbnail also reduces the pixel work sent through later rendering stages.
+
 ### Prefetching
 
 Prefetch only when traces show latency the user will reach and the cost is bounded.
@@ -174,6 +186,16 @@ memory eviction, concurrent misses, cancellation, and corrupted persisted cache 
 Benchmark cold miss, warm hit, and concurrent miss separately. A cache can improve
 average latency while making cold paths slower through serialization or disk lookup.
 Tail latency and contention matter for user-visible work.
+
+For each cached result, be able to answer four questions:
+
+1. Which source is authoritative after a miss or eviction?
+2. Which inputs form the key?
+3. Which event or age makes the result stale?
+4. Which owner releases or evicts the value?
+
+If an answer is missing, the cache design is incomplete. Add measurement around the
+boundary so a cache can be removed when its complexity no longer earns its cost.
 
 ## Constraints and Guarantees
 

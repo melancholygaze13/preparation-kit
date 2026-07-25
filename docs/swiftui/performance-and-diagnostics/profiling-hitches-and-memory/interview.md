@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: core
-estimated_read_minutes: 7
+estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-06-23
+last_reviewed: 2026-07-25
 tags:
   - instruments
   - hitches
@@ -50,6 +50,10 @@ allocation, and rendering when CPU alone does not explain the symptom.
 
 I compare user-visible latency or hitch duration, not a debug body-call counter.
 
+I select the smallest interval containing the symptom. In current Instruments, Long
+View Body Updates shows slow SwiftUI evaluation and the Cause & Effect Graph links it
+back to the triggering state. Tool labels are Xcode-version-specific.
+
 <a id="q2-how-do-you-diagnose-a-scrolling-hitch"></a>
 ## Q2: How do you diagnose a scrolling hitch?
 
@@ -81,6 +85,9 @@ working set and cache growth from objects that can no longer be released.
 Repeated navigation that retains another model each time suggests a lifetime defect.
 A one-time decoded image peak may be high working set. An unbounded cache is not a
 retain cycle but is still a memory bug.
+
+A leak means the app cannot release memory according to its intended lifetime. I need
+an ownership path, not just a rising graph, before naming a retain cycle as the cause.
 
 I inspect tasks, streams, observers, timers, callbacks, navigation state, and caches.
 I fix ownership rather than adding weak captures mechanically.
