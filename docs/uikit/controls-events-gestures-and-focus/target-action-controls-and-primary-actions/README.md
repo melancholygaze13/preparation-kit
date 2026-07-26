@@ -7,13 +7,14 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Target-Action, Controls, and Primary Actions
 
-> Controls turn user interaction into actions. Good UIKit code keeps control
-> events close to the view and sends intent to the owning screen or model layer.
+> A control reports interaction through target-action or a `UIAction`. Its primary
+> action is the main operation, such as activating a button. Keep handlers small
+> and pass the user's intended operation to the screen owner.
 
 ## Quick Recall
 

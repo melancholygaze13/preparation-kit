@@ -9,14 +9,15 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Appearance, Bars, Status, and System Chrome
 
-> System bars are navigation and control surfaces, not decoration. Prefer
-> standard UIKit components, customize them through appearance objects, and let
-> the active controller express status-bar and system-gesture preferences.
+> System chrome means UIKit-managed interface around app content, such as
+> navigation bars, tab bars, and the status bar. Prefer standard components.
+> Configure shared style through appearance APIs and screen-specific choices
+> through the active controller.
 
 ## Quick Recall
 

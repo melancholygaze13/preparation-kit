@@ -9,7 +9,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-26
 tags:
   - tabs
   - tab-bar-controller
@@ -19,7 +19,8 @@ tags:
 
 # Tabs and Top-Level Navigation
 
-> Tabs switch among a small set of peer destinations. Give each tab stable
+> Tabs switch among a small set of equally important top-level destinations.
+> Give each tab stable
 > identity and independent flow state, while a top-level owner handles selection,
 > deep links, and restoration.
 

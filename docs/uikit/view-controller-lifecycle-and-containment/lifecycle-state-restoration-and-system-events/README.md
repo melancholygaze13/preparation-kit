@@ -7,13 +7,14 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-06-30
+last_reviewed: 2026-07-26
 ---
 
 # Lifecycle, State Restoration, and System Events
 
-> UIKit screens must survive system-driven lifecycle changes. Save enough
-> restorable identity to rebuild the screen, not snapshots of the view hierarchy.
+> A lifecycle describes when a screen connects, appears, disappears, or is
+> released. State restoration saves enough durable identity to rebuild that
+> screen later, not a copy of its live view hierarchy.
 
 ## Quick Recall
 

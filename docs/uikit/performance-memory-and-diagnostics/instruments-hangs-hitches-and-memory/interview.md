@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Instruments, Hangs, Hitches, and Memory: Interview Questions
@@ -31,8 +31,8 @@ last_reviewed: 2026-07-05
 
 ### Short Answer
 
-I define the symptom, reproduce it on a realistic device, record the right
-signal, fix the measured cause, and remeasure the same scenario.
+I define the symptom, reproduce it on a realistic device, record the relevant
+CPU, memory, or rendering data, fix the measured cause, and repeat the same test.
 
 ### Expanded Answer
 

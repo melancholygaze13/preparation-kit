@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-06
+last_reviewed: 2026-07-26
 ---
 
 # Focus, Validation, and Form State: Interview Questions
@@ -48,8 +48,8 @@ reusable fields should not decide the whole form's navigation order.
 
 ### Short Answer
 
-Use permissive feedback while typing, then show stronger errors on focus loss or
-submit.
+Allow normal incomplete input while the user types. Show clear errors after the
+user leaves the field or submits the form.
 
 ### Expanded Answer
 

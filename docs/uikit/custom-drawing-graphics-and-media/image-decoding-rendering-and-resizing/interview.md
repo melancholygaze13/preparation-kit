@@ -10,7 +10,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Image Decoding, Rendering, and Resizing: Interview Questions
@@ -70,7 +70,7 @@ I/O or decoded-memory pressure.
 
 ### Short Answer
 
-The key needs stable content identity plus the output variant: pixel-size bucket,
+The key needs stable content identity plus the output variant: a range of pixel sizes,
 scale, content version, appearance variant, and transformation or crop policy.
 
 ### Expanded Answer

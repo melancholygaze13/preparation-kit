@@ -7,13 +7,13 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Unidirectional State and Rendering
 
-> In a UIKit screen, unidirectional flow means events change one owned state
-> value, and rendering derives the UI from that state. The goal is not a
+> Unidirectional flow sends changes in one direction: an event updates one owned
+> state value, then the screen renders that state. The goal is not a
 > framework; it is to make updates predictable when user actions, async work,
 > and lifecycle events overlap.
 

@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Target-Action, Controls, and Primary Actions: Theory
@@ -17,8 +17,9 @@ last_reviewed: 2026-07-05
 
 ## Mental Model
 
-UIKit controls are event emitters. A button, switch, slider, text field, or menu
-item should report user intent. The screen owner decides what that intent means.
+UIKit controls report events such as a tap or value change. A handler translates
+that event into the operation the user requested. The screen owner decides how the
+app performs that operation.
 
 The interview answer is: use target-action or `UIAction` for control events,
 keep handlers small, route business decisions out of reusable controls, and be
@@ -89,7 +90,7 @@ Choose the boundary based on ownership:
 | Simple bar button or menu item | `UIAction` or primary action | Keeps command metadata together |
 
 Reusable controls should not know navigation, analytics policy, or persistence.
-They can expose semantic actions such as `didTapRetry` or `valueChanged`. The
+They can expose meaningful actions such as `didTapRetry` or `valueChanged`. The
 owner can then decide whether to navigate, update state, or start async work.
 
 For Staff and Principal roles, consistency matters. A codebase that mixes

@@ -10,7 +10,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Drag and Drop, Context Menus, and Haptics: Theory
@@ -19,10 +19,10 @@ last_reviewed: 2026-07-10
 
 ## Mental Model
 
-UIKit should own standard gesture recognition, previews, animation, and input
-adaptation. App code owns the data contract, action policy, and semantic feedback.
-These interactions must not become the only way to move content, find an action, or
-understand a result.
+UIKit handles the standard gestures, previews, animation, and input adaptation.
+App code decides what data can move, which actions are allowed, and what result to
+show. Dragging or a hidden menu must not be the only way to perform an important
+task.
 
 ## Drag Data, Not View Objects
 
@@ -51,7 +51,7 @@ the app or cancel.
 For lists, preserve stable item identity while rows move. Index paths can change
 during a drag, so resolve the item by identity before committing.
 
-## Make Drop Semantics Explicit
+## Define What a Drop Means
 
 UIKit allows a move only within the same app and only when the drag session permits
 it. Data shared with another app is copied. For an in-app move, validate and persist
@@ -89,8 +89,8 @@ Choose a feedback generator by event:
 | `UIImpactFeedbackGenerator` | Collision, snap, or physical impact |
 | `UINotificationFeedbackGenerator` | Success, warning, or failure result |
 
-Trigger feedback at the semantic event, not at an arbitrary animation frame. For
-example, success feedback belongs after the operation succeeds.
+Trigger feedback when the meaningful event happens, not at an unrelated animation
+frame. For example, success feedback belongs after the operation succeeds.
 
 Call `prepare()` shortly before a predictable event to reduce latency. Preparing and
 triggering immediately gives the system no preparation time. Do not keep preparing

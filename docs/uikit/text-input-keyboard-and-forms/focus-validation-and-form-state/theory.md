@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-06
+last_reviewed: 2026-07-26
 ---
 
 # Focus, Validation, and Form State: Theory
@@ -21,8 +21,10 @@ UIKit manages the active editing control through the first responder system.
 Your app manages form meaning: which field should be next, when errors appear,
 whether submit is enabled, and what state should survive reloads.
 
-The interview answer is: make focus a screen-level decision, make validation
-timing explicit, and store form state outside individual controls.
+Focus means which control currently receives keyboard input. Validation checks
+whether input follows the form's rules. Form state includes the current values,
+which fields the user edited, and any errors. The screen should own these
+decisions instead of leaving them inside individual controls.
 
 ## How It Works
 
@@ -52,7 +54,7 @@ Validation has timing:
 | Moment | Good use | Risk |
 |---|---|---|
 | While typing | Format hints, length counters, enabling submit | Noisy errors |
-| On focus loss | Field-level required checks | Missing cross-field context |
+| When the user leaves a field | Field-level required checks | Missing cross-field context |
 | On submit | Complete validation and server-ready checks | Late feedback |
 | After server response | Account or policy errors | Must map errors back to fields |
 
@@ -81,7 +83,7 @@ A practical form model usually separates:
 | State | Owner | Example |
 |---|---|---|
 | Raw input | Form model or view model | `email`, `password` |
-| Touched state | Form model or screen owner | `didEditEmail` |
+| Whether the user edited a field | Form model or screen owner | `didEditEmail` |
 | Validation errors | Form model or validation service | `emailError` |
 | Focus order | Screen owner | email -> password -> submit |
 | Control appearance | View or cell | border, label, message |
@@ -100,7 +102,7 @@ Common bugs come from mixing focus and validation policy:
 
 | Bug | Cause | Fix |
 |---|---|---|
-| Error flashes while typing | Validation runs too aggressively | Delay visible errors until blur or submit |
+| Error flashes while typing | Validation runs too aggressively | Wait until the user leaves or submits |
 | Submit enables incorrectly | UI control owns partial state | Derive readiness from the form model |
 | Server error sticks after edit | Async result is not tied to input version | Clear or version errors when input changes |
 | Hardware keyboard flow breaks | Only touch behavior was tested | Support return, Tab, and accessibility focus paths |

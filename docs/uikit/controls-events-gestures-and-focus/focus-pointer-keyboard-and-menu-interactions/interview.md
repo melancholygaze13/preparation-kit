@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Focus, Pointer, Keyboard, and Menu Interactions: Interview Questions
@@ -48,7 +48,7 @@ Selection or activation should usually be a separate user action.
 
 ### Short Answer
 
-Keyboard commands should trigger the same intents as touch and menu actions,
+Keyboard commands should trigger the same app actions as touch and menu items,
 route to the active context, and avoid stealing normal text input.
 
 ### Expanded Answer

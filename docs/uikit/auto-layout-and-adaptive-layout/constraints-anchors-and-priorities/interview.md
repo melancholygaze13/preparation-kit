@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # Constraints, Anchors, and Priorities: Interview Questions
@@ -78,8 +78,8 @@ allowed to yield when content, localization, or available width changes.
 ### Short Answer
 
 I use priorities to encode product intent. Required constraints protect rules
-that must always hold. Optional constraints describe preferred layout that can
-yield, such as a preferred width, a spacer size, or which label truncates first.
+that must always hold. Optional constraints describe preferred layout rules that
+UIKit may break first, such as a preferred width, a spacer size, or which label truncates first.
 
 ### Expanded Answer
 

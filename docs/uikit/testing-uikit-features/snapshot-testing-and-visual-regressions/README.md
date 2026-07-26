@@ -9,14 +9,14 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Snapshot Testing and Visual Regressions
 
 > A snapshot test proves that controlled rendered output matches a reviewed
-> baseline. It detects change, not correctness, so fixture stability and baseline
-> review are part of the test design.
+> baseline image. It detects change, not correctness. The test data and rendering
+> environment must stay stable, and a person must review baseline changes.
 
 ## Quick Recall
 

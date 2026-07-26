@@ -10,7 +10,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 8
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-26
 tags:
   - tabs
   - tab-bar-controller
@@ -46,7 +46,7 @@ should change context, not act as an unlabeled Back or Next button.
 
 ## Define Stable Tabs
 
-On supported systems, `UITab` gives a tab a stable identifier, title, image, and a
+On iOS 18 and later, `UITab` gives a tab a stable identifier, title, image, and a
 closure that creates its controller. `UITabGroup` can group related destinations
 for adaptive sidebar presentation.
 
@@ -115,9 +115,9 @@ platform and available space. `UITab` and `UITabGroup` let the same destination 
 participate in that adaptation. Use the controller's layout guides and safe areas
 instead of adding fixed bottom padding for the bar.
 
-Current UIKit also supports a system search tab, tab-bar minimization during
-scrolling, and a bottom accessory for persistent content such as a mini player.
-These APIs preserve system layout, accessibility, and transitions:
+iOS 26 adds tab-bar minimization during scrolling and a bottom accessory for
+persistent content such as a mini player. These APIs preserve system layout,
+accessibility, and transitions:
 
 ```swift
 if #available(iOS 26.0, *) {
@@ -158,5 +158,7 @@ flag must not make an old index point to a different destination.
 - [`UITabBarController`](https://developer.apple.com/documentation/uikit/uitabbarcontroller)
 - [`UITab`](https://developer.apple.com/documentation/uikit/uitab)
 - [`UITabGroup`](https://developer.apple.com/documentation/uikit/uitabgroup)
+- [`UITabBarController.bottomAccessory`](https://developer.apple.com/documentation/uikit/uitabbarcontroller/bottomaccessory)
+- [`UITabBarController.tabBarMinimizeBehavior`](https://developer.apple.com/documentation/uikit/uitabbarcontroller/tabbarminimizebehavior)
 - [Elevate your tab and sidebar experience in iPadOS](https://developer.apple.com/videos/play/wwdc2024/10147/)
 - [Build a UIKit app with the new design](https://developer.apple.com/videos/play/wwdc2025/284/)

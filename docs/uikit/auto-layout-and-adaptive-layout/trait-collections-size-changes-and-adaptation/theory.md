@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-26
 ---
 
 # Trait Collections, Size Changes, and Adaptation: Theory
@@ -80,15 +80,22 @@ override func viewDidLoad() {
 }
 ```
 
-Registration observes later changes. It does not call the handler for the current
-value, so perform initial configuration separately. UIKit removes registrations
-with the observing object; manual unregistering is normally unnecessary.
+Registration is available on iOS 17 and later. It observes later changes but does
+not call the handler for the current value, so perform initial configuration
+separately. UIKit removes registrations with the observing object; manual
+unregistering is normally unnecessary.
 
 Keep the handler cheap and focused. Traits can change more than once before UIKit
 updates the view. Change state, constraints, or invalidation flags there, then let
-the normal layout and display cycle do the work. Older deployment targets can use
-`traitCollectionDidChange(_:)`, comparing the previous collection so unrelated
-trait changes do not repeat expensive work.
+the normal layout and display cycle do the work. On iOS 18 and later, UIKit can also
+track traits read from supported update methods, such as `layoutSubviews()`, and
+invalidate that work when the value changes.
+
+`traitCollectionDidChange(_:)` is deprecated starting in iOS 17 because it runs for
+every trait change. Code that still supports older deployment targets can keep a
+fallback override, compare the previous collection, and use registration on newer
+systems. New iOS 17-or-later code should use automatic tracking or register for the
+specific traits it needs.
 
 ## Adaptation Strategies
 
@@ -133,5 +140,6 @@ component contract and choose a predictable fallback.
 
 - [UITraitCollection](https://developer.apple.com/documentation/uikit/uitraitcollection)
 - [UITraitChangeObservable](https://developer.apple.com/documentation/uikit/uitraitchangeobservable-7qoet)
+- [Adapting Your App When Traits Change](https://developer.apple.com/documentation/uikit/adapting-your-app-when-traits-change)
 - [UIViewController viewWillTransition(to:with:)](https://developer.apple.com/documentation/uikit/uiviewcontroller/viewwilltransition%28to%3Awith%3A%29)
 - [Auto Layout Guide: Size-Class-Specific Layout](https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/AutolayoutPG/Size-ClassSpecificLayout.html)

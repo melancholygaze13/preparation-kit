@@ -4,15 +4,14 @@ domain: "UIKit"
 page_type: topic-index
 interview_priority: high
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Controls, Events, Gestures, and Focus
 
-UIKit interaction questions test whether you can route input without turning a
-screen into hidden coupling. Know the responder chain, control actions, gesture
-coordination, and non-touch input enough to debug conflicts and choose the right
-interaction boundary.
+UIKit interaction questions test whether you can send input to the right owner
+without creating hidden dependencies. Learn the responder chain, control actions,
+gesture coordination, and non-touch input well enough to debug conflicts.
 
 ## Learning Path
 

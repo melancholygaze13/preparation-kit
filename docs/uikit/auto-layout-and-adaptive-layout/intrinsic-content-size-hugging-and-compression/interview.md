@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # Intrinsic Content Size, Hugging, and Compression: Interview Questions
@@ -74,7 +74,7 @@ more important when the interface cannot show everything at its ideal size.
 
 ### Short Answer
 
-I would first make the horizontal relationship explicit, usually with the
+I would first add a constraint that keeps the label before the button, usually with the
 label's trailing anchor less-than-or-equal to the button's leading anchor. Then
 I would set compression priorities so the label truncates before the button
 loses its usable size.

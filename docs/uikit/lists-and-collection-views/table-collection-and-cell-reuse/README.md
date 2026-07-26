@@ -10,20 +10,20 @@ levels:
 interview_priority: core
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-26
 ---
 
 # Table, Collection, and Cell Reuse
 
-> Table and collection views virtualize large content by reusing cells. A cell is
-> a short-lived view of model state, so configuration must fully describe the
-> current item and reset anything that can outlive reuse.
+> Table and collection views reuse cell objects instead of creating one for every
+> item. Each configuration must describe the current item completely because the
+> same cell may have displayed different content a moment earlier.
 
 ## Quick Recall
 
 - Reuse means a cell instance may display many different items over time.
-- `prepareForReuse()` resets transient view state, not model state.
-- Configuration should be complete and idempotent for the current item.
+- `prepareForReuse()` resets temporary resources that are not visible content.
+- Repeating configuration for the same item should produce the same visible result.
 - Cell registrations centralize dequeueing and configuration for an item type.
 - Async work must be cancelled, validated, or keyed by item identity.
 - Keep data ownership in the data source or view model, not in the cell.

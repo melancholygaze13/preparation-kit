@@ -7,14 +7,14 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-06
+last_reviewed: 2026-07-26
 ---
 
 # Localization, Right-to-Left, and Layout Direction
 
-> Localization changes both language and layout pressure. UIKit screens should
-> use localized strings, leading and trailing layout, and explicit direction
-> choices only where the content requires them.
+> Localization adapts an interface to a language and region. It can change text,
+> grammar, formatting, text length, and reading direction. UIKit screens should
+> use complete localized messages and layouts that can grow or mirror.
 
 ## Quick Recall
 

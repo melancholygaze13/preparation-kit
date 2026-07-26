@@ -9,12 +9,13 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Embedding UIKit in SwiftUI
 
-> A representable is a lifecycle adapter. SwiftUI owns the wrapper value and
+> A representable is a SwiftUI type that creates and updates one UIKit view or
+> view controller. SwiftUI owns the wrapper value and
 > layout; the adapter creates, updates, and cleans up one UIKit object while a
 > coordinator translates delegate or target-action events back to SwiftUI.
 

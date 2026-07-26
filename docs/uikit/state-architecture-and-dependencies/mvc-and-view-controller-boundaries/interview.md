@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # MVC and View Controller Boundaries: Interview Questions
@@ -52,7 +52,7 @@ shared state should sit behind model, service, or view-model boundaries.
 
 I separate responsibilities by reason to change. View setup and lifecycle stay
 near UIKit. Formatting, state transitions, service calls, navigation flow, and
-domain rules move into smaller objects with clear ownership.
+business rules move into smaller objects with clear ownership.
 
 ### Expanded Answer
 

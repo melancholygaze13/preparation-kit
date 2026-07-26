@@ -10,7 +10,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Drag and Drop, Context Menus, and Haptics: Interview Questions
@@ -24,7 +24,7 @@ last_reviewed: 2026-07-10
 | [Why does a drag item need an item provider and `localObject`?](#q1-drag-data) | Senior | Transfer boundaries |
 | [How do you implement a safe move by drag and drop?](#q2-safe-drop) | Senior | Transaction and identity |
 | [How should context menu actions be designed?](#q3-context-menu-actions) | Senior | Current policy and discovery |
-| [How do you choose and operate haptic feedback?](#q4-haptic-feedback) | Senior | Semantic feedback |
+| [How do you choose and operate haptic feedback?](#q4-haptic-feedback) | Senior | Meaningful feedback |
 
 ---
 
@@ -96,13 +96,13 @@ snap, and notification feedback for success, warning, or failure.
 
 ### Expanded Answer
 
-I trigger at the semantic event, not at an arbitrary animation frame. If the event is
-predictable, I call `prepare()` shortly before it to reduce latency. I avoid duplicate
-feedback around system controls.
+I trigger feedback when the meaningful action happens, not at an arbitrary
+animation frame. If the event is predictable, I call `prepare()` shortly before
+it to reduce latency. I avoid duplicate feedback around system controls.
 
 Haptic delivery is not guaranteed, so visual or spoken feedback carries the same
-meaning. At team scale, I would define a small semantic vocabulary rather than let
-features choose arbitrary styles and intensities.
+meaning. At team scale, I would define a small set of named feedback uses rather
+than let features choose arbitrary styles and intensities.
 
 ### Trade-offs
 

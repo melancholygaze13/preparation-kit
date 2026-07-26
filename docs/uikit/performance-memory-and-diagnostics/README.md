@@ -4,13 +4,14 @@ domain: "UIKit"
 page_type: topic-index
 interview_priority: core
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Performance, Memory, and Diagnostics
 
-UIKit performance interviews are usually about discipline under pressure: keep
-ownership graphs clear, keep scrolling work small, reduce layout and rendering
+UIKit performance work means finding the measured cause of slow frames, hangs,
+or memory growth. Interview answers should keep ownership graphs clear, keep
+scrolling work small, reduce layout and rendering
 cost, and prove claims with measurements before rewriting code.
 
 ## Learning Path

@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-06
+last_reviewed: 2026-07-26
 ---
 
 # Text Fields, Text Views, and Delegate Boundaries: Interview Questions
@@ -49,7 +49,7 @@ scrolling concerns, especially inside a cell or another scroll view.
 
 ### Short Answer
 
-A delegate should handle editing decisions and editing lifecycle events. It
+A delegate should accept or reject edits and respond when editing begins or ends. It
 should not become the place for unrelated business logic.
 
 ### Expanded Answer

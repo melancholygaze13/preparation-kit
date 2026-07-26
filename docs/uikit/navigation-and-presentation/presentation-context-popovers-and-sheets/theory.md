@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-26
 ---
 
 # Presentation Context, Popovers, and Sheets: Theory
@@ -59,11 +59,11 @@ On compact widths, popovers may adapt to another presentation style. That means
 the presented content must still have a way to dismiss and must still make sense
 without a visible arrow or anchor.
 
-Treat action sheets as contextual presentations too. On current systems they can
-appear anchored to their source on iPhone as well as iPad. Supply a `sourceItem`,
-bar button item, or source view regardless of the device idiom. This produces the
-right placement and transition now and avoids a crash if the same code later runs
-in a regular-width presentation.
+Treat action sheets as contextual presentations too. [On iOS 26 and later, they
+can appear anchored to their source on iPhone as well as iPad][uikit-design].
+Supply a `sourceItem`,
+bar button item, or source view on every device. This gives UIKit the correct
+placement and also prevents a missing-anchor failure in regular width.
 
 ## Sheets
 
@@ -131,4 +131,6 @@ push, or full-screen presentation in the current environment.
 - [UIAdaptivePresentationControllerDelegate](https://developer.apple.com/documentation/uikit/uiadaptivepresentationcontrollerdelegate)
 - [View Controller Programming Guide: Presenting a View Controller](https://developer.apple.com/library/archive/featuredarticles/ViewControllerPGforiPhoneOS/PresentingaViewController.html)
 - [View Controller Programming Guide: Creating Custom Presentations](https://developer.apple.com/library/archive/featuredarticles/ViewControllerPGforiPhoneOS/DefiningCustomPresentations.html)
-- [Build a UIKit app with the new design](https://developer.apple.com/videos/play/wwdc2025/284/)
+- [Build a UIKit app with the new design][uikit-design]
+
+[uikit-design]: https://developer.apple.com/videos/play/wwdc2025/284/

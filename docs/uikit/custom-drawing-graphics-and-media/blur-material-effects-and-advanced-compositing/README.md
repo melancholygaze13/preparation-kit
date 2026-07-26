@@ -9,14 +9,15 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Blur, Material Effects, and Advanced Compositing
 
-> Prefer system visual effects when the design needs live material over changing
-> content. Every mask, filter, shadow, and rasterization choice changes how the
-> layer tree is composited, so validate appearance and frame cost on real devices.
+> Blur samples nearby content. A material combines blur, color, and vibrancy to
+> keep foreground content readable. Compositing combines layers into the final
+> image. Masks, filters, shadows, and rasterization can make that work expensive,
+> so measure them on real devices.
 
 ## Quick Recall
 

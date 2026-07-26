@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Background Work and Result Ordering: Theory
@@ -95,20 +95,26 @@ For a dynamic number of child operations, use a task group rather than creating
 loose `Task` values in a loop:
 
 ```swift
-let thumbnails = try await withThrowingTaskGroup(of: Thumbnail.self) { group in
-    for item in items {
+let thumbnails = try await withThrowingTaskGroup(
+    of: (Int, Thumbnail).self
+) { group in
+    for (index, item) in items.enumerated() {
         group.addTask {
-            try await thumbnailService.thumbnail(for: item)
+            (index, try await thumbnailService.thumbnail(for: item))
         }
     }
 
-    var results = [Thumbnail]()
-    for try await thumbnail in group {
-        results.append(thumbnail)
+    var results = Array<Thumbnail?>(repeating: nil, count: items.count)
+    for try await (index, thumbnail) in group {
+        results[index] = thumbnail
     }
-    return results
+    return results.compactMap { $0 }
 }
 ```
+
+Task-group results arrive in completion order, not submission order. The example
+returns each thumbnail with its input index and rebuilds input order explicitly.
+If order does not matter, a simple append is enough.
 
 If the list is large, add a concurrency limit. Starting hundreds of requests at
 once can hurt memory, network throughput, server capacity, and battery.

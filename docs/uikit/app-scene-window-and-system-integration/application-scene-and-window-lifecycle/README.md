@@ -9,13 +9,13 @@ levels:
 interview_priority: high
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Application, Scene, and Window Lifecycle
 
-> The app process is shared, but each scene is an independent UI session with its
-> own lifecycle and window. Put process-wide setup in the app delegate,
+> The app is the running process. A scene is one UI session, and its window holds
+> that scene's view hierarchy. Put process-wide setup in the app delegate,
 > scene-specific composition in the scene delegate, and screen behavior in view
 > controllers.
 

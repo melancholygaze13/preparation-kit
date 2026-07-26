@@ -10,7 +10,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Appearance, Bars, Status, and System Chrome: Theory
@@ -19,10 +19,10 @@ last_reviewed: 2026-07-10
 
 ## Mental Model
 
-Navigation bars, tab bars, toolbars, the status bar, the home indicator, and system
-gestures belong to UIKit. App code supplies content, actions, appearance policy, and
-preferences. It should not reproduce these surfaces with fixed frames or private
-hierarchy assumptions.
+Navigation bars, tab bars, toolbars, the status bar, and the home indicator are
+system chrome. UIKit owns their structure and behavior. App code supplies content,
+actions, styling choices, and preferences. Do not rebuild them with fixed frames or
+assumptions about UIKit's private view hierarchy.
 
 Prefer system components because their size, material, input behavior, and
 accessibility adaptation change across devices and releases. Customize only what
@@ -113,7 +113,7 @@ edges.
 
 ## Engineering Decisions
 
-Centralize semantic bar roles and reusable appearance construction, but let the
+Centralize bar roles and reusable appearance construction, but let the
 owning container apply them. A global styling layer that reaches into every screen
 usually hides ownership and makes platform migrations risky.
 

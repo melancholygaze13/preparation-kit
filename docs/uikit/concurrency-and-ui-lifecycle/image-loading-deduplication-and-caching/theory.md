@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 8
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Image Loading, Deduplication, and Caching: Theory
@@ -37,12 +37,22 @@ deduplication, and cache state.
 An actor is a good fit for mutable in-flight request state:
 
 ```swift
+import UIKit
+
+enum ImageError: Error {
+    case invalidData
+}
+
 actor ImageLoader {
-    private var cache: [URL: UIImage] = [:]
+    private let cache: NSCache<NSURL, UIImage> = {
+        let cache = NSCache<NSURL, UIImage>()
+        cache.countLimit = 200
+        return cache
+    }()
     private var inFlight: [URL: Task<UIImage, Error>] = [:]
 
     func image(for url: URL) async throws -> UIImage {
-        if let cached = cache[url] { return cached }
+        if let cached = cache.object(forKey: url as NSURL) { return cached }
         if let task = inFlight[url] { return try await task.value }
 
         let task = Task {
@@ -56,7 +66,7 @@ actor ImageLoader {
         inFlight[url] = task
         do {
             let image = try await task.value
-            cache[url] = image
+            cache.setObject(image, forKey: url as NSURL)
             inFlight[url] = nil
             return image
         } catch {
@@ -70,6 +80,10 @@ actor ImageLoader {
 The important part is storing the in-flight task before awaiting it. If two
 callers request the same URL, the second caller can await the existing task
 instead of starting a duplicate download.
+
+The small `NSCache` limit keeps this teaching example from growing without bound.
+A production limit should come from measured memory use. `NSCache` may remove
+objects under memory pressure, so callers must treat every lookup as optional.
 
 ## Caching
 
@@ -129,9 +143,9 @@ memory:
 | Scrolling hitches | Decode or resize on main actor | Prepare image off UI path |
 | Memory grows without bound | Cache has no eviction policy | Use limits and respond to memory pressure |
 
-For Staff and Principal interviews, mention operational limits: request
-coalescing, retry behavior, cache invalidation, metrics for hit rate and decode
-time, and a clear owner for cache policy.
+For Staff and Principal interviews, mention operational limits: shared requests,
+retry behavior, cache invalidation, metrics for hit rate and decode time, and a
+clear owner for cache policy.
 
 ## References
 

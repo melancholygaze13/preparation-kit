@@ -7,13 +7,14 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Instruments, Hangs, Hitches, and Memory
 
-> Performance work is measurement work. Instruments helps turn "the app feels
-> slow" into a specific main-thread, memory, allocation, or rendering problem.
+> Instruments records CPU, memory, and rendering behavior while the app runs.
+> It helps turn "the app feels slow" into a specific main-thread, allocation,
+> memory, or rendering problem.
 
 ## Quick Recall
 

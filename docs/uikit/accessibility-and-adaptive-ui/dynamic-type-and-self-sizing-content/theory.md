@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-06
+last_reviewed: 2026-07-26
 ---
 
 # Dynamic Type and Self-Sizing Content: Theory
@@ -40,7 +40,8 @@ bodyLabel.numberOfLines = 0
 For a custom font, scale it through `UIFontMetrics`:
 
 ```swift
-let baseFont = UIFont(name: "AvenirNext-DemiBold", size: 17)!
+let baseFont = UIFont(name: "AvenirNext-DemiBold", size: 17)
+    ?? .systemFont(ofSize: 17, weight: .semibold)
 titleLabel.font = UIFontMetrics(forTextStyle: .headline).scaledFont(for: baseFont)
 titleLabel.adjustsFontForContentSizeCategory = true
 ```

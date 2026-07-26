@@ -10,7 +10,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Property Animators and Animation Options: Interview Questions
@@ -90,7 +90,7 @@ I gate only that command and restore it on every finish and cancellation path.
 
 ### Short Answer
 
-I would define semantic motion roles, interruption and Reduce Motion behavior,
+I would define named motion uses, interruption and Reduce Motion behavior,
 performance budgets, and testing expectations. I would keep feature-specific timing
 possible when interaction meaning differs.
 

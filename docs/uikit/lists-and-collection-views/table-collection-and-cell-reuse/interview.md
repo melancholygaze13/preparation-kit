@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-26
 ---
 
 # Table, Collection, and Cell Reuse: Interview Questions
@@ -51,14 +51,14 @@ selection state, and async work all need to match the current item.
 
 ### Short Answer
 
-Transient view state belongs in `prepareForReuse()`: clearing old images,
-stopping animations, cancelling tasks, and resetting temporary visual state.
-Normal content state should still be set in the configure method.
+Temporary resources that are not visible content belong in `prepareForReuse()`.
+Cancel tasks, clear identity tokens or callbacks, stop animations, and reset
+temporary visual state there. Set all visible content in the configure method.
 
 ### Expanded Answer
 
-The configure method should be idempotent. If an item is unread, it shows the
-badge. If it is not unread, it hides the badge. Relying only on
+Repeating configuration with the same item should produce the same result. An
+unread item shows the badge; a read item hides it. Relying only on
 `prepareForReuse()` often leaves stale UI when paths differ or configuration is
 partial.
 

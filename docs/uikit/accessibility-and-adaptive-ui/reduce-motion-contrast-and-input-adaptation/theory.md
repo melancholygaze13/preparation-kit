@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-06
+last_reviewed: 2026-07-26
 ---
 
 # Reduce Motion, Contrast, and Input Adaptation: Theory
@@ -55,10 +55,12 @@ The icon and text preserve meaning if color is hard to distinguish.
 
 ## Constraints and Guarantees
 
-Preferences can change while the app is installed and sometimes while it is
-running. If a long-lived screen caches animation policy, colors, or rendered
-assets, it may need to observe the relevant change notifications or update from
-`traitCollectionDidChange`.
+Preferences can change while the app is running. Read a preference when starting
+the affected interaction instead of copying it once at launch. A long-lived object
+that caches derived state can observe the matching `UIAccessibility` notification.
+For trait-based values such as accessibility contrast, use automatic trait tracking
+or register for `UITraitAccessibilityContrast`; do not add new
+`traitCollectionDidChange(_:)` code because that broad callback is deprecated.
 
 Do not gate core features behind hover, precise dragging, a shake gesture, or a
 custom multi-finger gesture. Those interactions can be useful shortcuts, but the

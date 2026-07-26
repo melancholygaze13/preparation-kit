@@ -10,7 +10,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Testing View Controller Lifecycle and Navigation: Theory
@@ -97,7 +97,7 @@ Navigation has two responsibilities:
 1. Product policy decides the destination and its input.
 2. UIKit wiring pushes, presents, dismisses, or updates a container.
 
-Test policy through a typed route or coordinator command. This gives exact
+Test that decision through a typed route or coordinator command. This gives exact
 assertions without subclassing `UINavigationController` or inspecting private
 transition state.
 
@@ -124,7 +124,7 @@ container with controlled animation is often simpler and more accurate.
 
 ## Test Dismissal and Ownership
 
-Presentation tests should establish who owns dismissal. A presented controller may
+Presentation tests should establish which object dismisses the screen. A presented controller may
 emit a completion or cancel command while its coordinator performs the dismissal.
 Test the command separately from UIKit wiring.
 
@@ -150,8 +150,8 @@ screen. A controllable dependency can prove this ordering without timing.
 ## Engineering Decisions
 
 Controller tests are valuable when the risk is UIKit integration. They become costly
-when used as a substitute for extracting presentation rules. Keep most state matrices
-below UIKit and reserve controller tests for loading, rendering, target-action,
+when they test rules that could live outside UIKit. Test most state combinations
+below UIKit. Reserve controller tests for loading, rendering, target-action,
 containment, and routing seams.
 
 At Staff scope, provide shared harnesses only for real repeated setup, such as test

@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-06
+last_reviewed: 2026-07-26
 ---
 
 # Keyboard Avoidance and Scroll Coordination: Interview Questions
@@ -55,8 +55,8 @@ with the keyboard, such as a bottom submit button or composer.
 
 ### Expanded Answer
 
-It keeps the relationship declarative and avoids manually tracking keyboard
-frames. It is especially useful when a view should sit above the keyboard.
+The constraint describes the relationship directly and avoids manually tracking
+keyboard frames. It is especially useful when a view should sit above the keyboard.
 
 For long scrollable forms, I may still need scroll view inset logic so every
 field remains reachable.

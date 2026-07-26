@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Dependency Injection and Feature Modularization: Interview Questions
@@ -31,7 +31,7 @@ last_reviewed: 2026-07-05
 
 ### Short Answer
 
-Dependency injection makes a screen's collaborators explicit. Instead of a view
+Dependency injection makes a screen's required services explicit. Instead of a view
 controller creating or finding services globally, it receives the services it
 needs. That improves testing, replacement, and ownership.
 
@@ -48,7 +48,7 @@ global singleton, tests become slower and shared state can leak between cases.
 
 ### Short Answer
 
-Assemble dependencies at a composition root: app setup, scene setup, coordinator,
+Assemble dependencies where the app or feature is created: app setup, scene setup, coordinator,
 or feature factory. Feature code should receive dependencies, not look them up
 from a global container.
 

@@ -8,9 +8,9 @@ levels:
   - senior
   - staff
 interview_priority: situational
-estimated_read_minutes: 3
+estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Image Decoding, Rendering, and Resizing: Theory
@@ -46,6 +46,45 @@ I/O to create one from the full image, and request the embedded orientation
 transform. `CGImageSourceCreateThumbnailAtIndex` returns the prepared `CGImage`.
 Do data access and preparation outside the main actor; create or assign the visible
 UIKit state on the main actor.
+
+```swift
+import UIKit
+import ImageIO
+
+func downsample(
+    data: Data,
+    to pointSize: CGSize,
+    scale: CGFloat
+) -> CGImage? {
+    let sourceOptions: [CFString: Any] = [
+        kCGImageSourceShouldCache: false
+    ]
+    guard let source = CGImageSourceCreateWithData(
+        data as CFData,
+        sourceOptions as CFDictionary
+    ) else {
+        return nil
+    }
+
+    let maxPixels = max(pointSize.width, pointSize.height) * scale
+    let thumbnailOptions: [CFString: Any] = [
+        kCGImageSourceCreateThumbnailFromImageAlways: true,
+        kCGImageSourceShouldCacheImmediately: true,
+        kCGImageSourceCreateThumbnailWithTransform: true,
+        kCGImageSourceThumbnailMaxPixelSize: maxPixels
+    ]
+
+    return CGImageSourceCreateThumbnailAtIndex(
+        source,
+        0,
+        thumbnailOptions as CFDictionary
+    )
+}
+```
+
+The function returns pixels near the display size without first creating a
+full-resolution `UIImage`. Use the resulting `CGImage` to create the visible image
+on the main actor.
 
 Downsampling preserves the source aspect ratio. Decide separately whether the view
 uses aspect fit, aspect fill, or cropping. Do not stretch pixels to satisfy a target

@@ -10,14 +10,14 @@ levels:
 interview_priority: core
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # Modal Presentation, Dismissal, and Ownership
 
-> Modal presentation creates a presenting/presented relationship for a separate
-> task. The presented flow owns its content, but dismissal should be an explicit
-> outcome agreed with the presenting context.
+> Modal presentation places one controller over another for a separate task.
+> Dismissal ends that relationship. The presented flow owns its content, while
+> the presenting side decides how completion or cancellation affects the app.
 
 ## Quick Recall
 

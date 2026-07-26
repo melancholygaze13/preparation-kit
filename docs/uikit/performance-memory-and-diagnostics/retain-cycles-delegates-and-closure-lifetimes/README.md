@@ -7,14 +7,15 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Retain Cycles, Delegates, and Closure Lifetimes
 
-> UIKit memory bugs are usually ownership bugs. A strong answer names the object
-> graph, explains which reference should not keep the other object alive, and
-> proves teardown with Instruments or a focused test.
+> A retain cycle occurs when strong references keep objects alive through a loop.
+> Delegates and closures often complete that loop in UIKit. Draw the references,
+> decide which one must be weak or temporary, and verify that the screen is
+> released.
 
 ## Quick Recall
 

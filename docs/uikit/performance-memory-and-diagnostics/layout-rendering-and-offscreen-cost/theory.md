@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 8
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Layout, Rendering, and Offscreen Cost: Theory
@@ -22,9 +22,9 @@ Rendering and compositing turn layers into pixels. Performance problems appear
 when code invalidates layout too often, asks Auto Layout to solve unstable
 constraints, or uses visual effects that require extra compositing.
 
-The interview answer is: update the smallest necessary state, let UIKit batch
-layout when possible, avoid expensive work in repeated layout callbacks, and use
-Instruments to confirm whether the cost is layout, drawing, or compositing.
+Update the smallest necessary state and let UIKit combine layout work when
+possible. Keep expensive work out of repeated layout callbacks. Use Instruments
+to confirm whether the cost is layout, drawing, or compositing.
 
 ## How It Works
 
@@ -59,7 +59,29 @@ final class PriceCell: UICollectionViewCell {
         super.init(frame: frame)
         contentView.addSubview(titleLabel)
         contentView.addSubview(priceLabel)
-        // Add stable constraints once.
+
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        priceLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            titleLabel.leadingAnchor.constraint(
+                equalTo: contentView.layoutMarginsGuide.leadingAnchor
+            ),
+            titleLabel.topAnchor.constraint(
+                equalTo: contentView.layoutMarginsGuide.topAnchor
+            ),
+            titleLabel.bottomAnchor.constraint(
+                equalTo: contentView.layoutMarginsGuide.bottomAnchor
+            ),
+            titleLabel.trailingAnchor.constraint(
+                lessThanOrEqualTo: priceLabel.leadingAnchor,
+                constant: -8
+            ),
+            priceLabel.trailingAnchor.constraint(
+                equalTo: contentView.layoutMarginsGuide.trailingAnchor
+            ),
+            priceLabel.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor)
+        ])
     }
 
     required init?(coder: NSCoder) {
@@ -93,6 +115,10 @@ complex subtree is static and reused across frames. It can hurt when content,
 size, scale, or opacity changes often because the cached bitmap must be rebuilt
 or can look wrong at the wrong scale.
 
+If measurement justifies `shouldRasterize`, also set `rasterizationScale` to the
+window's screen scale. Rasterization is a cache choice, not a general switch for
+making a view faster.
+
 ## Constraints and Trade-offs
 
 Auto Layout is not inherently too slow. It becomes a problem when constraints
@@ -117,10 +143,9 @@ When a screen feels slow, separate layout from rendering. Time Profiler can show
 expensive layout methods. Core Animation and hitch tools can show rendering or
 compositing issues. The View Debugger can reveal unexpectedly deep hierarchies.
 
-Common fixes are boring and effective: reduce hierarchy depth, avoid rebuilding
-constraints, set realistic estimated sizes, provide `shadowPath` for stable
-shadows, use opaque backgrounds where valid, and remove visual effects that do
-not change the product outcome.
+Common fixes are simple. Reduce hierarchy depth and avoid rebuilding constraints.
+Set realistic estimated sizes and provide `shadowPath` for stable shadows. Use
+opaque backgrounds where valid. Remove visual effects that do not help the user.
 
 For Staff and Principal roles, frame this as a design-system concern. A shared
 card component with known shadow, corner, and masking behavior can prevent

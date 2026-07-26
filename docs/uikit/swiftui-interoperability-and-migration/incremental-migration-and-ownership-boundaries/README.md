@@ -10,12 +10,13 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Incremental Migration and Ownership Boundaries
 
-> Migrate at a boundary that can have one owner. Keep shared models and services
+> Incremental migration replaces one small, independently owned part at a time.
+> Keep shared models and services
 > stable, replace presentation in small slices, and move navigation or state only
 > when the whole responsibility can cross together.
 

@@ -7,13 +7,13 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Background Work and Result Ordering
 
-> Async results do not finish in the order users create them. UIKit code must
-> accept only the result that still matches current screen state, then publish
+> Async results do not always finish in the order users start them. UIKit code
+> must reject an old result when it no longer matches current screen state, then publish
 > UI changes on the main actor.
 
 ## Quick Recall

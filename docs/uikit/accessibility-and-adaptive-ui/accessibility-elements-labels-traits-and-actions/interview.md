@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-06
+last_reviewed: 2026-07-26
 ---
 
 # Accessibility Elements, Labels, Traits, and Actions: Interview Questions
@@ -30,8 +30,8 @@ last_reviewed: 2026-07-06
 
 ### Short Answer
 
-Make one accessibility element for one meaningful thing the user can understand
-or operate.
+Make one accessibility element for one item the user understands as a unit or
+operates with one action.
 
 ### Expanded Answer
 

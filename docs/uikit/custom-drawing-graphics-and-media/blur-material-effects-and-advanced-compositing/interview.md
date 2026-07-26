@@ -10,7 +10,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Blur, Material Effects, and Advanced Compositing: Interview Questions
@@ -38,7 +38,7 @@ alpha can break the effect and add offscreen work.
 
 ### Expanded Answer
 
-I choose a semantic system blur style so the material adapts with the platform. I
+I choose a system blur style that matches the content, so it adapts with the platform. I
 also test accessibility settings and the complete window hierarchy because a live
 effect depends on the content behind it. If the content never changes, a prepared
 image may be simpler, but it is not a live material.
@@ -50,9 +50,9 @@ image may be simpler, but it is not a live material.
 
 ### Short Answer
 
-Only after measurement. Rasterization trades repeated rendering of a stable subtree
-for bitmap creation, cache memory, and invalidation cost. Frequently changing content
-can make it slower.
+Only after measurement. Rasterization stores a rendered view subtree as a bitmap.
+It trades repeated rendering for bitmap creation, cache memory, and refresh cost.
+Frequently changing content can make it slower.
 
 ### Expanded Answer
 

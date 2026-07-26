@@ -11,7 +11,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Incremental Migration and Ownership Boundaries: Theory
@@ -44,10 +44,32 @@ model. Keep domain models, repositories, and service interfaces independent of b
 UI frameworks when practical. Then a UIKit controller and a SwiftUI view can use the
 same tested behavior during rollout.
 
+For example, a hosted SwiftUI profile screen can receive one model and report route
+intent through a closure:
+
+```swift
+enum ProfileRoute {
+    case edit
+    case signOut
+}
+
+let screen = ProfileView(model: profileModel) { route in
+    coordinator.handle(route)
+}
+let host = UIHostingController(rootView: screen)
+navigationController.pushViewController(host, animated: true)
+```
+
+Here UIKit still owns the navigation stack. SwiftUI owns rendering inside the
+hosted screen. `profileModel` is the only writable feature state, and the closure
+crosses the seam as intent. Moving navigation into `ProfileView` at the same time
+would create a second route owner.
+
 For changing UI state, a shared `@Observable` model can reduce adapter code. UIKit
 also supports automatic Observation tracking in its update methods. It is enabled by
-default on iOS 26 and later and can be enabled for supported iOS 18 deployments with
-`UIObservationTrackingEnabled`. This helps both frameworks read the same model, but
+default on iOS 26 and later. For iOS 18, enable it with
+[`UIObservationTrackingEnabled`][observation-key]. This helps both frameworks
+read the same model, but
 it does not remove the need for one mutation policy and main-actor isolation for
 UI-bound state.
 
@@ -86,3 +108,5 @@ architecture.
 - [Use SwiftUI with AppKit and UIKit](https://developer.apple.com/videos/play/wwdc2026/272/)
 - [Updating views automatically with Observation in UIKit](https://developer.apple.com/documentation/uikit/updating-views-automatically-with-observation-tracking-in-uikit)
 - [`UIHostingConfiguration`](https://developer.apple.com/documentation/swiftui/uihostingconfiguration)
+
+[observation-key]: https://developer.apple.com/documentation/bundleresources/information-property-list/uiobservationtrackingenabled

@@ -10,13 +10,13 @@ levels:
 interview_priority: high
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # Compositional Layouts and List Configuration
 
-> Compositional layout builds collection views from sections, groups, and items.
-> Modern list configuration uses collection views to get table-like behavior
+> Compositional layout describes each collection-view section with nested groups
+> and items. A list configuration gives a collection view table-like rows
 > with collection-view flexibility.
 
 ## Quick Recall

@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 8
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # Layout, Display, and Run Loop Updates: Theory
@@ -74,7 +74,7 @@ that really needs custom drawing.
 
 ## Run Loop and Core Animation
 
-UIKit and Core Animation coalesce changes into transactions. You can update
+UIKit and Core Animation combine related changes into transactions. You can update
 several properties in one turn of the run loop, and the system can commit the
 result together. This is why repeated `setNeedsLayout()` calls are normally less
 expensive than repeatedly forcing layout.

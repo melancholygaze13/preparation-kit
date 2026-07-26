@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Target-Action, Controls, and Primary Actions: Interview Questions
@@ -40,7 +40,7 @@ screen-owned button, the target is often the view controller. For a targetless
 action, UIKit routes the selector through the responder chain.
 
 The handler should usually be small: read the relevant control state and pass a
-semantic intent to the screen or view model.
+the user's intended action to the screen or view model.
 
 ---
 
@@ -69,7 +69,8 @@ control events.
 
 ### Short Answer
 
-A reusable control should emit semantic intent, not perform screen-level work.
+A reusable control should report a meaningful action, such as submit or cancel,
+instead of performing screen-level work.
 The owner should decide navigation, persistence, networking, and analytics.
 
 ### Expanded Answer

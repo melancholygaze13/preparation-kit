@@ -10,7 +10,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Interactive Animations and Interruption: Theory
@@ -34,9 +34,9 @@ Cancellation must restore the previous hierarchy and model state.
 
 ## Percent-Driven View-Controller Transitions
 
-`UIPercentDrivenInteractiveTransition` works with a transition animator. A gesture
-starts the navigation or presentation, calls `update(_:)` as progress changes, then
-calls either `finish()` or `cancel()`.
+`UIPercentDrivenInteractiveTransition` controls a view-controller transition with a
+progress value from `0` to `1`. A gesture starts navigation or presentation and
+calls `update(_:)` as the value changes. It ends by calling `finish()` or `cancel()`.
 
 ```swift
 @MainActor
@@ -97,8 +97,8 @@ alone can finish after an accidental movement. Combine them:
 4. Cancel for system cancellation, failed recognition, or opposing intent.
 
 Add resistance when the gesture moves beyond a natural boundary. A hard visual stop
-can feel disconnected from touch. Keep the math monotonic and bounded before passing
-progress to UIKit.
+can feel disconnected from touch. Progress should move in one direction with the
+gesture and stay between `0` and `1` before you pass it to UIKit.
 
 Gesture recognizers also need arbitration. Decide how the custom gesture works with
 scroll views, the navigation controller's system back gesture, and nested horizontal
@@ -140,9 +140,9 @@ Avoid disabling all input until motion ends. That makes the interface feel block
 and does not solve state correctness. If two actions truly conflict, gate the narrow
 command and restore it on every completion and cancellation path.
 
-For view-controller transitions, read `transitionWasCancelled` or coordinator
-context. The visual completion handler alone does not tell you which hierarchy UIKit
-committed.
+For view-controller transitions, read `transitionWasCancelled` or the transition
+coordinator's context. An animation completion only says that the animation stopped;
+it does not say whether UIKit kept the new controller hierarchy.
 
 ## Accessibility, Testing, and Performance
 

@@ -7,13 +7,14 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # CALayer Backing and Rendering
 
-> Every UIKit view is layer-backed. The view handles UIKit behavior and events;
-> the layer handles visual composition, backing contents, and many animations.
+> Every UIKit view owns a `CALayer`, called its backing layer. The view handles
+> UIKit behavior and events. The layer stores visual content and properties and
+> takes part in composition and animation.
 
 ## Quick Recall
 

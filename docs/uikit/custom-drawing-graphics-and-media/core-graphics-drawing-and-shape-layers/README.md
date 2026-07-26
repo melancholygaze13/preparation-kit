@@ -9,13 +9,14 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Core Graphics Drawing and Shape Layers
 
-> Use `draw(_:)` for custom pixels that can be regenerated from state. Use
-> `CAShapeLayer` when a path should remain in the layer tree and animate through
+> Core Graphics draws pixels into a graphics context. Use `draw(_:)` for custom
+> pixels that can be regenerated from state. Use `CAShapeLayer` when a vector path
+> should remain in the layer tree and animate through
 > layer properties. In both cases, keep the model separate from rendering.
 
 ## Quick Recall

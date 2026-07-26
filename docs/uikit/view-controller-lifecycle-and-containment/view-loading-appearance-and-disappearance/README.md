@@ -7,7 +7,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-06-30
+last_reviewed: 2026-07-26
 ---
 
 # View Loading, Appearance, and Disappearance
@@ -20,7 +20,8 @@ last_reviewed: 2026-06-30
 
 - `loadView` creates the root view when you build views in code.
 - `viewDidLoad` is for one-time view setup after the view exists.
-- `viewWillAppear` and `viewDidAppear` can run many times.
+- `viewWillAppear`, `viewIsAppearing`, and `viewDidAppear` can run many times.
+- `viewIsAppearing` has current traits, geometry, safe-area insets, and margins.
 - Start visible-only work on appearance and stop it on disappearance.
 - Do not assume disappearance means deallocation or permanent removal.
 

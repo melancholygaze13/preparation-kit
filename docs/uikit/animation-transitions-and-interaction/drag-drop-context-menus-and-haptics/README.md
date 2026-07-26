@@ -9,14 +9,14 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Drag and Drop, Context Menus, and Haptics
 
-> Use UIKit's standard interactions for preview, animation, and input adaptation.
-> App code should define valid data movement, current actions, and semantic feedback
-> without making a hidden gesture the only route to a feature.
+> Drag and drop moves or copies data. A context menu shows actions for the current
+> item, and haptics provide physical feedback. Use UIKit's standard interactions,
+> but keep the same important actions available without a hidden gesture.
 
 ## Quick Recall
 

@@ -10,7 +10,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # UI, Accessibility, and Interaction Testing: Interview Questions
@@ -93,8 +93,9 @@ turn the audit into a weak signal.
 
 ### Short Answer
 
-I would keep a small critical smoke set, assign owners to fixtures and flakes, and run
-larger device, locale, and accessibility matrices according to risk.
+I would keep a small critical smoke set and assign owners to prepared test states
+and unreliable tests. I would run larger device, locale, and accessibility
+combinations according to risk.
 
 ### Expanded Answer
 

@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # Modal Presentation, Dismissal, and Ownership: Theory
@@ -94,9 +94,10 @@ Common modal bugs include presenting twice, presenting from a controller that is
 not currently visible, losing unsaved form state on swipe dismissal, and
 retaining closures after dismissal.
 
-Treat presentation as serialized state. Before presenting, confirm the current
-controller is in a valid state. After dismissal, release flow-specific closures,
-tasks, and delegates that should not outlive the modal.
+Treat presentation as state that changes one step at a time. Before presenting,
+confirm that the controller is visible and not already presenting another flow.
+After dismissal, release callbacks, tasks, and delegates that should not outlive the
+modal.
 
 ## References
 

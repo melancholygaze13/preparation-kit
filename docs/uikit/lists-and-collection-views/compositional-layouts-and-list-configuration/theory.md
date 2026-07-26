@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # Compositional Layouts and List Configuration: Theory
@@ -20,9 +20,10 @@ last_reviewed: 2026-07-01
 
 ## Mental Model
 
-Compositional layout lets a collection view describe complex layouts as a set of
-independent sections. Each section can have its own item sizing, grouping,
-orthogonal scrolling, headers, spacing, and insets.
+Compositional layout describes a collection view as independent sections. Each
+section can have its own item size, groups, headers, spacing, and insets. A section
+can also scroll sideways while the main collection scrolls vertically; UIKit calls
+this orthogonal scrolling.
 
 The important interview model is not memorizing every layout class. It is
 knowing that layout structure should match content structure.
@@ -66,6 +67,24 @@ Collection views can use list configurations to get table-style rows, headers,
 swipe actions, accessories, separators, and grouped appearances. This is useful
 when a screen needs list behavior but may later mix in non-list sections.
 
+```swift
+var configuration = UICollectionLayoutListConfiguration(
+    appearance: .insetGrouped
+)
+configuration.headerMode = .supplementary
+
+let layout = UICollectionViewCompositionalLayout.list(
+    using: configuration
+)
+let collectionView = UICollectionView(
+    frame: .zero,
+    collectionViewLayout: layout
+)
+```
+
+This creates a collection view with an inset-grouped list layout. Cell registration
+and the data source still decide which content appears.
+
 Use table views when the screen is a simple table and the existing table APIs are
 enough. Use collection-view lists when you want modern cell registrations,
 diffable data sources, compositional sections, or mixed layouts.
@@ -74,7 +93,7 @@ diffable data sources, compositional sections, or mixed layouts.
 
 Use compositional layout when sections have different structures or when the app
 needs grids, carousels, or mixed list and grid content. Avoid it for a very
-simple static list where the extra abstraction adds no value.
+simple static list where the extra layout structure adds no value.
 
 For shared design systems, define reusable section builders for common patterns:
 plain list, inset grouped list, two-column grid, horizontal rail, and empty

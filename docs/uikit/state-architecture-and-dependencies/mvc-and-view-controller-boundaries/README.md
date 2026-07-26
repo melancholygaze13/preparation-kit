@@ -7,12 +7,13 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # MVC and View Controller Boundaries
 
-> A UIKit view controller should coordinate a screen, not own the product rules
+> In UIKit MVC, the view controller connects views to model data and user actions.
+> It should coordinate a screen, not own the product rules
 > behind that screen. Keep view code, user-event translation, and presentation
 > state close to the controller, but move domain decisions and long-lived state
 > into model, service, or view-model boundaries.

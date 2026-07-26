@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-06
+last_reviewed: 2026-07-26
 ---
 
 # Dynamic Type and Self-Sizing Content: Interview Questions
@@ -30,7 +30,7 @@ last_reviewed: 2026-07-06
 
 ### Short Answer
 
-Use preferred text styles or `UIFontMetrics`, enable automatic content-size
+Use Dynamic Type text styles or `UIFontMetrics`, enable automatic content-size
 adjustment, and build constraints that allow text to grow.
 
 ### Expanded Answer

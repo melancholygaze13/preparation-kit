@@ -7,13 +7,14 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Delegation, Closures, Notifications, and Ownership
 
-> UIKit communication choices are ownership choices. Use delegation for a
-> one-to-one relationship, closures for local callbacks, and notifications for
+> Delegation sends callbacks to one assigned object. A closure stores one block
+> of work. A notification broadcasts an event to registered observers. Use
+> delegation for a one-to-one relationship, closures for local callbacks, and notifications for
 > broadcast events where the sender should not know the receivers.
 
 ## Quick Recall

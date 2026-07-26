@@ -3,15 +3,25 @@ title: "UIKit"
 page_type: domain-index
 interview_priority: core
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-26
 ---
 
 # UIKit
 
-UIKit interviews test whether you can reason about mutable view objects, controller
-and scene lifetimes, container ownership, event delivery, and main-thread UI work.
-Prepare the common production boundaries first. Add specialized framework detail
-only when it matches the role.
+UIKit is Apple's object-based framework for building event-driven interfaces on
+iPhone, iPad, and related platforms. A `UIView` displays and receives interaction
+for a rectangular region. A `UIViewController` manages a view hierarchy and joins
+it to navigation, presentation, and lifecycle events. UIKit objects that affect
+the interface belong on the main actor.
+
+UIKit interviews test whether you can reason about those mutable objects,
+controller and scene lifetimes, container ownership, event delivery, layout, and
+main-actor UI work. Prepare the common production boundaries first. Add specialized
+framework detail only when it matches the role.
+
+If UIKit is new to you, follow the rapid-review path in order. It starts with the
+objects and lifecycles that later topics assume. The concept overviews provide the
+one-minute answer; each theory page teaches normal use before production trade-offs.
 
 ## Rapid Review
 
@@ -66,7 +76,7 @@ format. They are not prerequisites for the standard path.
 |---|---|
 | [Controls, Events, Gestures, and Focus](controls-events-gestures-and-focus/README.md) | Explains UIKit event routing, control actions, gesture arbitration, and non-touch input. |
 | [Text Input, Keyboard, and Forms](text-input-keyboard-and-forms/README.md) | Covers text editing boundaries, keyboard coordination, validation, and secure input. |
-| [Accessibility and Adaptive UI](accessibility-and-adaptive-ui/README.md) | Ensures UIKit interfaces remain semantic and usable across content sizes, locales, and preferences. |
+| [Accessibility and Adaptive UI](accessibility-and-adaptive-ui/README.md) | Keeps interfaces meaningful and usable across content sizes, locales, and preferences. |
 | [Animation, Transitions, and Interaction](animation-transitions-and-interaction/README.md) | Covers interruptible property animation, controller transitions, and interactive system behaviors. |
 | [Testing UIKit Features](testing-uikit-features/README.md) | Separates deterministic logic, lifecycle integration, accessibility flows, and visual regression testing. |
 | [App, Scene, Window, and System Integration](app-scene-window-and-system-integration/README.md) | Separates process and scene ownership for the required scene-based lifecycle. |

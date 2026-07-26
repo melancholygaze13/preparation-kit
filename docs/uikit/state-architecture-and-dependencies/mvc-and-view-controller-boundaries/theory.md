@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 8
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # MVC and View Controller Boundaries: Theory
@@ -21,15 +21,15 @@ UIKit is built around view controllers. A view controller owns a screen or part
 of a screen, manages its view hierarchy, reacts to user events, coordinates
 navigation, and moves data between views and the app model.
 
-That does not mean every screen rule belongs in the view controller. The useful
-interview answer is: UIKit MVC is a coordination boundary, not permission to put
-all app logic in `UIViewController`.
+That does not mean every screen rule belongs in the view controller. In UIKit MVC,
+the controller connects the view to app behavior. It is not the default owner of
+every business rule, network request, or long-lived piece of state.
 
 ## How UIKit MVC Works
 
-In Model-View-Controller, model objects own app data and domain behavior. View
-objects draw and receive user interaction. Controller objects mediate between
-the two.
+In Model-View-Controller, model objects own app data and product rules. View objects
+draw and receive user interaction. Controller objects pass information and actions
+between the model and view.
 
 UIKit makes `UIViewController` the common controller object. It has lifecycle
 hooks, access to the root view, navigation and presentation APIs, trait changes,
@@ -50,8 +50,8 @@ controller can translate taps, delegate callbacks, and lifecycle events into
 commands. The model or application boundary decides what those commands mean.
 
 For example, a checkout controller can read text fields, show validation
-messages, and disable a button while submitting. It should not own tax rules,
-retry policy, payment orchestration, or persistence format.
+messages, and disable a button while submitting. It should not own tax rules, retry
+policy, the steps of payment processing, or the storage format.
 
 ## Responsibilities
 

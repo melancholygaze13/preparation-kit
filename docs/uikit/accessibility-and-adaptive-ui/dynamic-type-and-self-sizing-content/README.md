@@ -7,12 +7,13 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-06
+last_reviewed: 2026-07-26
 ---
 
 # Dynamic Type and Self-Sizing Content
 
-> Dynamic Type means the layout must adapt when text grows. A good UIKit screen
+> Dynamic Type is the system feature that applies the user's preferred text size.
+> A good UIKit screen
 > scales fonts, lets content reflow, and avoids fixed heights that clip important
 > text.
 

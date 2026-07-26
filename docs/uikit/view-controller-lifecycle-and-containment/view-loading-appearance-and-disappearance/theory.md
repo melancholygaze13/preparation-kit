@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 8
 status: reviewed
-last_reviewed: 2026-06-30
+last_reviewed: 2026-07-26
 ---
 
 # View Loading, Appearance, and Disappearance: Theory
@@ -26,7 +26,9 @@ flowchart TD
     Init["Controller init"] --> LoadView["loadView"]
     LoadView --> DidLoad["viewDidLoad"]
     DidLoad --> WillAppear["viewWillAppear"]
-    WillAppear --> DidAppear["viewDidAppear"]
+    WillAppear --> IsAppearing["viewIsAppearing"]
+    IsAppearing --> Layout["Layout pass"]
+    Layout --> DidAppear["viewDidAppear"]
     DidAppear --> WillDisappear["viewWillDisappear"]
     WillDisappear --> DidDisappear["viewDidDisappear"]
 ```
@@ -65,13 +67,19 @@ Use `viewWillAppear` for updates that should be current before the screen is
 shown. Examples include refreshing labels from state, updating selection, or
 reloading a list after a child flow changed data.
 
+Use `viewIsAppearing` for an update that needs the current traits, view geometry,
+layout margins, or safe-area insets before the first visible frame. UIKit calls it
+once during each appearance transition, after adding and sizing the view but before
+the normal layout pass. Apple made this callback available back to iOS 13, so an app
+with an iOS 13 or later deployment target can use it without an availability check.
+
 Use `viewDidAppear` when the screen must actually be visible. Examples include
 starting focus, beginning visible-only timers, sending an impression event, or
 starting a resource-heavy preview.
 
 Use `viewWillDisappear` or `viewDidDisappear` to stop work that should not
 continue while hidden. Examples include cancelling visible-only tasks, ending
-editing, pausing media, stopping sensors, or clearing transient UI state.
+editing, pausing media, stopping sensors, or clearing temporary UI state.
 
 Disappearance does not always mean the controller is gone. A pushed controller
 disappears when another controller is pushed on top of it. A tab's root
@@ -80,10 +88,11 @@ alive and appear again.
 
 ## Layout and Visible Updates
 
-`viewDidLoad` is too early for final geometry. Auto Layout has not completed the
-final layout for the current container. Use constraints for normal layout. Use
-`viewDidLayoutSubviews` only when you must react to final bounds, such as updating
-a gradient layer frame or a custom mask.
+`viewDidLoad` is too early for current container geometry. Auto Layout has not
+completed layout. Use constraints for normal layout. Use `viewIsAppearing` for a
+one-time update before each appearance when the current geometry is enough. Use
+`viewDidLayoutSubviews` when work must follow every completed layout, such as
+keeping a gradient layer or custom mask synchronized with changing bounds.
 
 Avoid doing expensive work in layout callbacks. Layout can run often. A callback
 that re-fetches data, rebuilds the whole hierarchy, or invalidates layout again
@@ -98,6 +107,7 @@ Choose lifecycle placement by the lifetime of the work:
 | Build root view in code | `loadView` | Defines the controller's view |
 | One-time view wiring | `viewDidLoad` | Requires views but not visibility |
 | Refresh presentation before showing | `viewWillAppear` | Runs before each appearance |
+| Configure from current traits or insets | `viewIsAppearing` | Environment and geometry are current before display |
 | Start visible-only effects | `viewDidAppear` | Screen is on screen |
 | Stop visible-only effects | `viewWillDisappear` or `viewDidDisappear` | Screen is leaving or hidden |
 | Final bounds-dependent adjustment | `viewDidLayoutSubviews` | Layout has produced bounds |
@@ -125,4 +135,5 @@ single question catches many UIKit lifecycle bugs.
 
 - [UIViewController](https://developer.apple.com/documentation/uikit/uiviewcontroller)
 - [Responding to View-Related Events](https://developer.apple.com/documentation/uikit/uiviewcontroller/responding-to-view-related-events)
+- [Displaying and Managing Views with a View Controller](https://developer.apple.com/documentation/uikit/displaying-and-managing-views-with-a-view-controller)
 - [View Controller Programming Guide for iOS](https://developer.apple.com/library/archive/featuredarticles/ViewControllerPGforiPhoneOS/)

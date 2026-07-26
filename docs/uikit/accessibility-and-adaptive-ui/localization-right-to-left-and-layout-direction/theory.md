@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-06
+last_reviewed: 2026-07-26
 ---
 
 # Localization, Right-to-Left, and Layout Direction: Theory
@@ -17,8 +17,9 @@ last_reviewed: 2026-07-06
 
 ## Mental Model
 
-Localization is not only translating strings. It changes text length, grammar,
-formatting, layout direction, truncation risk, and accessibility output.
+Localization adapts an app for a language and region. It includes translated
+text, plural rules, date and number formats, layout direction, and accessibility
+text. It is not only a word-for-word translation.
 
 The interview answer is: localize complete user-facing messages, use leading and
 trailing layout, let UIKit mirror standard controls, and override direction only
@@ -40,9 +41,13 @@ Avoid building sentences by concatenating English fragments:
 // Avoid: word order may be wrong in other languages.
 statusLabel.text = "\(count) " + String(localized: "items.remaining")
 
-// Prefer a localized format string with plural handling where appropriate.
-statusLabel.text = String(localized: "items.remaining.count \(count)")
+// Prefer one complete localizable message.
+statusLabel.text = String(localized: "\(count) items remaining")
 ```
+
+With a string catalog, add plural variants for the interpolated count. The
+catalog can then provide the correct form for each language, such as `1 item`
+and `2 items` in English. Other languages may need more plural forms.
 
 For layout, use directional constraints:
 
@@ -98,13 +103,15 @@ Common failures:
 | Text clips in German or Arabic | Fixed widths and short English assumptions | Allow wrapping or alternate layout |
 | VoiceOver reads mixed languages | Accessibility strings not localized | Localize labels, hints, and actions |
 
-Use pseudo-localization to find length and missing-string problems early. Use an
+Pseudo-localization replaces normal text with altered test text. Use it to find
+length and missing-string problems early. Use an
 RTL language or launch argument during development to catch mirrored-layout bugs
 before manual localization review.
 
 ## References
 
 - [Preparing your interface for localization](https://developer.apple.com/documentation/xcode/preparing-your-interface-for-localization)
+- [Localizing and varying text with a string catalog](https://developer.apple.com/documentation/xcode/localizing-and-varying-text-with-a-string-catalog)
 - [UIView.semanticContentAttribute](https://developer.apple.com/documentation/uikit/uiview/semanticcontentattribute)
 - [UITraitCollection.layoutDirection](https://developer.apple.com/documentation/uikit/uitraitcollection/layoutdirection)
 - [NSLayoutXAxisAnchor](https://developer.apple.com/documentation/uikit/nslayoutxaxisanchor)

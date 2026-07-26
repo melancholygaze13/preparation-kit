@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Scrolling Performance and Cell Configuration: Interview Questions
@@ -51,9 +51,10 @@ would verify the result with Time Profiler or animation hitch data.
 
 ### Short Answer
 
-`prepareForReuse` should clear transient state that would be wrong for the next
-model, such as old text, images, loading indicators, tasks, callbacks, and
-selection-specific UI.
+`prepareForReuse` should cancel work and clear non-content or temporary resources,
+such as identity tokens, callbacks, animations, and temporary visual state. The
+configure method should set all normal text, images, loading presentation, and
+selection-derived UI for the next model.
 
 ### Expanded Answer
 

@@ -10,7 +10,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Testing Presentation and View Model Logic: Interview Questions
@@ -39,7 +39,7 @@ target-action, containment, and navigation integration.
 
 ### Expanded Answer
 
-I choose the lowest boundary that proves the behavior. A validation table needs a
+I test the smallest part of the code that can prove the behavior. A validation table needs a
 pure test, not a view hierarchy. A loading state belongs in a view-model test. A
 focused controller test proves that a tap sends the command and that state reaches
 the correct views. A UI test covers only the critical full journey.
@@ -106,10 +106,10 @@ or presentation rule, and add focused tests without rewriting the whole screen.
 
 I start with bugs, frequently changed rules, and expensive regressions. A thin
 characterization test can preserve current controller behavior. I then move one rule
-or side effect behind a small boundary and add deterministic tests there.
+or external action behind a small interface and add repeatable tests there.
 
 The controller remains the UIKit adapter during migration. I track suite speed and
-flake rate so new coverage stays trustworthy. Shared seams and fixtures should solve
+flake rate so new coverage stays trustworthy. Shared test helpers and prepared data should solve
 repeated team problems, not impose a new architecture on every screen.
 
 ### Trade-offs

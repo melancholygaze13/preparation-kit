@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # Frame, Bounds, Center, and Transforms: Theory
@@ -52,7 +52,7 @@ result in the superview. It becomes a less useful source of truth for layout
 decisions.
 
 Use `bounds` and `center` when working with transformed views. Use constraints or
-model state as the canonical geometry. If animation needs a scale or rotation,
+model state as the source of truth for geometry. If animation needs a scale or rotation,
 apply the transform as a visual effect instead of rewriting layout around the
 transformed frame.
 

@@ -10,7 +10,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # Prefetching, Pagination, and Update Consistency
@@ -23,7 +23,7 @@ last_reviewed: 2026-07-01
 
 - Prefetching is a hint, not a guarantee.
 - Cancel prefetch work when UIKit says rows are no longer likely to appear.
-- Pagination should be idempotent and protect against duplicate requests.
+- Repeating the same page request should not duplicate items or corrupt state.
 - Apply list updates from the current model state, not from stale responses.
 - Reuse, cancellation, and snapshot identity must agree.
 

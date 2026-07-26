@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 8
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Instruments, Hangs, Hitches, and Memory: Theory
@@ -47,6 +47,23 @@ cost.
 Use signposts when the app has important flows that are hard to isolate from
 system noise. Signposts make traces easier to read because they label product
 events, such as opening a feed, applying a snapshot, or rendering search results.
+
+```swift
+import os
+
+let signposter = OSSignposter(
+    subsystem: "com.example.app",
+    category: "Feed"
+)
+
+let state = signposter.beginInterval("Apply snapshot")
+dataSource.apply(snapshot, animatingDifferences: true) {
+    signposter.endInterval("Apply snapshot", state)
+}
+```
+
+An interval gives a trace a named start and end. Keep names stable and avoid
+putting private user data into signpost messages.
 
 ## Hangs and Hitches
 

@@ -7,12 +7,13 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-06
+last_reviewed: 2026-07-26
 ---
 
 # Keyboard Avoidance and Scroll Coordination
 
-> Keyboard avoidance is layout coordination. The goal is to keep the focused
+> Keyboard avoidance moves or scrolls content so the keyboard does not cover the
+> active input. The goal is to keep the focused
 > input visible while preserving scroll position and system animation timing.
 
 ## Quick Recall

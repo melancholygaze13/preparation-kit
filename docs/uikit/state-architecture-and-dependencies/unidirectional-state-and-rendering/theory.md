@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Unidirectional State and Rendering: Theory
@@ -101,10 +101,11 @@ UIKit views must still be updated on the main thread. A unidirectional flow does
 not remove that rule. It only gives you a clearer place to accept async results
 and decide whether they still apply.
 
-Rendering should be idempotent. Calling `render(state)` twice should not create
-duplicate work, duplicate observers, or repeated navigation. Navigation,
-analytics, and one-time alerts are side effects. Model them separately from
-stable view state or gate them with explicit events.
+Rendering should be safe to repeat. Calling `render(state)` twice should produce the
+same visible result without adding duplicate tasks or observers. Navigation,
+analytics, and one-time alerts are side effects: actions beyond displaying the
+current state. Trigger them from explicit events instead of repeating them in
+`render`.
 
 Cells need extra care. A cell should render from a cell view state or
 configuration. It should not own the list state, start shared requests without an

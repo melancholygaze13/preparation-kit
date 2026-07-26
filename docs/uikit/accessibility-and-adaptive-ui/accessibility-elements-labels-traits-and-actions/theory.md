@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-07-06
+last_reviewed: 2026-07-26
 ---
 
 # Accessibility Elements, Labels, Traits, and Actions: Theory
@@ -21,9 +21,9 @@ UIKit builds an accessibility tree from views and explicit accessibility
 objects. Assistive technologies use that tree to describe the interface and
 perform actions.
 
-The interview answer is: expose meaningful elements, give each element a clear
-label, value, traits, and actions, and test the result as a user interaction
-path rather than as a visual afterthought.
+Expose meaningful elements and give each one a clear label, value, traits, and
+actions. Then test the complete interaction with VoiceOver. A screen that looks
+correct can still be difficult or impossible to use through assistive technology.
 
 ## How It Works
 
@@ -35,6 +35,7 @@ Custom views, composed cells, and gesture-heavy views often need explicit work:
 final class AccountSummaryView: UIView {
     private let nameLabel = UILabel()
     private let balanceLabel = UILabel()
+    var onActivate: (() -> Void)?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -54,12 +55,19 @@ final class AccountSummaryView: UIView {
         accessibilityValue = "Balance \(balance)"
         accessibilityHint = "Opens account details"
     }
+
+    override func accessibilityActivate() -> Bool {
+        guard let onActivate else { return false }
+        onActivate()
+        return true
+    }
 }
 ```
 
 This example groups several visual subviews into one accessible object because
-the row acts as one account summary. If each subview had its own focus stop, the
-user would hear fragments instead of the row's meaning.
+the row acts as one account summary. Its button trait is matched by
+`accessibilityActivate()`, so the announced action works. If each subview had its
+own focus stop, the user would hear fragments instead of the row's meaning.
 
 Use custom actions when the visual UI uses gestures or row actions that are not
 easy to discover through VoiceOver:
@@ -95,7 +103,7 @@ Choose the accessibility boundary by user meaning:
 | Standard control | Use built-in behavior, adjust only when needed | UIKit already knows the role |
 | Composed row | One grouped element with value and actions | Prevents noisy focus stops |
 | Data chart | Summary element plus selected-data actions | Exposes meaning beyond pixels |
-| Gesture-only affordance | Custom action or visible control | Makes the operation discoverable |
+| Gesture-only operation | Custom action or visible control | Makes the operation discoverable |
 
 For reusable cells, update accessibility state during configuration. A reused
 cell must not keep an old label, value, selected trait, or custom action from a

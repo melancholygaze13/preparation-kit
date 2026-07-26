@@ -10,7 +10,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Snapshot Testing and Visual Regressions: Theory
@@ -29,7 +29,7 @@ Snapshots complement other tests:
 | State test | Presentation decision is correct | Does not render UIKit |
 | Controller test | UIKit wiring and view configuration work | Usually weak on exact appearance |
 | UI test | A user can complete a journey | Expensive and visually broad |
-| Accessibility test | Semantics meet tested rules | Does not prove visual fidelity |
+| Accessibility test | Exposed meaning meets tested rules | Does not prove visual fidelity |
 | Snapshot test | Controlled output did not change | A baseline can preserve a defect |
 
 Use snapshots where rendering carries risk: shared components, complex self-sizing
@@ -38,8 +38,8 @@ A simple screen of standard controls may not justify the maintenance cost.
 
 ## Make UIKit Rendering Reproducible
 
-Pixel output depends on more than production code. Fix or record the inputs that
-matter:
+Pixel output depends on more than production code. Keep these inputs fixed, or
+record them with the result:
 
 - OS and simulator runtime;
 - viewport, scale, orientation, and safe-area assumptions;
@@ -76,7 +76,8 @@ name the product state, and make failures produce the old image, new image, and 
 
 ## Choose a Risk-Based Matrix
 
-Name fixtures by meaning: `empty`, `loaded`, `validation-error`, `offline`,
+Name each prepared test state, often called a fixture, by meaning: `empty`,
+`loaded`, `validation-error`, `offline`,
 `long-localized-title`, or `accessibility-text`. Do not snapshot every combination
 of state and trait.
 
@@ -90,8 +91,9 @@ surface produces a clearer diff and fewer unrelated failures. Use end-to-end
 screenshots only when system composition is itself the contract.
 
 Exact pixel comparison catches small drift but reacts to renderer changes. A
-tolerance can reduce noise but can also hide a real defect. Remove nondeterminism
-before increasing tolerance. If tolerance remains necessary, scope and document it.
+tolerance can reduce noise but can also hide a real defect. First remove inputs
+that can change between runs. Only then increase tolerance. If tolerance remains
+necessary, keep it narrow and explain why it is safe.
 
 ## Baseline Review Is Part of the Assertion
 
@@ -118,7 +120,7 @@ when a visual contract is important and deterministic enough to maintain. They f
 poorly when content changes constantly, system rendering is uncontrolled, or nobody
 owns baseline review.
 
-At Staff scope, define canonical runtimes, baseline ownership, naming, review rules,
+At Staff scope, define shared fixed runtimes, baseline ownership, naming, review rules,
 and retirement criteria. A design-system change can create hundreds of diffs. Stage
 the change and let feature owners review exceptional results instead of accepting
 the entire set without inspection.

@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # Compositional Layouts and List Configuration: Interview Questions
@@ -67,8 +67,8 @@ infrastructure while preserving table-like row behavior.
 
 ### Short Answer
 
-I extract named section builders and keep layout decisions tied to section
-meaning. I avoid one large inline section provider full of unrelated layout
+I give each section type its own clearly named layout function. I avoid one large
+inline section provider full of unrelated layout
 constants.
 
 ### Expanded Answer

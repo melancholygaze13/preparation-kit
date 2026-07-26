@@ -10,14 +10,14 @@ levels:
 interview_priority: core
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # Constraints, Anchors, and Priorities
 
-> Auto Layout describes relationships between views. Constraints say what must
-> be true, and priorities tell the solver which lower-priority rules can bend
-> when all rules cannot be satisfied at once.
+> Auto Layout calculates frames from relationships between views. A constraint
+> states one relationship. Its priority tells Auto Layout whether that rule may
+> be broken when all constraints cannot be satisfied together.
 
 ## Quick Recall
 

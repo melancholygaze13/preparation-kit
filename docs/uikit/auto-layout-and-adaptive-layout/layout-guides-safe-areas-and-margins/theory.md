@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # Layout Guides, Safe Areas, and Margins: Theory
@@ -78,6 +78,20 @@ A common vertical form pattern is:
 - Let the content container's height come from its subviews.
 
 This avoids ambiguous content size and prevents accidental horizontal scrolling.
+
+```swift
+NSLayoutConstraint.activate([
+    form.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+    form.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
+    form.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+    form.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
+    form.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor)
+])
+```
+
+The four edge constraints define the scrollable content. The width constraint makes
+this a vertical-only scroll view. The form's subviews must still define its height
+from top to bottom.
 
 ## Engineering Decisions
 

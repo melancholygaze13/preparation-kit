@@ -10,7 +10,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Testing Presentation and View Model Logic: Theory
@@ -19,8 +19,8 @@ last_reviewed: 2026-07-10
 
 ## Mental Model
 
-Most UIKit feature decisions do not need UIKit to be tested. Put each assertion
-at the lowest boundary that can prove the behavior:
+Most UIKit feature decisions do not need UIKit to be tested. Test each behavior in
+the smallest part of the code that can prove it:
 
 | Behavior | Lowest useful boundary |
 |---|---|
@@ -92,7 +92,7 @@ Use parameterized tests for a real input matrix, such as validation cases. New
 Swift unit and integration tests should normally use Swift Testing. Existing
 XCTest tests can run beside them and need not be rewritten only for consistency.
 
-## Control Nondeterminism
+## Control Inputs That Can Change
 
 Hidden inputs make tests slow or flaky. Inject the capability that varies:
 
@@ -134,8 +134,8 @@ Test doubles should communicate intent:
 | Spy | Records a meaningful interaction for later assertion |
 | Fake | Provides a small working implementation, such as in-memory storage |
 
-Avoid protocols for every concrete type. Create a seam where the feature crosses
-time, I/O, ownership, or another module's contract.
+Avoid protocols for every concrete type. Add a controllable dependency where the
+feature crosses time, I/O, ownership, or another module.
 
 ## Connect the Controller
 
@@ -156,7 +156,7 @@ Use many deterministic presentation tests, fewer controller integration tests, a
 a small set of UI journeys. The exact ratio follows risk, not a fixed testing
 pyramid.
 
-At Staff scope, standardize fixture ownership, dependency seams, and failure
+At Staff scope, standardize ownership of test data, dependency boundaries, and failure
 diagnostics across features. Measure suite duration and flaky tests. A test layer
 has little value when teams cannot trust failures or identify the hidden dependency
 that caused them.

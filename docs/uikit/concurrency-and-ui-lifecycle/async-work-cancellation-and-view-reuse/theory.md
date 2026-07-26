@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Async Work, Cancellation, and View Reuse: Theory
@@ -22,8 +22,10 @@ reused, and a user can start a newer request before an older one finishes.
 Async work must respect those lifetimes.
 
 Cancellation in Swift concurrency is cooperative. Calling `cancel()` marks a
-task as cancelled, but the task body must reach an `await`, throw
-`CancellationError`, or check cancellation before it stops doing useful work.
+task as cancelled; it does not stop the task immediately. The task must check its
+status, call `Task.checkCancellation()`, or await an operation that responds to
+cancellation. An arbitrary `await` is only a suspension point and does not promise
+to stop cancelled work.
 
 ## Screen-Scoped Work
 

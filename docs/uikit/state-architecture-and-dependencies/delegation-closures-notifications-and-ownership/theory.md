@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Delegation, Closures, Notifications, and Ownership: Theory
@@ -78,6 +78,12 @@ The trade-off is hidden control flow. It can be hard to find all observers, the
 payload may be weakly typed, and delivery timing can surprise a feature that
 assumes an event is isolated.
 
+`NotificationCenter.post` delivers to matching observers synchronously on the
+posting thread unless a block observer was registered with another operation queue.
+Do not assume a notification arrives on the main actor. A block-based observer token
+also stays registered until code removes it, so store the token and remove it when
+its owner ends.
+
 Use notifications for broad events, not for routine parent-child communication.
 If a child needs to tell its owner that a button was tapped, a delegate or
 closure is easier to trace.
@@ -96,6 +102,10 @@ Use this decision table in interviews:
 For Staff and Principal roles, the concern is consistency. Teams should agree on
 when broadcasts are allowed, how payloads are typed, where observers are stored,
 and how callbacks are cancelled during reuse.
+
+There is no best mechanism for every relationship. Delegates add protocol code,
+closures can hide retain cycles, and notifications hide the list of receivers. Use
+the narrowest choice that makes ownership and delivery easy to trace.
 
 ## Production Application
 

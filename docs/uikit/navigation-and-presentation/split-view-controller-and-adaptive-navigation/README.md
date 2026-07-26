@@ -10,13 +10,14 @@ levels:
 interview_priority: high
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # Split View Controller and Adaptive Navigation
 
-> A split view controller presents related navigation columns and adapts them as
-> space changes. The model should preserve selection and route meaning even when
+> A split view controller shows related columns, such as a sidebar and detail,
+> when space allows. It can combine them when space becomes narrow. The model
+> should preserve selection and route meaning even when
 > columns collapse.
 
 ## Quick Recall

@@ -10,7 +10,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Snapshot Testing and Visual Regressions: Interview Questions
@@ -41,7 +41,7 @@ is correct.
 
 Snapshots are useful for shared components, complex cells, rich text, charts,
 localization, and appearance-preserving migrations. I pair them with state tests for
-rules, controller tests for wiring, and accessibility tests for semantics.
+rules, controller tests for wiring, and accessibility tests for accessible meaning.
 
 A snapshot can preserve an existing defect. The human review of the initial baseline
 and every later diff is part of the assertion.
@@ -58,12 +58,12 @@ state. I load and lay out the full required hierarchy before capture.
 
 ### Expanded Answer
 
-Fixture data and images are local and deterministic. The test names the device and
-product state. Baseline recording and comparison run in the same canonical
-environment. Failures retain the old image, new image, and diff.
+Test data and images are local and produce the same result on every run. The test
+names the device and product state. Baseline recording and comparison run in the
+same fixed environment. Failures retain the old image, new image, and diff.
 
-I remove nondeterminism before adding image tolerance. A broad tolerance may hide the
-small regression the test was meant to catch.
+I remove inputs that can vary between runs before adding image tolerance. A broad
+tolerance may hide the small regression the test was meant to catch.
 
 ---
 
@@ -83,7 +83,7 @@ focused component or screen-state snapshots because their diffs are easier to
 understand.
 
 Behavior and accessibility coverage remain separate. More images do not compensate
-for missing assertions about actions or semantics.
+for missing assertions about actions or accessibility.
 
 ### Trade-offs
 
@@ -97,7 +97,7 @@ storage, and review noise. Each added snapshot should protect a named risk.
 
 ### Short Answer
 
-I would define canonical environments, baseline owners, visible diff requirements,
+I would define shared fixed environments, baseline owners, visible diff requirements,
 and a planned process for runtime and design-system migrations.
 
 ### Expanded Answer

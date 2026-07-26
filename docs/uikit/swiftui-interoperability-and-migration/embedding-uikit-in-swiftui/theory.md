@@ -10,7 +10,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Embedding UIKit in SwiftUI: Theory
@@ -19,10 +19,10 @@ last_reviewed: 2026-07-10
 
 ## Mental Model
 
-`UIViewRepresentable` and `UIViewControllerRepresentable` adapt reference-based
-UIKit objects to SwiftUI's update model. The representable struct is a description;
-it may be recreated often. The UIKit object and optional coordinator have their own
-lifetime managed through the protocol callbacks.
+`UIViewRepresentable` wraps one UIKit view. `UIViewControllerRepresentable` wraps
+one UIKit view controller. The SwiftUI wrapper is a value description that may be
+created many times, while SwiftUI can keep the same wrapped UIKit object alive.
+Protocol callbacks connect those different lifetimes.
 
 Use a view representable for a view-level capability. Use a controller representable
 when presentation, child controllers, or controller lifecycle is part of the
@@ -91,10 +91,11 @@ the callback changes SwiftUI state, and another update begins. Compare desired a
 current values, and distinguish user events from programmatic synchronization when
 the UIKit API emits both.
 
-SwiftUI controls the represented view's `frame`, `bounds`, `center`, and transform.
-Do not assign those properties from the adapter. Use constraints inside the UIKit
-component for its internal hierarchy and implement the representable sizing hook
-when the component needs to answer a SwiftUI size proposal.
+SwiftUI controls the represented view's outer `frame`, `bounds`, `center`, and
+transform. Do not assign those properties from the adapter. Use constraints only
+for the UIKit component's internal subviews. When the component must report its
+preferred size, implement `sizeThatFits(_:uiView:context:)` rather than changing its
+frame.
 
 `dismantleUIView` or its controller equivalent is for cleanup created by the
 adapter: observers, targets, delegates, timers, tasks, or external sessions. Normal
@@ -106,6 +107,10 @@ Test repeated insertion, removal, identity changes, environment changes, and rap
 two-way updates. Verify accessibility at the composed SwiftUI level. A UIKit view may
 already expose elements, but the wrapper still needs correct labels, focus order,
 and sizing in its new context.
+
+The benefit is access to a UIKit capability without rewriting it. The cost is an
+extra lifecycle and data-flow boundary. Prefer a native SwiftUI component when it
+already provides the same behavior.
 
 ## References
 

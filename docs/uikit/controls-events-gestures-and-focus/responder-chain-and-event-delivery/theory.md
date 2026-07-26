@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Responder Chain and Event Delivery: Theory
@@ -29,8 +29,9 @@ be handled by a view, a gesture recognizer, or a control.
 ## How It Works
 
 `UIResponder` is the base class for views, view controllers, windows, and the
-application object. Each responder can expose a `next` responder. UIKit uses that
-chain to route events and actions that are not handled by the current responder.
+application object. Each responder points to a `next` responder. Those links form
+the responder chain. UIKit uses it to route events and actions that the current
+responder does not handle.
 
 For touch input, UIKit starts at the window and hit-tests the view hierarchy.
 Views that are hidden, disabled for interaction, outside the hit-test point, or
@@ -56,8 +57,8 @@ work without every sender knowing the active controller.
 
 The first responder is the object that currently receives key input and starts
 many command lookups. Text fields and text views often become first responder
-when editing begins. Custom views can become first responder when they override
-`canBecomeFirstResponder` and call `becomeFirstResponder()`.
+when editing begins. Custom views can become first responder when they return `true`
+from `canBecomeFirstResponder` and successfully call `becomeFirstResponder()`.
 
 Use first responder status for current interaction ownership, not for global app
 state. A controller should not need to search arbitrary views to know business

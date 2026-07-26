@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # View Hierarchy, Coordinate Spaces, and Hit Testing: Theory
@@ -51,6 +51,12 @@ Use conversion APIs when comparing views from different branches of the tree.
 Manual offset math is fragile because scrolling, transforms, safe areas, and
 intermediate containers can change the relationship.
 
+```swift
+let buttonRectInOverlay = button.convert(button.bounds, to: overlayView)
+```
+
+This converts the button's local bounds into the overlay's coordinate space.
+
 Coordinate conversions are also important for popovers, custom transitions,
 drag-and-drop previews, tooltips, and drawing overlays. If the source rect is in
 the wrong coordinate space, the UI may appear in the wrong place even though each
@@ -67,13 +73,14 @@ A view is normally skipped when:
 
 - `isHidden` is true
 - `isUserInteractionEnabled` is false
-- alpha is effectively invisible
+- `alpha` is less than `0.01`
 - `point(inside:with:)` returns false
 
-The default `point(inside:with:)` checks the view's bounds. A parent that clips
-or rejects a point can prevent a visually overflowing child from receiving
-touches. If a design needs a larger touch target, override hit testing carefully
-or use layout that gives the control an adequate bounds size.
+The default `point(inside:with:)` checks the view's bounds. If the point is
+outside a parent, UIKit does not search that parent's children. This remains true
+when `clipsToBounds` is `false` and a child is visibly drawn outside the parent.
+If a design needs a larger touch target, override hit testing carefully or give
+the control an adequate bounds size.
 
 ## Engineering Decisions
 
@@ -110,4 +117,5 @@ view, not to add another hard-coded offset.
 
 - [View Programming Guide for iOS](https://developer.apple.com/library/archive/documentation/WindowsViews/Conceptual/ViewPG_iPhoneOS/)
 - [UIView](https://developer.apple.com/documentation/uikit/uiview)
+- [`hitTest(_:with:)`](https://developer.apple.com/documentation/uikit/uiview/hittest(_:with:))
 - [Handling Touches in Your View](https://developer.apple.com/documentation/uikit/touches_presses_and_gestures/handling_touches_in_your_view)

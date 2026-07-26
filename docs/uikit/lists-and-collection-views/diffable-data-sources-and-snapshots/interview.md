@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # Diffable Data Sources and Snapshots: Interview Questions
@@ -33,7 +33,7 @@ last_reviewed: 2026-07-01
 
 ### Short Answer
 
-They reduce manual synchronization between the backing data and list updates. I
+They reduce manual synchronization between model data and list updates. I
 describe the desired sections and items in a snapshot, and UIKit computes the
 insertions, deletions, moves, and animations.
 

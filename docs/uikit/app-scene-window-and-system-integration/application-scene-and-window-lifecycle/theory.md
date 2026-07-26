@@ -10,7 +10,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Application, Scene, and Window Lifecycle: Theory
@@ -24,8 +24,9 @@ represents each UI session with a `UIScene`, normally a `UIWindowScene`. A windo
 belongs to one window scene, and view controllers own screen-level behavior inside
 that window.
 
-Scene-based lifecycle is not only a multiwindow feature. Apple requires it for apps
-built with the latest iOS 27 SDK. The useful interview distinction is scope:
+The scene lifecycle is useful even when an app shows only one window. Starting
+with the iOS 27 SDK, [Apple requires apps to adopt it][scene-transition] or they
+fail to launch. The useful interview distinction is scope:
 
 | Owner | Responsibility |
 |---|---|
@@ -98,8 +99,8 @@ Use scene callbacks for work scoped to one UI session:
 
 Resigning active does not mean backgrounding; an interruption may be brief. Entering
 the background does not promise long execution time. Save important drafts as they
-change, then use the background callback for a final bounded flush. Use background
-task APIs when work genuinely needs more time.
+change. Use the background callback for a final short save, and request background
+execution only when the work genuinely needs more time.
 
 Disconnection is also not permanent deletion. UIKit may disconnect a scene while
 retaining its `UISceneSession`, then reconnect it later. Release the scene object,
@@ -121,7 +122,7 @@ Carry scene context from the source instead:
 - choose a target scene with explicit product policy for app-level events.
 
 A shared model or account session can live at process scope. Navigation stacks,
-selected documents, transient presentations, and scene observers belong to the
+selected documents, temporary presentations, and scene observers belong to the
 scene. This boundary prevents one window from navigating or dismissing another.
 
 ## Engineering Decisions
@@ -137,8 +138,10 @@ adds a second window because they remove hidden global UI ownership.
 
 ## References
 
-- [Transitioning to the UIKit scene-based life cycle](https://developer.apple.com/documentation/uikit/transitioning-to-the-uikit-scene-based-life-cycle)
+- [Transitioning to the UIKit scene-based life cycle][scene-transition]
 - [Managing your app's life cycle](https://developer.apple.com/documentation/uikit/managing-your-app-s-life-cycle)
 - [`UIApplicationDelegate`](https://developer.apple.com/documentation/uikit/uiapplicationdelegate)
 - [`UIWindowSceneDelegate`](https://developer.apple.com/documentation/uikit/uiwindowscenedelegate)
 - [`UIWindow`](https://developer.apple.com/documentation/uikit/uiwindow)
+
+[scene-transition]: https://developer.apple.com/documentation/uikit/transitioning-to-the-uikit-scene-based-life-cycle

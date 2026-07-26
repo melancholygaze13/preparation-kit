@@ -7,14 +7,15 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-06
+last_reviewed: 2026-07-26
 ---
 
 # Secure Input, AutoFill, and Content Types
 
-> Secure input is not only hidden characters. It is the combination of secure
-> text entry, correct text content types, appropriate keyboard traits, and
-> careful handling of sensitive values.
+> Secure input protects sensitive text while the user enters and submits it.
+> Hiding characters is only one part. Correct content types let AutoFill and
+> password managers understand the field, while careful data handling prevents
+> accidental exposure.
 
 ## Quick Recall
 

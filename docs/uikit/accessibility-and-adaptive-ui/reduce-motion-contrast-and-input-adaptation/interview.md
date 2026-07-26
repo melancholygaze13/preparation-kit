@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-06
+last_reviewed: 2026-07-26
 ---
 
 # Reduce Motion, Contrast, and Input Adaptation: Interview Questions
@@ -30,8 +30,8 @@ last_reviewed: 2026-07-06
 
 ### Short Answer
 
-Check the Reduce Motion setting and provide a lower-motion alternative for large
-spatial movement, parallax, or motion-heavy transitions.
+Check the Reduce Motion setting. Replace large movement, parallax, or motion-heavy
+transitions with a fade, shorter movement, or an immediate state change.
 
 ### Expanded Answer
 

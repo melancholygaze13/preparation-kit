@@ -7,14 +7,13 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-06
+last_reviewed: 2026-07-26
 ---
 
 # Focus, Validation, and Form State
 
-> Focus and validation are form orchestration problems. UIKit controls edit
-> values, while the screen owner decides field order, error timing, and submit
-> readiness.
+> UIKit controls edit values, but the screen must coordinate the whole form. It
+> decides field order, when to show errors, and whether submission is ready.
 
 ## Quick Recall
 

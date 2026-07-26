@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-06-30
+last_reviewed: 2026-07-26
 ---
 
 # Lifecycle, State Restoration, and System Events: Interview Questions
@@ -33,7 +33,7 @@ last_reviewed: 2026-06-30
 
 Restore durable user context: route, selected model identifiers, drafts, filters,
 and important editing position. Do not restore live views, cells, controller
-instances, or data that should be reloaded from the source of truth.
+instances, or data that should be reloaded from durable model storage.
 
 ### Expanded Answer
 
@@ -82,7 +82,7 @@ detail. On launch, I would resolve the selected account and transaction by ID.
 If the transaction still exists, rebuild the stack. If it does not, show the
 account detail or account list instead.
 
-This is safer than trying to archive controllers. Controllers contain transient
+This is safer than trying to archive controllers. Controllers contain temporary
 UIKit state and dependencies that may not be valid in a new process or scene.
 
 <a id="q4-restoration-cost"></a>

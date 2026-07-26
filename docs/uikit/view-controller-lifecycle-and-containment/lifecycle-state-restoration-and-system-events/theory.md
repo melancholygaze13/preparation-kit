@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-06-30
+last_reviewed: 2026-07-26
 ---
 
 # Lifecycle, State Restoration, and System Events: Theory
@@ -72,11 +72,46 @@ State restoration should save small, durable facts:
 - draft identifier
 - editing mode or filter state
 
-It should not save live UIKit objects, transient cells, or data that can be
+It should not save live UIKit objects, temporary cells, or data that can be
 reloaded from a source of truth. Restoration must handle failure. The selected
 item may have been deleted. The user may no longer have permission. A draft may
 be invalid. In those cases, rebuild to the nearest valid screen instead of
 crashing or showing broken state.
+
+For a scene-based app, an `NSUserActivity` can carry the small route description
+for one scene. UIKit asks the scene delegate for this activity and can return it
+when restoring the scene:
+
+```swift
+func stateRestorationActivity(for scene: UIScene) -> NSUserActivity? {
+    let activity = NSUserActivity(activityType: "com.example.open-document")
+    activity.userInfo = ["documentID": route.documentID]
+    return activity
+}
+
+func scene(
+    _ scene: UIScene,
+    restoreInteractionStateWith activity: NSUserActivity
+) {
+    guard let documentID = activity.userInfo?["documentID"] as? String else {
+        route = .documentList
+        return
+    }
+    route = .document(id: documentID)
+}
+```
+
+The example is intentionally route-based. The restore callback changes model or
+coordinator state, and that owner rebuilds the controllers. Treat `userInfo` as
+untrusted input: validate types, permissions, and whether the model still exists.
+
+UIKit also has controller preservation APIs. Setting a controller's
+`restorationIdentifier` opts that controller into consideration, but every parent
+in its restoration path also needs an identifier. Override
+`encodeRestorableState(with:)` and `decodeRestorableState(with:)` for small UI
+state that UIKit cannot derive. Call `super`, use secure coding, and remember that
+UIKit may discard the archive. These APIs preserve interface state; they do not
+replace durable storage for user data.
 
 ## Engineering Decisions
 
@@ -115,3 +150,4 @@ makes multiwindow and deep-link behavior inconsistent.
 - [Scenes](https://developer.apple.com/documentation/uikit/scenes)
 - [Restoring Your App's State](https://developer.apple.com/documentation/uikit/restoring-your-app-s-state)
 - [Preserving Your App's UI Across Launches](https://developer.apple.com/documentation/uikit/preserving-your-app-s-ui-across-launches)
+- [`UIViewController.restorationIdentifier`](https://developer.apple.com/documentation/uikit/uiviewcontroller/restorationidentifier)

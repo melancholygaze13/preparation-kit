@@ -7,14 +7,14 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-06
+last_reviewed: 2026-07-26
 ---
 
 # Accessibility Elements, Labels, Traits, and Actions
 
-> Accessibility is a parallel interaction model, not a set of labels added at
-> the end. A UIKit screen should expose the same meaning, state, and actions to
-> assistive technology that it exposes visually.
+> Accessibility gives people another way to understand and operate the same
+> interface. A UIKit screen must expose its meaning, current state, and actions
+> to assistive technology, not only display them visually.
 
 ## Quick Recall
 

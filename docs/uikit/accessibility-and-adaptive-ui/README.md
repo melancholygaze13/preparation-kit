@@ -4,15 +4,15 @@ domain: "UIKit"
 page_type: topic-index
 interview_priority: high
 status: reviewed
-last_reviewed: 2026-07-06
+last_reviewed: 2026-07-26
 ---
 
 # Accessibility and Adaptive UI
 
 UIKit accessibility questions test whether a screen keeps its meaning and core
 tasks available when the user changes how they read, navigate, or interact. A
-strong answer covers the accessibility tree, text scaling, language direction,
-and system preferences as normal production requirements.
+strong answer covers the system's list of accessible elements, text scaling,
+language direction, and system preferences as normal production requirements.
 
 ## Learning Path
 

@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-06
+last_reviewed: 2026-07-26
 ---
 
 # Secure Input, AutoFill, and Content Types: Theory
@@ -55,6 +55,11 @@ disable inappropriate text transformations, and support AutoFill.
 safe after your code reads it. Once the string is in your app, your code must
 avoid sending it to logs, crash metadata, analytics, debug overlays, or
 unnecessary long-lived state.
+
+Secure text entry also does not promise to block screenshots, screen capture, or
+external keyboards. If the product has a capture policy, handle it separately and
+explain the limits. Do not claim that a secure field protects pixels outside the
+field or erases every in-memory copy of its `String` value.
 
 `textContentType` is a semantic hint. It helps the system understand what kind
 of input the field expects. It does not validate the value and does not replace

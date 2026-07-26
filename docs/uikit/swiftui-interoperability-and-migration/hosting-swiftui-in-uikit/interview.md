@@ -10,7 +10,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Hosting SwiftUI in UIKit: Interview Questions
@@ -33,8 +33,8 @@ last_reviewed: 2026-07-10
 ### Short Answer
 
 I place it around the smallest coherent region that can have clear inputs and
-actions. UIKit keeps the surrounding controller lifecycle, while the hosted region
-owns declarative rendering without duplicating state or routing.
+actions. UIKit keeps the surrounding controller lifecycle, while SwiftUI renders the
+hosted region without keeping a second copy of state or navigation.
 
 ### Expanded Answer
 

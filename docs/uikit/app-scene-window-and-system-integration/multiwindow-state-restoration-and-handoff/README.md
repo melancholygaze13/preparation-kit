@@ -9,14 +9,15 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Multiwindow, State Restoration, and Handoff
 
-> Treat each scene session as an independent user activity. Save stable identity
-> and route state in a small `NSUserActivity`; keep durable content in the model or
-> document store.
+> Multiwindow means the app can have several independent scene sessions. State
+> restoration rebuilds a scene after disconnection or termination. Handoff lets
+> another device continue the activity. Save stable identity and route state,
+> while keeping durable content in the model or document store.
 
 ## Quick Recall
 

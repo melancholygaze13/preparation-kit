@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Layout, Rendering, and Offscreen Cost: Interview Questions
@@ -32,8 +32,9 @@ last_reviewed: 2026-07-05
 ### Short Answer
 
 Auto Layout hurts performance when code repeatedly invalidates or rebuilds
-constraints in hot paths. The issue is usually constraint churn, unstable
-self-sizing, or very large dynamic hierarchies, not Auto Layout itself.
+constraints during frequent work such as scrolling. The issue is usually repeated
+constraint changes, unstable self-sizing, or very large dynamic hierarchies, not
+Auto Layout itself.
 
 ### Expanded Answer
 

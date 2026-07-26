@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Retain Cycles, Delegates, and Closure Lifetimes: Interview Questions
@@ -91,9 +91,9 @@ retains the closure and how long that owner lives.
 
 ### Short Answer
 
-I would reproduce the navigation path, confirm the controller or view model does
-not deallocate, then inspect the retaining path with the memory graph debugger
-or Instruments.
+I would reproduce the navigation path, confirm the controller or view model stays
+alive after it should be released, then inspect the strong-reference path with
+the memory graph debugger or Instruments.
 
 ### Expanded Answer
 

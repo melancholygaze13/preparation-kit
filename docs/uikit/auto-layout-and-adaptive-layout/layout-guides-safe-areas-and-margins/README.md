@@ -10,13 +10,13 @@ levels:
 interview_priority: high
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # Layout Guides, Safe Areas, and Margins
 
-> Layout guides represent meaningful boundaries without adding visible views.
-> Safe areas protect content from system UI, while margins express readable
+> A layout guide is an invisible rectangle used only by constraints. Safe areas
+> keep important content clear of system UI, while margins express readable
 > spacing inside a container.
 
 ## Quick Recall

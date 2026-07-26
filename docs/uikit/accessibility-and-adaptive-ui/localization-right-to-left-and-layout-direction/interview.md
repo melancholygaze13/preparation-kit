@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-06
+last_reviewed: 2026-07-26
 ---
 
 # Localization, Right-to-Left, and Layout Direction: Interview Questions
@@ -30,8 +30,8 @@ last_reviewed: 2026-07-06
 
 ### Short Answer
 
-Strings, text length, grammar, formatting, layout pressure, accessibility text,
-and sometimes layout direction can all change.
+Localization can change wording, text length, grammar, date and number formats,
+accessibility text, and layout direction.
 
 ### Expanded Answer
 
@@ -74,7 +74,7 @@ such as a brand mark, code, URL, map, chart, or timeline.
 
 The default should be adaptive layout. Overrides should be local and justified.
 For example, a logo should not flip just because the app is in Arabic. But a
-standard disclosure or back affordance should usually follow platform direction.
+standard disclosure indicator or back button should usually follow platform direction.
 
 At Staff scope, I would document these rules in shared components and review
 custom drawing separately.

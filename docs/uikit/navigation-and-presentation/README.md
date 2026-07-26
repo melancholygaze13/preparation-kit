@@ -4,14 +4,15 @@ domain: "UIKit"
 page_type: topic-index
 interview_priority: core
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-26
 ---
 
 # Navigation and Presentation
 
-UIKit navigation is about ownership of view-controller relationships. Strong
-interview answers separate stack navigation, modal presentation, adaptive
-containers, and presentation context instead of treating every transition as
+UIKit navigation connects view controllers. A stack represents deeper steps in
+one flow, while a modal starts a separate task over the current UI. Strong
+interview answers separate these from adaptive containers and presentation
+context instead of treating every transition as
 "show a screen."
 
 ## Learning Path

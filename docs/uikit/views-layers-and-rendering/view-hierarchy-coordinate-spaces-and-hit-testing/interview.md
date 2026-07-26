@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # View Hierarchy, Coordinate Spaces, and Hit Testing: Interview Questions
@@ -50,9 +50,10 @@ intermediate container views.
 
 ### Short Answer
 
-UIKit starts at the window and walks down the view hierarchy, checking whether
-the touch is inside eligible views. It searches frontmost subviews first and
-returns the deepest eligible view that contains the point.
+UIKit starts at the window and walks down the view hierarchy. It skips hidden
+views, disabled interaction, alpha below `0.01`, and branches where the point is
+outside the parent. It searches frontmost subviews first and returns the deepest
+eligible view that contains the point.
 
 ### Expanded Answer
 

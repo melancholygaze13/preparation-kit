@@ -4,13 +4,13 @@ domain: "UIKit"
 page_type: topic-index
 interview_priority: core
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-26
 ---
 
 # Lists and Collection Views
 
-UIKit list work is mostly about keeping three things in sync: model identity,
-cell configuration, and visible updates. Interview answers should separate what
+UIKit list work is mostly about keeping three things in sync: each model's stable
+identifier, cell configuration, and visible updates. Interview answers should separate what
 the data source owns, what the cell owns, and what asynchronous work may still be
 running after reuse.
 

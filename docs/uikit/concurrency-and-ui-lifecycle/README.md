@@ -4,7 +4,7 @@ domain: "UIKit"
 page_type: topic-index
 interview_priority: core
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Concurrency and UI Lifecycle
@@ -29,7 +29,7 @@ results before rendering.
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [MainActor and UI Thread Confinement](main-actor-and-ui-thread-confinement/README.md) | Keeps UIKit access in the correct isolation domain. | Core | 12 min |
+| [MainActor and UI Thread Confinement](main-actor-and-ui-thread-confinement/README.md) | Keeps UIKit access on the main actor. | Core | 12 min |
 | [Async Work, Cancellation, and View Reuse](async-work-cancellation-and-view-reuse/README.md) | Prevents obsolete work from updating recycled or invisible UI. | Core | 13 min |
 | [Image Loading, Deduplication, and Caching](image-loading-deduplication-and-caching/README.md) | Coordinates expensive loading across scrolling interfaces. | Core | 14 min |
 | [Background Work and Result Ordering](background-work-and-result-ordering/README.md) | Preserves state when asynchronous results complete out of order. | Core | 13 min |

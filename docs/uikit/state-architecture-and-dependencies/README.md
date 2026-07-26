@@ -4,7 +4,7 @@ domain: "UIKit"
 page_type: topic-index
 interview_priority: core
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # State, Architecture, and Dependencies
@@ -31,5 +31,5 @@ stay testable as screens and teams grow.
 |---|---|---|---:|
 | [MVC and View Controller Boundaries](mvc-and-view-controller-boundaries/README.md) | Prevents presentation controllers from absorbing domain policy. | Core | 14 min |
 | [Unidirectional State and Rendering](unidirectional-state-and-rendering/README.md) | Makes events, state transitions, and rendering traceable. | Core | 13 min |
-| [Delegation, Closures, Notifications, and Ownership](delegation-closures-notifications-and-ownership/README.md) | Chooses communication mechanisms with explicit lifetime semantics. | Core | 13 min |
+| [Delegation, Closures, Notifications, and Ownership](delegation-closures-notifications-and-ownership/README.md) | Chooses communication methods with clear ownership and lifetime rules. | Core | 13 min |
 | [Dependency Injection and Feature Modularization](dependency-injection-and-feature-modularization/README.md) | Creates replaceable boundaries for testing and larger codebases. | Core | 14 min |

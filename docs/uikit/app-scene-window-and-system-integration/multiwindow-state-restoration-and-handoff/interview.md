@@ -10,7 +10,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Multiwindow, State Restoration, and Handoff: Interview Questions
@@ -86,7 +86,7 @@ from its real store and handles missing or incompatible content explicitly.
 
 ### Short Answer
 
-I share the durable repository and its conflict policy, but keep navigation,
+I share the durable data repository and its rules for conflicting edits, but keep navigation,
 selection, undo context, and presentation state owned by each scene.
 
 ### Expanded Answer

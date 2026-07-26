@@ -10,7 +10,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # View Controller Transitions and Coordinators: Interview Questions
@@ -33,7 +33,7 @@ last_reviewed: 2026-07-10
 
 ### Short Answer
 
-A delegate vends an animation controller and, when needed, an interaction controller
+A delegate returns an animation controller and, when needed, an interaction controller
 or presentation controller. UIKit supplies the transition context and container.
 
 ### Expanded Answer

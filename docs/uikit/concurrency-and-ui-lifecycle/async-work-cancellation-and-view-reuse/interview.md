@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Async Work, Cancellation, and View Reuse: Interview Questions
@@ -82,8 +82,9 @@ behavior is often to do nothing.
 
 ### Short Answer
 
-The owner should match the lifetime of the work. Screen requests belong to the
-view controller or view model. Shared cache fills belong to a service or actor.
+The object that starts and stores a task should live as long as that work is useful.
+Screen requests belong to the view controller or view model. Shared cache fills
+belong to a service or actor.
 Cells should avoid owning shared work.
 
 ### Expanded Answer

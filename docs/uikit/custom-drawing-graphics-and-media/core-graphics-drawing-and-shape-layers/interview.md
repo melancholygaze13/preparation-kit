@@ -10,7 +10,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Core Graphics Drawing and Shape Layers: Interview Questions
@@ -32,7 +32,7 @@ last_reviewed: 2026-07-10
 
 ### Short Answer
 
-I use `draw(_:)` when a view can regenerate a combined surface from current state.
+I use `draw(_:)` when a view can redraw one bitmap surface from current state.
 I use `CAShapeLayer` when a path should remain in the layer tree or animate through
 stroke, fill, or path properties.
 

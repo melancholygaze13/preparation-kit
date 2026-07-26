@@ -9,7 +9,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # UI, Accessibility, and Interaction Testing
@@ -22,12 +22,12 @@ last_reviewed: 2026-07-10
 
 - XCUIAutomation runs out of process and UI tests still use XCTest, not Swift
   Testing.
-- Configure deterministic fixtures through launch arguments or environment at
-  the app's composition root.
+- Use launch arguments or environment values to choose known test data when the
+  app starts.
 - Prefer accessible roles and labels; add stable identifiers when labels are
   localized or ambiguous.
 - Automated accessibility audits find common issues, but they do not replace
-  semantic assertions or manual assistive-technology testing.
+  checks of accessible meaning or manual assistive-technology testing.
 
 ## Study
 

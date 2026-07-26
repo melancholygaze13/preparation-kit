@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Background Work and Result Ordering: Interview Questions
@@ -47,9 +47,9 @@ old data. The UI should only accept results that still match current state.
 
 ### Short Answer
 
-Use a generation token, request ID, item identity, cursor, or current query
-check before applying the result. Cancellation helps, but it is not enough by
-itself.
+Give each refresh or request an identity. Before applying a result, check that
+identity, the current query, item, or page cursor. Cancellation helps, but it is
+not enough by itself.
 
 ### Expanded Answer
 

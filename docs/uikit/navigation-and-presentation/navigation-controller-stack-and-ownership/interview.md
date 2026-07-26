@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-26
 ---
 
 # Navigation Controller Stack and Ownership: Interview Questions
@@ -54,8 +54,9 @@ dismiss mean different things, the navigation structure should make that clear.
 
 ### Short Answer
 
-The flow owner should decide navigation. A child view controller can report user
-intent, but it should not know too much about unrelated stack structure or
+The coordinator or other object that owns the flow should decide navigation. A
+child view controller can report user intent, but it should not know too much
+about unrelated stack structure or
 app-wide containers.
 
 ### Expanded Answer

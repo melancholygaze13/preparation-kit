@@ -10,7 +10,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Multiwindow, State Restoration, and Handoff: Theory
@@ -20,11 +20,11 @@ last_reviewed: 2026-07-10
 ## Mental Model
 
 A scene session is one independent user activity, such as editing a document or
-viewing an account. Its route, selection, and transient UI are scene-local. Durable
+viewing an account. Its route, selection, and temporary UI are scene-local. Durable
 documents and account data remain in shared stores.
 
-`NSUserActivity` is the envelope between these layers. It carries small, versioned
-facts that let the receiving scene resolve current data and rebuild a valid route.
+`NSUserActivity` carries information between these layers. It stores small,
+versioned facts that let the receiving scene load current data and rebuild a route.
 It is not a database, a controller archive, or the document itself.
 
 ## Activate Content in a Scene
@@ -33,8 +33,9 @@ Declare the window-scene configuration and enable multiple-window support before
 requesting another session. A request can fail, so scene creation is not a guaranteed
 synchronous operation.
 
-On current SDKs, create a `UISceneSessionActivationRequest` and ask `UIApplication`
-to activate it. UIKit may reuse a suitable session or create one:
+On iOS 17 and later, create a
+[`UISceneSessionActivationRequest`][activation-request] and ask
+`UIApplication` to activate it. UIKit may reuse a suitable session or create one:
 
 ```swift
 let activity = NSUserActivity(
@@ -57,10 +58,11 @@ UIApplication.shared.activateSceneSession(for: request) { error in
 }
 ```
 
-The older `requestSceneSessionActivation` API is deprecated on current SDKs. Pass a
-specific session when reopening a known window. Otherwise, use stable target content
-identity and scene activation conditions so UIKit can select a suitable session.
-Do not assume every request creates a new window.
+For an iOS 17-or-later deployment target, prefer this API over
+`requestSceneSessionActivation`. Pass a specific session when reopening a known
+window. Otherwise, use stable target content identity and scene activation
+conditions so UIKit can select a suitable session. A request does not guarantee a
+new window.
 
 The scene receives initial activity in its connection options and later activity
 through `scene(_:continue:)`. Route the activity through the scene's coordinator so
@@ -100,9 +102,9 @@ device or platform continues the task. Declare supported activity types in
 `NSUserActivityTypes`, make the relevant activity current, and implement the scene
 delegate continuation callbacks.
 
-Keep `userInfo` small. Apple recommends less than 3 KB for Handoff. Send a document
-ID, activity version, route, and selection. Sync the actual document through an
-appropriate store such as CloudKit or iCloud Drive. Never include credentials,
+Keep `userInfo` small. [Apple recommends less than 3 KB for Handoff][handoff].
+Send a document ID, activity version, route, and selection. Sync the actual
+document through an appropriate store such as CloudKit or iCloud Drive. Never include credentials,
 unnecessary personal data, or a large document snapshot.
 
 The receiving device may have different capabilities, data freshness, or account
@@ -123,7 +125,10 @@ restoration with missing data, incompatible payload versions, and simultaneous e
 ## References
 
 - [Supporting multiple windows on iPad](https://developer.apple.com/documentation/uikit/supporting-multiple-windows-on-ipad)
-- [`UISceneSessionActivationRequest`](https://developer.apple.com/documentation/uikit/uiscenesessionactivationrequest-swift.struct)
+- [`UISceneSessionActivationRequest`][activation-request]
 - [`UISceneDelegate.stateRestorationActivity(for:)`](https://developer.apple.com/documentation/uikit/uiscenedelegate/staterestorationactivity(for:))
 - [Restoring your app's state](https://developer.apple.com/documentation/uikit/restoring-your-app-s-state)
-- [Implementing Handoff in your app](https://developer.apple.com/documentation/foundation/implementing-handoff-in-your-app)
+- [Implementing Handoff in your app][handoff]
+
+[handoff]: https://developer.apple.com/documentation/foundation/implementing-handoff-in-your-app
+[activation-request]: https://developer.apple.com/documentation/uikit/uiscenesessionactivationrequest-swift.struct

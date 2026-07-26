@@ -10,14 +10,15 @@ levels:
 interview_priority: core
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # Diffable Data Sources and Snapshots
 
-> Diffable data sources update lists from section and item identifiers instead
-> of manual index-path mutations. A snapshot is the current UI truth for what
-> sections and items should appear.
+> A diffable data source updates a list by comparing stable section and item
+> identifiers. A snapshot is an ordered value that states which sections and
+> items should appear now. UIKit calculates the needed insertions, removals, and
+> moves.
 
 ## Quick Recall
 

@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-06-30
+last_reviewed: 2026-07-26
 ---
 
 # View Controller Responsibilities and Ownership: Theory
@@ -22,7 +22,7 @@ interface. It owns the root view for that screen region, reacts to user events,
 updates presentation state, and coordinates navigation or child controllers.
 
 The controller should not become the default home for every decision. In a
-production app, its job is usually orchestration:
+production app, its job is usually coordination:
 
 ```mermaid
 flowchart LR
@@ -75,8 +75,13 @@ passes a closure to a long-lived service or model object, capture `self` weakly
 unless the lifetime relationship is clearly shorter than the controller.
 
 ```swift
+protocol ProfileLoading {
+    func loadDisplayName() async throws -> String
+}
+
 final class ProfileViewController: UIViewController {
     private let loader: ProfileLoading
+    private let nameLabel = UILabel()
     private var task: Task<Void, Never>?
 
     init(loader: ProfileLoading) {
@@ -88,16 +93,37 @@ final class ProfileViewController: UIViewController {
         fatalError("Use init(loader:)")
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        task?.cancel()
+        task = Task { [weak self] in
+            guard let self else { return }
+            do {
+                let displayName = try await loader.loadDisplayName()
+                try Task.checkCancellation()
+                nameLabel.text = displayName
+            } catch is CancellationError {
+                // Leaving the screen made this result unnecessary.
+            } catch {
+                nameLabel.text = "Could not load profile"
+            }
+        }
+    }
+
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         task?.cancel()
+        task = nil
     }
 }
 ```
 
-The example is small, but the boundary is important. The controller owns the UI
-lifetime. The loader owns loading behavior. Cancellation belongs near the
-lifecycle that makes the result useful.
+The controller owns the UI lifetime and rendering. The loader owns loading
+behavior. The protocol makes that dependency visible at initialization. The task
+is useful only while this screen is visible, so the controller cancels it at the
+matching lifecycle boundary. Cancellation is cooperative, so a real screen should
+also reject a result if its model identity has changed.
 
 ## Engineering Decisions
 

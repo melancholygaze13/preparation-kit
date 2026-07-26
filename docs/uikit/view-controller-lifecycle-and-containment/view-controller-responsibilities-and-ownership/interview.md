@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-06-30
+last_reviewed: 2026-07-26
 ---
 
 # View Controller Responsibilities and Ownership: Interview Questions
@@ -54,7 +54,7 @@ their results to views.
 
 I first separate UIKit wiring from feature decisions. I keep view setup and
 lifecycle in the controller, then move state transitions, formatting, validation,
-loading, and navigation policy behind smaller objects when they need tests or
+loading, and navigation rules behind smaller objects when they need tests or
 reuse.
 
 ### Expanded Answer

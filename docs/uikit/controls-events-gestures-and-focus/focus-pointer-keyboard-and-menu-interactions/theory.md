@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Focus, Pointer, Keyboard, and Menu Interactions: Theory
@@ -41,9 +41,9 @@ or layout changes. Selection should usually remain a separate explicit action.
 
 ## Pointer and Hover
 
-Pointer interactions give pointer-capable devices hover feedback. They should
-communicate affordance: this object can be clicked, dragged, resized, or opened.
-The pointer effect should match the control's real behavior.
+Pointer interactions give pointer-capable devices hover feedback. They should show
+what the object can do: click, drag, resize, or open. The pointer effect should
+match the control's real behavior.
 
 Do not create pointer-only functionality. A pointer can improve precision and
 discoverability, but the same command should usually be available through touch,
@@ -87,7 +87,7 @@ Use this boundary:
 | Input style | Good use | Avoid |
 |---|---|---|
 | Focus | Navigate selectable elements | Changing data just because focus moved |
-| Pointer | Show hover affordance | Pointer-only commands |
+| Pointer | Show what can be clicked or dragged | Pointer-only commands |
 | Keyboard | Frequent commands and navigation | Capturing text input unexpectedly |
 | Menus | Secondary and contextual commands | Hiding primary required actions |
 

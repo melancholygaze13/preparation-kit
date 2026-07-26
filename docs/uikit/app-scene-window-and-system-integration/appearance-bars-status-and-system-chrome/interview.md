@@ -10,7 +10,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Appearance, Bars, Status, and System Chrome: Interview Questions
@@ -39,7 +39,7 @@ assign it to every bar state the design intentionally supports.
 ### Expanded Answer
 
 The normal, scroll-edge, compact, and compact scroll-edge states can differ. I apply
-the appearance at the screen, flow, or app scope that owns the policy. I use semantic
+the appearance at the screen, flow, or app scope that owns the decision. I use system
 colors and avoid fixed bar metrics so system materials and accessibility settings can
 adapt.
 

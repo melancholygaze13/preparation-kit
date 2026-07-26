@@ -9,12 +9,12 @@ levels:
 interview_priority: high
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Testing View Controller Lifecycle and Navigation
 
-> A view-controller test should reproduce only the UIKit boundary the behavior
+> A view-controller test should reproduce only the UIKit setup the behavior
 > needs. Load views explicitly, drive appearance through a valid sequence, and
 > test navigation intent separately from framework wiring when possible.
 

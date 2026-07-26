@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # Constraints, Anchors, and Priorities: Theory
@@ -46,6 +46,8 @@ Anchors are the preferred programmatic API for most UIKit code because they are
 type checked:
 
 ```swift
+titleLabel.translatesAutoresizingMaskIntoConstraints = false
+
 NSLayoutConstraint.activate([
     titleLabel.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
     titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: accessoryView.leadingAnchor, constant: -12),
@@ -55,6 +57,11 @@ NSLayoutConstraint.activate([
 
 This code describes intent: the label starts at the content margin, does not
 overlap the accessory view, and stays vertically centered.
+
+For a view created in code, set `translatesAutoresizingMaskIntoConstraints` to
+`false` before adding your own constraints. Otherwise, UIKit converts the view's
+old frame into constraints that can conflict with yours. Interface Builder normally
+manages this setting for views that it creates.
 
 ## Priorities
 

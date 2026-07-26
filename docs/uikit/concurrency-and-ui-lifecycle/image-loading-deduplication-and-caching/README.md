@@ -7,15 +7,14 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Image Loading, Deduplication, and Caching
 
-> Image loading for UIKit lists is a concurrency problem: many views ask for the
-> same expensive resource while cells are being reused. A good loader separates
-> cache ownership, in-flight request deduplication, decoding, and UI identity
-> checks.
+> A cache reuses a finished image. Request deduplication lets several callers
+> share one load that is still running. A good loader owns both rules, decodes
+> away from scrolling work, and checks item identity before updating a reused cell.
 
 ## Quick Recall
 

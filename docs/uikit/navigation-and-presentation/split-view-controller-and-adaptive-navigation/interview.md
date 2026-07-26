@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # Split View Controller and Adaptive Navigation: Interview Questions
@@ -50,7 +50,7 @@ modal flow is usually simpler.
 
 ### Short Answer
 
-It should preserve navigation meaning while changing presentation. In compact
+It should preserve the selected item and path while changing presentation. In compact
 width, columns may collapse into a stack, but selected IDs and detail route state
 should remain consistent.
 

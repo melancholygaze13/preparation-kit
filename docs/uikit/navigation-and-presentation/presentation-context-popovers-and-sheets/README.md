@@ -10,14 +10,15 @@ levels:
 interview_priority: high
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-26
 ---
 
 # Presentation Context, Popovers, and Sheets
 
-> Presentation context decides what area a presented controller covers. Popovers
-> and sheets are adaptive presentations, so code must handle compact widths,
-> source views, dismissal, and state changes deliberately.
+> Presentation context decides which controller and screen area contain a
+> presentation. A popover points to a source item. A sheet rises from an edge and
+> may support several heights. Both can adapt on compact screens, so dismissal
+> and layout must work in every resulting style.
 
 ## Quick Recall
 

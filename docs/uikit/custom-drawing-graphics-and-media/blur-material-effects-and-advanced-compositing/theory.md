@@ -10,7 +10,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Blur, Material Effects, and Advanced Compositing: Theory
@@ -30,9 +30,23 @@ stable and cheap to display, but it cannot respond to changing content behind it
 
 ## Use Visual Effect Views as Designed
 
-Create a `UIBlurEffect` with a semantic system style and install it in a
+Create a `UIBlurEffect` with a system style that matches the content and install it in a
 `UIVisualEffectView`. Add labels and other foreground views to the effect view's
 `contentView`, not directly to the effect view.
+
+```swift
+let blur = UIBlurEffect(style: .systemMaterial)
+let effectView = UIVisualEffectView(effect: blur)
+effectView.translatesAutoresizingMaskIntoConstraints = false
+
+let titleLabel = UILabel()
+titleLabel.text = "Now Playing"
+effectView.contentView.addSubview(titleLabel)
+```
+
+The effect view draws the material. Its `contentView` owns the foreground content.
+The snippet omits the label's layout only to keep the effect relationship visible;
+normal code must constrain both views.
 
 Keep the effect view and its ancestors at `alpha == 1`. Apple documents that partial
 alpha can cause offscreen rendering and make effects look wrong or disappear. If a

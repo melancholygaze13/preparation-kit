@@ -4,10 +4,14 @@ domain: "UIKit"
 page_type: topic-index
 interview_priority: high
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # App, Scene, Window, and System Integration
+
+This topic explains who owns UIKit state above a single screen. The app object
+represents the process. Each scene represents one interface session, and each
+window contains that scene's visible controller hierarchy.
 
 ## Preparation Paths
 

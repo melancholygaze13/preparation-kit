@@ -7,14 +7,14 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-06
+last_reviewed: 2026-07-26
 ---
 
 # Text Fields, Text Views, and Delegate Boundaries
 
-> Text fields and text views collect editing intent. Delegates should validate,
-> coordinate, and translate text changes without owning unrelated form or domain
-> behavior.
+> `UITextField` collects short single-line text. `UITextView` supports longer or
+> styled text. Their delegates receive editing callbacks and should not own
+> unrelated form or product rules.
 
 ## Quick Recall
 
@@ -24,7 +24,7 @@ last_reviewed: 2026-07-06
 - `shouldChangeCharactersIn` can prevent a change, but it runs before UIKit
   applies that change.
 - Store committed form state outside reusable cells and reusable input views.
-- For multi-step forms, make input components report semantic changes to a
+- For multi-step forms, make input components report meaningful changes to a
   screen owner or view model.
 
 ## Study

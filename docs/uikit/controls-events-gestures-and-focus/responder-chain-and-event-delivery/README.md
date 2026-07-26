@@ -7,14 +7,14 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Responder Chain and Event Delivery
 
 > UIKit first finds the view that should receive an input event. For actions
-> that do not name a target, UIKit then walks the responder chain until an object
-> can handle the selector.
+> that do not name a target, UIKit then walks the linked responder chain until an
+> object can handle the requested method.
 
 ## Quick Recall
 

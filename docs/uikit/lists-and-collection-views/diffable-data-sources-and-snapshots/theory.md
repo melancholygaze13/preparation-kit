@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # Diffable Data Sources and Snapshots: Theory
@@ -31,24 +31,26 @@ The snapshot becomes the source of truth for the list's visible structure.
 
 Diffable data sources depend on stable `Hashable` identifiers. The identifier
 answers "is this the same logical item across updates?" It should not change
-just because the item's title, subtitle, image, or unread state changes.
+just because the item's title, subtitle, image, or unread state changes. Prefer a
+dedicated ID value over the whole mutable row model:
 
 ```swift
-struct MessageRow: Hashable {
+struct MessageRow {
     let id: Message.ID
     var title: String
     var isUnread: Bool
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
 }
+
+var snapshot = NSDiffableDataSourceSnapshot<Section, Message.ID>()
+snapshot.appendSections([.inbox])
+snapshot.appendItems(rows.map(\.id), toSection: .inbox)
 ```
 
-In real code, be careful when customizing `Hashable` and `Equatable`. If equality
-uses all fields, changing content may make the item look like a different
-identity. Many teams use a separate ID type for snapshot identity and keep full
-content in a model cache.
+`Message.ID` supplies identity. The data source resolves that ID to the current
+`MessageRow` when it configures a cell. If a whole model is used as the identifier,
+its `Hashable` and `Equatable` implementations must agree and must both represent
+stable identity. It is easier and safer to keep mutable content out of the snapshot
+identifier.
 
 ## Snapshots
 
@@ -56,9 +58,6 @@ A snapshot contains ordered sections and ordered item identifiers in each
 section. Applying a snapshot tells UIKit to compute the UI changes.
 
 ```swift
-var snapshot = NSDiffableDataSourceSnapshot<Section, Message.ID>()
-snapshot.appendSections([.inbox])
-snapshot.appendItems(messages.map(\.id), toSection: .inbox)
 dataSource.apply(snapshot, animatingDifferences: true)
 ```
 

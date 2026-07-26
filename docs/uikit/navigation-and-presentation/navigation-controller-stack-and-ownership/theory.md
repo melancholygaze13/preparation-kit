@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 8
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-26
 ---
 
 # Navigation Controller Stack and Ownership: Theory
@@ -49,9 +49,10 @@ interface, delegate, closure, or action channel.
 removes the top controller. `setViewControllers(_:animated:)` replaces the stack,
 which is useful for deep links, completed onboarding, or resetting a flow.
 
-Use replacement carefully. It changes what back means. If a user enters a detail
-screen from a deep link, the stack may need a synthetic parent so back returns to
-a sensible list instead of exiting the whole feature.
+Use replacement carefully because it changes what Back means. If a deep link opens a
+detail screen, build a meaningful parent screen when the product expects Back to
+return to a list. Do not insert a fake parent if dismissal or closing the window is
+the intended behavior.
 
 ## Navigation Items
 
@@ -76,11 +77,11 @@ context or inspect the navigation stack after the transition. Keep model changes
 reversible until an interactive transition commits. Also serialize route commands
 so two fast taps do not push duplicate controllers.
 
-On current systems, UIKit can begin an interactive back swipe from content, not
-only from the leading edge. A custom horizontal gesture that needs priority should
-define its failure relationship with the navigation controller's interactive
-content-pop gesture. Disabling system back gestures broadly removes expected input
-behavior and should be a last resort.
+On iOS 26 and later, [`interactiveContentPopGestureRecognizer`][content-pop] can
+begin a back swipe
+from the content area, not only from the leading edge. Use this property only to set
+failure relationships with a custom gesture. Disabling system back gestures removes
+expected behavior and should be a last resort.
 
 ## Engineering Decisions
 
@@ -111,6 +112,9 @@ action asks for the right route before verifying the exact container operation.
 ## References
 
 - [UINavigationController](https://developer.apple.com/documentation/uikit/uinavigationcontroller)
+- [`interactiveContentPopGestureRecognizer`][content-pop]
 - [View Controller Programming Guide: The View Controller Hierarchy](https://developer.apple.com/library/archive/featuredarticles/ViewControllerPGforiPhoneOS/TheViewControllerHierarchy.html)
 - [View Controller Programming Guide: Design Tips](https://developer.apple.com/library/archive/featuredarticles/ViewControllerPGforiPhoneOS/DesignTips.html)
 - [Build a UIKit app with the new design](https://developer.apple.com/videos/play/wwdc2025/284/)
+
+[content-pop]: https://developer.apple.com/documentation/uikit/uinavigationcontroller/interactivecontentpopgesturerecognizer

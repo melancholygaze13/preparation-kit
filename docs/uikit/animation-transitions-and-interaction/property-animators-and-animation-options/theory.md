@@ -10,7 +10,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Property Animators and Animation Options: Theory
@@ -19,9 +19,10 @@ last_reviewed: 2026-07-10
 
 ## Mental Model
 
-UIKit animations interpolate presentation from current values to final view or
-layer values. The app's logical state should already describe the destination.
-Animation controls how the change appears, not whether the change happened.
+An animation block sets the final values immediately in the view or layer model.
+UIKit draws intermediate values on screen until it reaches that destination.
+Animation controls how a state change appears; it should not decide whether the
+state change happened.
 
 Choose the smallest API that provides the control you need:
 
@@ -145,7 +146,8 @@ Use keyframes for a deliberate, finite visual sequence. They fit staged emphasis
 several coordinated properties. They fit poorly when a person can rapidly reverse
 the state because restarting a sequence can jump or repeat old phases.
 
-On iOS 18 and later, UIKit can animate view changes with a SwiftUI `Animation`.
+On iOS 18 and later, [UIKit can animate view changes with a SwiftUI
+`Animation`][unified-animation].
 This is useful when UIKit and SwiftUI surfaces should share a spring, or when
 repeated interactive updates should retarget with continuous velocity. It requires
 importing SwiftUI and does not work with `UIViewPropertyAnimator` or UIKit keyframe
@@ -170,9 +172,9 @@ profile worst-case content on target hardware.
 
 ## Engineering Decisions
 
-Centralize semantic motion choices for shared components, but do not force one curve
-and duration onto every interaction. Test repeated taps, reversal, app backgrounding,
-rotation, large content, and Reduce Motion.
+Centralize meaningful motion choices for shared components, but do not force one
+curve and duration onto every interaction. Test repeated taps, reversal, app
+backgrounding, rotation, large content, and Reduce Motion.
 
 At Staff scope, shared motion APIs should make the safe path easy: current-state
 retargeting, cancellation-aware completion, accessibility alternatives, and useful
@@ -184,5 +186,7 @@ performance signposts. They should not hide animator state behind a decorative D
 - [`UIViewAnimating`](https://developer.apple.com/documentation/uikit/uiviewanimating)
 - [`UIView.AnimationOptions.beginFromCurrentState`](https://developer.apple.com/documentation/uikit/uiview/animationoptions/beginfromcurrentstate)
 - [`UISpringTimingParameters.initialVelocity`](https://developer.apple.com/documentation/uikit/uispringtimingparameters/initialvelocity)
-- [Unifying your app's animations](https://developer.apple.com/documentation/swiftui/unifying-your-app-s-animations)
+- [Unifying your app's animations][unified-animation]
 - [Human Interface Guidelines: Motion](https://developer.apple.com/design/human-interface-guidelines/motion)
+
+[unified-animation]: https://developer.apple.com/documentation/swiftui/unifying-your-app-s-animations

@@ -4,7 +4,7 @@ domain: "UIKit"
 page_type: topic-index
 interview_priority: core
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # Views, Layers, and Rendering
@@ -35,6 +35,6 @@ The last two explain when UIKit updates layout, drawing, and layer composition.
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
 | [View Hierarchy, Coordinate Spaces, and Hit Testing](view-hierarchy-coordinate-spaces-and-hit-testing/README.md) | Connects containment, coordinate conversion, accessibility, and event targeting. | Core | 13 min |
-| [Frame, Bounds, Center, and Transforms](frame-bounds-center-and-transforms/README.md) | Explains UIKit geometry without mixing parent, local, and transformed coordinates. | Core | 12 min |
+| [Frame, Bounds, Center, and Transforms](frame-bounds-center-and-transforms/README.md) | Explains UIKit geometry without mixing parent, local, and transformed coordinates. | Core | 13 min |
 | [Layout, Display, and Run Loop Updates](layout-display-and-run-loop-updates/README.md) | Orders invalidation, layout passes, drawing, and committed visual updates. | Core | 14 min |
-| [CALayer Backing and Rendering](calayer-backing-and-rendering/README.md) | Separates view behavior from layer rendering, composition, and animation cost. | Core | 11 min |
+| [CALayer Backing and Rendering](calayer-backing-and-rendering/README.md) | Separates view behavior from layer rendering, composition, and animation cost. | Core | 12 min |

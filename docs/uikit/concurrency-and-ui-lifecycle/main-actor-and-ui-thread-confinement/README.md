@@ -7,14 +7,14 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # MainActor and UI Thread Confinement
 
-> UIKit state belongs on the main thread. In modern Swift, `MainActor` is the
-> type-system way to express that rule for UI-facing code, while expensive work
-> must still move away from the main actor.
+> Code that reads or changes UIKit state runs on the main thread. In modern
+> Swift, `MainActor` expresses that rule in the type system. CPU-heavy work must
+> still run elsewhere so the interface stays responsive.
 
 ## Quick Recall
 

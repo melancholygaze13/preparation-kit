@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-06-30
+last_reviewed: 2026-07-26
 ---
 
 # Containment and Child View Controllers: Theory
@@ -17,10 +17,10 @@ last_reviewed: 2026-06-30
 
 ## Mental Model
 
-Containment composes screens from smaller controllers. The parent owns the child
-controller lifetime and places the child's root view inside its own view
-hierarchy. UIKit then has enough information to route lifecycle, trait, rotation,
-and appearance behavior through the controller tree.
+Containment makes one view controller the parent of another. The parent owns the
+child controller's lifetime and places the child's root view inside its own view.
+UIKit can then send lifecycle, trait, rotation, and appearance updates through
+the controller tree.
 
 ```mermaid
 flowchart LR
@@ -65,10 +65,12 @@ Removal is the reverse:
 
 ```swift
 child.willMove(toParent: nil)
+NSLayoutConstraint.deactivate(childConstraints)
 child.view.removeFromSuperview()
 child.removeFromParent()
 ```
 
+Remove constraints that the parent installed before removing the view.
 `removeFromParent()` calls `didMove(toParent: nil)` for the child. Any child-owned
 work should be cancelled by the child's lifecycle or by an explicit method before
 removal, depending on the feature.

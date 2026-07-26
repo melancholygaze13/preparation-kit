@@ -7,14 +7,15 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # View Hierarchy, Coordinate Spaces, and Hit Testing
 
-> A view's position is meaningful only in a coordinate space. UIKit walks the
-> view hierarchy for event targeting, layout, rendering, and accessibility, so
-> hierarchy mistakes become user-visible bugs.
+> The view hierarchy records parent-child relationships. A coordinate space gives
+> positions a reference system. Hit testing walks the hierarchy to find the view
+> that should receive a touch. Mixing these concepts causes misplaced UI and
+> controls that do not respond.
 
 ## Quick Recall
 

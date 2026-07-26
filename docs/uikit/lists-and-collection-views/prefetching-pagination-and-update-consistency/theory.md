@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # Prefetching, Pagination, and Update Consistency: Theory
@@ -50,18 +50,25 @@ end has been reached.
 guard !isLoadingPage, let cursor = nextCursor else { return }
 isLoadingPage = true
 
-Task {
-    let page = try await service.loadPage(after: cursor)
-    await MainActor.run {
+Task { @MainActor in
+    defer { isLoadingPage = false }
+
+    do {
+        let page = try await service.loadPage(after: cursor)
         merge(page)
         applySnapshot()
-        isLoadingPage = false
+    } catch is CancellationError {
+        return
+    } catch {
+        pageError = error
     }
 }
 ```
 
-The `guard` prevents duplicate page requests. The merge step handles duplicate
-items, deleted items, or changed item content before the snapshot is applied.
+The example assumes its surrounding list owner is main-actor isolated. The `guard`
+prevents duplicate page requests, and `defer` clears the in-flight state on success,
+failure, or cancellation. The merge step handles duplicate items, deleted items, or
+changed item content before the snapshot is applied.
 
 ## Update Consistency
 

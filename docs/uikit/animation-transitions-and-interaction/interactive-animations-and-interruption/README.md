@@ -9,12 +9,13 @@ levels:
 interview_priority: high
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Interactive Animations and Interruption
 
-> Interactive motion maps user input to progress and must remain correct when the
+> An interactive animation maps a gesture to animation progress. An interruption
+> pauses or changes work already in progress. Both must remain correct when the
 > person reverses, cancels, or repeats the gesture. The final model and hierarchy
 > depend on completion, not on the animation merely starting.
 

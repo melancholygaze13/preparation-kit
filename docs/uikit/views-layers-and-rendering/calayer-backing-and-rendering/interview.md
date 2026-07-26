@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # CALayer Backing and Rendering: Interview Questions
@@ -87,8 +87,9 @@ visuals.
 
 ### Short Answer
 
-The model layer stores the target values your code sets. The presentation layer
-represents the current animated values on screen during an animation.
+The model layer stores the target values your code sets. During an animation,
+`presentation()` returns a read-only copy that approximates the values currently
+shown onscreen.
 
 ### Expanded Answer
 

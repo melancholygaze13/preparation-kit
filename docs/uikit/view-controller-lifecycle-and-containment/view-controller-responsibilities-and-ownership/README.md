@@ -7,12 +7,13 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-06-30
+last_reviewed: 2026-07-26
 ---
 
 # View Controller Responsibilities and Ownership
 
-> A view controller owns one screen or screen region. It should coordinate views,
+> A view controller manages the UIKit lifecycle and views for one screen or
+> screen region. It should coordinate
 > user intent, navigation, and presentation state without becoming the owner of
 > unrelated business rules or long-lived app state.
 

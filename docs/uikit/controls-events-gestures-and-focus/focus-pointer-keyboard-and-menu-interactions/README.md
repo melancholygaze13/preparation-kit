@@ -7,13 +7,14 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Focus, Pointer, Keyboard, and Menu Interactions
 
-> UIKit is not only touch. Strong iOS apps expose the same intent through focus,
-> pointer, keyboard, and menu systems where the device and context support them.
+> UIKit is not only touch. Focus identifies which item receives non-touch input.
+> Pointer, keyboard, and menu interactions should trigger the same app actions as
+> touch when the device and context support them.
 
 ## Quick Recall
 

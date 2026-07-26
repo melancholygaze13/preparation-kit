@@ -10,7 +10,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-26
 tags:
   - tabs
   - tab-bar-controller
@@ -38,7 +38,7 @@ tags:
 
 ### Short Answer
 
-I use tabs for a small set of peer, top-level destinations. I use a navigation
+I use tabs for a small set of equally important top-level destinations. I use a navigation
 stack for deeper screens or ordered steps inside one destination. Switching tabs
 changes context; pushing keeps the user in the same task hierarchy.
 

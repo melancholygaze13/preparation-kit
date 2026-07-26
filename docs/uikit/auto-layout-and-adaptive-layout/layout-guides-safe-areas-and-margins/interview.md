@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # Layout Guides, Safe Areas, and Margins: Interview Questions
@@ -33,7 +33,7 @@ last_reviewed: 2026-07-01
 
 ### Short Answer
 
-I use safe areas to avoid system UI and screen cutouts. I use margins for
+I use safe areas to keep important content clear of system UI and screen cutouts. I use margins for
 content spacing inside a container. They solve different problems, so I avoid
 using safe-area constants as general padding.
 

@@ -10,7 +10,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # UI, Accessibility, and Interaction Testing: Theory
@@ -22,7 +22,7 @@ last_reviewed: 2026-07-10
 An XCUI test launches the built app as a separate process. It interacts through
 system automation and accessibility information. This proves integration that an
 in-process test cannot prove: launch configuration, real navigation, exposed
-semantics, and user-visible interaction.
+accessible meaning, and user-visible interaction.
 
 That confidence costs time and diagnostic precision. Keep rule matrices in unit
 tests. Use UI tests for critical journeys and framework boundaries. Swift Testing
@@ -30,8 +30,8 @@ does not provide UI automation, so UI test targets use XCTest with XCUIAutomatio
 
 ## Build a Deterministic Test
 
-A reliable UI test controls initial state, performs actions by meaning, and waits
-for an observable condition.
+A reliable UI test controls its starting state, finds controls by their purpose,
+and waits for a visible or otherwise observable result.
 
 ```swift
 import XCTest
@@ -55,9 +55,9 @@ final class CheckoutUITests: XCTestCase {
 }
 ```
 
-Interpret test launch arguments or environment values at the app's composition
-root. Choose disposable storage, stubbed services, a fixed account, and a known
-clock there. Do not scatter `if isUITesting` branches through feature code.
+Interpret test launch arguments or environment values where the app creates its
+main dependencies. Choose disposable storage, stubbed services, a fixed account,
+and a known clock there. Do not scatter `if isUITesting` branches through feature code.
 
 Each test must establish its own state. Tests should not depend on execution order
 or data left by another test. Use launch configuration for broad state and user
@@ -97,7 +97,7 @@ interruptions you cannot avoid, and keep expected app alerts as direct assertion
 ## Test Accessibility as a Product Contract
 
 UI automation relies on accessibility information, but a passing tap flow is not
-proof of accessibility. Verify UIKit semantics and behavior:
+proof of accessibility. Verify what UIKit exposes and how it behaves:
 
 - controls expose accurate labels, values, traits, and actions;
 - grouped elements do not hide necessary child information;

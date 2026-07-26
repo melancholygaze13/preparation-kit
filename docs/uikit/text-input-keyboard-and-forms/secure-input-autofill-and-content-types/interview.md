@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-06
+last_reviewed: 2026-07-26
 ---
 
 # Secure Input, AutoFill, and Content Types: Interview Questions
@@ -20,7 +20,7 @@ last_reviewed: 2026-07-06
 | Question | Level | Focus |
 |---|---|---|
 | [How do you configure a password field in UIKit?](#q1-password-field) | Senior | Secure traits |
-| [What does `textContentType` do?](#q2-text-content-type) | Senior | AutoFill semantics |
+| [What does `textContentType` do?](#q2-text-content-type) | Senior | AutoFill meaning and behavior |
 | [What security mistakes can happen after secure input is configured?](#q3-after-input) | Staff | Sensitive data handling |
 
 ---

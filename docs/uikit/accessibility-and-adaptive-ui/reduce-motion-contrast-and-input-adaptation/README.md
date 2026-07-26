@@ -7,14 +7,14 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-06
+last_reviewed: 2026-07-26
 ---
 
 # Reduce Motion, Contrast, and Input Adaptation
 
-> Adaptive UIKit screens respond to user preferences. They avoid making motion,
-> color, pointer precision, or touch timing the only way to understand or use a
-> feature.
+> An adaptive screen responds to the user's accessibility settings and input
+> method. Important meaning and actions must not depend only on motion, color,
+> precise pointer movement, or touch timing.
 
 ## Quick Recall
 

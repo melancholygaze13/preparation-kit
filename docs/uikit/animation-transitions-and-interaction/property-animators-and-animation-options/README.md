@@ -9,14 +9,14 @@ levels:
 interview_priority: high
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Property Animators and Animation Options
 
-> UIKit animation blocks describe a change from current presentation to a final
-> model state. Use `UIViewPropertyAnimator` when the interaction must pause, scrub,
-> reverse, retarget, or continue with new timing.
+> Animation options control timing and behaviors such as repetition or user
+> interaction. `UIViewPropertyAnimator` represents an animation as an object that
+> code can pause, reverse, continue, or connect to a gesture.
 
 ## Quick Recall
 

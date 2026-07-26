@@ -7,13 +7,15 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Layout, Rendering, and Offscreen Cost
 
-> UIKit performance is not only algorithmic. Bad constraint churn, unnecessary
-> invalidation, and expensive layer effects can make a simple screen miss frames.
+> Layout calculates geometry. Rendering produces pixels. Some visual effects need
+> an extra offscreen image before UIKit can compose the final frame. Repeated
+> constraints, needless updates, and expensive effects can all make scrolling or
+> animation miss frames.
 
 ## Quick Recall
 

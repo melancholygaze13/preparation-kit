@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # Intrinsic Content Size, Hugging, and Compression: Theory
@@ -41,12 +41,18 @@ compete for space.
 Consider a horizontal row with a title label and a trailing button:
 
 ```swift
+titleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+button.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+
 titleLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-button.setContentCompressionResistancePriority(.required, for: .horizontal)
+button.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
 ```
 
-This says the title can truncate before the button becomes unusable. The exact
-values may vary, but the decision should be intentional.
+When the row has extra width, the lower hugging priority lets the title's area grow
+first. When the row is too narrow, the lower compression resistance lets the title
+truncate before the button. The exact values may vary, but each priority should
+express which content yields. Use `.required` only when breaking that rule would be
+invalid; required priorities can leave Auto Layout no safe fallback for long text.
 
 ## Intrinsic Size Is Not a Layout Plan
 

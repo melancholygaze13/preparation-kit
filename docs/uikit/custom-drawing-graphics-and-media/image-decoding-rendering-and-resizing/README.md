@@ -9,14 +9,15 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Image Decoding, Rendering, and Resizing
 
-> File size is not display cost. A compressed image must become pixels before it
-> can be rendered, so decode and downsample near the requested pixel size before
-> a large image reaches a scrolling view.
+> Decoding turns compressed image data into pixels. Rendering displays those
+> pixels, and resizing changes their dimensions. File size is not memory cost:
+> downsample large images near the required pixel size before showing them in a
+> scrolling view.
 
 ## Quick Recall
 

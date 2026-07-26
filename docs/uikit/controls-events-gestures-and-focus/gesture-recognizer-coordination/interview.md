@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Gesture Recognizer Coordination: Interview Questions
@@ -50,8 +50,8 @@ to a standard gesture.
 
 ### Short Answer
 
-Define the intended priority, then use gesture recognizer delegate methods or
-failure requirements to express it.
+Decide which gesture should win or whether both may succeed. Then use delegate
+methods or failure requirements to express that rule.
 
 ### Expanded Answer
 

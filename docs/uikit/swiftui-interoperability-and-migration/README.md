@@ -4,13 +4,15 @@ domain: "UIKit"
 page_type: topic-index
 interview_priority: situational
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # SwiftUI Interoperability and Migration
 
-This is role-specific depth for teams with a mixed UIKit and SwiftUI codebase.
-The interview value is boundary judgment, not memorizing every bridge API.
+UIKit and SwiftUI can host each other's views during gradual migration. This is
+role-specific depth for teams with a mixed codebase. The interview value is
+deciding which framework owns each piece of state and lifecycle, not memorizing
+every bridge API.
 
 ## Preparation Paths
 

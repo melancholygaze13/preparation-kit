@@ -7,12 +7,13 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Gesture Recognizer Coordination
 
-> Gesture recognizers turn touch streams into higher-level states. The hard part
+> A gesture recognizer watches touches and reports a gesture such as a tap, pan,
+> or pinch through a series of states. The hard part
 > is not adding a recognizer; it is deciding which gestures may recognize
 > together, which must wait, and which should fail.
 

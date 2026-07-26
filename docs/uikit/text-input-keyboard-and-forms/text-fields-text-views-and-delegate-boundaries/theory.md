@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-07-06
+last_reviewed: 2026-07-26
 ---
 
 # Text Fields, Text Views, and Delegate Boundaries: Theory
@@ -17,9 +17,10 @@ last_reviewed: 2026-07-06
 
 ## Mental Model
 
-UIKit text inputs are editing surfaces. They should collect text and expose
-editing events. The screen owner decides how that text affects form state,
-validation, navigation, analytics, and persistence.
+`UITextField` and `UITextView` are UIKit controls for editing text. A delegate is
+an object that receives callbacks and can accept or reject edits. The controls
+should collect text and report editing events. The screen owner decides how that
+text affects validation, navigation, analytics, and saved data.
 
 The interview answer is: choose `UITextField` for focused single-line input,
 choose `UITextView` for longer or styled text, keep delegates small, and move
@@ -40,6 +41,7 @@ Both controls use delegates for editing decisions and lifecycle events:
 ```swift
 final class ProfileViewController: UIViewController, UITextFieldDelegate {
     private let nameField = UITextField()
+    private let emailField = UITextField()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -95,7 +97,7 @@ Choose the boundary by lifetime:
 | Cell-hosted input | Stable item identity plus external state | Avoids losing text during reuse |
 
 Reusable input views should not know persistence, navigation, or service calls.
-They can expose semantic events such as `didChangeEmail`, `didSubmit`, or
+They can expose events that describe what happened, such as `didChangeEmail`, `didSubmit`, or
 `didBeginEditing`. The owner decides whether to show an error, move focus, save
 a draft, or start async work.
 

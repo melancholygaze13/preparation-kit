@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # Prefetching, Pagination, and Update Consistency: Interview Questions
@@ -67,7 +67,7 @@ serialize page requests and merge results by stable ID.
 
 ### Short Answer
 
-I apply results only if they still match the current list generation, cursor, or
+I apply results only if they still match the active refresh, page cursor, or
 item identity. Older tasks should be cancelled or ignored, and snapshots should
 be built from the accepted current model.
 

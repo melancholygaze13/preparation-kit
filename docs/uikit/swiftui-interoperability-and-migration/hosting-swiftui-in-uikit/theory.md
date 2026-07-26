@@ -10,7 +10,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Hosting SwiftUI in UIKit: Theory
@@ -52,9 +52,9 @@ Retain the controller for as long as the embedded feature exists. On removal, ca
 
 ## Bridge Data with One Owner
 
-For a fixed value snapshot, UIKit can create a new SwiftUI value and assign it to
-`rootView` when the input changes. This is explicit but easy to forget at every
-update point.
+For input that changes only occasionally, UIKit can create a new SwiftUI view value
+and assign it to `rootView`. UIKit must repeat that assignment after every relevant
+input change.
 
 For shared changing state, pass one externally owned `@Observable` model into the
 root view. Mark UI-bound models `@MainActor` unless the project uses main-actor
@@ -76,8 +76,9 @@ view's size. When UIKit needs SwiftUI's ideal size, configure `sizingOptions`:
   controller's preferred size;
 - `.intrinsicContentSize` lets Auto Layout react to ideal-size changes.
 
-The default is no sizing option. Enable only the signal the container consumes to
-avoid unclear sizing feedback between Auto Layout and SwiftUI.
+The default is no sizing option. Enable only the value that the UIKit container
+actually reads. If both systems repeatedly change size in response to each other,
+the layout can become unstable.
 
 For table and collection view cells, prefer `UIHostingConfiguration`. It implements
 `UIContentConfiguration`, participates in reuse and cell state updates, and bridges
@@ -90,6 +91,10 @@ Test traits, safe areas, Dynamic Type, accessibility focus, appearance, and task
 cancellation across the mixed hierarchy. Profile a representative screen; the
 boundary adds layout and update work, but the correct decision depends on the actual
 feature rather than framework count alone.
+
+Hosting fits a SwiftUI screen or component inside an existing UIKit-owned flow. It
+adds little value when UIKit must immediately reach through the host and control
+individual SwiftUI views; that usually signals an unclear ownership boundary.
 
 ## References
 

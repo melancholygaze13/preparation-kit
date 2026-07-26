@@ -10,7 +10,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # View Controller Transitions and Coordinators: Theory
@@ -19,9 +19,9 @@ last_reviewed: 2026-07-10
 
 ## Mental Model
 
-A view-controller transition changes both hierarchy and presentation. UIKit owns the
-transaction, supplies a container and context, and asks app-provided objects to
-customize specific responsibilities.
+A view-controller transition changes which controllers are in the hierarchy and how
+that change looks. UIKit owns the operation. It supplies a container and a transition
+context, then asks app objects to provide animation or interactive control.
 
 ```mermaid
 flowchart TD
@@ -62,13 +62,13 @@ For a custom modal transition, set `modalPresentationStyle` to `.custom` and ass
 
 | Object | Responsibility |
 |---|---|
-| `UIViewControllerAnimatedTransitioning` | Duration and view animation |
-| `UIViewControllerInteractiveTransitioning` | Gesture-driven progress |
+| `UIViewControllerAnimatedTransitioning` | Animation duration and visual changes |
+| `UIViewControllerInteractiveTransitioning` | Progress controlled by input |
 | `UIPresentationController` | Dimming, chrome, sizing, and adaptation |
 
-A navigation controller gets its animator and interaction controller from a
-`UINavigationControllerDelegate`. Keep destination construction and routing policy
-outside the animator. The animator should not decide where the app navigates.
+A navigation controller asks its `UINavigationControllerDelegate` for an animator
+and, when needed, an interaction controller. Build destinations and make navigation
+decisions elsewhere. The animator should only perform the visual transition.
 
 `transitioningDelegate` is weak. The flow must retain the delegate for the required
 lifetime. Losing it before presentation or dismissal can silently restore default
@@ -150,8 +150,8 @@ The property animator should configure the same final hierarchy as
 a helper, return it from `interruptibleAnimator`, and start it from
 `animateTransition`. Avoid creating a different animator on each callback.
 
-Interactive control is separate. The transitioning or navigation delegate vends an
-interaction controller only for a transition that is actively gesture-driven.
+Interactive control is separate. The transition or navigation delegate returns an
+interaction controller only while a gesture is actively driving that transition.
 
 ## Coordinate Related UI
 

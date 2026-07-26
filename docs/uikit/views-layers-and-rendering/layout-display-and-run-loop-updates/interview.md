@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # Layout, Display, and Run Loop Updates: Interview Questions
@@ -56,7 +56,7 @@ before measuring or inside a constraint animation.
 
 ### Expanded Answer
 
-Deferred layout is the default because UIKit can coalesce multiple changes. It is
+Deferred layout is the default because UIKit can combine multiple changes. It is
 cheaper to mark several views as needing layout than to force layout after each
 property change.
 

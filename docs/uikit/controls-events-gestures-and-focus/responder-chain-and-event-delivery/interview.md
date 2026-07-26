@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Responder Chain and Event Delivery: Interview Questions
@@ -67,8 +67,8 @@ and gestures before changing application logic.
 
 ### Short Answer
 
-Use a targetless action when the command should go to the current active
-responder, not to one hard-coded object.
+Use a targetless action when UIKit should find the active object that can handle
+the command, rather than sending it to one hard-coded object.
 
 ### Expanded Answer
 

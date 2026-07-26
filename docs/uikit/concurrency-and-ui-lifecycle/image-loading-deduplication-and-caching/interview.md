@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Image Loading, Deduplication, and Caching: Interview Questions
@@ -48,7 +48,7 @@ then have the screen or cell verify identity before assigning the result.
 
 ### Short Answer
 
-Keep an in-flight task dictionary keyed by URL or cache key. If a request is
+Keep a dictionary of currently running tasks keyed by URL or cache key. If a request is
 already running, new callers await the same task instead of starting another
 download.
 

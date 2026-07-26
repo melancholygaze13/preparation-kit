@@ -11,7 +11,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Incremental Migration and Ownership Boundaries: Interview Questions
@@ -51,8 +51,9 @@ core reliability or interview-relevant architecture work waits.
 
 ### Short Answer
 
-I first host SwiftUI screens behind the existing coordinator's route contract. I move
-route ownership only when deep links, restoration, dismissal, analytics, and child
+I first let the existing coordinator open SwiftUI screens through its current
+route interface. I move route ownership only when deep links, restoration,
+dismissal, analytics, and child
 flow lifetime can move together.
 
 ### Expanded Answer

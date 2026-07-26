@@ -7,14 +7,15 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Dependency Injection and Feature Modularization
 
-> Dependency injection gives a UIKit feature the collaborators it needs instead
-> of letting it find global services. Modularization turns that rule into build
-> and ownership boundaries when the app is large enough to need them.
+> Dependency injection passes required services into a feature instead of letting
+> it find global objects. Modularization places related code behind a module's
+> public interface. Use modules when separate builds or team ownership justify
+> their added boundaries and maintenance cost.
 
 ## Quick Recall
 

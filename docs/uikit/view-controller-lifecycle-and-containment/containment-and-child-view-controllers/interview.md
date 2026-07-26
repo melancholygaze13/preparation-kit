@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-06-30
+last_reviewed: 2026-07-26
 ---
 
 # Containment and Child View Controllers: Interview Questions
@@ -33,7 +33,8 @@ last_reviewed: 2026-06-30
 
 Call `addChild(_:)`, add the child's root view to the parent's view hierarchy,
 install layout, then call `didMove(toParent:)` on the child. For removal, call
-`willMove(toParent: nil)`, remove the view, then call `removeFromParent()`.
+`willMove(toParent: nil)`, remove parent-installed constraints and the view, then
+call `removeFromParent()`.
 
 ### Expanded Answer
 

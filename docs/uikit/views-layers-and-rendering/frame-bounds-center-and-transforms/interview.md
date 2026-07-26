@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # Frame, Bounds, Center, and Transforms: Interview Questions
@@ -52,7 +52,7 @@ visible region has moved.
 
 After a transform, `frame` is derived from the transformed view in the superview.
 It may no longer represent the simple layout rectangle you intended. Use
-constraints, `bounds`, `center`, or model state as the source of truth.
+constraints, `bounds`, `center`, or model state as the basis for later calculations.
 
 ### Expanded Answer
 

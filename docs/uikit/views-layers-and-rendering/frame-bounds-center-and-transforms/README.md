@@ -7,13 +7,13 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # Frame, Bounds, Center, and Transforms
 
-> `frame`, `bounds`, and `center` describe related geometry from different
-> coordinate spaces. Transforms change the visual result, so frame math becomes a
+> `frame` and `center` use the superview's coordinates. `bounds` uses the view's
+> own coordinates. A transform rotates, scales, or moves the rendered view, so frame math becomes a
 > poor source of truth after rotation, scale, or Auto Layout.
 
 ## Quick Recall

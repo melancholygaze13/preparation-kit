@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # Modal Presentation, Dismissal, and Ownership: Interview Questions
@@ -51,8 +51,9 @@ the exact concrete presenter.
 
 ### Short Answer
 
-It should report a meaningful outcome to the owner, such as saved, cancelled, or
-failed. Dismissal should not be the only signal because different outcomes may
+The presented screen should report its result to the object that started it,
+such as saved, cancelled, or failed. Dismissal should not be the only signal
+because different outcomes may
 need different updates.
 
 ### Expanded Answer

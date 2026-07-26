@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Unidirectional State and Rendering: Interview Questions
@@ -66,8 +66,8 @@ state, the screen can ignore work that no longer applies.
 
 ### Short Answer
 
-I keep stable view state separate from one-time effects. State decides what the
-screen should show. Effects perform work like requests, navigation, alerts, or
+I keep stable view state separate from one-time external actions. State decides what the
+screen should show. These actions include requests, navigation, alerts, or
 analytics, and they feed results back as new events.
 
 ### Expanded Answer

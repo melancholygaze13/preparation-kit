@@ -10,7 +10,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Application, Scene, and Window Lifecycle: Interview Questions
@@ -72,7 +72,8 @@ instead of constructing a duplicate one.
 
 ### Short Answer
 
-No. Disconnection removes the current scene object and is a cleanup boundary, but its
+No. Disconnection removes the current scene object, so scene-owned resources can be
+released, but its
 session may reconnect later. Discard means the session is permanently removed.
 
 ### Expanded Answer

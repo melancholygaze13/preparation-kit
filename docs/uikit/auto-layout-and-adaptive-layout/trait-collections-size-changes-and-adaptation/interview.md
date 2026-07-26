@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-26
 ---
 
 # Trait Collections, Size Changes, and Adaptation: Interview Questions
@@ -102,6 +102,7 @@ work immediately.
 ### Expanded Answer
 
 A component that changes only with horizontal size class and content size category
-does not need to react to display scale or interface style. On older deployment
-targets, I compare the previous and current collections in
-`traitCollectionDidChange(_:)` before updating.
+does not need to react to display scale or interface style. On iOS 17 and later, I
+use automatic trait tracking or `registerForTraitChanges`. If the deployment target
+is older, I keep a fallback `traitCollectionDidChange(_:)` override and compare the
+previous and current values before updating.

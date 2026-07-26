@@ -10,7 +10,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Testing View Controller Lifecycle and Navigation: Interview Questions
@@ -54,7 +54,7 @@ call lifecycle hooks in an order UIKit would never create.
 
 ### Short Answer
 
-I test destination policy as a typed route or coordinator command. Then I use a real
+I test the destination decision as a typed route or coordinator command. Then I use a real
 navigation or presenting controller in a smaller integration test for UIKit wiring.
 
 ### Expanded Answer
@@ -79,7 +79,7 @@ into one harder-to-test method.
 
 ### Short Answer
 
-I use a UI test when the contract depends on the built app, process launch, real
+I use a UI test when the behavior depends on the built app, process launch, real
 transition integration, or user-visible navigation across several screens.
 
 ### Expanded Answer
@@ -98,8 +98,8 @@ wiring that the faster layer cannot.
 
 ### Short Answer
 
-I would remove timing guesses and shared state, create valid lifecycle harnesses,
-control dependencies, and move rule matrices below UIKit.
+I would remove timing guesses and shared state, use small helpers that create valid
+lifecycle sequences, control dependencies, and test rule combinations below UIKit.
 
 ### Expanded Answer
 

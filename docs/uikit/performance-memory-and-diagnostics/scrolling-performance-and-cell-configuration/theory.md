@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 9
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Scrolling Performance and Cell Configuration: Theory
@@ -22,9 +22,9 @@ visible cells while the user is moving. If configuration does synchronous image
 decoding, layout churn, network work, or complex formatting, the main thread can
 miss frames.
 
-The interview answer is: make cell configuration a fast projection from model to
-view state, move expensive work earlier or off the main path, and reject async
-results that no longer match the reused cell.
+Make cell configuration a fast update from model data to visible state. Move
+expensive work earlier or away from the main actor. Reject async results that no
+longer match the reused cell.
 
 ## How It Works
 
@@ -42,14 +42,13 @@ final class AvatarCell: UITableViewCell {
         representedID = nil
         imageTask?.cancel()
         imageTask = nil
-        imageView?.image = UIImage(named: "avatar-placeholder")
-        textLabel?.text = nil
     }
 
     func configure(with user: User, imageLoader: ImageLoader) {
         imageTask?.cancel()
         representedID = user.id
         textLabel?.text = user.displayName
+        imageView?.image = UIImage(named: "avatar-placeholder")
 
         imageTask = Task { [weak self, id = user.id] in
             guard let image = try? await imageLoader.avatar(for: id) else {
@@ -79,8 +78,10 @@ quickly. Expensive work in these methods directly competes with input handling,
 layout, and rendering.
 
 Reuse does not reset custom state automatically. UIKit calls `prepareForReuse`
-before a reused cell is returned. You are responsible for clearing transient
-state that would be wrong for the next model.
+before returning a cell from the reuse queue. Clear non-content and temporary
+resources there, such as task handles, temporary alpha, or identity tokens. Set
+normal text, images, visibility, and accessories completely in `configure`, because
+configuration is the source of the next visible state.
 
 Prefetching is a hint, not a guarantee. UIKit may ask for data before cells are
 visible, and it may cancel prefetching when scrolling changes direction. Use it

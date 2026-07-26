@@ -10,7 +10,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Interactive Animations and Interruption: Interview Questions
@@ -72,7 +72,7 @@ Motion can shorten travel or use a fade while keeping progress attached to input
 
 ### Short Answer
 
-I keep the old model state committed while the transition is provisional. I update
+I keep the old model state until the transition has definitely finished. I update
 durable state only from the completed outcome and remove temporary views on cancel.
 
 ### Expanded Answer

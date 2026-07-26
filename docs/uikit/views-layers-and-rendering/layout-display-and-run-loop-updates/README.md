@@ -7,12 +7,13 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # Layout, Display, and Run Loop Updates
 
-> UIKit usually batches layout and display work. `setNeedsLayout` and
+> Layout computes geometry. Display draws visual content. UIKit usually delays
+> and combines this work until a later run-loop update. `setNeedsLayout` and
 > `setNeedsDisplay` mark work for later, while `layoutIfNeeded` forces pending
 > layout inside the current pass.
 

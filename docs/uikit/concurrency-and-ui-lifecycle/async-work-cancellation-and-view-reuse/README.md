@@ -7,14 +7,15 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Async Work, Cancellation, and View Reuse
 
-> Screen-scoped async work must end when the screen or reused view no longer
-> needs it. Cancellation is cooperative, so UIKit code also needs identity checks
-> before applying late results.
+> Asynchronous work can continue after a screen disappears or a view is reused.
+> Cancellation asks that work to stop; it does not force an immediate stop.
+> Before applying a late result, also verify that it still matches the current
+> screen or item.
 
 ## Quick Recall
 

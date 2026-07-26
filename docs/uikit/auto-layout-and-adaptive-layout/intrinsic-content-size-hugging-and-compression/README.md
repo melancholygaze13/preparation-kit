@@ -10,12 +10,13 @@ levels:
 interview_priority: core
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # Intrinsic Content Size, Hugging, and Compression
 
-> Some UIKit views know a natural size from their content. Content hugging says
+> Intrinsic content size is the natural size a view reports from its content.
+> Content hugging says
 > how strongly a view resists growing, and compression resistance says how
 > strongly it resists shrinking.
 

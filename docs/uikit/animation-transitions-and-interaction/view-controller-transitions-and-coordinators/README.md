@@ -9,14 +9,14 @@ levels:
 interview_priority: high
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # View Controller Transitions and Coordinators
 
-> UIKit owns the transition lifecycle and container hierarchy. A custom animator
-> configures views through the transition context, while a transition coordinator
-> synchronizes related UI with system or custom transitions.
+> UIKit owns the transition lifecycle and temporary container view. A custom
+> animator defines how the old and new screens move. A transition coordinator
+> lets other UI animate at the same time as a system or custom transition.
 
 ## Quick Recall
 

@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-06-30
+last_reviewed: 2026-07-26
 ---
 
 # View Loading, Appearance, and Disappearance: Interview Questions
@@ -73,19 +73,21 @@ current model identifier so old results cannot update the wrong visible state.
 
 ### Short Answer
 
-`viewDidLoad` means the view hierarchy exists, not that Auto Layout has produced
-final bounds. Work that depends on final size belongs in constraints,
-`viewDidLayoutSubviews`, or a later layout-aware path.
+`viewDidLoad` means the view hierarchy exists, not that UIKit has established the
+current container geometry. Normal layout belongs in constraints. Use
+`viewIsAppearing` for a once-per-appearance update with current traits and insets,
+or `viewDidLayoutSubviews` for work that must follow every completed layout.
 
 ### Expanded Answer
 
 At `viewDidLoad`, the controller may not yet know its container size, safe area,
-trait environment, or final bounds. Setting fixed frames there often breaks on
-rotation, split view, dynamic type, or different devices.
+trait environment, or current bounds. Setting fixed frames there often breaks on
+rotation, split view, Dynamic Type, or different devices.
 
-Most layout should be expressed as constraints. If a layer mask or gradient needs
-the final bounds, update it after layout and keep the work cheap because layout
-callbacks can run frequently.
+Most layout should be expressed as constraints. `viewIsAppearing` runs once during
+each appearance after UIKit has added and sized the view. If a layer mask or
+gradient must follow every bounds change, update it after layout and keep the work
+cheap because layout callbacks can run frequently.
 
 <a id="q4-repeated-callbacks"></a>
 ## Q4: How do lifecycle callbacks affect analytics or subscriptions?
@@ -93,7 +95,7 @@ callbacks can run frequently.
 ### Short Answer
 
 Callbacks such as `viewWillAppear` and `viewDidAppear` can run more than once, so
-analytics and subscriptions must be idempotent or paired with cleanup. Otherwise
+analytics and subscriptions must be safe to repeat or paired with cleanup. Otherwise
 the app can double-count events or create duplicate observers.
 
 ### Expanded Answer

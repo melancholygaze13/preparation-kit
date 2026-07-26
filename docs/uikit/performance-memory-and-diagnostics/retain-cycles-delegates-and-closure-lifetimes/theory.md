@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 8
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Retain Cycles, Delegates, and Closure Lifetimes: Theory
@@ -17,10 +17,10 @@ last_reviewed: 2026-07-05
 
 ## Mental Model
 
-UIKit screens are object graphs. View controllers own views. Views own
-subviews. Controllers often own view models, tasks, timers, and subscriptions.
-Leaks happen when one of those edges points back strongly and prevents the graph
-from reaching zero strong references.
+A UIKit screen is a group of objects connected by references. View controllers own
+views, and views own subviews. Controllers often also own view models, tasks, timers,
+and subscriptions. A retain cycle forms when strong references make a loop, so none
+of the objects in that loop can be released.
 
 The interview answer is not "always use `[weak self]`." It is: identify the
 owner, identify the callback or retained work, and decide whether that callback
@@ -84,6 +84,10 @@ Several UIKit-adjacent APIs hide retaining behavior:
 | Cell image completion | A loader retains a closure that captures a reused cell. | Capture weakly and check cell identity before rendering. |
 | Stored `Task` | A task closure can keep a controller or model alive. | Cancel on lifecycle end and avoid needless strong captures. |
 
+Task cancellation is cooperative. Calling `cancel()` sets a flag, but the task may
+keep its captures until its operation observes cancellation and returns. The async
+operation therefore needs a real cancellation path as well as a stored task handle.
+
 View controllers are useful leak sentinels. If `deinit` does not run after
 dismissal or navigation pop, something still owns the screen graph. Do not use
 `deinit` logging as the only proof, but it is a fast local signal before opening
@@ -120,8 +124,8 @@ path. Fix the ownership edge that should not be strong.
 Avoid "weak everywhere" as a style rule. It can hide useful lifetime mistakes and
 drop work unexpectedly. Prefer a spoken rule:
 
-> The closure can retain `self` only if the closure's owner is not retained by
-> `self`, or if the closure is shorter-lived than `self`.
+> A closure may retain `self` when `self` does not also retain the closure's owner,
+> or when the closure definitely ends before `self` should be released.
 
 That rule handles delegates, cells, timers, and async callbacks with one mental
 model.

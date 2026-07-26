@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # CALayer Backing and Rendering: Theory
@@ -17,9 +17,10 @@ last_reviewed: 2026-07-01
 
 ## Mental Model
 
-UIKit views are backed by Core Animation layers. The view is the UIKit object for
-event handling, accessibility, layout participation, and responder-chain
-behavior. The layer is the rendering and composition object.
+Every `UIView` has a Core Animation `CALayer` that provides its visual content.
+This is called the view's backing layer. The view handles UIKit behavior such as
+events, accessibility, and Auto Layout. The layer stores visual properties and
+combines rendered content for display, a process called composition.
 
 ```mermaid
 flowchart TD
@@ -59,13 +60,14 @@ users interact.
 ## Model and Presentation Layers
 
 Core Animation has a model layer tree that stores target property values and a
-presentation layer tree that represents in-flight animated values. During an
+presentation layer tree that approximates the values currently onscreen. During an
 animation, the model value may already be the final value while the presentation
 value is what the user currently sees.
 
 This matters for custom interactions. If you need the current animated position,
-read from the presentation layer. If you are setting the intended final state,
-update the model layer.
+read a copy from `layer.presentation()`. It is available only while the layer has
+presentation data and must not be modified. To set the intended final state,
+update the normal model layer.
 
 ## Performance Costs
 

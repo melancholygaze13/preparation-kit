@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Delegation, Closures, Notifications, and Ownership: Interview Questions
@@ -32,7 +32,7 @@ last_reviewed: 2026-07-05
 ### Short Answer
 
 I use a delegate for a stable one-to-one relationship, especially when the child
-needs a typed contract or a return value. I use a closure for a small local
+needs several named callbacks or a return value. I use a closure for a small local
 callback with one clear action.
 
 ### Expanded Answer

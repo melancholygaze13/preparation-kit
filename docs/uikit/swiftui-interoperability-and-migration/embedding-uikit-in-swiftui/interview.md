@@ -10,7 +10,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Embedding UIKit in SwiftUI: Interview Questions
@@ -50,8 +50,8 @@ because a wrapper adds another lifecycle boundary.
 
 ### Short Answer
 
-SwiftUI may create a new representable value while retaining the existing coordinator
-and UIKit object. A coordinator that captured only the original wrapper can therefore
+SwiftUI may create a new representable value while keeping the existing coordinator
+and UIKit object. If the coordinator captured only the first wrapper, it can therefore
 send callbacks to old bindings or actions.
 
 ### Expanded Answer

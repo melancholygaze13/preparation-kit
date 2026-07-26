@@ -4,10 +4,15 @@ domain: "UIKit"
 page_type: topic-index
 interview_priority: high
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Animation, Transitions, and Interaction
+
+UIKit animation questions test whether visual movement and app state stay in
+sync. Start with ordinary view animation, then learn interruption and custom
+view-controller transitions. Add specialized interactions only when the role
+needs them.
 
 ## Preparation Paths
 

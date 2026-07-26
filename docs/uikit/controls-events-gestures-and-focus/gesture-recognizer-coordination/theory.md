@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Gesture Recognizer Coordination: Theory
@@ -40,6 +40,7 @@ final class PhotoViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         pan.delegate = self
+        imageView.isUserInteractionEnabled = true
         imageView.addGestureRecognizer(pan)
     }
 
@@ -59,6 +60,10 @@ final class PhotoViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 }
 ```
+
+`UIImageView` disables user interaction by default. Enable it before attaching a
+recognizer directly to an image view. Most ordinary views already allow user
+interaction.
 
 The handler should respond to state transitions. It should not assume the gesture
 will always end normally; cancellation happens during interruptions, competing
@@ -92,8 +97,8 @@ If a tap recognizer on a container prevents a button from receiving taps, check
 the recognizer delegate and properties such as `cancelsTouchesInView`.
 
 Do not solve every conflict by disabling cancellation. If the gesture truly owns
-the interaction, cancellation may be correct. If the gesture is just an
-background tap-to-dismiss keyboard behavior, it should usually ignore controls.
+the interaction, cancellation may be correct. If the gesture is only a background
+tap that dismisses the keyboard, it should usually ignore controls.
 
 ## Production Application
 

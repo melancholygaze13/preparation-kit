@@ -4,12 +4,13 @@ domain: "UIKit"
 page_type: topic-index
 interview_priority: core
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-26
 ---
 
 # Auto Layout and Adaptive Layout
 
-Auto Layout is core UIKit interview material because it connects view geometry,
+Auto Layout computes view frames from constraints, which are rules between layout
+values. It is core UIKit interview material because it connects view geometry,
 dynamic content, localization, safe areas, and trait changes. A strong answer
 should explain constraints as relationships, not as final frames.
 

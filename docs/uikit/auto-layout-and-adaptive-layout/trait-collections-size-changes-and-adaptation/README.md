@@ -10,12 +10,13 @@ levels:
 interview_priority: high
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-26
 ---
 
 # Trait Collections, Size Changes, and Adaptation
 
-> Adaptive UIKit layouts respond to environment changes such as size class,
+> A trait collection describes the current UI environment. Adaptive UIKit layouts
+> respond to changes such as size class,
 > display scale, interface style, content size category, and window size. Traits
 > describe context; constraints and view state express the response.
 

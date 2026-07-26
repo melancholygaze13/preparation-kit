@@ -9,13 +9,13 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-10
+last_reviewed: 2026-07-26
 ---
 
 # Hosting SwiftUI in UIKit
 
-> `UIHostingController` is a UIKit controller whose content is a SwiftUI view
-> hierarchy. UIKit still owns presentation and containment; the feature boundary
+> `UIHostingController` wraps a SwiftUI view hierarchy in a UIKit view controller.
+> UIKit still owns presentation and containment; the integration
 > must define who owns state, navigation, and side effects.
 
 ## Quick Recall

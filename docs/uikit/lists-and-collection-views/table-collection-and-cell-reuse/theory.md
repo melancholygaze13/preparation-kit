@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 8
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-26
 ---
 
 # Table, Collection, and Cell Reuse: Theory
@@ -74,13 +74,14 @@ source of truth.
 
 ## `prepareForReuse()`
 
-Use `prepareForReuse()` for transient view state that must be cleared before the
-next configuration. Examples include cancelling image tasks, clearing images,
-resetting alpha, stopping animations, or removing temporary tokens.
+Use `prepareForReuse()` for temporary, non-content resources that must be reset
+before the next configuration. Examples include cancelling image tasks, clearing
+identity tokens or callbacks, resetting temporary alpha, and stopping animations.
 
 Do not use `prepareForReuse()` as the only place that sets normal content state.
 Cells may be configured without every state first passing through the exact reuse
-path you expected. The configure method should still set the final state.
+path you expected. The configure method should set the final text, image or
+placeholder, accessories, selection-derived appearance, and visibility.
 
 ## Table Views and Collection Views
 

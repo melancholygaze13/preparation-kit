@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # MainActor and UI Thread Confinement: Interview Questions
@@ -72,9 +72,10 @@ execution mechanism.
 
 ### Expanded Answer
 
-If image decoding, JSON processing, or database work runs on the main actor, the
-app can hitch even though the code is concurrency-safe. The fix is to keep that
-work in non-UI services and publish only the final UI state on the main actor.
+If image decoding or large data processing runs on the main actor, the app can
+hitch even though the code is data-race safe. With Swift 6.2 approachable
+concurrency, I use `@concurrent` for CPU-heavy async work that must leave the
+caller's actor. I publish only the final UI state on `MainActor`.
 
 ---
 

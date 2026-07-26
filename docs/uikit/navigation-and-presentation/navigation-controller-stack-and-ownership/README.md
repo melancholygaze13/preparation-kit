@@ -10,12 +10,13 @@ levels:
 interview_priority: core
 estimated_read_minutes: 1
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-26
 ---
 
 # Navigation Controller Stack and Ownership
 
-> A navigation controller owns a stack of view controllers. Push when the next
+> A navigation controller owns an ordered stack of view controllers and displays
+> the controller at the top. Push when the next
 > screen is part of the same task hierarchy; present when the user is entering a
 > separate modal flow.
 

@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-07-26
 ---
 
 # Presentation Context, Popovers, and Sheets: Interview Questions
@@ -34,7 +34,7 @@ last_reviewed: 2026-07-12
 
 ### Short Answer
 
-Presentation context controls which part of the interface a presentation covers.
+Presentation context tells UIKit which controller and area a presentation should cover.
 UIKit may route a presentation request to an ancestor or container that can
 provide the right context.
 

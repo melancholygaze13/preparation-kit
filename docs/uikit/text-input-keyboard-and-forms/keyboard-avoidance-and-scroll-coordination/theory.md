@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-06
+last_reviewed: 2026-07-26
 ---
 
 # Keyboard Avoidance and Scroll Coordination: Theory
@@ -81,7 +81,7 @@ use notifications, read the final frame and animation timing from the
 notification instead of inventing a separate duration.
 
 Safe areas and keyboards are different concepts. The safe area handles permanent
-system UI such as home indicator space. The keyboard is transient input UI. A
+system UI such as home indicator space. The keyboard is temporary input UI. A
 layout can need both.
 
 ## Engineering Decisions
@@ -90,7 +90,7 @@ Choose the strategy by layout shape:
 
 | Layout | Better strategy | Reason |
 |---|---|---|
-| Fixed bottom button | `keyboardLayoutGuide` constraint | Keeps layout declarative |
+| Fixed bottom button | `keyboardLayoutGuide` constraint | Describes the relationship directly |
 | Long form in scroll view | Adjust content and indicator insets | Keeps fields reachable |
 | Chat composer | Keyboard guide plus scroll anchoring | Keeps composer and messages coordinated |
 | Old deployment target | Keyboard notifications | Works before keyboard layout guide |

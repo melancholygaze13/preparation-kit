@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 8
 status: reviewed
-last_reviewed: 2026-07-05
+last_reviewed: 2026-07-26
 ---
 
 # Dependency Injection and Feature Modularization: Theory
@@ -17,13 +17,14 @@ last_reviewed: 2026-07-05
 
 ## Mental Model
 
-Dependency injection means an object receives the collaborators it needs instead
+Dependency injection means an object receives the dependencies it needs instead
 of creating or locating them itself. In UIKit, that usually means a view
 controller, view model, coordinator, or service is initialized with its required
 dependencies.
 
-Modularization is the larger boundary. It decides which features, layers, or
-shared APIs compile together and which dependencies are allowed.
+Modularization is a separate decision. It divides code into modules that compile
+together and controls which modules may depend on which others. An app can use
+dependency injection without adding modules.
 
 ## Dependency Injection in UIKit
 
@@ -67,9 +68,10 @@ struct OrdersFeatureFactory {
 }
 ```
 
-Avoid making every object reach into a global container. A dependency container
-can be useful at the composition root, but service location inside feature code
-hides requirements and weakens tests.
+Avoid making every object reach into a global container. A dependency container can
+be useful at the composition root, where the app is assembled. Looking up services
+from that container inside feature code is the service-locator pattern; it hides
+requirements and weakens tests.
 
 ## Protocol Boundaries
 

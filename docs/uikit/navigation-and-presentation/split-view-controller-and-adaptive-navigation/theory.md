@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-01
+last_reviewed: 2026-07-26
 ---
 
 # Split View Controller and Adaptive Navigation: Theory
@@ -34,6 +34,31 @@ Modern split navigation often uses sidebar, content, and detail roles. The exact
 number of visible columns can change with width, presentation style, and device
 context.
 
+Create the container, then assign one controller to each column role. The
+split view controller owns those children:
+
+```swift
+let split = UISplitViewController(style: .tripleColumn)
+
+let accounts = UINavigationController(
+    rootViewController: AccountListViewController(store: store)
+)
+let messages = UINavigationController(
+    rootViewController: MessageListViewController(store: store)
+)
+let detail = UINavigationController(
+    rootViewController: EmptyMessageViewController()
+)
+
+split.setViewController(accounts, for: .primary)
+split.setViewController(messages, for: .supplementary)
+split.setViewController(detail, for: .secondary)
+```
+
+`primary` usually holds the broadest navigation level, `supplementary` the next
+selection level, and `secondary` the detail. Those names describe roles, not a
+promise that three columns are visible.
+
 Do not make business state depend on a column being visible. For example, the
 selected account, selected folder, and selected message should be model or route
 state. The split view reads that state and displays the right columns when space
@@ -49,6 +74,16 @@ show a useful placeholder or empty state.
 Deep links also need complete navigation meaning. A link to a document should set
 the sidebar selection and the detail route, not only show a detail controller
 with no context.
+
+When a child requests navigation, prefer adaptive container operations such as
+`show(_:sender:)` or `showDetailViewController(_:sender:)` when they express the
+intent. UIKit can then choose a column or a compact navigation path. Directly
+pushing onto a guessed visible stack ties the feature to one current layout.
+
+The split view delegate can influence collapse, expansion, and the top column in
+compact mode. Add delegate policy only when the default loses important context.
+Keep the selected IDs in route state either way; delegate callbacks are about
+presentation, not the source of truth.
 
 ## Engineering Decisions
 
