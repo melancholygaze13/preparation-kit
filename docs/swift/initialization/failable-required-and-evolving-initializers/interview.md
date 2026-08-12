@@ -8,7 +8,7 @@ interview_priority: high
 estimated_read_minutes: 3
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 ---
 
 # Failable, Required, and Evolving Initializers: Interview Questions
@@ -103,4 +103,4 @@ can still create now-invalid inputs. Defaults must have explicit version semanti
 ### Example
 
 A formerly optional tenant ID becomes required. Readers first infer or quarantine old
-records and records a metric. Writers then emit IDs. Enforcement follows after old data is updated.
+records and record a metric. Writers then emit IDs. Enforcement follows after old data is updated.

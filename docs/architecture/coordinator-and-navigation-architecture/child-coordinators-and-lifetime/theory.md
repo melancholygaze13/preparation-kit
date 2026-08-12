@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - coordinators
   - lifetime
@@ -28,12 +28,10 @@ A child coordinator is a runtime scope for one active flow. It owns the screens,
 view models, presentation state, and feature-scoped work needed by that flow. Its parent
 owns it strongly until the child completes or is dismissed.
 
-```mermaid
-flowchart TD
-    App["App or scene coordinator"] --> Main["Main flow"]
-    Main --> Checkout["Checkout flow"]
-    App --> Auth["Authentication flow"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 524" title="Child Coordinators and Lifetime" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Child Coordinators and Lifetime diagram</a></figcaption>
+</figure>
 
 The active ownership tree may change while the app runs. It should not keep completed
 flows alive or require children to own their parents.

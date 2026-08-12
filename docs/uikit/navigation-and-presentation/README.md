@@ -4,7 +4,7 @@ domain: "UIKit"
 page_type: topic-index
 interview_priority: core
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # Navigation and Presentation
@@ -27,6 +27,12 @@ context instead of treating every transition as
 
 4. [Split View Controller and Adaptive Navigation](split-view-controller-and-adaptive-navigation/README.md)
 5. [Presentation Context, Popovers, and Sheets](presentation-context-popovers-and-sheets/README.md)
+
+### Role-Specific Depth
+
+For iPad, document, or desktop-class roles, deepen split-view adaptation,
+multiwindow routing, popovers, and keyboard-driven navigation. Phone-focused
+roles should still know how sheets and popovers adapt across size classes.
 
 ## Concepts
 

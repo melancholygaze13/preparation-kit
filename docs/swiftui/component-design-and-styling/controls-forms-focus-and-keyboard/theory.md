@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - controls
   - focus-state
@@ -88,6 +88,23 @@ Rich text adds a data contract. Decide which attributes the product accepts, how
 are validated and persisted, and what unsupported formatting becomes on import. Do
 not store selection as durable document state unless restoring it is an explicit
 requirement.
+
+With Xcode 27 and the 2027 platform releases, plain-string `TextField` and
+`TextEditor` can bind a `TextSelection?`. Use it only when the product needs
+selection-aware behavior, such as suggestions or an editing command:
+
+```swift
+@State private var note = ""
+@State private var selection: TextSelection?
+
+TextEditor(text: $note, selection: $selection)
+```
+
+`TextSelection.indices` distinguishes one range from multiple macOS ranges. A
+zero-length range is an insertion point. The indices belong to the current `String`;
+after replacing that string, validate or replace the selection rather than reuse stale
+indices. Earlier platform releases use the text-only initializer. These selection
+bindings are beta while the 2027 platform releases are in beta.
 
 Set text content types, capitalization, submit labels, and privacy behavior according
 to the field. Never log passwords or sensitive form contents.
@@ -197,6 +214,8 @@ focus sequence, keyboard actions, accessibility, and the final integration.
 - [Text input and output](https://developer.apple.com/documentation/swiftui/text-input-and-output)
 - [Building rich SwiftUI text experiences](https://developer.apple.com/documentation/swiftui/building-rich-swiftui-text-experiences)
 - [`AttributedTextSelection`](https://developer.apple.com/documentation/swiftui/attributedtextselection)
+- [`TextSelection`](https://developer.apple.com/documentation/swiftui/textselection)
+- [SwiftUI updates](https://developer.apple.com/documentation/updates/swiftui)
 - [`FocusState`](https://developer.apple.com/documentation/swiftui/focusstate)
 - [`Form`](https://developer.apple.com/documentation/swiftui/form)
 - [Focus cookbook: Supporting and enhancing focus-driven interactions](https://developer.apple.com/documentation/swiftui/focus-cookbook-sample)

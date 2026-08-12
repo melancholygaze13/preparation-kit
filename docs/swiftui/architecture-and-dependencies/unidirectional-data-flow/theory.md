@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - unidirectional-data-flow
   - state-transitions
@@ -26,16 +26,10 @@ tags:
 
 Unidirectional data flow makes ownership traceable:
 
-```mermaid
-flowchart LR
-    State["State"] --> View["View"]
-    View --> Event["Event"]
-    Event --> Transition["State transition"]
-    Transition --> NewState["New state"]
-    Transition --> Effect["Effect"]
-    Effect --> Result["Result event"]
-    Result --> Transition
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 600" title="Unidirectional Data Flow" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Unidirectional Data Flow diagram</a></figcaption>
+</figure>
 
 One owner decides each mutation. SwiftUI renders the resulting state. This pattern
 does not require a particular library, one global store, or an action enum for every

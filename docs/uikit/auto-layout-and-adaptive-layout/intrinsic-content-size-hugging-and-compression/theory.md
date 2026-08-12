@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # Intrinsic Content Size, Hugging, and Compression: Theory
@@ -79,10 +79,9 @@ Dynamic Type and localization change content size at runtime or across locales.
 Layouts that look fine with short English strings can fail with larger text,
 German strings, Arabic layout direction, or accessibility text sizes.
 
-The production question is not "how do I prevent growth?" It is "what should
-happen when content needs more room?" Common answers include wrapping,
-truncating less important text, stacking vertically, hiding decorative elements,
-or moving secondary actions to a menu.
+The production question is not "how do I prevent growth?" Ask what should happen when
+content needs more room. The design can wrap, truncate less important text, stack
+vertically, hide decoration, or move secondary actions to a menu.
 
 ## Engineering Decisions
 

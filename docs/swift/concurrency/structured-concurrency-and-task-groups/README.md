@@ -7,13 +7,14 @@ interview_priority: core
 estimated_read_minutes: 1
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-08-12
 ---
 
 # Structured Concurrency and Task Groups
 
 > Structured concurrency keeps child tasks inside a parent scope. The parent
-> cannot finish until its children finish or are cancelled.
+> cannot finish until every child finishes. Cancellation asks children to stop;
+> they must still cooperate and reach completion.
 
 ## Quick Recall
 

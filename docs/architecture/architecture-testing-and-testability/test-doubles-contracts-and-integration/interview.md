@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - test-doubles
   - contract-tests
@@ -57,6 +57,13 @@ I define the behavior of the owned port and run shared contract examples against
 the fake and real adapter where practical. I also keep integration tests for behavior
 unique to the real implementation, such as database constraints or HTTP mapping.
 
+### Expanded Answer
+
+The shared examples cover only promises both implementations should satisfy, such as
+not-found behavior or ordering. Real-adapter tests then cover serialization, transactions,
+and framework-specific failure modes. When the fake needs to reproduce most production
+logic, it is no longer buying useful simplicity.
+
 ### Trade-offs
 
 A rich fake can make many tests fast, but it becomes another implementation to maintain.
@@ -71,6 +78,13 @@ simulation becomes complex, focused real integration tests may be cheaper and sa
 Anything whose risk comes from the real boundary: serialization, database queries and
 migrations, adapter mapping, dependency assembly, or framework lifecycle. Replacing
 that component would remove the behavior the test is meant to prove.
+
+### Expanded Answer
+
+I keep the smallest real environment that exposes the risk and control everything around
+it. A temporary database can prove constraints and migrations; a local decoder can prove
+wire compatibility. These tests should not call an external production service merely to
+appear realistic.
 
 ### Example
 

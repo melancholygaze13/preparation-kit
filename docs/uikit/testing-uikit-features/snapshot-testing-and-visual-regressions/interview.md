@@ -8,9 +8,9 @@ levels:
   - senior
   - staff
 interview_priority: situational
-estimated_read_minutes: 2
+estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # Snapshot Testing and Visual Regressions: Interview Questions

@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - unidirectional-data-flow
   - reducers
@@ -26,16 +26,10 @@ tags:
 
 Unidirectional Data Flow (UDF) makes change follow one loop:
 
-```mermaid
-flowchart LR
-    State["State"] --> View["View"]
-    View --> Action["Action"]
-    Action --> Reducer["Reducer"]
-    Reducer --> NewState["New state"]
-    Reducer --> Effects["Effects"]
-    Effects --> LaterActions["Later actions"]
-    LaterActions --> Reducer
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 600" title="State, Actions, and Reducers" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the State, Actions, and Reducers diagram</a></figcaption>
+</figure>
 
 The view reads state and sends an action. The reducer handles that action, changes
 state synchronously, and may describe external work. Effect results return as new

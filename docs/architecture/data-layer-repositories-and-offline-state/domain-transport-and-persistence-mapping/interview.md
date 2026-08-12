@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - data-mapping
   - domain-models
@@ -40,6 +40,13 @@ tags:
 They serve different contracts and change for different reasons. DTOs match wire shape,
 persistence records support local queries and migrations, and domain values support valid
 product decisions. Mapping prevents one external schema from controlling all three.
+
+### Expanded Answer
+
+The mapper is where optional wire fields, storage metadata, units, and identifiers become
+validated product meaning. Domain code then works without transport or database lifecycle
+rules. I reuse a type across boundaries only when its meaning and evolution truly match,
+not merely because its fields look similar today.
 
 ### Trade-offs
 

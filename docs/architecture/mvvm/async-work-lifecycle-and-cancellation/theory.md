@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 8
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - mvvm
   - concurrency
@@ -56,20 +56,32 @@ If the view model creates an unstructured `Task`, it owns the handle:
 final class SearchViewModel {
     private(set) var state: State = .idle
     private var searchTask: Task<Void, Never>?
+    private var searchGeneration = 0
     private let search: SearchService
+
+    init(search: SearchService) {
+        self.search = search
+    }
 
     func queryChanged(to query: String) {
         searchTask?.cancel()
+        searchGeneration += 1
+        let generation = searchGeneration
+
         searchTask = Task { [weak self, search] in
             do {
                 try await Task.sleep(for: .milliseconds(250))
                 let results = try await search.results(for: query)
                 try Task.checkCancellation()
-                self?.state = .content(results)
+                guard let self, self.searchGeneration == generation else { return }
+                self.state = .content(results)
             } catch is CancellationError {
                 // Replacement is expected, so keep the current state.
             } catch {
-                self?.state = .failed(error.localizedDescription)
+                guard let self,
+                      !Task.isCancelled,
+                      self.searchGeneration == generation else { return }
+                self.state = .failed(error.localizedDescription)
             }
         }
     }
@@ -78,9 +90,10 @@ final class SearchViewModel {
 }
 ```
 
-The task handle makes replacement and teardown explicit. The capture list avoids a
-task retaining its owner for the full operation. Capture choices must follow the
-required lifetime; weak capture is not a universal rule.
+The task handle makes replacement and teardown explicit. The generation check prevents
+an older success or failure from replacing newer state, even if the dependency ignores
+cancellation. The capture list avoids a task retaining its owner for the full operation.
+Capture choices must follow the required lifetime; weak capture is not a universal rule.
 
 ## Treat Cancellation as a Control Signal
 

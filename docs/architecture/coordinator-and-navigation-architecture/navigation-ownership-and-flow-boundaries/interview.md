@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - coordinators
   - navigation
@@ -70,6 +70,13 @@ must not become a global service locator or business-rules container.
 It is unnecessary for local presentation with no cross-screen policy, special lifetime,
 deep-link, or restoration need. A SwiftUI feature can own a small path or optional
 destination directly. I add a coordinator when navigation becomes a distinct workflow.
+
+### Expanded Answer
+
+The key question is whether navigation has independent policy and ownership. A simple
+sheet tied to one feature state does not need another object. A coordinator earns its
+place when several screens form a reusable journey, dependencies must be assembled, or
+back and deep-link behavior needs one owner.
 
 ### Trade-offs
 

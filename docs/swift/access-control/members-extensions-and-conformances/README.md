@@ -7,12 +7,13 @@ interview_priority: situational
 estimated_read_minutes: 1
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-08-12
 ---
 
 # Members, Extensions, and Conformances
 
-> Composite declarations, extensions, and conformances must expose a coherent interface whose members and witnesses are visible wherever the contract is usable.
+> Composite declarations, extensions, and conformances must expose one coherent interface.
+> Members and witnesses must be visible wherever callers use the contract.
 
 ## Quick Recall
 

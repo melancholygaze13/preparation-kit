@@ -9,7 +9,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 ---
 
 # Optionals: Interview Questions
@@ -82,6 +82,12 @@ can express the state directly.
 Only when a nearby, reviewable rule proves the value exists and `nil` would
 be a programmer error. Prefer types and initialization that make absence impossible.
 
+### Expanded Answer
+
+The proof should be local and stable, such as a build-verified bundled resource or a
+preceding guard over the same unchanged value. Data from a server, file, or user cannot
+provide that invariant. A force unwrap should fail only when the program itself is wrong.
+
 ### Example
 
 Force-unwrapping a bundled resource can be reasonable when the build verifies it.
@@ -97,6 +103,12 @@ Force-unwrapping a server field is unsafe because remote data cannot provide tha
 Both run only when the optional contains a value. `map` wraps the transformed
 result in an optional. `flatMap` is for a transform that already returns an
 optional, so the result stays one layer deep.
+
+### Expanded Answer
+
+Use `map` when the transform always produces an ordinary value. Use `flatMap` when the
+transform can also fail or return no value. The latter removes the extra optional layer,
+but it can also merge “input absent” and “transform returned nil” into one result.
 
 ### Example
 

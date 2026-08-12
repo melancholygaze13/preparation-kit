@@ -7,12 +7,13 @@ interview_priority: reference
 estimated_read_minutes: 1
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-08-12
 ---
 
 # Custom Operators and Precedence Groups
 
-> Custom punctuation is a grammar extension: fixity, precedence, associativity, whitespace, and global collision behavior become part of the API.
+> Custom operators extend Swift's grammar.
+> Fixity, precedence, associativity, whitespace, and global name collisions become part of the API.
 
 ## Quick Recall
 

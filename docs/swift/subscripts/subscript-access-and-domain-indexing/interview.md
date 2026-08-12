@@ -8,7 +8,7 @@ levels: [senior]
 interview_priority: reference
 estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 ---
 
 # Subscript Access and Domain Indexing: Interview Questions
@@ -17,8 +17,12 @@ last_reviewed: 2026-07-22
 
 ## Question Index
 
-- [When is a subscript better than a method?](#q1-subscript-method)
-- [Should invalid indexing trap or return an optional?](#q2-invalid-index)
+| Question | Level | Focus |
+|---|---|---|
+| [When is a subscript better than a method?](#q1-subscript-method) | Senior | Access syntax |
+| [Should invalid indexing trap or return an optional?](#q2-invalid-index) | Senior | Failure policy |
+
+---
 
 <a id="q1-subscript-method"></a>
 ## Q1: When Is a Subscript Better Than a Method?

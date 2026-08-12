@@ -8,7 +8,7 @@ interview_priority: situational
 estimated_read_minutes: 3
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-08-12
 ---
 
 # Boxed Protocol Types and Existential Semantics: Theory
@@ -66,7 +66,8 @@ concrete type, while `Equatable.==` requires both operands to have one `Self` ty
 
 - `any P` explicitly denotes an existential type; `Any` and `AnyObject` retain their special spelling.
 - A variable of existential type can later hold a different conforming concrete type.
-- Covariant results involving associated types may be safely type-erased; input requirements can remain unavailable without sufficient type relationships.
+- Covariant results involving associated types may be safely type-erased.
+  Input requirements can remain unavailable without sufficient type relationships.
 - `any P.Type` can hold the metatype of an arbitrary `P` conformer; `(any P).Type` is the metatype of the existential type itself.
 - Swift does not guarantee that an existential always or never allocates on the heap.
 

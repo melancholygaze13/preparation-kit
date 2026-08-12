@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 tags:
   - rollout
   - observability
@@ -57,6 +57,12 @@ I measure the intended outcome, safety guardrails, and migration behavior. Signa
 correctness, crashes, hangs, latency, resource use, selected path, fallback rate, result
 differences, and affected cohort. Thresholds and decision owners are set before rollout.
 
+### Expanded Answer
+
+Every signal should answer a rollout decision: continue, pause, reverse, or investigate.
+I compare equivalent cohorts and include implementation version and selected path so a
+regression can be attributed. Segment only by dimensions that can change the decision.
+
 ### Trade-offs
 
 An average can hide a serious segment regression. Too many dimensions create noise and
@@ -72,6 +78,13 @@ It is tested, has a named operator and response time, and handles data and exter
 effects. A flag can reverse stateless code selection. It cannot undo an incompatible
 schema write, payment, or message, which needs a reverse migration, compatible reader,
 compensation, or forward repair.
+
+### Expanded Answer
+
+I define the last safe reversal point before exposure and rehearse the procedure with
+production-shaped data. The plan includes who decides, how quickly the switch propagates,
+and how partially completed effects are handled. If rollback is impossible, the rollout
+must use smaller steps and a tested forward-repair path.
 
 ### Example
 

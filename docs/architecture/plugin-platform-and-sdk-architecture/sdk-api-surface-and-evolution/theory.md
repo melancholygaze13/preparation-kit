@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: situational
-estimated_read_minutes: 4
+estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 tags:
   - sdk-design
   - api-evolution
@@ -27,45 +27,14 @@ An SDK is a supported boundary between teams, releases, and sometimes organizati
 Clients should understand its workflows without learning its internal layers. The SDK
 should change implementation freely while changing its published contract deliberately.
 
-Good SDK design starts from supported workflows:
-
-```mermaid
-flowchart LR
-    Configure["Configure"] --> Capability["Check capability"]
-    Capability --> Work["Perform work"]
-    Work --> Result["Handle result"]
-    Result --> Diagnose["Diagnose"]
-```
+Good SDK design starts from supported client workflows, not the SDK's internal layers.
 
 ## API Surface
 
-```mermaid
-flowchart TD
-    Client["Client app"] --> Facade["Public facade"]
-
-    subgraph PublicAPI["Stable API clients can depend on"]
-        direction LR
-        Models["Public models"]
-        Capabilities["Capability APIs"]
-        Errors["Errors and diagnostics"]
-    end
-
-    subgraph Internals["Hidden implementation details"]
-        direction LR
-        Internal["Internal implementation"]
-        Network["Network"]
-        Storage["Storage"]
-        Device["Device or vendor SDK"]
-    end
-
-    Facade --> Models
-    Facade --> Capabilities
-    Facade --> Errors
-    Facade --> Internal
-    Internal --> Network
-    Internal --> Storage
-    Internal --> Device
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram-1.html" style="--schematic-aspect: 960 / 600" title="SDK API Surface and Evolution — API Surface" loading="lazy"></iframe>
+  <figcaption><a href="../diagram-1.html">Open the SDK API Surface and Evolution — API Surface diagram</a></figcaption>
+</figure>
 
 The facade describes client capabilities. Do not expose transport clients, persistence
 entities, queues, concrete services, or vendor SDK types only because the implementation
@@ -84,6 +53,26 @@ uses them. Every public declaration becomes compatibility and support work.
 Document behavior as carefully as signatures. Changing callback order, actor isolation,
 error categories, retry policy, persistence, or data collection can break clients even
 when source still compiles.
+
+A workflow-based call site stays small and uses client-facing values:
+
+```swift
+let sdk = try CheckoutSDK(
+    configuration: .init(appID: "example-store")
+)
+
+guard await sdk.capabilities.contains(.orderSubmission) else {
+    return showUnavailableMessage()
+}
+
+let receipt = try await sdk.submit(
+    OrderRequest(cartID: cart.id, idempotencyKey: operationID)
+)
+showConfirmation(receipt.number)
+```
+
+The client does not select a transport, open SDK storage, or resolve internal services.
+Those details can change without changing the supported checkout workflow.
 
 ## Separate Compatibility Promises
 
@@ -106,14 +95,10 @@ capabilities, or defaulted behavior before changing existing contracts. When a
 breaking change is necessary, provide a migration window and a reason that maps
 to client value.
 
-```mermaid
-stateDiagram-v2
-    [*] --> Experimental
-    Experimental --> Stable: contract proven
-    Stable --> Deprecated: replacement available
-    Deprecated --> Removed: migration window complete
-    Stable --> Stable: additive change
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram-2.html" style="--schematic-aspect: 960 / 372" title="SDK API Surface and Evolution — Evolve the Contract" loading="lazy"></iframe>
+  <figcaption><a href="../diagram-2.html">Open the SDK API Surface and Evolution — Evolve the Contract diagram</a></figcaption>
+</figure>
 
 Prefer additive evolution, but verify that an addition is safe for the actual contract.
 For example, adding an enum case can affect exhaustive client switches, and changing a
@@ -123,6 +108,15 @@ numbers describe intent; they do not create source, binary, or behavior compatib
 A deprecation needs a supported replacement, migration notes, an observation window, and
 a stated removal policy. For a costly migration, add an adapter or compatibility layer and
 measure supported-version use before removal.
+
+```swift
+@available(*, deprecated, renamed: "submit(_:)")
+public func send(_ request: OrderRequest) async throws -> Receipt {
+    try await submit(request)
+}
+```
+
+This adapter keeps the old source path working while directing clients to the replacement.
 
 ## Engineering Decisions
 

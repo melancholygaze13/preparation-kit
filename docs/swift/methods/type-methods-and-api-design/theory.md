@@ -8,7 +8,7 @@ levels: [senior]
 interview_priority: reference
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 ---
 
 # Type Methods and API Design: Theory

@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - navigation-split-view
   - adaptive-navigation
@@ -29,13 +29,10 @@ selection determines trailing-column content. In a narrow environment, SwiftUI c
 collapse the columns into a single stack, but the application should retain one
 coherent selection model.
 
-```mermaid
-flowchart LR
-    Sidebar["Sidebar selection"] --> Content["Content selection"]
-    Content --> Detail["Detail"]
-    Mode{"Available width"} -->|Expanded| Columns["Show as columns"]
-    Mode -->|Collapsed| Stack["Show as a stack"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 580" title="NavigationSplitView and Multicolumn Flows" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the NavigationSplitView and Multicolumn Flows diagram</a></figcaption>
+</figure>
 
 Adaptive navigation is not two unrelated implementations. It is one navigation
 state rendered differently for the available environment.

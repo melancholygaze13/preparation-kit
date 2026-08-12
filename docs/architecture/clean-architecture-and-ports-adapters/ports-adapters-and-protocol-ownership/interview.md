@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - ports-and-adapters
   - protocols
@@ -71,6 +71,13 @@ make the adapter import the port, not the reverse.
 I avoid one when a stable concrete value or pure function already expresses the need
 and replacement has no architectural value. I can also use a closure-based capability
 for one small operation. Testability does not require mocking every type.
+
+### Expanded Answer
+
+The abstraction should separate ownership or volatility, not merely enable a fake.
+A small closure can express one injected operation, and a value can carry immutable
+configuration directly. I introduce a protocol when several implementations or a
+module dependency rule make the capability boundary valuable.
 
 ### Trade-offs
 

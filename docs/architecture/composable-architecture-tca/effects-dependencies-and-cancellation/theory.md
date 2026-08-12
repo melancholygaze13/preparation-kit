@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - tca
   - effects
@@ -29,13 +29,10 @@ state and returns an effect. The store runs that effect, and the effect sends ac
 back when meaningful events occur. The reducer then handles those events through the
 same state-transition path as user input.
 
-```mermaid
-flowchart LR
-    Tap["Load tapped"] --> Loading["Reducer sets loading"]
-    Loading --> Effect["Effect calls client"]
-    Effect --> Result["Result"]
-    Result --> Response["Reducer handles response action"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 456 / 568; --schematic-width: 456px" title="Effects, Dependencies, and Cancellation" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Effects, Dependencies, and Cancellation diagram</a></figcaption>
+</figure>
 
 This makes the lifecycle visible. It also prevents an escaping task from mutating the
 reducer's `inout` state after the synchronous transition has ended.

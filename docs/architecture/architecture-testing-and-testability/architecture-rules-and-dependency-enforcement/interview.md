@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - dependency-rules
   - architecture-tests
@@ -57,6 +57,13 @@ I test stable constraints: forbidden feature-to-implementation edges, cycles, do
 dependencies on UI or data frameworks, and concrete implementations reachable from the
 wrong composition boundary. I avoid snapshotting the exact graph because healthy edges
 will evolve.
+
+### Expanded Answer
+
+The assertion should name an architectural promise, not reproduce today's entire graph.
+For example, a domain target must not import UIKit, and feature targets may depend on a
+client interface but not its live implementation. Focused rules survive normal module
+growth and produce actionable failures.
 
 ### Trade-offs
 

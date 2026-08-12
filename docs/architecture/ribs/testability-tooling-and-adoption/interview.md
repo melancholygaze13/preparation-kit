@@ -10,7 +10,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 tags:
   - ribs
   - testability
@@ -55,6 +55,13 @@ RIBs has many required connections and lifecycle rules. Generation reduces repet
 wiring, static checks protect dependency direction, and active-tree and leak diagnostics
 make production failures understandable. The generated graph must still be readable.
 
+### Expanded Answer
+
+Tooling should verify builder connections, surface attach and detach events, and make
+scope leaks diagnosable. It reduces accidental ceremony but cannot choose domain
+boundaries. Generated code stays reviewable, versioned with the framework, and covered by
+integration checks so the team can understand failures without the generator.
+
 <a id="q3-when-would-you-adopt-ribs"></a>
 ## Q3: When would you adopt RIBs?
 
@@ -63,6 +70,13 @@ make production failures understandable. The generated graph must still be reada
 For a large mobile codebase with nested business scopes, many teams, and a need for shared
 iOS and Android architecture conventions. I would pilot a representative subtree and
 measure delivery, defects, lifecycle safety, build cost, and support load before expanding.
+
+### Expanded Answer
+
+The pilot should include child routing, scoped dependencies, async work, teardown, and
+diagnostics. I also budget framework and RxSwift upgrades, templates, training, and owners
+for generated tooling. Expansion follows evidence that these costs buy safer independent
+delivery across real teams.
 
 ### Trade-offs
 

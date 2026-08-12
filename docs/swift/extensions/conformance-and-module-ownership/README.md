@@ -7,12 +7,13 @@ interview_priority: situational
 estimated_read_minutes: 1
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-08-12
 ---
 
 # Conformance and Module Ownership
 
-> A conformance introduced in an extension is visible process-wide; when neither the type nor protocol is yours, that retroactive decision can conflict with future owners.
+> A conformance added in an extension is visible across the process.
+> If you own neither the type nor protocol, a future owner can add a conflicting conformance.
 
 ## Quick Recall
 

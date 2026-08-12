@@ -4,7 +4,7 @@ domain: "Swift"
 page_type: topic-index
 interview_priority: situational
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-08-12
 ---
 
 # Extensions
@@ -15,7 +15,7 @@ Adding behavior to existing types without subclassing: computed properties, meth
 initializers, subscripts, nested types, generic constraints, protocol conformance, and
 the source, module, and ownership consequences of retroactive modeling.
 
-Protocol requirement design and protocol-extension dispatch belong to the future
+Protocol requirement design and protocol-extension dispatch belong to the
 Protocols topic; this topic focuses on the extension declaration and the risks of
 extending types across module boundaries.
 

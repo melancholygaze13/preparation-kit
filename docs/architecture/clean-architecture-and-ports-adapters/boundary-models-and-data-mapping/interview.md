@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - clean-architecture
   - data-mapping
@@ -71,6 +71,13 @@ data is not silently replaced with a plausible default.
 I measure representative data first. If mapping matters, I use pagination, focused
 projections, lazy conversion, background work, or caching with an invalidation rule.
 I do not leak managed objects or DTOs throughout the app based only on assumed cost.
+
+### Expanded Answer
+
+Mapping should happen once at a boundary and produce the smallest model the consumer
+needs. I profile allocation and latency with realistic payloads before changing that
+boundary. If cost is material, I reduce work while preserving schema and lifecycle
+isolation rather than exposing external representations everywhere.
 
 ### Trade-offs
 

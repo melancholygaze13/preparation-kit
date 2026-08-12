@@ -10,7 +10,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 ---
 
 # Snapshot Testing and Visual Regressions: Theory
@@ -25,6 +25,14 @@ A **visual regression** is an unintended change to rendered appearance.
 A visual regression test renders a known UI state, captures output, and compares it
 with a reviewed baseline. A difference means the rendering changed. It does not mean
 the change is wrong.
+
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 568" title="Snapshot Testing and Visual Regressions" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Snapshot Testing and Visual Regressions diagram</a></figcaption>
+</figure>
+
+The human review is part of the assertion. A changed image is evidence to inspect,
+not an automatic failure to accept or reject.
 
 Snapshots complement other tests:
 
@@ -67,6 +75,43 @@ workflow. Teams commonly build that policy around a chosen test utility.
 process. XCUIAutomation screenshots capture assembled app and system composition.
 Choose the lower boundary that still includes the rendering risk. Neither proves
 interaction or accessibility semantics.
+
+A view-level snapshot test can keep the product state and rendering environment small:
+
+```swift
+import Foundation
+import SnapshotTesting
+import SwiftUI
+import Testing
+
+struct EmptyCartView: View {
+    var body: some View {
+        VStack(spacing: 12) {
+            Image(systemName: "cart")
+            Text("Your cart is empty")
+        }
+        .padding()
+    }
+}
+
+@Test @MainActor
+func emptyCartMatchesApprovedRendering() {
+    let view = EmptyCartView()
+        .frame(width: 390, height: 844)
+        .environment(\.locale, Locale(identifier: "en_US"))
+
+    assertSnapshot(
+        of: view,
+        as: .image(layout: .fixed(width: 390, height: 844)),
+        named: "empty-cart-en-us"
+    )
+}
+```
+
+This example uses the open-source SnapshotTesting test utility; snapshot comparison is
+not built into Swift Testing. A project can use another utility or its own wrapper. The
+important contract is the named state, fixed environment, approved baseline, and visible
+diff when output changes.
 
 ## Choose a High-Value Matrix
 
@@ -131,4 +176,5 @@ more than the distinct signal it provides.
 - [ImageRenderer](https://developer.apple.com/documentation/swiftui/imagerenderer)
 - [XCUIScreenshot](https://developer.apple.com/documentation/xcuiautomation/xcuiscreenshot)
 - [XCTAttachment](https://developer.apple.com/documentation/xctest/xctattachment)
+- [SnapshotTesting](https://github.com/pointfreeco/swift-snapshot-testing)
 - [WWDC22: Compose custom layouts with SwiftUI](https://developer.apple.com/videos/play/wwdc2022/10056/)

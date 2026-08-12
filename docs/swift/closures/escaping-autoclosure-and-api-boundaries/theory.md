@@ -10,7 +10,7 @@ levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 tags:
   - closures
   - escaping
@@ -26,11 +26,10 @@ tags:
 
 The attributes answer different questions:
 
-```mermaid
-flowchart LR
-    Escaping["@escaping"] --> Lifetime["May the callable outlive this call?"]
-    Autoclosure["@autoclosure"] --> Syntax["Does the caller write an expression instead of braces?"]
-```
+| Attribute | What it changes |
+|---|---|
+| `@escaping` | The closure may outlive the call that received it. |
+| `@autoclosure` | The caller writes an expression instead of explicit closure braces. |
 
 Neither defines invocation count, thread, actor, ordering, cancellation, or
 success. The receiving API owns those guarantees.
@@ -188,9 +187,14 @@ Combine `@autoclosure` and `@escaping` when the wrapped expression is stored for
 later:
 
 ```swift
-func enqueue<T>(_ value: @autoclosure @escaping () -> T) {
-    providers.append { _ = value() }
+var providers: [() -> String] = []
+
+func enqueue(_ value: @autoclosure @escaping () -> String) {
+    providers.append(value)
 }
+
+enqueue("Deferred value")
+print(providers[0]()) // Deferred value
 ```
 
 This syntax can be hard to read because the call looks like it receives a value,

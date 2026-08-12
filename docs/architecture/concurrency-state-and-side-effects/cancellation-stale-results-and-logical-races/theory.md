@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - cancellation
   - logical-races
@@ -32,16 +32,10 @@ Cancellation also does not solve logical races. Two operations can be fully data
 safe and still complete in an order that violates product intent. Protect the commit
 point with current state or request identity.
 
-```mermaid
-stateDiagram-v2
-    [*] --> Idle
-    Idle --> LoadingA: request A starts
-    LoadingA --> LoadingB: request B replaces A
-    LoadingB --> LoadedB: B finishes and identity matches
-    LoadingB --> LoadingB: A finishes but identity is stale
-    LoadingB --> Idle: owner cancels B
-    LoadedB --> LoadingC: request C starts
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 428" title="Cancellation, Stale Results, and Logical Races" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Cancellation, Stale Results, and Logical Races diagram</a></figcaption>
+</figure>
 
 Cancelling A reduces wasted work. The identity check is what prevents A from overwriting
 B if A still returns.
@@ -109,6 +103,11 @@ final class SearchModel {
     private var task: Task<Void, Never>?
     private var requestID: UUID?
     private(set) var state: SearchState = .idle
+    private let repository: SearchRepository
+
+    init(repository: SearchRepository) {
+        self.repository = repository
+    }
 
     func search(_ query: String) {
         task?.cancel()

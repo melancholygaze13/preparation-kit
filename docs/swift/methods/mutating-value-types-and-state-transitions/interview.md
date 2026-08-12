@@ -8,7 +8,7 @@ levels: [senior]
 interview_priority: reference
 estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 ---
 
 # Mutating Value Types and State Transitions: Interview Questions
@@ -17,8 +17,12 @@ last_reviewed: 2026-07-22
 
 ## Question Index
 
-- [Why do value-type methods need `mutating`?](#q1-mutating)
-- [Does `mutating` make an update atomic?](#q2-atomicity)
+| Question | Level | Focus |
+|---|---|---|
+| [Why do value-type methods need `mutating`?](#q1-mutating) | Senior | Value mutation |
+| [Does `mutating` make an update atomic?](#q2-atomicity) | Senior | Concurrency safety |
+
+---
 
 <a id="q1-mutating"></a>
 ## Q1: Why Do Value-Type Methods Need `mutating`?

@@ -10,7 +10,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 tags:
   - platform-teams
   - ownership
@@ -29,15 +29,10 @@ provider owns part of the underlying implementation.
 
 Centralization must reduce more cost and risk than the coordination it adds.
 
-```mermaid
-flowchart TD
-    Product["Product teams"] -- "needs, feedback, incidents" --> Platform["Platform product team"]
-    Platform --> Contract["Supported APIs, templates, docs, diagnostics"]
-    Contract --> Product
-    Platform --> Capabilities["Auth, networking, analytics, delivery, observability"]
-    Specialists["Security, reliability, backend specialists"] --> Platform
-    Signals["Adoption quality, support load, reliability, lead time"] --> Platform
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 600" title="Platform Teams, Shared Capabilities, and Ownership" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Platform Teams, Shared Capabilities, and Ownership diagram</a></figcaption>
+</figure>
 
 The platform is a feedback system. Shipping a shared library without support, migration,
 or outcome measurement is only code centralization.

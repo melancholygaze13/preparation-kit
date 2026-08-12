@@ -7,12 +7,13 @@ interview_priority: situational
 estimated_read_minutes: 1
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-08-12
 ---
 
 # Module, Package, Testing, and API Evolution
 
-> Access boundaries should match build, ownership, and release boundaries; testability and optimization exposure must not accidentally become architecture.
+> Access boundaries should match build, ownership, and release boundaries.
+> Test-only visibility and optimization exposure must not become accidental architecture.
 
 ## Quick Recall
 

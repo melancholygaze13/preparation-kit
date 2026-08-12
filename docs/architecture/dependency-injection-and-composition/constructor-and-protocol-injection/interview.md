@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - dependency-injection
   - constructor-injection
@@ -69,6 +69,13 @@ because a fake can satisfy the Swift signature while violating production behavi
 It is useful design feedback. The type may own too many responsibilities, or it may
 legitimately coordinate a complex feature. I review cohesion and scopes before grouping
 dependencies. I do not hide the problem in a global container or universal bag.
+
+### Expanded Answer
+
+I group dependencies only when they share a meaningful lifecycle or capability boundary.
+If methods use disjoint subsets, the type may need smaller collaborators. A composition
+root can legitimately have a large initializer because assembling a graph is its job;
+business objects need a stronger cohesion argument.
 
 ### Trade-offs
 

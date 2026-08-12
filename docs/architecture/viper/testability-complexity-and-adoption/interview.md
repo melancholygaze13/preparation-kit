@@ -8,9 +8,9 @@ levels:
   - senior
   - staff
 interview_priority: situational
-estimated_read_minutes: 2
+estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 tags:
   - viper
   - testability
@@ -55,6 +55,13 @@ Object count, protocols, assembly, retention rules, callback tracing, and change
 touch several files. If presenter and interactor only forward calls, the split adds
 ceremony without independent policy or test value.
 
+### Expanded Answer
+
+The boundaries make sense only when roles change and test independently. Otherwise they
+increase navigation cost for engineers and create more places for lifecycle mistakes.
+Tooling can reduce assembly repetition, but it does not create missing responsibility or
+justify a five-part module.
+
 ### Trade-offs
 
 The separation can help large teams and complex UIKit features. For a small feature, a
@@ -68,6 +75,13 @@ state owner plus coordinator may provide the useful boundaries with less indirec
 I would not rewrite the app. I would pilot a new or heavily changing representative
 feature behind a stable entry point, measure change and test outcomes, refine conventions,
 and expand only where the separation pays for itself.
+
+### Expanded Answer
+
+The pilot defines assembly, async ownership, route results, teardown, and protocol naming
+as one coherent convention. Existing modules remain behind adapters while the team compares
+delivery and defects. Adoption stops where a simpler feature boundary produces the same
+confidence at lower cost.
 
 ### Example
 

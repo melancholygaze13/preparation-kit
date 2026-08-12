@@ -10,7 +10,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - scroll-position
   - scroll-view-reader
@@ -30,10 +30,13 @@ tags:
 - Use scroll-position bindings when position itself is application state.
 - Separate user scrolling from programmatic commands to avoid feedback loops.
 - Restore a semantic item and anchor when data or row heights can change.
+- In lazy stacks, absolute size and offset are estimates that can be corrected.
 
 Use `ScrollViewReader` for a one-time command such as “jump to unread.” Use a position
 binding when the current position must be read and written as feature state. Newer
 scroll APIs need availability checks when the app supports older operating systems.
+For lazy content, prefer IDs or relative visibility because unmeasured rows make exact
+absolute offsets unstable.
 
 ## Study
 

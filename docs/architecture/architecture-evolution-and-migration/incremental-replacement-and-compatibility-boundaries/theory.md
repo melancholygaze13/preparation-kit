@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 tags:
   - incremental-migration
   - compatibility
@@ -33,17 +33,10 @@ This is often called branch by abstraction or incremental replacement. The bound
 the key: callers depend on the capability, while old and new suppliers can change behind
 it.
 
-```mermaid
-flowchart TD
-    Caller["Feature caller"] --> Contract["Stable capability contract"]
-    Contract --> Switch{"Routing policy"}
-    Switch -- "old cohort" --> Legacy["Legacy implementation"]
-    Switch -- "new cohort" --> New["Replacement implementation"]
-    Legacy --> External["Existing data or service"]
-    New --> External
-    Compare["Behavior and health comparison"] -.-> Legacy
-    Compare -.-> New
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 584" title="Incremental Replacement and Compatibility Boundaries" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Incremental Replacement and Compatibility Boundaries diagram</a></figcaption>
+</figure>
 
 The routing policy can be build-time, runtime, account-based, or data-based. Use the
 simplest mechanism that provides the required control and evidence.

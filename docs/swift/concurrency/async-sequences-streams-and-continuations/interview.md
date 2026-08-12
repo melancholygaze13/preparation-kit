@@ -8,7 +8,7 @@ interview_priority: high
 estimated_read_minutes: 2
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-08-12
 ---
 
 # Async Sequences, Streams, and Continuations: Interview Questions

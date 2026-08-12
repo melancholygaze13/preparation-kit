@@ -8,7 +8,7 @@ interview_priority: core
 estimated_read_minutes: 6
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-08-12
 ---
 
 # Actors, Global Actors, and Reentrancy: Theory
@@ -28,22 +28,10 @@ External access to actor-isolated mutable state requires actor execution. A sync
 actor method runs without interleaving until it returns; an async method can be reentered
 whenever it suspends.
 
-```mermaid
-sequenceDiagram
-    participant A as Caller A
-    participant CacheActor as Cache actor
-    participant Loader as Loader
-    participant B as Caller B
-
-    A->>CacheActor: refresh(key)
-    CacheActor->>CacheActor: read generation
-    CacheActor->>Loader: await load(key)
-    Note over CacheActor: Actor is available while suspended
-    B->>CacheActor: invalidateAll()
-    CacheActor->>CacheActor: increment generation
-    Loader-->>CacheActor: loaded value resumes
-    CacheActor->>CacheActor: revalidate generation before commit
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 600" title="Actors, Global Actors, and Reentrancy" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Actors, Global Actors, and Reentrancy diagram</a></figcaption>
+</figure>
 
 ```swift
 actor Cache {

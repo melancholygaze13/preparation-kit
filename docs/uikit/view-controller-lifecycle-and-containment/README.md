@@ -4,7 +4,7 @@ domain: "UIKit"
 page_type: topic-index
 interview_priority: core
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # View Controller Lifecycle and Containment
@@ -35,6 +35,6 @@ model. The containment topic explains how larger flows are composed.
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
 | [View Controller Responsibilities and Ownership](view-controller-responsibilities-and-ownership/README.md) | Keeps controllers focused on presentation, coordination, and lifecycle ownership. | Core | 13 min |
-| [View Loading, Appearance, and Disappearance](view-loading-appearance-and-disappearance/README.md) | Distinguishes one-time view setup from repeated visibility and layout events. | Core | 14 min |
+| [View Loading, Appearance, and Disappearance](view-loading-appearance-and-disappearance/README.md) | Distinguishes one-time view setup from repeated visibility and layout events. | Core | 15 min |
 | [Containment and Child View Controllers](containment-and-child-view-controllers/README.md) | Builds correct parent-child ownership, appearance forwarding, and modular screens. | Core | 13 min |
 | [Lifecycle, State Restoration, and System Events](lifecycle-state-restoration-and-system-events/README.md) | Connects controller state to scene changes, recreation, and system-driven transitions. | Core | 12 min |

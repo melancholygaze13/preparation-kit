@@ -6,9 +6,9 @@ concept: "UIViewRepresentable and Coordinators"
 page_type: interview
 levels: [senior, staff, principal]
 interview_priority: situational
-estimated_read_minutes: 4
+estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 ---
 
 # UIViewRepresentable and Coordinators: Interview Questions

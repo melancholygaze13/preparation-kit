@@ -9,7 +9,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 ---
 
 # Type Safety and Type Inference: Interview Questions
@@ -33,6 +33,12 @@ last_reviewed: 2026-07-22
 
 No. The compiler still gives every expression a static type and checks it at
 compile time. Inference only lets the compiler fill in omitted annotations.
+
+### Expanded Answer
+
+The inferred type is fixed just as if the programmer had written it. Assigning an
+unrelated type later still fails to compile. Runtime type checks exist for erased or
+mixed-type values, but they do not change Swift's static typing model.
 
 ---
 

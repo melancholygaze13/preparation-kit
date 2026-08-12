@@ -8,7 +8,7 @@ interview_priority: high
 estimated_read_minutes: 4
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 ---
 
 # Access Duration and Exclusivity Enforcement: Theory
@@ -24,18 +24,10 @@ and separate-looking properties can hide arbitrary code or whole-value access.
 
 ## How It Works
 
-```mermaid
-stateDiagram-v2
-    [*] --> Idle
-    Idle --> ReadAccess: begin read
-    Idle --> WriteAccess: begin write
-    ReadAccess --> ReadAccess: overlapping read allowed
-    ReadAccess --> Conflict: overlapping write
-    WriteAccess --> Conflict: overlapping read or write
-    ReadAccess --> Idle: end read
-    WriteAccess --> Idle: end write
-    Conflict --> [*]: compile error or runtime trap
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 560" title="Access Duration and Exclusivity Enforcement" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Access Duration and Exclusivity Enforcement diagram</a></figcaption>
+</figure>
 
 ```swift
 func balance(_ first: inout Int, _ second: inout Int) {

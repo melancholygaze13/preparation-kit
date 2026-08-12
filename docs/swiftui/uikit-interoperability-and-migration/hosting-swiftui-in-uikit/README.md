@@ -7,7 +7,7 @@ levels: [senior, staff, principal]
 interview_priority: situational
 estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 ---
 
 # Hosting SwiftUI in UIKit
@@ -22,6 +22,8 @@ last_reviewed: 2026-07-25
   view controller.
 - Use `UIHostingConfiguration` for SwiftUI content inside modern table or
   collection view cells when it fits the cell lifecycle.
+- On iOS 27, `UIHostingSceneDelegate` can host a complete SwiftUI scene from a
+  UIKit scene lifecycle.
 - Keep state ownership outside the hosting boundary when possible; pass values,
   bindings, actions, or observable models into the SwiftUI root.
 - Treat the hosted SwiftUI view as part of UIKit containment. Add, constrain,

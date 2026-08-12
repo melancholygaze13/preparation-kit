@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: situational
-estimated_read_minutes: 2
+estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 tags:
   - observability
   - resilience
@@ -55,6 +55,13 @@ At owned dependency and product boundaries. Each call has a time budget, failure
 cancellation, bounded retry, and fallback policy. The feature decides whether stale,
 partial, queued, or unavailable behavior is valid for that user action.
 
+### Expanded Answer
+
+A lower-level client can classify transport failures and honor server retry guidance,
+while the product owner decides whether repetition is safe and which degraded result is
+honest. One end-to-end time budget prevents nested retries from multiplying latency and
+load across services.
+
 ### Trade-offs
 
 Retries at several layers can amplify an outage. A degraded recommendation is acceptable;
@@ -69,6 +76,13 @@ correctness, not only return something.
 One incident commander owns the end-to-end user impact, mitigation, communication, and
 decision cadence. Component owners investigate in parallel. Repository ownership alone
 is insufficient when the failure crosses mobile, backend, and data systems.
+
+### Expanded Answer
+
+The incident boundary follows the user journey and dependency chain, not the org chart.
+The commander maintains one timeline and prioritizes mitigation while specialists supply
+evidence from their components. After recovery, durable actions address both the trigger
+and gaps in detection, containment, or coordination.
 
 ### Example
 

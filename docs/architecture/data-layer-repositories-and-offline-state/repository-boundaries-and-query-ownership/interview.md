@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - repositories
   - query-design
@@ -56,6 +56,13 @@ From consumer meaning: filters, stable ordering, pagination cursor, projection, 
 and offline behavior. For a small surface I use named methods; for a broad search surface
 I use a typed domain query. I do not expose SQL, `NSPredicate`, or URL parameters.
 
+### Expanded Answer
+
+The repository owns how a product query maps to remote and local mechanisms. Its result
+contract states ordering, duplicates, page continuity, and stale-data behavior. A typed
+query should remain a product vocabulary rather than becoming an unbounded pass-through
+for whichever backend syntax is currently used.
+
 ### Trade-offs
 
 Specific methods are clear but can multiply. A typed query scales better but can become
@@ -70,6 +77,13 @@ queries and give each a testable contract.
 When it only renames a small client with one source and no mapping, coordination, or
 stable module boundary. Direct dependency injection is simpler. I add a repository when
 it hides meaningful data complexity or protects consumer models from external change.
+
+### Expanded Answer
+
+The boundary is earned by authority, composition, or translation. If callers already
+depend on one narrow stable capability, another forwarding type adds no policy. When
+remote, local, and pending state must be merged consistently, the repository becomes a
+real owner with testable guarantees.
 
 ### Example
 

@@ -10,7 +10,7 @@ levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 tags:
   - string-index
   - substring
@@ -121,8 +121,8 @@ or rebases the range when the current generation differs.
 
 Keep a `Substring` while performing short-lived parsing or transformation because
 it can reuse source storage. Convert to `String` when the result enters a model,
-cache, async job, or API that promises long-lived, independent text ownership. A tiny
-substring can retain a large source; conversion pays a copy to release that
+cache, async job, or API that promises long-lived, independent text ownership.
+A tiny substring can retain a large source. Conversion pays a copy to release that
 storage relationship.
 
 ### Expanded Answer
@@ -162,7 +162,7 @@ buffer. Memory grows despite tiny logical records. Converting identifiers to
 Treat Foundation `NSRange` values as UTF-16-based when the API documents that
 contract. Convert with `NSRange(swiftRange, in: string)` and the failable
 `Range(nsRange, in: string)` using the exact unchanged string. Handle conversion
-failure. Don't reinterpret `location` and `length` as character or UTF-8 offsets.
+failure. Do not reinterpret `location` and `length` as character or UTF-8 offsets.
 
 ### Expanded Answer
 

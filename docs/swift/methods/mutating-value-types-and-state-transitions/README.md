@@ -7,7 +7,7 @@ interview_priority: reference
 estimated_read_minutes: 1
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 ---
 
 # Mutating Value Types and State Transitions

@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - modifiers
   - view-transforms
@@ -31,12 +31,10 @@ accessibility.
 A modifier generally returns a new view that wraps or transforms the previous result.
 Read a chain from the base outward:
 
-```mermaid
-flowchart LR
-    Text["Text"] --> Padding["Padding wrapper"]
-    Padding --> Background["Background wrapper"]
-    Background --> Frame["Frame wrapper"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 584" title="Modifier Order and View Transforms" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Modifier Order and View Transforms diagram</a></figcaption>
+</figure>
 
 Changing order changes which bounds and environment each stage sees. Modifiers are
 not a bag of properties applied to one mutable platform view.

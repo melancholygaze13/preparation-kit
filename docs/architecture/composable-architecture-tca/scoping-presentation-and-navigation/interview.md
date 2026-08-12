@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - tca
   - navigation
@@ -56,6 +56,13 @@ Presentation is state. Optional or enum destination state models sheets and fixe
 branches. `StackState` models a typed push stack. Creating, replacing, or removing that
 state drives navigation and can be tested as a reducer transition.
 
+### Expanded Answer
+
+The parent composes destination reducers and scopes stores from the same state and action
+path that drives the UI. A tree fits a known optional destination; a stack fits a dynamic
+push history. Deep links and restoration construct typed route state rather than replaying
+view operations.
+
 ### Trade-offs
 
 Typed state gives testable deep links, restoration, and lifetime, but adds route models
@@ -70,6 +77,13 @@ that SwiftUI or UIKit presents the right interface.
 The closest parent or flow that understands sibling and product context. A child reports
 an outcome such as `saved` or `deleteConfirmed`; the parent decides to dismiss, replace,
 or push. This prevents a reusable child from depending on one route hierarchy.
+
+### Expanded Answer
+
+The child owns its local validation and completion outcome. The parent owns how that
+outcome changes the larger journey because it knows adjacent features and prerequisites.
+Narrow delegate actions keep that boundary explicit and stop internal child actions from
+becoming a routing API.
 
 ### Example
 

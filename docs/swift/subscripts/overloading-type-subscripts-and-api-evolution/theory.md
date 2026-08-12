@@ -8,7 +8,7 @@ levels: [senior]
 interview_priority: reference
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 ---
 
 # Overloading, Type Subscripts, and API Evolution: Theory
@@ -20,6 +20,9 @@ last_reviewed: 2026-07-22
 Overload a subscript only when each form represents a clear lookup domain. Prefer
 different index types or labels over return-type-only overloads, which depend on
 context and can become ambiguous.
+
+**Subscript overloading** means declaring more than one subscript on the same type.
+Swift selects a matching declaration from the argument labels and types.
 
 ```swift
 struct Catalog {

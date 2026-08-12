@@ -10,7 +10,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - reusable-components
   - view-modifier
@@ -26,7 +26,7 @@ tags:
 ## Quick Recall
 
 - Prefer small semantic inputs over passing an entire feature model.
-- Use generic `@ViewBuilder` content when callers must supply structure.
+- Use generic `@ContentBuilder` content when callers must supply structure.
 - Store the built content value unless deferred construction is required.
 - Do not make every one-off style a public component.
 - A reusable API includes accessibility, adaptation, previews, and supported states.
@@ -34,6 +34,9 @@ tags:
 Use a component when the abstraction owns structure. Use a modifier when the caller's
 content stays central. Use a control style when standard controls need shared appearance
 without losing their roles and interaction behavior.
+
+`@ContentBuilder` is the Xcode 27 spelling. Existing `@ViewBuilder` source remains
+compatible when a package must build with an earlier toolchain.
 
 ## Study
 

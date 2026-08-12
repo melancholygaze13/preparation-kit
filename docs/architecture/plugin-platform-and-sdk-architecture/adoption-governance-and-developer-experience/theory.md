@@ -10,7 +10,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 tags:
   - platform-adoption
   - governance
@@ -32,15 +32,10 @@ teams free to implement their own features behind those boundaries.
 
 ## Adoption System
 
-```mermaid
-flowchart TD
-    Need["Repeated consumer need"] --> Trial["Docs, sample, local trial"]
-    Trial --> Integrate["Integration and validation"]
-    Integrate --> Operate["Production diagnostics and support"]
-    Operate --> Migrate["Updates and migration"]
-    Migrate --> Feedback["Usage, defects, requests, exceptions"]
-    Feedback --> Need
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 664 / 572; --schematic-width: 664px" title="Adoption, Governance, and Developer Experience — Adoption System" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Adoption, Governance, and Developer Experience — Adoption System diagram</a></figcaption>
+</figure>
 
 Every step needs an owner. A repository without onboarding, release, support, and removal
 policy is shared code, not a supported platform product.

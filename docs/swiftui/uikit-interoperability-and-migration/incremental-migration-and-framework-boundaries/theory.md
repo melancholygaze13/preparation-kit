@@ -6,9 +6,9 @@ concept: "Incremental Migration and Framework Boundaries"
 page_type: theory
 levels: [senior, staff, principal]
 interview_priority: situational
-estimated_read_minutes: 4
+estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 ---
 
 # Incremental Migration and Framework Boundaries: Theory
@@ -46,18 +46,10 @@ isolated feature, a full SwiftUI screen or flow can be simpler.
 
 ## Migration Flow
 
-```mermaid
-flowchart TD
-    A["Identify stable product boundary"] --> B["Define current UIKit ownership"]
-    B --> C["Design SwiftUI-facing contract"]
-    C --> D{"Can state and navigation move together?"}
-    D -- "Yes" --> E["Migrate screen or flow"]
-    D -- "No" --> F["Use wrapper or hosted island"]
-    E --> G["Test boundary behavior"]
-    F --> G
-    G --> H["Roll out with measurement and rollback"]
-    H --> I["Remove temporary adapters"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 584" title="Incremental Migration and Framework Boundaries — Migration Flow" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Incremental Migration and Framework Boundaries — Migration Flow diagram</a></figcaption>
+</figure>
 
 The key checkpoint is whether state and navigation can move together. If they
 cannot, the wrapper contract must be narrow enough to prevent hidden duplicated
@@ -89,6 +81,17 @@ capabilities that SwiftUI does not replace well for the app's needs.
 Avoid migration work that only changes syntax. A screen rewritten in SwiftUI but
 still backed by unclear global state, hidden side effects, and inconsistent
 navigation is not a meaningful architecture improvement.
+
+For iOS 18 and later, UIKit can track reads from `@Observable` models in supported
+update methods. The integration is enabled by default on the 2026 releases and later;
+an iOS 18 deployment can opt in with `UIObservationTrackingEnabled`. This can remove
+manual invalidation before a screen is migrated and lets UIKit and SwiftUI share one
+observable model instead of creating two synchronized copies.
+
+On iOS 27, `UIHostingSceneDelegate` also makes a whole SwiftUI scene a possible
+migration boundary. Choose it only when scene-level state and navigation can move
+together. A view controller remains the smaller boundary when UIKit still owns the
+window's journey.
 
 At Staff and Principal scope, define standards:
 
@@ -122,3 +125,6 @@ prevents teams from waiting for infrastructure that is intentionally permanent.
 - [UIViewRepresentable](https://developer.apple.com/documentation/swiftui/uiviewrepresentable)
 - [UIHostingController](https://developer.apple.com/documentation/swiftui/uihostingcontroller)
 - [UIHostingConfiguration](https://developer.apple.com/documentation/swiftui/uihostingconfiguration)
+- [Updating views automatically with observation tracking in UIKit](https://developer.apple.com/documentation/uikit/updating-views-automatically-with-observation-tracking-in-uikit)
+- [UIHostingSceneDelegate](https://developer.apple.com/documentation/swiftui/uihostingscenedelegate)
+- [Use SwiftUI with AppKit and UIKit](https://developer.apple.com/videos/play/wwdc2026/272/)

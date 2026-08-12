@@ -6,9 +6,9 @@ concept: "Keyboard Avoidance and Scroll Coordination"
 page_type: theory
 levels: [senior, staff, principal]
 interview_priority: high
-estimated_read_minutes: 5
+estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # Keyboard Avoidance and Scroll Coordination: Theory
@@ -27,7 +27,8 @@ focused input into view using the final visible rect.
 ## How It Works
 
 Modern UIKit gives each view a `keyboardLayoutGuide`. You can constrain bottom
-content to that guide so the system moves it with the keyboard:
+content to that guide so the system moves it with the keyboard. The guide is
+available on iOS 15 and later:
 
 ```swift
 NSLayoutConstraint.activate([
@@ -43,6 +44,11 @@ NSLayoutConstraint.activate([
 This works well for fixed bottom controls such as submit buttons or accessory
 areas. It also avoids manual conversion from keyboard frame coordinates.
 
+By default, the guide follows a docked keyboard. Set
+`followsUndockedKeyboard = true` only when the interface should track a floating
+or undocked keyboard too. Tracking constraints can then react as that keyboard
+approaches an edge.
+
 For scrollable forms, the common approach is different. The scroll view needs
 enough bottom inset so focused content can move above the keyboard:
 
@@ -53,10 +59,19 @@ func keyboardWillChangeFrame(_ note: Notification) {
     }
 
     let keyboardFrame = view.convert(frameValue.cgRectValue, from: nil)
-    let overlap = max(0, view.bounds.maxY - keyboardFrame.minY)
+    let intersection = view.bounds.intersection(keyboardFrame)
+    let coversBottomEdge = intersection.isNull == false
+        && intersection.maxY >= view.bounds.maxY
+    let coveredHeight = coversBottomEdge ? intersection.height : 0
+    let keyboardInset = max(0, coveredHeight - view.safeAreaInsets.bottom)
 
-    scrollView.contentInset.bottom = overlap
-    scrollView.verticalScrollIndicatorInsets.bottom = overlap
+    var contentInset = restingContentInset
+    contentInset.bottom += keyboardInset
+    scrollView.contentInset = contentInset
+
+    var indicatorInsets = restingIndicatorInsets
+    indicatorInsets.bottom += keyboardInset
+    scrollView.verticalScrollIndicatorInsets = indicatorInsets
 
     if let activeField {
         let rect = activeField.convert(activeField.bounds, to: scrollView)
@@ -65,10 +80,16 @@ func keyboardWillChangeFrame(_ note: Notification) {
 }
 ```
 
-In this example, `activeField` is screen-owned state updated from editing
-callbacks. The boundary is the important part: compute visible space in the
-owning coordinate system, update scroll insets, and then reveal the current
-first responder.
+In this example, `restingContentInset` and `restingIndicatorInsets` are captured
+before keyboard changes. The scroll view fills the controller's view and uses
+automatic safe-area adjustment. The code preserves those base insets, changes
+only bottom-docked overlap, and restores them when the keyboard leaves. A floating
+keyboard does not shrink the entire scrollable viewport; the focused field still
+scrolls into view.
+
+`activeField` is screen-owned state updated from editing callbacks. The boundary
+is the important part: convert into the owning coordinate system, update the
+visible area, and then reveal the current first responder.
 
 ## Constraints and Guarantees
 

@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - data-mapping
   - domain-models
@@ -95,13 +95,10 @@ sync metadata that the domain never sees.
 
 Common paths are:
 
-```mermaid
-flowchart LR
-    Response["Response DTO"] --> Validated["Validated domain value"]
-    Validated --> Write["Persistence write model"]
-    Command["Domain command"] --> Request["Request DTO"]
-    Record["Persistence record"] --> Domain["Domain value"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 572" title="Domain, Transport, and Persistence Mapping — Map in the Direction of Use" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Domain, Transport, and Persistence Mapping — Map in the Direction of Use diagram</a></figcaption>
+</figure>
 
 Place mapping beside the adapter that owns the external model. Keep shared domain
 constructors or validation in the domain module. This direction prevents the domain

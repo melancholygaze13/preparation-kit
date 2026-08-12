@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # Lifecycle, State Restoration, and System Events: Theory
@@ -24,22 +24,14 @@ instances living forever.
 
 For restoration, think in identifiers:
 
-```mermaid
-flowchart LR
-    Account["Selected account ID"] --> Restore["Rebuild controllers"]
-    Route["Route"] --> Restore
-    Draft["Draft ID"] --> Restore
-    Restore --> Views["Reload views"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram-1.html" style="--schematic-aspect: 960 / 600" title="Lifecycle, State Restoration, and System Events" loading="lazy"></iframe>
+  <figcaption><a href="../diagram-1.html">Open the Lifecycle, State Restoration, and System Events diagram</a></figcaption>
+</figure>
 
 Do not think in live views:
 
-```mermaid
-flowchart LR
-    Labels["Old labels"] --> Session["Live session objects — not restorable state"]
-    Cells["Table cell instances"] --> Session
-    Controllers["Controller pointers"] --> Session
-```
+
 
 Views and controllers are implementation details of the current session. Model
 identity and route state are the restorable part.

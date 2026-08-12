@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # CALayer Backing and Rendering: Theory
@@ -22,12 +22,10 @@ This is called the view's backing layer. The view handles UIKit behavior such as
 events, accessibility, and Auto Layout. The layer stores visual properties and
 combines rendered content for display, a process called composition.
 
-```mermaid
-flowchart TD
-    View["UIView"] -->|owns| Layer["CALayer"]
-    View --> Behavior["Handles UIKit behavior"]
-    Layer --> CoreAnimation["Core Animation provides visual backing"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 600" title="CALayer Backing and Rendering" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the CALayer Backing and Rendering diagram</a></figcaption>
+</figure>
 
 This split matters because many visual changes do not require custom views or
 custom drawing. A rounded corner, opacity change, border, image contents, or

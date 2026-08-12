@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - layout
   - size-proposal
@@ -36,19 +36,10 @@ imperative frame assignment.
 
 ### Proposal, Response, Placement
 
-```mermaid
-sequenceDiagram
-    participant P as Parent
-    participant C as Child
-    participant G as Grandchild
-
-    P->>C: propose size
-    C->>G: propose child size
-    G-->>C: report chosen size
-    C-->>P: report chosen size
-    P->>C: place within bounds
-    C->>G: place within child bounds
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 596" title="Layout Proposal and Response — Proposal, Response, Placement" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Layout Proposal and Response — Proposal, Response, Placement diagram</a></figcaption>
+</figure>
 
 A parent begins with space offered by its own parent. It proposes some or all of
 that space to a child. The child calculates a concrete size and reports it. The

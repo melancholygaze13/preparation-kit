@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - controls
   - focus-state
@@ -62,6 +62,11 @@ renders errors. Keyboard configuration improves entry but never replaces validat
 I distinguish local syntax, domain rules, and server validation. Timing depends on
 the product: immediate, after leaving a field, or on submit. Async checks cancel old
 requests and validate the current value before commit.
+
+If a 2027-platform feature needs the current plain-text range, I bind
+`TextSelection?` to its `TextField` or `TextEditor`. The selection's string
+indices are valid only for the current text value, so replacement must also reset or
+validate them.
 
 Errors use text and accessibility semantics, not color alone. Sensitive values are
 not logged or stored insecurely.

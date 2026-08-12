@@ -10,7 +10,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - state-restoration
   - scene-storage
@@ -29,8 +29,11 @@ tags:
 - `@AppStorage` represents app-wide preferences backed by user defaults.
 - Durable models belong in files, a database, or another explicit persistence layer.
 - Restore navigation from stable identifiers and validate them against current data.
-- `DocumentGroup` integrates a `FileDocument` or `ReferenceFileDocument` with system
-  document browsing and saving.
+- On 2027 platforms, prefer the new reference-semantic `Document` protocol for new
+  document types. It separates snapshots from asynchronous disk work.
+- Use `FileDocument` or `ReferenceFileDocument` when an earlier deployment target
+  requires those APIs, and plan migration rather than starting new 2027-only code
+  with them.
 
 Restore from stable IDs, then load and validate current data. Document apps must also
 handle format versions, malformed files, external changes, save failures, and conflicts

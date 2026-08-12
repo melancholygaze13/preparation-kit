@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - actor-isolation
   - main-actor
@@ -79,6 +79,13 @@ type is nonisolated.
 Yes. An actor prevents simultaneous access to its isolated state, but an actor method can
 suspend at `await`. Another operation may run and change state before the first resumes.
 I revalidate state after suspension before committing.
+
+### Expanded Answer
+
+The actor protects memory access, while the feature still defines which completion is
+allowed to win. An in-flight-task registry can deduplicate work, and a generation or
+version can reject obsolete results. The check belongs after the suspension, immediately
+before the state change.
 
 ### Example
 

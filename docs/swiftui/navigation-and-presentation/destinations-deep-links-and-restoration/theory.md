@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - deep-links
   - state-restoration
@@ -33,13 +33,10 @@ link** is an external reference that asks the app to open a destination. **Resto
 rebuilds a scene's useful interface state after that scene was discarded or the app
 launches again.
 
-```mermaid
-flowchart LR
-    Input["External input"] --> Parse["Parse"]
-    Parse --> Validate["Validate"]
-    Validate --> Resolve["Resolve app route"]
-    Resolve --> Apply["Apply navigation state"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 480 / 568; --schematic-width: 480px" title="Destinations, Deep Links, and Restoration" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Destinations, Deep Links, and Restoration diagram</a></figcaption>
+</figure>
 
 Do not reproduce a route by triggering UI actions in sequence. Describe the desired
 state directly so the same routing logic works from a cold launch, an active scene,
@@ -104,21 +101,49 @@ enum AppTab: Equatable {
     case account
 }
 
-struct AppNavigationState: Equatable {
-    var tab: AppTab = .home
-    var accountPath: [AccountRoute] = []
-    var presentedSheet: SheetRoute?
+enum HomeRoute: Equatable {
+    case product(Int)
+    case search(String)
 }
 
-mutating func open(_ route: AppRoute) {
-    switch route {
-    case .order(let id):
-        tab = .account
+enum AccountRoute: Equatable {
+    case orders
+    case order(Int)
+}
+
+enum SheetRoute: Equatable {
+    case checkout
+}
+
+struct AppNavigationState: Equatable {
+    var tab: AppTab = .home
+    var homePath: [HomeRoute] = []
+    var accountPath: [AccountRoute] = []
+    var presentedSheet: SheetRoute?
+
+    mutating func open(_ route: AppRoute) {
         presentedSheet = nil
-        accountPath = [.orders, .order(id)]
-    // ...
+
+        switch route {
+        case .product(let id):
+            tab = .home
+            homePath = [.product(id)]
+            accountPath = []
+        case .search(let query):
+            tab = .home
+            homePath = [.search(query)]
+            accountPath = []
+        case .order(let id):
+            tab = .account
+            homePath = []
+            accountPath = [.orders, .order(id)]
+        }
     }
 }
+
+var navigation = AppNavigationState(presentedSheet: .checkout)
+navigation.open(.order(42))
+print(navigation.tab, navigation.accountPath)
 ```
 
 This makes conflict policy explicit. A product link received while checkout is

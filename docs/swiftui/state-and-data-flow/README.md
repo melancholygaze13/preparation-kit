@@ -4,12 +4,12 @@ domain: "SwiftUI"
 page_type: topic-index
 interview_priority: core
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 ---
 
 # State and Data Flow
 
-## Preparation Paths
+## Study Order
 
 - **Rapid review:** Study local state, model ownership, and derived state.
 - **Standard preparation:** Complete all four concepts in learning-path order.
@@ -27,7 +27,7 @@ last_reviewed: 2026-07-25
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [Local State and Bindings](local-state-and-bindings/README.md) | Distinguishes owned state from writable access. | Core | 15 min |
+| [Local State and Bindings](local-state-and-bindings/README.md) | Distinguishes owned state from writable access. | Core | 16 min |
 | [Observation and Model Ownership](observation-and-model-ownership/README.md) | Defines observable model lifetime and ownership. | Core | 18 min |
 | [Environment and Dependency Injection](environment-and-dependency-injection/README.md) | Places shared values and services at explicit boundaries. | Core | 18 min |
 | [Derived State and Source of Truth](derived-state-and-source-of-truth/README.md) | Prevents duplicated state and synchronization bugs. | Core | 18 min |

@@ -10,7 +10,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - alignment
   - geometry
@@ -34,6 +34,7 @@ report a presentation value to an ancestor.
 - A frame is meaningful only in its local, global, or explicitly named coordinate space.
 - Ask for the smallest geometry value needed and choose its coordinate space explicitly.
 - Prefer `onGeometryChange` for observation that does not require a geometry container.
+- Keep geometry transforms sendable and free of main-actor-only mutable captures.
 - Preference reduction must be deterministic, cheap, and safe for repeated evaluation.
 
 ## Study

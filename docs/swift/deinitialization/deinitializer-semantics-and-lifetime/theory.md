@@ -8,7 +8,7 @@ interview_priority: situational
 estimated_read_minutes: 2
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-08-12
 ---
 
 # Deinitializer Semantics and Lifetime: Theory
@@ -23,10 +23,12 @@ instance-owned resources. It does not guarantee when a business operation ends.
 ## How It Works
 
 ```swift
+import Darwin
+
 final class FileLease {
     private let descriptor: Int32
     init(descriptor: Int32) { self.descriptor = descriptor }
-    deinit { close(descriptor) }
+    deinit { _ = Darwin.close(descriptor) }
 }
 ```
 

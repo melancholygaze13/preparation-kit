@@ -10,7 +10,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 tags:
   - observability
   - resilience
@@ -30,21 +30,10 @@ failure does not consume every retry, thread, queue, or user action.
 During an incident, one role coordinates the user outcome while component owners
 investigate and mitigate their parts.
 
-```mermaid
-flowchart TD
-    Action["User action"] --> App["iOS feature"]
-    App --> Network["Transport boundary"]
-    Network --> API["Backend capability"]
-    API --> Data["Data dependency"]
-
-    App -. "path, version, outcome" .-> Correlation["Privacy-safe correlation context"]
-    Correlation --> Signals["Metrics, traces, logs, diagnostics"]
-    Network -. "telemetry" .-> Signals
-    API -. "telemetry" .-> Signals
-    Data -. "telemetry" .-> Signals
-    Signals --> Command["Incident commander owns end-to-end mitigation"]
-    Command --> Owners["Component owners investigate in parallel"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 600" title="Observability, Resilience, and Incident Boundaries" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Observability, Resilience, and Incident Boundaries diagram</a></figcaption>
+</figure>
 
 Correlation should identify a workflow without putting credentials or personal data into
 telemetry propagated across systems.

@@ -9,7 +9,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 ---
 
 # Sets: Interview Questions
@@ -34,6 +34,12 @@ last_reviewed: 2026-07-22
 
 The hash locates candidate storage efficiently. Equality then confirms whether a
 candidate is the same element because different values can share a hash.
+
+### Expanded Answer
+
+`Set` needs both operations to provide expected constant-time lookup with a useful
+hash distribution. Hashing narrows the search; equality handles collisions and decides
+actual membership. Equal elements must therefore produce equal hashes.
 
 ---
 
@@ -76,6 +82,12 @@ identity. Otherwise remove the value, update it, and reinsert it under controlle
 
 Use a set when uniqueness, membership tests, or operations such as union and intersection matter more than
 order and duplicates. Use an array when order is part of the model.
+
+### Expanded Answer
+
+The collection should express the domain rule. A set prevents duplicate membership and
+supports set algebra directly, while an array keeps ordering and repeated values. For a
+small ordered list, an array can remain clearer even when membership checks are linear.
 
 ### Trade-offs
 

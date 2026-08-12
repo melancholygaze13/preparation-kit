@@ -9,7 +9,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 ---
 
 # Dictionaries: Theory
@@ -44,7 +44,10 @@ should be explicit.
 The default-value subscript is useful for accumulation:
 
 ```swift
+var counts: [String: Int] = [:]
+let word = "swift"
 counts[word, default: 0] += 1
+print(counts[word] as Any) // Optional(1)
 ```
 
 Reading `dictionary[key, default: value]` does not insert a missing key. Mutating

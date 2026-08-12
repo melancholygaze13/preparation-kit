@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - unidirectional-data-flow
   - reducers
@@ -73,6 +73,13 @@ I choose UDF when a feature has many state transitions, overlapping effects, sha
 state, or a strong need for traceability. I choose a simpler observable model or MVVM
 when behavior is local and UDF's action, reducer, and effect vocabulary would add more
 cost than control.
+
+### Expanded Answer
+
+UDF earns its structure when one event trail and deterministic transition function make
+ordering and debugging clearer. MVVM can express the same dependency and ownership rules
+with less ceremony for a focused screen. I compare the feature's state graph and effect
+risks, not the pattern names alone.
 
 ### Trade-offs
 

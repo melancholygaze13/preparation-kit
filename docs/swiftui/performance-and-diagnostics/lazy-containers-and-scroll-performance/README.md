@@ -10,7 +10,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - lazy-containers
   - scrolling
@@ -28,7 +28,8 @@ tags:
 - Use lazy stacks or `List` for large data, not as a universal replacement for stacks.
 - Row IDs must be stable and unique across mutations.
 - Keep row construction and `body` free of repeated transforms and synchronous I/O.
-- Decode and resize images near their display size, then cache with limits.
+- Keep one item mapped to a stable direct-child structure; filter before `ForEach`.
+- Treat absolute lazy-stack size and offset as estimates, not stable business state.
 - Diagnose scroll hitches in release-like builds with realistic data and interactions.
 
 Laziness is a scheduling strategy, not a row-lifetime guarantee. SwiftUI decides how

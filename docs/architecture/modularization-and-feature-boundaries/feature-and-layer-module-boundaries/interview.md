@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - modularization
   - feature-modules
@@ -55,6 +55,13 @@ purpose, owner, small API, and supported consumers. Target count is not a qualit
 I usually start feature-first because product changes and teams are often vertical.
 I extract layer or capability modules when networking, authentication, persistence,
 or design systems have a stable shared contract and owner. Most large apps use a hybrid.
+
+### Expanded Answer
+
+Feature modules keep a journey and its changes together. Capability modules centralize
+expertise only when many features need the same stable policy or implementation. The
+dependency graph should let features consume those capabilities without creating a
+horizontal chain that every product change must cross.
 
 ### Trade-offs
 

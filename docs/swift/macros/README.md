@@ -4,7 +4,7 @@ domain: "Swift"
 page_type: topic-index
 interview_priority: situational
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-08-12
 ---
 
 # Macros
@@ -32,8 +32,8 @@ included only where they affect correctness, adoption, or maintainability.
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
 | [Freestanding and Attached Macro Semantics](freestanding-and-attached-macro-semantics/README.md) | Select a macro role and reason about generated declarations, names, effects, and compile-time visibility. | Situational | 5 min |
-| [Macro Implementation, Diagnostics, and Testing](macro-implementation-diagnostics-and-testing/README.md) | Transform syntax deterministically with actionable diagnostics and expansion-focused tests. | Situational | 4 min |
-| [Macro Adoption and API Evolution](macro-adoption-and-api-evolution/README.md) | Govern dependencies, build cost, generated API compatibility, rollout, and organizational ownership. | Situational | 4 min |
+| [Macro Implementation, Diagnostics, and Testing](macro-implementation-diagnostics-and-testing/README.md) | Transform syntax deterministically with actionable diagnostics and expansion-focused tests. | Situational | 5 min |
+| [Macro Adoption and API Evolution](macro-adoption-and-api-evolution/README.md) | Govern dependencies, build cost, generated API compatibility, rollout, and organizational ownership. | Situational | 5 min |
 
 ## Source Section
 

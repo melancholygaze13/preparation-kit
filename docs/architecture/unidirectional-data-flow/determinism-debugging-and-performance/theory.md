@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - unidirectional-data-flow
   - debugging
@@ -50,6 +50,18 @@ summaries such as counts, IDs safe for support, and transition names.
 Action logs help answer what the app believed and in which order. Pair them with
 network, persistence, and crash telemetry using correlation IDs. A reducer trace alone
 cannot prove what a server committed.
+
+A compact redacted trail might look like this:
+
+```text
+09:41:12.104 search.queryChanged queryLength=5
+09:41:12.405 search.requestStarted effect=search-7
+09:41:12.712 search.responseReceived effect=search-7 resultCount=18
+09:41:12.714 search.resultsDisplayed resultCount=18
+```
+
+This is enough to check order, latency, and the final transition without recording the
+query text or response payload.
 
 ## Treat Replay Carefully
 

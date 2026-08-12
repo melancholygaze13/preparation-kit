@@ -4,7 +4,7 @@ domain: "Architecture"
 page_type: topic-index
 interview_priority: situational
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 ---
 
 # VIPER
@@ -31,6 +31,6 @@ that use it or interviews that name it, not as a default for every app.
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [View, Interactor, Presenter, Entity, and Router](view-interactor-presenter-entity-and-router/README.md) | Defines VIPER responsibilities and dependency flow. | Situational | 7 min |
-| [Module Assembly, Routing, and Data Handoff](module-assembly-routing-and-data-handoff/README.md) | Coordinates feature creation and cross-module navigation. | Situational | 7 min |
-| [Testability, Complexity, and Adoption](testability-complexity-and-adoption/README.md) | Evaluates separation benefits against boilerplate and indirection. | Situational | 7 min |
+| [View, Interactor, Presenter, Entity, and Router](view-interactor-presenter-entity-and-router/README.md) | Defines VIPER responsibilities and dependency flow. | Situational | 8 min |
+| [Module Assembly, Routing, and Data Handoff](module-assembly-routing-and-data-handoff/README.md) | Coordinates feature creation and cross-module navigation. | Situational | 8 min |
+| [Testability, Complexity, and Adoption](testability-complexity-and-adoption/README.md) | Evaluates separation benefits against boilerplate and indirection. | Situational | 8 min |

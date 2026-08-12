@@ -7,12 +7,13 @@ interview_priority: situational
 estimated_read_minutes: 1
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-08-12
 ---
 
 # Access Levels and Lexical Scope
 
-> Swift offers `open`, `public`, `package`, `internal`, `fileprivate`, and `private`; choose scope from the consumers that legitimately own the API.
+> Swift has six access levels: `open`, `public`, `package`, `internal`, `fileprivate`, and `private`.
+> Choose the narrowest level that includes the consumers that own the API.
 
 ## Quick Recall
 

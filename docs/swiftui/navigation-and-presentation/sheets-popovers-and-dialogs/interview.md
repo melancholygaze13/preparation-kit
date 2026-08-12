@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - sheets
   - popovers
@@ -96,6 +96,10 @@ choice. I use semantic button roles and keep the consequence explicit.
 I attach a confirmation dialog near the control that triggered it so the system has
 the correct presentation source. I use `.destructive` only for a genuinely harmful
 action and provide a cancel path where appropriate.
+
+On the 2027 platform releases, I use an item binding when the alert or dialog needs
+context. On earlier targets, I use a presenting-data overload or an optional route so
+the affected ID cannot drift away from the visible prompt.
 
 Neither component should contain a complex workflow. If the user must review data,
 enter text, or make several decisions, I use a dedicated screen or sheet.

@@ -6,9 +6,9 @@ concept: "MVC and View Controller Boundaries"
 page_type: theory
 levels: [senior, staff, principal]
 interview_priority: core
-estimated_read_minutes: 8
+estimated_read_minutes: 9
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # MVC and View Controller Boundaries: Theory
@@ -38,12 +38,10 @@ events to app behavior.
 
 The boundary should usually look like this:
 
-```mermaid
-flowchart LR
-    View["View"] --> Controller["View controller"]
-    Controller --> Boundary["Presentation or domain boundary"]
-    Boundary --> Model["Model and services"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 672 / 568; --schematic-width: 672px" title="MVC and View Controller Boundaries — How UIKit MVC Works" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the MVC and View Controller Boundaries — How UIKit MVC Works diagram</a></figcaption>
+</figure>
 
 The view can expose controls, layout, and reusable visual behavior. The view
 controller can translate taps, delegate callbacks, and lifecycle events into
@@ -52,6 +50,52 @@ commands. The model or application boundary decides what those commands mean.
 For example, a checkout controller can read text fields, show validation
 messages, and disable a button while submitting. It should not own tax rules, retry
 policy, the steps of payment processing, or the storage format.
+
+This small example keeps the availability rule in the model. The controller
+translates the tap and renders the result:
+
+```swift
+struct Product {
+    let id: UUID
+    let name: String
+    let isAvailable: Bool
+}
+
+final class Cart {
+    private(set) var productIDs: [UUID] = []
+
+    @discardableResult
+    func add(_ product: Product) -> Bool {
+        guard product.isAvailable else { return false }
+        productIDs.append(product.id)
+        return true
+    }
+}
+
+final class ProductViewController: UIViewController {
+    private let product: Product
+    private let cart: Cart
+    private let statusLabel = UILabel()
+
+    init(product: Product, cart: Cart) {
+        self.product = product
+        self.cart = cart
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    @objc private func addTapped() {
+        let added = cart.add(product)
+        statusLabel.text = added ? "Added to cart" : "Unavailable"
+    }
+}
+```
+
+The model can now test the rule without UIKit. The controller still owns the
+screen-specific message and target-action handler.
 
 ## Responsibilities
 

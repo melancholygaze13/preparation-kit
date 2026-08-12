@@ -7,12 +7,13 @@ interview_priority: reference
 estimated_read_minutes: 1
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-08-12
 ---
 
 # Bitwise and Overflow Arithmetic
 
-> Bitwise operators transform fixed-width representations; overflow policy must be explicit because ordinary integer arithmetic does not silently wrap.
+> Bitwise operators transform fixed-width representations.
+> Overflow policy must be explicit because ordinary integer arithmetic does not silently wrap.
 
 ## Quick Recall
 

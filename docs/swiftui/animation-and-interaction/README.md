@@ -4,7 +4,7 @@ domain: "SwiftUI"
 page_type: topic-index
 interview_priority: high
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 ---
 
 # Animation and Interaction
@@ -30,7 +30,7 @@ and gesture composition when the role includes interaction-heavy or visual UI.
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [Implicit and Explicit Animation](implicit-and-explicit-animation/README.md) | Connects state changes to animated transactions. | High | 14 min |
+| [Implicit and Explicit Animation](implicit-and-explicit-animation/README.md) | Connects state changes to animated transactions. | High | 13 min |
 | [Transitions, Transactions, and Phase Animation](transitions-transactions-and-phase-animation/README.md) | Controls insertion, removal, and animation scope. | High | 14 min |
-| [Animatable Data and Matched Geometry](animatable-data-and-matched-geometry/README.md) | Supports custom interpolation and shared visual motion. | High | 14 min |
+| [Animatable Data and Matched Geometry](animatable-data-and-matched-geometry/README.md) | Supports custom interpolation and shared visual motion. | High | 13 min |
 | [Gestures, Hit Testing, and Event Composition](gestures-hit-testing-and-event-composition/README.md) | Resolves competing input and interaction regions. | High | 14 min |

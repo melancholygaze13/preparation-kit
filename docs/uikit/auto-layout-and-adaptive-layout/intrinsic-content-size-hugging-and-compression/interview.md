@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # Intrinsic Content Size, Hugging, and Compression: Interview Questions
@@ -96,5 +96,9 @@ titleLabel.trailingAnchor.constraint(
 ).isActive = true
 
 titleLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-button.setContentCompressionResistancePriority(.required, for: .horizontal)
+button.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
 ```
+
+The button stays harder to compress than the label, while the priority remains
+below `.required`. That leaves Auto Layout a controlled fallback for extreme
+widths instead of making the layout unsatisfiable.

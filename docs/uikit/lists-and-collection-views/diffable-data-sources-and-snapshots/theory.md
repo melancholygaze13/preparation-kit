@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # Diffable Data Sources and Snapshots: Theory
@@ -70,6 +70,28 @@ Diffable data sources know identity and order. They do not automatically know
 that every visible property changed if the identifier is the same. For content
 changes, use the appropriate reload or reconfigure API for the platform version,
 or apply a snapshot that explicitly marks changed items.
+
+Update the model store first. Then retrieve the data source's current snapshot,
+mark the stable identifier, and apply it:
+
+```swift
+func messageDidChange(_ id: Message.ID) {
+    guard dataSource.indexPath(for: id) != nil else { return }
+
+    var snapshot = dataSource.snapshot()
+    if #available(iOS 15.0, *) {
+        snapshot.reconfigureItems([id])
+    } else {
+        snapshot.reloadItems([id])
+    }
+    dataSource.apply(snapshot, animatingDifferences: true)
+}
+```
+
+`reconfigureItems(_:)` asks the cell provider to update the existing item without
+turning it into a delete and insert. It is available on iOS 15 and later.
+`reloadItems(_:)` is the older fallback and is also useful when the cell needs a
+full reload. Both methods require the identifiers to already exist in the snapshot.
 
 The key interview point is to separate structural changes from content changes:
 insert, delete, and move are structural. Updating a title or image is content.

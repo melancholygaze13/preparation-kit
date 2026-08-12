@@ -8,9 +8,9 @@ levels:
   - senior
   - staff
 interview_priority: situational
-estimated_read_minutes: 2
+estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 tags:
   - viper
   - composition-root
@@ -55,6 +55,13 @@ Pass required immutable input at construction and return outcomes through a smal
 delegate, closure, or result contract. For shared domain state, pass identity and use its
 real owner rather than letting modules edit the same mutable object.
 
+### Expanded Answer
+
+The assembly boundary validates required input and injects dependencies once. A result
+describes what happened, not which next screen to show, so the parent flow keeps route
+policy. Stable identifiers let each module resolve current data and avoid sharing
+framework-managed objects across lifetime or concurrency boundaries.
+
 ### Example
 
 An editor receives an entity ID and mode. On completion it reports `.saved(id)` or
@@ -68,6 +75,13 @@ An editor receives an entity ID and mode. On completion it reports `.saved(id)` 
 A local router can perform transitions within a feature. A coordinator or application
 router owns journeys across several modules, deep-link reconstruction, and shared flow
 lifetime. This prevents every VIPER router from knowing every destination.
+
+### Expanded Answer
+
+I document where the local module ends and which results cross to the parent flow. The
+presenter sends a route intent, the feature router performs local mechanics, and the
+coordinator composes other modules. One destination has one navigation owner even when
+both abstractions exist in the app.
 
 ### Trade-offs
 

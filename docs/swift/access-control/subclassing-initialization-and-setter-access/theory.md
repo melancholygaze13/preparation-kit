@@ -8,7 +8,7 @@ interview_priority: situational
 estimated_read_minutes: 2
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-08-12
 ---
 
 # Subclassing, Initialization, and Setter Access: Theory
@@ -18,8 +18,11 @@ last_reviewed: 2026-06-22
 ## Mental Model
 
 Separate five permissions: name a type, construct it, read state, mutate state, and override behavior.
-Swift access modifiers let an API owner publish each deliberately. `open` is an extension protocol,
-not a stronger spelling chosen for convenience.
+Swift access modifiers let an API owner publish each deliberately. Use `open` only when external
+subclassing or overriding is a supported extension point.
+
+**Initialization access** controls who can create a valid instance. **Setter access**
+can be narrower than getter access, so clients can read state without assigning it.
 
 ## How It Works
 
@@ -36,7 +39,7 @@ open class Operation {
 ```
 
 External clients can construct and subclass `Operation`, read `isFinished`, and override `execute()`.
-Only the defining declaration can assign the private setter. A production open hook must document
+Only code within the property's private scope can assign the setter. A production open hook must document
 ordering, super-call, isolation, failure, and reentrancy contracts.
 
 ### Rules That Must Stay True

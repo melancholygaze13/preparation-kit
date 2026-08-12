@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: situational
-estimated_read_minutes: 4
+estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - state-restoration
   - scene-storage
@@ -79,10 +79,80 @@ exist or remain permitted when decoded later.
 ## Document-Based Apps
 
 `DocumentGroup` delegates document discovery and window integration to the platform.
-A value-semantic document conforms to `FileDocument`; the editor receives a binding to
-the document. A reference-semantic document conforms to `ReferenceFileDocument`, which
-uses snapshots for writing. Both declare supported content types and convert between
-the model and `FileWrapper` values.
+
+The document model depends on the deployment target:
+
+| Model | Ownership and I/O | Use when |
+|---|---|---|
+| `FileDocument` | Value type; synchronous `FileWrapper` conversion; binding-based edits and automatic undo | Supporting systems before the 2027 releases |
+| `ReferenceFileDocument` | Reference type; synchronous `FileWrapper` conversion and explicit write snapshots | Maintaining an existing reference-semantic document on earlier systems |
+| `Document` | `@Observable` reference type; explicit snapshots plus asynchronous readers and writers | Creating a new document type for iOS 27, macOS 27, or visionOS 27 |
+
+In the 2027 SDKs, Apple says `FileDocument` and `ReferenceFileDocument` are no longer
+supported for new document types. They remain available for earlier deployments and
+existing code. The new `Document` protocol combines `ReadableDocument` and
+`WritableDocument`. Conform to only one of those protocols when the app is read-only
+or write-only. These APIs are beta while the 2027 platform releases are in beta.
+
+This small text document shows the new split between observable editing state and disk
+serialization:
+
+```swift
+import Foundation
+import Observation
+import SwiftUI
+import UniformTypeIdentifiers
+
+@Observable
+final class TextDocument: Document {
+    static let readableContentTypes: [UTType] = [.plainText]
+
+    var text = ""
+
+    func reader(
+        configuration: sending ReadConfiguration
+    ) -> sending FileWrapperDocumentReader<String> {
+        FileWrapperDocumentReader(configuration) { wrapper in
+            guard let data = wrapper.regularFileContents else {
+                throw CocoaError(.fileReadCorruptFile)
+            }
+            return String(decoding: data, as: UTF8.self)
+        }
+    }
+
+    func writer(
+        configuration: sending WriteConfiguration
+    ) -> sending FileWrapperDocumentWriter<String> {
+        FileWrapperDocumentWriter(configuration) { snapshot in
+            FileWrapper(regularFileWithContents: Data(snapshot.utf8))
+        }
+    }
+
+    @MainActor
+    func snapshot(contentType: UTType) async throws -> sending String {
+        text
+    }
+
+    @MainActor
+    func apply(
+        snapshot: sending String,
+        previous: sending String?
+    ) async throws {
+        text = snapshot
+    }
+}
+```
+
+SwiftUI captures `snapshot(contentType:)` on the main actor. Keep that operation
+small. A document writer performs serialization in the background with coordinated
+file access. A custom reader or writer can use the file URL directly, stream work, or
+report progress. The `FileWrapperDocumentReader` and writer above are simpler for a
+small document.
+
+The modern protocol does not provide automatic undo through value semantics. Register
+changes with the environment's `UndoManager`. It does provide a stable reference for
+Observation, explicit actor crossings through `sending`, and separate read and write
+snapshots.
 
 Serialization is a boundary. Validate malformed input, preserve format compatibility,
 and surface errors instead of silently replacing content. Keep write snapshots
@@ -115,3 +185,6 @@ valid fallback from data loss; they must not log sensitive document content.
 - [`FileDocument`](https://developer.apple.com/documentation/swiftui/filedocument)
 - [`ReferenceFileDocument`](https://developer.apple.com/documentation/swiftui/referencefiledocument)
 - [Building a document-based app with SwiftUI](https://developer.apple.com/documentation/swiftui/building-a-document-based-app-with-swiftui)
+- [`Document`](https://developer.apple.com/documentation/swiftui/document)
+- [Creating a document-based app](https://developer.apple.com/documentation/swiftui/creating-a-document-based-app)
+- [Updating your document-based app](https://developer.apple.com/documentation/swiftui/updating-your-document-based-app)

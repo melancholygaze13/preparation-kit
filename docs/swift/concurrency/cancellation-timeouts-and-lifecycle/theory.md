@@ -8,7 +8,7 @@ interview_priority: core
 estimated_read_minutes: 4
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-08-12
 ---
 
 # Cancellation, Timeouts, and Lifecycle: Theory
@@ -27,14 +27,17 @@ clean up safely even if cleanup runs more than once.
 CPU-bound code must poll at useful safe points:
 
 ```swift
-func transform(_ values: [Value]) async throws -> [Output] {
-    var output: [Output] = []
+func square(_ values: [Int]) async throws -> [Int] {
+    var output: [Int] = []
     for (index, value) in values.enumerated() {
         if index.isMultiple(of: 256) { try Task.checkCancellation() }
-        output.append(expensiveTransform(value))
+        output.append(value * value)
     }
     return output
 }
+
+let values = try await square([2, 3, 4])
+print(values) // [4, 9, 16]
 ```
 
 Use `withTaskCancellationHandler` to forward cancellation to a legacy operation. Its

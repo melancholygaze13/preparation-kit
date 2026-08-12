@@ -4,10 +4,14 @@ domain: "Architecture"
 page_type: topic-index
 interview_priority: high
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 ---
 
 # The Composable Architecture (TCA)
+
+> Version note: The examples target TCA 1.26.1, the current release during this
+> 2026-08-12 review. TCA is preparing for 2.0, so use the documentation that
+> matches the version pinned by the project.
 
 ## Learning Path
 
@@ -32,5 +36,5 @@ last_reviewed: 2026-07-11
 |---|---|---|---:|
 | [Store, State, Action, and Reducer](store-state-action-and-reducer/README.md) | Connects TCA feature types to the underlying transition model. | High | 10 min |
 | [Effects, Dependencies, and Cancellation](effects-dependencies-and-cancellation/README.md) | Controls asynchronous work and live or test dependencies. | High | 11 min |
-| [Scoping, Presentation, and Navigation](scoping-presentation-and-navigation/README.md) | Composes child domains and state-driven destinations. | High | 10 min |
+| [Scoping, Presentation, and Navigation](scoping-presentation-and-navigation/README.md) | Composes child domains and state-driven destinations. | High | 11 min |
 | [Testing, Adoption, and Library Trade-offs](testing-adoption-and-library-trade-offs/README.md) | Evaluates TCA benefits against coupling and migration cost. | High | 11 min |

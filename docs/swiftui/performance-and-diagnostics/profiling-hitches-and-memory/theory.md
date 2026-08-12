@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - instruments
   - hitches
@@ -31,13 +31,10 @@ ownership relationships.
 
 Performance diagnosis is causal investigation:
 
-```mermaid
-flowchart LR
-    Symptom["User symptom"] --> Interval["Reproducible interval"]
-    Interval --> Evidence["Trace evidence"]
-    Evidence --> Cause["Narrow cause"]
-    Cause --> Fix["Measured fix"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 400 / 568; --schematic-width: 400px" title="Profiling, Hitches, and Memory" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Profiling, Hitches, and Memory diagram</a></figcaption>
+</figure>
 
 Separate responsiveness, frame hitches, excessive updates, rendering, I/O, allocation,
 and retention. They can produce similar symptoms but require different fixes.

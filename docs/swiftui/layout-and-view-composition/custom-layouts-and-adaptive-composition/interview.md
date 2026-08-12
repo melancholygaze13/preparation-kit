@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - custom-layout
   - adaptive-ui
@@ -104,6 +104,10 @@ width when wrapping can change height. I return finite, nonnegative container si
 
 I add a cache only for repeatable, expensive derived measurements. Correctness must not
 depend on a fixed call order or one measurement per update.
+
+SwiftUI may run layout requirements away from the main actor. I keep configuration in
+small value types and never capture UI models or other main-actor-only mutable state in
+measurement, placement, or cache code.
 
 The call site looks like any other container: `MyLayout { ChildA(); ChildB() }`.
 SwiftUI creates proxies for those direct children and invokes the layout methods as

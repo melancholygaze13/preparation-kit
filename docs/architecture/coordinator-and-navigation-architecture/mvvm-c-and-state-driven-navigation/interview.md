@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - mvvm-c
   - state-driven-navigation
@@ -72,6 +72,13 @@ recreate broad coupling.
 I choose one authority at each boundary. A UIKit coordinator can host SwiftUI and own
 the outer flow, while a SwiftUI router owns an internal typed path. An adapter translates
 completion and dismissal; both sides do not independently control the same destination.
+
+### Expanded Answer
+
+I define which side creates and removes the hosted feature, how route values cross, and
+how interactive dismissal is reported back. The inner framework may own local navigation
+without gaining authority over the outer journey. Integration tests exercise push, back,
+dismissal, and state restoration across the boundary.
 
 ### Trade-offs
 

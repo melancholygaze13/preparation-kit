@@ -10,7 +10,7 @@ levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 tags:
   - loops
   - sequences
@@ -25,14 +25,10 @@ tags:
 
 A loop repeats work while moving through elements or until an exit condition becomes true:
 
-```mermaid
-flowchart LR
-    Current["Current state"] --> Work["Work"]
-    Work --> Progress["Progress"]
-    Progress --> Outcome{"Next step"}
-    Outcome -->|Continue| Current
-    Outcome -->|Finish| Exit["Exit"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 400 / 568; --schematic-width: 400px" title="Loops and Control Transfer" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Loops and Control Transfer diagram</a></figcaption>
+</figure>
 
 With `for`-`in`, a sequence iterator provides each next element. With `while`, a
 Boolean condition decides whether another pass runs. Correctness requires that each pass either

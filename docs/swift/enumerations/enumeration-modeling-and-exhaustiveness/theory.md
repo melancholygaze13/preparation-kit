@@ -10,7 +10,7 @@ levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 tags:
   - enumerations
   - state-modeling
@@ -24,15 +24,7 @@ tags:
 
 ## Mental Model
 
-An enum defines a complete, closed set of alternatives:
-
-```mermaid
-flowchart LR
-    State{"State"} --> Idle["idle"]
-    State --> Loading["loading"]
-    State --> Loaded["loaded"]
-    State --> Failed["failed"]
-```
+An enum defines a complete, closed set of alternatives.
 
 Only one alternative exists at a time. The compiler can therefore prove that an
 exhaustive switch handles every known state.

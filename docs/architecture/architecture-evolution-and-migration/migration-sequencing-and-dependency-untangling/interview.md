@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 tags:
   - migration-sequencing
   - dependencies
@@ -56,6 +56,13 @@ I identify the capability causing the cycle and move its contract toward the con
 a lower stable module. Composition moves upward. Another option is a typed result or
 event boundary. If both sides always change together, I consider merging them instead.
 
+### Expanded Answer
+
+I first name which side owns the policy. The owning side publishes the contract; the
+composition root supplies the implementation. This replaces a bidirectional compile-time
+edge with a dependency that follows ownership, rather than hiding the cycle in a new
+generic shared package.
+
 ### Trade-offs
 
 A generic shared module can remove the visible cycle while creating an unowned dumping
@@ -70,6 +77,13 @@ direction that matches policy ownership.
 By outcomes: production slices on the new path, callers switched, dependency edges and
 legacy traffic at zero, and old modules, schemas, flags, or adapters deleted. File count
 or code copied does not prove that the old architecture can be removed.
+
+### Expanded Answer
+
+I track progress from first containment through final deletion. Each remaining caller or
+runtime path needs an owner and blocker. Product and reliability signals show whether the
+new path is safe, while deletion metrics prove that the migration actually reduced the
+system rather than duplicating it.
 
 ### Example
 

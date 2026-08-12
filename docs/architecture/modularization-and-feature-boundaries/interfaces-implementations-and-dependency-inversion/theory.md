@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - modularization
   - dependency-inversion
@@ -28,14 +28,10 @@ Physical dependency inversion uses module boundaries to make volatile implementa
 code depend on a stable consumer-facing contract. The feature imports an interface;
 the app composition root imports both interface and implementation and connects them.
 
-```mermaid
-flowchart LR
-    Checkout["CheckoutFeature"] -->|depends on| Interface["PaymentsInterface"]
-    Live["PaymentsLive"] -->|implements| Interface
-    Composition["AppComposition"] -. "imports and assembles" .-> Checkout
-    Composition -. "imports and assembles" .-> Interface
-    Composition -. "imports and assembles" .-> Live
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 600" title="Interfaces, Implementations, and Dependency Inversion" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Interfaces, Implementations, and Dependency Inversion diagram</a></figcaption>
+</figure>
 
 Runtime calls go from the feature to the live adapter, but source imports point toward
 the interface. The implementation can change without making the feature import its SDK.

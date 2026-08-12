@@ -4,7 +4,7 @@ domain: "Architecture"
 page_type: topic-index
 interview_priority: high
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 ---
 
 # Concurrency, State, and Side Effects
@@ -29,7 +29,7 @@ last_reviewed: 2026-07-11
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [Isolation Ownership and Main-Actor Boundaries](isolation-ownership-and-main-actor-boundaries/README.md) | Aligns mutable state with one explicit concurrency owner. | High | 10 min |
-| [Task and Effect Lifetimes](task-and-effect-lifetimes/README.md) | Connects asynchronous work to feature and request ownership. | High | 10 min |
-| [Cancellation, Stale Results, and Logical Races](cancellation-stale-results-and-logical-races/README.md) | Prevents obsolete work from committing invalid state. | High | 10 min |
-| [Event Ordering, Streams, and Backpressure](event-ordering-streams-and-backpressure/README.md) | Controls values over time when producers and consumers differ. | High | 10 min |
+| [Isolation Ownership and Main-Actor Boundaries](isolation-ownership-and-main-actor-boundaries/README.md) | Aligns mutable state with one explicit concurrency owner. | High | 11 min |
+| [Task and Effect Lifetimes](task-and-effect-lifetimes/README.md) | Connects asynchronous work to feature and request ownership. | High | 11 min |
+| [Cancellation, Stale Results, and Logical Races](cancellation-stale-results-and-logical-races/README.md) | Prevents obsolete work from committing invalid state. | High | 11 min |
+| [Event Ordering, Streams, and Backpressure](event-ordering-streams-and-backpressure/README.md) | Controls values over time when producers and consumers differ. | High | 11 min |

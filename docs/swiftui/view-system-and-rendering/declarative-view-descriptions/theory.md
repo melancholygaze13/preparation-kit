@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 8
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - declarative-ui
   - view-builder
@@ -28,12 +28,10 @@ A SwiftUI view is a value that describes part of the interface for its current
 inputs. The value is temporary. SwiftUI owns the persistent machinery that tracks
 dependencies, preserves eligible state, lays out content, and renders platform UI.
 
-```mermaid
-flowchart LR
-    Inputs["State and inputs"] --> Body["body"]
-    Body --> Description["New view description"]
-    Description --> Update["SwiftUI update"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 400 / 568; --schematic-width: 400px" title="Declarative View Descriptions" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Declarative View Descriptions diagram</a></figcaption>
+</figure>
 
 When an input changes, SwiftUI may evaluate `body` again. It compares and applies
 the new description within its internal graph. Do not treat the view structure as

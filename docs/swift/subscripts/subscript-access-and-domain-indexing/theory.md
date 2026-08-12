@@ -8,7 +8,7 @@ levels: [senior]
 interview_priority: reference
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 ---
 
 # Subscript Access and Domain Indexing: Theory
@@ -20,6 +20,9 @@ last_reviewed: 2026-07-22
 A subscript provides bracket-based access using one or more index values. Use it
 when lookup feels like direct element access. Use a named method when the operation
 has important effects, policy, I/O, or expensive work.
+
+A **domain index** is a key from the problem being modeled, such as a player name,
+seat number, or grid coordinate. It does not have to be a collection offset.
 
 ## Read and Write Syntax
 

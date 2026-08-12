@@ -8,7 +8,7 @@ interview_priority: high
 estimated_read_minutes: 4
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 ---
 
 # Property Wrappers and Type Properties: Interview Questions

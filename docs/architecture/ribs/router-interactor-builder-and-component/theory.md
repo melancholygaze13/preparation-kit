@@ -10,7 +10,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 tags:
   - ribs
   - dependency-injection
@@ -27,18 +27,10 @@ A RIB is a business-logic scope with explicit construction, dependencies, behavi
 child routing. It may have a view, but the active business tree does not depend on the
 view hierarchy.
 
-```mermaid
-flowchart TD
-    Parent["Parent component"] --> Builder["Builder"]
-    Builder --> Component["Scoped component"]
-    Builder --> Interactor["Interactor"]
-    Builder --> Router["Router"]
-    Builder -. "optional" .-> View["View and presenter"]
-    Component --> Interactor
-    Component --> ChildDeps["Dependencies exposed to child builders"]
-    Interactor -- "routing intent" --> Router
-    Router -- "attach or detach" --> Child["Child RIB"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 600" title="Router, Interactor, Builder, and Component" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Router, Interactor, Builder, and Component diagram</a></figcaption>
+</figure>
 
 The builder is the only construction entry point. The component turns parent-provided
 dependencies into the values owned or exposed by this scope.

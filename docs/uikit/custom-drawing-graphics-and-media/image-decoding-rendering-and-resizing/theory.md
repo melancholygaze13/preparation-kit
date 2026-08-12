@@ -10,7 +10,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # Image Decoding, Rendering, and Resizing: Theory
@@ -89,6 +89,27 @@ on the main actor.
 Downsampling preserves the source aspect ratio. Decide separately whether the view
 uses aspect fit, aspect fill, or cropping. Do not stretch pixels to satisfy a target
 rectangle.
+
+## Render at the Intended Scale
+
+**Resizing** creates pixel data with different dimensions. Downsampling is a resizing
+strategy that avoids a full-size decode. An image view's `contentMode` then decides how
+UIKit renders those pixels inside the view. Aspect fit shows the complete image and may
+leave empty space. Aspect fill covers the view and crops the overflow.
+
+```swift
+@MainActor
+func showThumbnail(_ image: CGImage, in imageView: UIImageView) {
+    let scale = imageView.traitCollection.displayScale
+    imageView.image = UIImage(cgImage: image, scale: scale, orientation: .up)
+    imageView.contentMode = .scaleAspectFill
+    imageView.clipsToBounds = true
+}
+```
+
+The thumbnail was already resized near its display pixel size. The image view now
+chooses the visible crop without decoding a larger source again. Use `.scaleAspectFit`
+instead when cropping would remove meaningful content.
 
 ## Define Cache Identity
 

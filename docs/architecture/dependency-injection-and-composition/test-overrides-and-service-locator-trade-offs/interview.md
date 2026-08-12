@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - dependency-injection
   - test-doubles
@@ -71,6 +71,13 @@ It is a hierarchical form of dependency distribution and is useful for values me
 to flow through a view tree. It can also become a scoped service locator if arbitrary
 required services are hidden there. I keep essential feature dependencies explicit
 when practical.
+
+### Expanded Answer
+
+Environment values fit presentation context and cross-cutting values such as locale or a
+small shared capability. A feature model or composition root can read the environment and
+pass required dependencies explicitly to business owners. That keeps reusable views easy
+to compose without making every service an ambient lookup.
 
 ### Trade-offs
 

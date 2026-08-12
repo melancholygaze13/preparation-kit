@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - async-sequence
   - event-ordering
@@ -56,6 +56,13 @@ I choose from event meaning. For replaceable state, I keep the newest one or coa
 For short bursts, I use a measured bound. If every event matters, I use real flow control
 or durable storage instead of dropping or buffering without limit.
 
+### Expanded Answer
+
+Capacity is part of the product contract. I estimate burst size and acceptable event age,
+then define what a full buffer means. Telemetry should record drops or lag. When loss is
+not acceptable, acknowledgement and durable replay replace an in-memory convenience
+stream.
+
 ### Trade-offs
 
 Keeping newest controls latency but loses intermediate events. Keeping oldest preserves
@@ -71,6 +78,13 @@ Not necessarily. `AsyncStream` presents async iteration to the consumer and can 
 its buffer, but a synchronous push producer can continue yielding while values are
 dropped. Real backpressure requires a producer that can suspend, slow down, reject work,
 or wait for demand.
+
+### Expanded Answer
+
+The continuation's `yield` result reports whether a value was enqueued, dropped, or the
+stream had terminated, but it does not suspend the producer. The bridge must react to
+that result and stop its source on termination. A truly demand-aware source needs a
+protocol that can pause or await capacity.
 
 ### Example
 

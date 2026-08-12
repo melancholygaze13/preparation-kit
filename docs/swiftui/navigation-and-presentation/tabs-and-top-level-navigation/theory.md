@@ -10,7 +10,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - tabs
   - tab-view
@@ -26,11 +26,10 @@ tags:
 
 A tab container chooses one peer destination from a small stable set:
 
-```mermaid
-flowchart LR
-    Tab["Selected tab"] --> Flow["One top-level flow"]
-    Flow --> State["That flow's navigation state"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram-1.html" style="--schematic-aspect: 960 / 248" title="Tabs and Top-Level Navigation" loading="lazy"></iframe>
+  <figcaption><a href="../diagram-1.html">Open the Tabs and Top-Level Navigation diagram</a></figcaption>
+</figure>
 
 Tab selection and navigation within a tab are different state dimensions. Switching
 tabs should not accidentally replace a flow's path, draft, or selection. The owner at
@@ -148,13 +147,10 @@ feature routers.
 An external route should be parsed and authorized before it mutates UI state. The routing
 operation then selects the owning tab and builds the route inside that flow:
 
-```mermaid
-flowchart LR
-    URL["URL"] --> Parse["Parse"]
-    Parse --> Authorize["Authorize"]
-    Authorize --> Select["Select Library tab"]
-    Select --> Path["Set library path to book(id)"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram-2.html" style="--schematic-aspect: 656 / 572; --schematic-width: 656px" title="Tabs and Top-Level Navigation — Deep Links and Cross-Tab Events" loading="lazy"></iframe>
+  <figcaption><a href="../diagram-2.html">Open the Tabs and Top-Level Navigation — Deep Links and Cross-Tab Events diagram</a></figcaption>
+</figure>
 
 Apply the related changes as one owned transition so the app does not briefly show a
 destination in the wrong tab. Define behavior when the requested entity is missing or the

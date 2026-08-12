@@ -8,7 +8,7 @@ interview_priority: core
 estimated_read_minutes: 5
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-08-12
 ---
 
 # Structured Concurrency and Task Groups: Theory
@@ -27,23 +27,22 @@ clear so the code can define limits, error handling, and result handling.
 `async let` creates a fixed number of child tasks known when you write the code. Task groups add a
 dynamic number of children and expose results asynchronously as each child completes.
 
-```mermaid
-flowchart TD
-    Start["Parent enters structured scope"] --> Add["Add child tasks"]
-    Add --> Run["Children run concurrently"]
-    Run --> Result{"Next child result"}
-
-    Result -- "success" --> Consume["Parent consumes result"]
-    Consume --> More{"More work allowed?"}
-    More -- "yes" --> Add
-    More -- "no" --> Wait["Wait for remaining children"]
-
-    Result -- "throws" --> Cancel["Mark siblings cancelled"]
-    Cancel --> Wait
-    Wait --> Exit["Parent exits with result or error"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 580" title="Structured Concurrency and Task Groups" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Structured Concurrency and Task Groups diagram</a></figcaption>
+</figure>
 
 ```swift
+typealias ID = Int
+
+struct Record: Sendable {
+    let id: ID
+}
+
+func fetch(_ id: ID) async throws -> Record {
+    Record(id: id)
+}
+
 func fetchAll(_ ids: [ID], limit: Int) async throws -> [Record] {
     precondition(limit > 0)
     return try await withThrowingTaskGroup(of: Record.self) { group in
@@ -63,6 +62,9 @@ func fetchAll(_ ids: [ID], limit: Int) async throws -> [Record] {
         return records
     }
 }
+
+let records = try await fetchAll([1, 2, 3], limit: 2)
+print(records.map(\.id).sorted()) // [1, 2, 3]
 ```
 
 Use `withDiscardingTaskGroup` when child tasks produce no values you need to keep.

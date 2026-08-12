@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: situational
-estimated_read_minutes: 4
+estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - materials
   - shaders
@@ -49,6 +49,18 @@ More glass does not create more hierarchy. Keep primary content visually stable,
 related controls, and test scrolling backgrounds. Respect Reduce Transparency and
 Increased Contrast with an opaque or stronger fallback when legibility requires it.
 
+The basic syntax applies a material as a shape style behind content:
+
+```swift
+Label("Syncing", systemImage: "arrow.triangle.2.circlepath")
+    .padding()
+    .background(.regularMaterial, in: .rect(cornerRadius: 12))
+```
+
+This background adapts to what is behind it. It does not become part of the label's
+layout. In a complete component, read `accessibilityReduceTransparency` and replace the
+material with an opaque semantic background when the design needs that fallback.
+
 ## Shader Contracts
 
 SwiftUI exposes Metal shader functions through `ShaderLibrary`. A compatible stitchable
@@ -73,6 +85,44 @@ SwiftUI shader modifiers and `visualEffect` require the 2023 platform releases,
 including iOS 17 and macOS 14. Liquid Glass APIs require the 2025 releases, including
 iOS 26 and macOS 26. Keep a material, standard style, or no-effect fallback for older
 deployment targets.
+
+The Swift modifier below shows both API shapes. It uses geometry for a small visual
+change and calls a stitchable Metal function for the pixel change. Earlier systems
+receive the unchanged content:
+
+```swift
+struct ModernEffects: ViewModifier {
+    @ViewBuilder
+    func body(content: Content) -> some View {
+        if #available(iOS 17, macOS 14, *) {
+            content
+                .visualEffect { effect, proxy in
+                    effect.opacity(proxy.size.width < 240 ? 0.85 : 1)
+                }
+                .colorEffect(ShaderLibrary.softBlue())
+        } else {
+            content
+        }
+    }
+}
+```
+
+The target also contains a Metal file with the matching function name and compatible
+`colorEffect` signature:
+
+```metal
+#include <metal_stdlib>
+using namespace metal;
+
+[[ stitchable ]]
+half4 softBlue(float2 position, half4 color) {
+    half3 adjusted = mix(color.rgb, half3(0.25h, 0.45h, 1.0h), 0.15h);
+    return half4(adjusted, color.a);
+}
+```
+
+`position` is unused in this simple effect. A real effect can use it, but its Swift and
+Metal declarations must continue to agree.
 
 ## Geometry-Driven Effects
 

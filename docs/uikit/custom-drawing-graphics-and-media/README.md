@@ -4,7 +4,7 @@ domain: "UIKit"
 page_type: topic-index
 interview_priority: situational
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # Custom Drawing, Graphics, and Media
@@ -32,6 +32,6 @@ image-heavy feeds, data visualization, media editing, or bespoke rendering.
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [Core Graphics Drawing and Shape Layers](core-graphics-drawing-and-shape-layers/README.md) | Chooses drawing and layer techniques for custom visuals. | Situational | 7 min |
+| [Core Graphics Drawing and Shape Layers](core-graphics-drawing-and-shape-layers/README.md) | Chooses drawing and layer techniques for custom visuals. | Situational | 8 min |
 | [Image Decoding, Rendering, and Resizing](image-decoding-rendering-and-resizing/README.md) | Controls image quality, memory, and main-thread cost. | Situational | 9 min |
 | [Blur, Material Effects, and Advanced Compositing](blur-material-effects-and-advanced-compositing/README.md) | Balances visual effects with rendering performance. | Situational | 6 min |

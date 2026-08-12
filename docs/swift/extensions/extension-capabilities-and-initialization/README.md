@@ -7,12 +7,13 @@ interview_priority: situational
 estimated_read_minutes: 1
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-08-12
 ---
 
 # Extension Capabilities and Initialization
 
-> Extensions add computed behavior and construction paths to an existing type, but cannot change stored layout, add class designated initialization, or override existing functionality.
+> Extensions add computed behavior and construction paths to an existing type.
+> They cannot add stored state, add class designated initializers, or override existing behavior.
 
 ## Quick Recall
 

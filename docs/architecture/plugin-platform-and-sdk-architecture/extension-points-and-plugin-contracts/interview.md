@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: situational
-estimated_read_minutes: 2
+estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 tags:
   - plugin-architecture
   - extension-points
@@ -39,6 +39,13 @@ tags:
 I use it when independently owned contributors must add behavior through a stable host
 boundary and may evolve on different schedules. If one team owns a small set of variants,
 a normal dependency or strategy is cheaper.
+
+### Expanded Answer
+
+The host must define discovery, capability, lifecycle, failure containment, compatibility,
+and removal rules before external contributors depend on the boundary. I choose the
+strongest isolation required by trust and deployment. An in-process protocol is not the
+same contract as a separately signed app extension.
 
 ### Trade-offs
 

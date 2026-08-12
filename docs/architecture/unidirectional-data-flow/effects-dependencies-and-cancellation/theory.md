@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 8
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - unidirectional-data-flow
   - effects
@@ -30,14 +30,10 @@ failures, and lifecycle events back through actions.
 
 This preserves one mutation path while allowing asynchronous behavior:
 
-```mermaid
-flowchart LR
-    Action["Action"] --> Reducer["Reducer"]
-    Reducer --> Description["Effect description"]
-    Description --> Runtime["Runtime"]
-    Runtime --> Result["Result action"]
-    Result --> Reducer
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 248" title="Effects, Dependencies, and Cancellation" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Effects, Dependencies, and Cancellation diagram</a></figcaption>
+</figure>
 
 ## Identify Effects and Dependencies
 

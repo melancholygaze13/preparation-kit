@@ -8,9 +8,9 @@ levels:
   - senior
   - staff
 interview_priority: situational
-estimated_read_minutes: 3
+estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # Hosting SwiftUI in UIKit: Theory
@@ -56,11 +56,12 @@ For input that changes only occasionally, UIKit can create a new SwiftUI view va
 and assign it to `rootView`. UIKit must repeat that assignment after every relevant
 input change.
 
-For shared changing state, pass one externally owned `@Observable` model into the
-root view. Mark UI-bound models `@MainActor` unless the project uses main-actor
-default isolation. SwiftUI observes the properties its body reads, while UIKit can
-keep owning the model's lifetime. Closures or a small action interface carry user
-intent back to the UIKit route owner.
+For shared changing state on iOS 17 and later, pass one externally owned
+`@Observable` model into the root view. For older targets, use `ObservableObject`
+or an explicit callback boundary. Mark UI-bound models `@MainActor` unless the
+project uses main-actor default isolation. SwiftUI observes the properties its body
+reads, while UIKit can keep owning the model's lifetime. Closures or a small action
+interface carry user intent back to the UIKit route owner.
 
 Do not mirror the same state into a UIKit property, a SwiftUI `@State`, and a model.
 Choose one source of truth and derive presentation values. Also avoid letting both
@@ -70,7 +71,8 @@ intent; UIKit performs the push, presentation, or dismissal.
 ## Size for the Container
 
 Normal full-screen and constrained child layouts let UIKit propose the hosting
-view's size. When UIKit needs SwiftUI's ideal size, configure `sizingOptions`:
+view's size. On iOS 16 and later, configure `sizingOptions` when UIKit needs
+SwiftUI's ideal size:
 
 - `.preferredContentSize` fits popovers or custom containers that read the
   controller's preferred size;
@@ -80,10 +82,20 @@ The default is no sizing option. Enable only the value that the UIKit container
 actually reads. If both systems repeatedly change size in response to each other,
 the layout can become unstable.
 
-For table and collection view cells, prefer `UIHostingConfiguration`. It implements
-`UIContentConfiguration`, participates in reuse and cell state updates, and bridges
-features such as list swipe actions. Actions must use the item's stable identifier,
-not an index path that can change while the cell remains visible.
+For table and collection view cells on iOS 16 and later, prefer
+`UIHostingConfiguration`. It implements `UIContentConfiguration`, participates in
+reuse and cell state updates, and bridges features such as list swipe actions:
+
+```swift
+cell.contentConfiguration = UIHostingConfiguration {
+    SummaryRow(model: row) {
+        onSelect(row.id)
+    }
+}
+```
+
+Actions must use the item's stable identifier, as this example does. Do not capture
+an index path that can change while the cell remains visible.
 
 ## Production Boundary
 

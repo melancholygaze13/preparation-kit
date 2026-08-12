@@ -10,7 +10,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 tags:
   - ribs
   - lifecycle
@@ -27,20 +27,17 @@ The active RIB tree represents active business scopes. Attaching a child starts 
 scope and gives it dependencies. Detaching the child must end its work, remove its routes,
 and release its scoped objects.
 
-```mermaid
-flowchart TD
-    Root["Application root"] --> Session{"Session state"}
-    Session -- "signed out" --> LoggedOut["Logged-out RIB"]
-    Session -- "signed in" --> LoggedIn["Logged-in RIB"]
-    LoggedIn --> Home["Home RIB"]
-    LoggedIn --> Trip["Active-trip RIB"]
-    Trip --> Safety["Safety RIB without its own screen"]
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram-1.html" style="--schematic-aspect: 960 / 540" title="RIB Trees, Lifecycle, and Scoping" loading="lazy"></iframe>
+  <figcaption><a href="../diagram-1.html">Open the RIB Trees, Lifecycle, and Scoping diagram</a></figcaption>
+</figure>
 
-    subgraph Views["Possible shallow view hierarchy"]
-        Window["Window"] --> MainVC["Main view controller"]
-        MainVC --> Sheet["Trip sheet"]
-    end
-```
+The same feature can have a much shallower view hierarchy:
+
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram-2.html" style="--schematic-aspect: 400 / 524; --schematic-width: 400px" title="RIB Trees, Lifecycle, and Scoping" loading="lazy"></iframe>
+  <figcaption><a href="../diagram-2.html">Open the RIB Trees, Lifecycle, and Scoping diagram</a></figcaption>
+</figure>
 
 The safety scope can be active without adding a view level. This separation is a defining
 difference from screen-first trees.

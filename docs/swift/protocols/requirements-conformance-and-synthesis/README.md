@@ -7,12 +7,13 @@ interview_priority: high
 estimated_read_minutes: 1
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 ---
 
 # Requirements, Conformance, and Synthesis
 
-> A protocol is a behavioral contract; compiling a witness is necessary but behavior rules and ownership expectations determine substitutability.
+> A protocol is a behavior contract.
+> A compiling witness is necessary, but behavior and ownership rules determine whether a conformer can substitute safely.
 
 ## Quick Recall
 

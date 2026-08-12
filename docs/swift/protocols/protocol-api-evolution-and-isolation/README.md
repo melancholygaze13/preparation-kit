@@ -7,12 +7,13 @@ interview_priority: situational
 estimated_read_minutes: 1
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 ---
 
 # Protocol API Evolution and Isolation
 
-> Public protocol requirements, conformances, and isolation annotations are ecosystem contracts whose changes can break every conformer and generic client.
+> Public protocol requirements, conformances, and isolation annotations are ecosystem contracts.
+> A change can break every conformer and generic client.
 
 ## Quick Recall
 

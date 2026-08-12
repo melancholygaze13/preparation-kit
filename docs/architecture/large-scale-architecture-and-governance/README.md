@@ -4,14 +4,14 @@ domain: "Architecture"
 page_type: topic-index
 interview_priority: situational
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 ---
 
 # Large-Scale Architecture and Governance
 
-Large-scale architecture is the operating system around technical boundaries: who decides,
-who owns shared capabilities, and who responds when failures cross teams. This is
-role-specific preparation for Staff and Principal interviews.
+Large-scale architecture defines how decisions, shared capabilities, and cross-team
+failures are owned. This is role-specific preparation for Staff and Principal
+interviews.
 
 ## Learning Path
 
@@ -32,6 +32,6 @@ role-specific preparation for Staff and Principal interviews.
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [Architecture Decisions, Standards, and Exceptions](architecture-decisions-standards-and-exceptions/README.md) | Records decisions while allowing justified local variation. | Situational | 7 min |
-| [Platform Teams, Shared Capabilities, and Ownership](platform-teams-shared-capabilities-and-ownership/README.md) | Defines responsibility for reusable infrastructure and support. | Situational | 7 min |
-| [Observability, Resilience, and Incident Boundaries](observability-resilience-and-incident-boundaries/README.md) | Aligns runtime signals and recovery with component ownership. | Situational | 7 min |
+| [Architecture Decisions, Standards, and Exceptions](architecture-decisions-standards-and-exceptions/README.md) | Records decisions while allowing justified local variation. | Situational | 8 min |
+| [Platform Teams, Shared Capabilities, and Ownership](platform-teams-shared-capabilities-and-ownership/README.md) | Defines responsibility for reusable infrastructure and support. | Situational | 8 min |
+| [Observability, Resilience, and Incident Boundaries](observability-resilience-and-incident-boundaries/README.md) | Aligns runtime signals and recovery with component ownership. | Situational | 8 min |

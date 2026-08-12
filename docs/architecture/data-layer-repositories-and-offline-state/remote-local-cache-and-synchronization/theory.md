@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - caching
   - synchronization
@@ -76,16 +76,10 @@ when those states change product behavior. Do not reduce them all to an optional
 
 ## Build a Local-First Loop
 
-```mermaid
-flowchart LR
-    UI["Feature observes local query"] --> Store["Durable local store"]
-    Sync["Sync coordinator"] --> Remote["Remote change API"]
-    Remote --> Sync
-    Sync --> Store
-    Store --> UI
-    Store --> Outbox["Pending local intents"]
-    Outbox --> Sync
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 272" title="Remote, Local, Cache, and Synchronization — Build a Local-First Loop" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Remote, Local, Cache, and Synchronization — Build a Local-First Loop diagram</a></figcaption>
+</figure>
 
 The UI reads one local source of truth. The sync coordinator performs remote I/O outside
 the store transaction, maps the result, then writes a complete page or batch locally.

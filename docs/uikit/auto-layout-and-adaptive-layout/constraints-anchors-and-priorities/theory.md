@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # Constraints, Anchors, and Priorities: Theory
@@ -32,10 +32,10 @@ can be overwritten the next time layout runs.
 
 A constraint relates one attribute to another value:
 
-```mermaid
-flowchart LR
-    View2["view2.attribute"] -->|Multiply by multiplier| Product["Scaled value"]
-    Product -->|Add constant| View1["view1.attribute"]
+The relationship is easier to read as the equation the solver uses:
+
+```text
+view1.attribute = multiplier × view2.attribute + constant
 ```
 
 Common attributes include leading, trailing, top, bottom, width, height, center,

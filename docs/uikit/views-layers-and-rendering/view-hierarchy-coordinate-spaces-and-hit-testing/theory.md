@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # View Hierarchy, Coordinate Spaces, and Hit Testing: Theory
@@ -22,13 +22,10 @@ conversion, event routing, drawing order, layout propagation, and accessibility
 grouping. A view can only be understood relative to its superview, its own bounds,
 and the window it belongs to.
 
-```mermaid
-flowchart TD
-    Window["UIWindow"] --> Root["Root view"]
-    Root --> Header["Header view"]
-    Root --> Content["Content view"]
-    Content --> Button["Button"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 540" title="View Hierarchy, Coordinate Spaces, and Hit Testing" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the View Hierarchy, Coordinate Spaces, and Hit Testing diagram</a></figcaption>
+</figure>
 
 In this tree, the button's `frame` is described in the content view's coordinate
 space. The button's `bounds` describes its own local coordinate space. A touch

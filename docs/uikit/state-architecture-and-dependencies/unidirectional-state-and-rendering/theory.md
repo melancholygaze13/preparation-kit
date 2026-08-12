@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # Unidirectional State and Rendering: Theory
@@ -20,11 +20,10 @@ last_reviewed: 2026-07-26
 UIKit does not require a unidirectional architecture, but many UIKit screens
 benefit from one simple rule:
 
-```mermaid
-flowchart LR
-    Event["Event"] --> Update["State update"]
-    Update --> Render["Render UI"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 248" title="Unidirectional State and Rendering" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Unidirectional State and Rendering diagram</a></figcaption>
+</figure>
 
 The view controller receives user actions, lifecycle callbacks, delegate events,
 and async results. Those inputs update one owned state value. The controller then

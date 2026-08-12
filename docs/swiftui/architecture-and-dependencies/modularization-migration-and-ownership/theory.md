@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - modularization
   - migration
@@ -63,15 +63,10 @@ Feature implementation can depend on stable domain and capability contracts. The
 composition target depends on feature entry modules and concrete adapters. A feature
 should not import another feature's implementation to navigate or read its state.
 
-```mermaid
-flowchart LR
-    App["App composition"] --> Entry["Feature entry"]
-    Entry --> Implementation["Feature implementation"]
-    App --> Contracts["Capability contracts"]
-    Entry --> Contracts
-    Implementation --> Contracts
-    Adapters["Infrastructure adapters"] --> Contracts
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 600" title="Modularization, Migration, and Ownership — Dependency Direction" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Modularization, Migration, and Ownership — Dependency Direction diagram</a></figcaption>
+</figure>
 
 The exact packaging can vary, but dependencies should point toward stable abstractions
 owned at the boundary. Detect and reject cycles in CI. A cycle usually indicates

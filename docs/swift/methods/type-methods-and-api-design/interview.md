@@ -8,7 +8,7 @@ levels: [senior]
 interview_priority: reference
 estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 ---
 
 # Type Methods and API Design: Interview Questions
@@ -17,8 +17,12 @@ last_reviewed: 2026-07-22
 
 ## Question Index
 
-- [When should you use a type method?](#q1-type-method)
-- [What is the difference between `static` and `class` methods?](#q2-static-class)
+| Question | Level | Focus |
+|---|---|---|
+| [When should you use a type method?](#q1-type-method) | Senior | Type-owned behavior |
+| [What is the difference between `static` and `class` methods?](#q2-static-class) | Senior | Overridability |
+
+---
 
 <a id="q1-type-method"></a>
 ## Q1: When Should You Use a Type Method?

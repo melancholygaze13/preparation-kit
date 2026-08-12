@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: situational
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 ---
 
 # UIViewRepresentable and Coordinators: Theory
@@ -32,22 +32,10 @@ must live with it, such as delegate callbacks or target-action wiring.
 
 ## Lifecycle
 
-```mermaid
-flowchart TD
-    Eval["SwiftUI evaluates representable"] --> Needs{"Need a UIKit view?"}
-    Needs -- "yes" --> MakeCoord["makeCoordinator() if used"]
-    MakeCoord --> MakeView["makeUIView(context:)"]
-    Needs -- "no" --> Reuse["Reuse existing UIView"]
-
-    MakeView --> Update["updateUIView(_:context:)"]
-    Reuse --> Update
-    Update --> Display["UIKit displays current state"]
-
-    Display --> Callback["UIKit callback"]
-    Callback --> Coord["Coordinator translates event"]
-    Coord --> State["Parent SwiftUI state changes"]
-    State -. "next update" .-> Eval
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 592" title="UIViewRepresentable and Coordinators — Lifecycle" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the UIViewRepresentable and Coordinators — Lifecycle diagram</a></figcaption>
+</figure>
 
 `makeUIView` creates and configures stable UIKit structure. Set delegate objects,
 install target-action handlers, and create expensive UIKit collaborators there.

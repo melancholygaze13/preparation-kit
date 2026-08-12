@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - expensive-work
   - caching
@@ -66,12 +66,10 @@ processing still consume an executor. In Swift 6.2, use an explicitly concurrent
 nonisolated boundary for measured CPU work and return a `Sendable` value. Commit the
 small result to the main-actor model.
 
-```mermaid
-flowchart LR
-    Fetch["Fetch bytes"] --> Decode["Decode or transform"]
-    Decode --> Validate["Validate relevance"]
-    Validate --> Commit["Commit UI state"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 632 / 572; --schematic-width: 632px" title="Expensive Work and Caching — Separate I/O, CPU, and UI Commit" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Expensive Work and Caching — Separate I/O, CPU, and UI Commit diagram</a></figcaption>
+</figure>
 
 Do not wrap ordinary networking in `Task.detached`. Detached tasks lose structured
 cancellation and isolation context. Design the dependency boundary to perform the

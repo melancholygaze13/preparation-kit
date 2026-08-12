@@ -9,7 +9,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 ---
 
 # Memory Safety Fundamentals: Theory
@@ -42,7 +42,16 @@ uses copy-in/copy-out behavior, although the compiler may optimize it in place.
 Do not treat it as an escaping pointer or depend on the optimization.
 
 ```swift
-func balance(_ a: inout Int, _ b: inout Int) { /* ... */ }
+func balance(_ a: inout Int, _ b: inout Int) {
+    let total = a + b
+    a = total / 2
+    b = total - a
+}
+
+var first = 6
+var second = 10
+balance(&first, &second)
+print(first, second) // 8 8
 
 var score = 10
 // balance(&score, &score) // Error: overlapping exclusive accesses

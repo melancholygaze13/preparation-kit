@@ -8,9 +8,9 @@ levels:
   - senior
   - staff
 interview_priority: situational
-estimated_read_minutes: 2
+estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 tags:
   - viper
   - presentation
@@ -56,6 +56,13 @@ main-actor presenter. The interactor performs an async use case and returns a do
 outcome. Task lifetime, cancellation, stale-result checks, and error mapping remain
 explicit responsibilities.
 
+### Expanded Answer
+
+The presenter converts domain outcomes into one display state and rejects obsolete
+responses before rendering. The interactor owns operation policy but does not mutate UI
+objects. The module also needs an explicit task owner so dismissal or replacement cancels
+feature work without relying on deallocation.
+
 ### Trade-offs
 
 Storing independent state in both view and presenter creates disagreement. Moving all
@@ -71,3 +78,10 @@ When a large or interaction-heavy feature benefits from strict separation of UI,
 presentation, use cases, and routing, especially on a team with established conventions.
 For a small screen or direct SwiftUI state flow, the object and protocol cost is often
 higher than the benefit.
+
+### Expanded Answer
+
+I look for independently changing presentation policy, domain operations, and navigation,
+plus a team that can support assembly and lifecycle conventions. VIPER fits poorly when
+most roles only forward calls. A state owner, injected dependencies, and coordinator may
+provide the needed boundaries with less indirection.

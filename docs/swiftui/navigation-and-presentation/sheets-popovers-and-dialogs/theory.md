@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - sheets
   - popovers
@@ -184,6 +184,41 @@ one Boolean plus a mutable `selectedID`. Re-resolve the record when the user
 confirms because list content or authorization may have changed while the dialog
 was visible.
 
+With Xcode 27 and the 2027 platform releases, alerts and confirmation dialogs have
+item-binding overloads like sheets. These APIs are beta while the 2027 platform
+releases are in beta. The optional item is both the presentation state and the context
+passed to every closure:
+
+```swift
+struct DeleteRequest: Identifiable {
+    let id: Project.ID
+    let name: String
+}
+
+@State private var deleteRequest: DeleteRequest?
+
+ProjectRow(project: project)
+    .contextMenu {
+        Button("Delete", role: .destructive) {
+            deleteRequest = DeleteRequest(id: project.id, name: project.name)
+        }
+    }
+    .confirmationDialog(
+        "Delete project?",
+        item: $deleteRequest
+    ) { request in
+        Button("Delete \(request.name)", role: .destructive) {
+            deleteProject(request.id)
+        }
+    } message: { request in
+        Text("\(request.name) cannot be recovered.")
+    }
+```
+
+For earlier deployment targets, use the `isPresented:presenting:` overload to pass
+context into the closures, or keep one optional route and derive the Boolean at the
+view boundary. Do not fall back to unrelated mutable selection state.
+
 Attach a confirmation dialog close to its initiating UI. The system can use that
 source relationship for platform-appropriate anchoring and transitions. If the
 dialog applies to a selected row, capture a stable ID and revalidate it before the
@@ -264,4 +299,7 @@ set of presentation routes, analytics conventions, and rules for unsaved work.
 - [`popover(item:attachmentAnchor:arrowEdge:content:)`](https://developer.apple.com/documentation/swiftui/view/popover%28item%3Aattachmentanchor%3Aarrowedge%3Acontent%3A%29)
 - [`presentationCompactAdaptation`](https://developer.apple.com/documentation/swiftui/view/presentationcompactadaptation%28horizontal%3Avertical%3A%29)
 - [`confirmationDialog`](https://developer.apple.com/documentation/swiftui/view/confirmationdialog%28_%3Aispresented%3Atitlevisibility%3Aactions%3A%29)
+- [`confirmationDialog(_:item:titleVisibility:actions:message:)`](https://developer.apple.com/documentation/swiftui/view/confirmationdialog%28_%3Aitem%3Atitlevisibility%3Aactions%3Amessage%3A%29)
+- [`alert(_:item:actions:message:)`](https://developer.apple.com/documentation/swiftui/view/alert%28_%3Aitem%3Aactions%3Amessage%3A%29)
+- [What's new in SwiftUI](https://developer.apple.com/videos/play/wwdc2026/269/)
 - [`dismiss`](https://developer.apple.com/documentation/swiftui/environmentvalues/dismiss)

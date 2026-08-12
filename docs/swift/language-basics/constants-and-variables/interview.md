@@ -9,7 +9,7 @@ levels:
 interview_priority: reference
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 ---
 
 # Constants and Variables: Interview Questions
@@ -51,6 +51,12 @@ binding keyword. Neither keyword provides thread safety.
 
 Yes. Swift allows deferred initialization when every possible path assigns the
 constant exactly once before its first read.
+
+### Expanded Answer
+
+The compiler applies definite-initialization analysis across every branch. A path that
+reads the constant before assignment, never assigns it, or assigns it twice is rejected.
+Once all paths establish one value, the binding remains immutable.
 
 ---
 

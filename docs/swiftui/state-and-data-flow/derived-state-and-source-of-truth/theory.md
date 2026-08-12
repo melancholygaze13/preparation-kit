@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - derived-state
   - source-of-truth
@@ -31,12 +31,10 @@ truth* is the authority that owns those inputs.
 Store facts that can change independently. Compute values that are functions of
 those facts:
 
-```mermaid
-flowchart LR
-    Facts["Source facts"] --> Derive["Derive"]
-    Context["Current context"] --> Derive
-    Derive --> Presentation["Derived presentation"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram-1.html" style="--schematic-aspect: 960 / 600" title="Derived State and Source of Truth" loading="lazy"></iframe>
+  <figcaption><a href="../diagram-1.html">Open the Derived State and Source of Truth diagram</a></figcaption>
+</figure>
 
 If two mutable properties represent the same information, every update needs a
 synchronization rule. Removing the duplicate usually removes an entire class of
@@ -165,11 +163,10 @@ automatic `@State` caching.
 Caching derived data trades CPU work for memory and consistency risk. A cache is
 correct only if every input change invalidates or updates it:
 
-```mermaid
-flowchart LR
-    Inputs["Source, query, sort, permissions, locale, …"] --> Transform["Transform"]
-    Transform --> Cache["Cached result"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram-2.html" style="--schematic-aspect: 960 / 272" title="Derived State and Source of Truth — Cache with an Invalidation Contract" loading="lazy"></iframe>
+  <figcaption><a href="../diagram-2.html">Open the Derived State and Source of Truth — Cache with an Invalidation Contract diagram</a></figcaption>
+</figure>
 
 Missing one input produces stale UI. Prefer computing directly until profiling
 shows the transform matters. Then move the cache to the owner of the inputs, key it
@@ -223,10 +220,9 @@ enum makes the view handle every case, and the compiler reports a missing case.
 
 An editing draft is a valid second value when it represents a different fact:
 
-```mermaid
-flowchart LR
-    Saved["Saved profile"] -. "different fact and lifecycle" .-> Draft["Uncommitted profile draft"]
-```
+| Saved profile | Uncommitted profile draft |
+|---|---|
+| Durable source of truth | Temporary editing state with its own lifecycle |
 
 The draft needs explicit lifecycle rules:
 

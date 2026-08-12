@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - selection
   - editing
@@ -91,6 +91,29 @@ For moves, define whether order is global, within a filter, or within a parent. 
 displayed move may need fractional positions or a server reorder operation rather
 than direct source-array mutation.
 
+The 2027 SwiftUI releases add reordering to lists, stacks, grids, and custom layouts.
+Mark the generated content as reorderable, then define the enclosing container's move
+contract:
+
+```swift
+LazyVStack {
+    ForEach(projects) { project in
+        ProjectRow(project: project)
+    }
+    .reorderable()
+}
+.reorderContainer(for: Project.self) { difference in
+    model.applyReorder(difference)
+}
+```
+
+The identifiers for reordered items must be `Hashable` and `Sendable`.
+`ReorderDifference` describes item IDs and their destination, so the model can
+apply the intent even if synchronization changed array indices during the drag. For
+several sections, use collection identifiers and define whether cross-section moves
+are legal. These APIs are beta while the 2027 systems are in beta; keep existing
+`onMove` or drag-and-drop behavior for earlier deployments.
+
 ### Optimistic Mutation
 
 Optimistic delete or reorder improves responsiveness when failure is rare and
@@ -152,6 +175,29 @@ Custom rows need clear selection and editing labels, adequate targets, and corre
 focus. Do not hide critical operations behind gestures alone. Test keyboard and
 VoiceOver behavior on platforms the feature supports.
 
+On the 2027 platforms, `swipeActionsContainer()` coordinates swipe actions for
+rows in a custom `ScrollView`, stack, grid, or layout. It keeps one row open and
+dismisses actions on scrolling or outside taps. `List` already does this:
+
+```swift
+ScrollView {
+    LazyVStack {
+        ForEach(projects) { project in
+            ProjectRow(project: project)
+                .swipeActions {
+                    Button("Delete", role: .destructive) {
+                        model.delete(project.id)
+                    }
+                }
+        }
+    }
+}
+.swipeActionsContainer()
+```
+
+Swipe remains only one input path. Keep a menu, button, keyboard command, or named
+accessibility action for essential operations.
+
 ### Performance
 
 Large selection sets and trees should use hashable stable IDs. Update only affected
@@ -186,5 +232,8 @@ feedback for long operations. Profile expansion and collapse with realistic dept
 
 - [`List`](https://developer.apple.com/documentation/swiftui/list)
 - [`OutlineGroup`](https://developer.apple.com/documentation/swiftui/outlinegroup)
+- [Reordering items in lists, stacks, grids, and custom layouts](https://developer.apple.com/documentation/swiftui/reordering-items-in-lists-stacks-grids-and-custom-layouts)
+- [`swipeActionsContainer`](https://developer.apple.com/documentation/swiftui/view/swipeactionscontainer%28%29)
+- [SwiftUI updates](https://developer.apple.com/documentation/updates/swiftui)
 - [Displaying data in lists](https://developer.apple.com/documentation/swiftui/displaying-data-in-lists)
 - [Bringing robust navigation structure to your SwiftUI app](https://developer.apple.com/videos/play/wwdc2022/10054/)

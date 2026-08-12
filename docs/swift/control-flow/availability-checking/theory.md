@@ -11,7 +11,7 @@ levels:
   - staff
   - principal
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 tags:
   - availability
   - deployment-target
@@ -24,13 +24,13 @@ tags:
 
 ## Mental Model
 
-Availability is a contract spanning three layers:
+Availability is a contract spanning SDK metadata, compile-time proof, and the
+runtime OS:
 
-```mermaid
-flowchart LR
-    Metadata["SDK declaration metadata"] --> Proof["Compiler proof"]
-    Proof --> Branch["Runtime OS branch"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 248" title="Availability Checking" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Availability Checking diagram</a></figcaption>
+</figure>
 
 The compiler rejects an unguarded reference whose required OS exceeds the
 deployment target. An availability condition creates a branch where the compiler

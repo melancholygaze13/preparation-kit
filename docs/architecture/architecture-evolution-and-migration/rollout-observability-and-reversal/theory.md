@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 tags:
   - rollout
   - observability
@@ -31,24 +31,10 @@ Treat these as separate controls when the change has meaningful risk. Define evi
 before rollout, increase exposure in stages, and preserve a tested fallback until data
 and external effects make reversal safe or no longer useful.
 
-```mermaid
-sequenceDiagram
-    participant Team as Owner
-    participant Control as Cohort
-    participant App
-    participant Signals
-
-    Team->>Control: Enable small eligible cohort
-    Control->>App: Select new path
-    App->>Signals: Emit path, outcome, and health
-    Signals-->>Team: Compare with baseline and guardrails
-    alt Healthy and representative
-        Team->>Control: Increase exposure
-    else Guardrail breached
-        Team->>Control: Disable new path
-        Team->>App: Reconcile data or effects
-    end
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 600" title="Rollout, Observability, and Reversal" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Rollout, Observability, and Reversal diagram</a></figcaption>
+</figure>
 
 The control plane is only one part of reversal. A flag cannot restore data that the new
 path changed incompatibly.

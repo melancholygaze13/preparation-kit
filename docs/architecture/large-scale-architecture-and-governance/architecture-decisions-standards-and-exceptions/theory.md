@@ -10,7 +10,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 tags:
   - architecture-decisions
   - standards
@@ -27,17 +27,10 @@ Governance assigns decision rights and preserves reasoning. Local, reversible ch
 with the team. Cross-team, expensive, or hard-to-reverse choices need broader review and
 a durable record. Repeated high-cost choices may become standards with automated checks.
 
-```mermaid
-flowchart TD
-    Decision["Proposed decision"] --> Scope{"Impact and reversibility"}
-    Scope -- "local and reversible" --> Team["Team decides and documents locally"]
-    Scope -- "cross-team or hard to reverse" --> ADR["Decision record and affected-owner review"]
-    ADR --> Repeat{"Repeated risk across teams?"}
-    Repeat -- "no" --> Implement["Implement and observe consequences"]
-    Repeat -- "yes" --> Standard["Narrow standard plus automated guardrail"]
-    Standard --> Exception["Owned, risk-controlled, expiring exception"]
-    Exception --> Review["Review: converge, extend standard, or renew explicitly"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 592" title="Architecture Decisions, Standards, and Exceptions" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Architecture Decisions, Standards, and Exceptions diagram</a></figcaption>
+</figure>
 
 This model avoids two failures: a central committee approving every detail, and local
 choices creating system-wide incompatibility without coordination.

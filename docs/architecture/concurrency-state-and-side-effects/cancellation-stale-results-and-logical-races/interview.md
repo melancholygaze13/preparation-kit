@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - cancellation
   - logical-races
@@ -59,6 +59,13 @@ or generation. Before committing, I check cancellation and confirm that identity
 matches current feature state. Cancellation saves work; the identity check provides
 correctness.
 
+### Expanded Answer
+
+Dependencies may ignore cancellation or return just as replacement begins, so a task
+handle alone is insufficient. The state owner records the current request identity and
+checks it at the commit point on its isolation domain. Domain versions provide the same
+protection when several writers can update one record.
+
 ### Example
 
 If search B replaces search A, A may still return because its dependency ignored
@@ -74,6 +81,13 @@ Actor isolation prevents simultaneous access to actor state, not incorrect compl
 order. An actor method can suspend and allow another operation to run. The feature still
 needs a rule such as latest request wins, deduplicate by key, or commit only to an exact
 domain version.
+
+### Expanded Answer
+
+Every `await` is a reentrancy point. State read before suspension can be stale when the
+method resumes, even though each individual access was serialized. Revalidate the
+assumption, compare request or record identity, or store one in-flight operation that
+other callers await.
 
 ### Trade-offs
 

@@ -8,7 +8,7 @@ interview_priority: high
 estimated_read_minutes: 3
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 ---
 
 # Associated Types and Type Relationships: Interview Questions
@@ -90,6 +90,13 @@ A generic parameter preserves one complete concrete type and all relationships e
 through it. A constrained existential preserves only the protocol capabilities and named
 associated-type facts in its constraint. Use the generic form when later operations need
 the concrete relationship; erase at a real runtime storage or module boundary.
+
+### Expanded Answer
+
+Generic code can carry the same concrete type through several operations and let the
+compiler prove those relationships. An existential stores a runtime value behind a
+protocol interface. A primary-associated-type constraint can preserve selected facts,
+but other concrete-type information is intentionally hidden.
 
 ### Example
 

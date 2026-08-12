@@ -8,9 +8,9 @@ levels:
   - senior
   - staff
 interview_priority: situational
-estimated_read_minutes: 2
+estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 tags:
   - ribs
   - lifecycle
@@ -55,6 +55,13 @@ The parent removes routing ownership, the child stops subscriptions and tasks, s
 dependencies become releasable, and any view is removed. I test teardown explicitly
 because retained work can keep an inactive subtree alive.
 
+### Expanded Answer
+
+Detach is an idempotent lifecycle transition, not only a visual pop. The router releases
+the child, the interactor deactivates, and callbacks can no longer commit into the former
+scope. External operations that outlive the RIB move to a longer-lived owner before the
+subtree is released.
+
 ### Trade-offs
 
 Cancellation is cooperative, so a late result still needs to verify that its scope is
@@ -69,6 +76,13 @@ only cancellation.
 Through their nearest common owner. A child reports a typed outcome to its parent, which
 updates owned state or routes another child. Shared domain state belongs in an explicit
 parent capability, not direct sibling references or a global event bus.
+
+### Expanded Answer
+
+The parent knows both scopes and can decide whether the receiving child is active. A
+narrow result keeps child APIs independent and makes ordering visible. Long-lived shared
+state belongs in a component or service with the correct lifetime, while the parent
+coordinates the immediate flow decision.
 
 ### Example
 

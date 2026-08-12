@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: situational
-estimated_read_minutes: 2
+estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 tags:
   - architecture-decisions
   - standards
@@ -57,6 +57,12 @@ compatibility, reliability, or delivery cost. The standard defines the required 
 safe default, support, migration, enforcement, and exception path without prescribing
 irrelevant internals.
 
+### Expanded Answer
+
+I start from evidence across several teams, not one preferred implementation. The paved
+path must be usable before enforcement grows. A standard also needs an owner, versioning,
+and review date so it can change when platform capability or product risk changes.
+
 ### Trade-offs
 
 Standardization reduces repeated decisions and risk but can create a central bottleneck.
@@ -71,6 +77,13 @@ review.
 I require a concrete reason, owner, limited scope, risk control, expiry, and convergence
 or review plan. Repeated similar exceptions are feedback that the standard or paved path
 may be missing a valid capability.
+
+### Expanded Answer
+
+The exception is recorded beside the rule and is visible to affected owners. Automated
+checks can recognize its exact scope and expiry instead of disabling enforcement broadly.
+At review, the team either removes it, renews it with current evidence, or changes the
+standard to support a legitimate recurring need.
 
 ### Example
 

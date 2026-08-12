@@ -7,12 +7,13 @@ interview_priority: situational
 estimated_read_minutes: 1
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-08-12
 ---
 
 # Abstraction Boundary Design and Evolution
 
-> Choose generic, opaque, existential, or manual erasure based on who selects the type, which relationships escape, and whether substitution is static or runtime.
+> Choose a generic, opaque type, existential, or manual type erasure by asking who selects the concrete type.
+> Also ask which type relationships must escape and whether substitution is static or runtime.
 
 ## Quick Recall
 

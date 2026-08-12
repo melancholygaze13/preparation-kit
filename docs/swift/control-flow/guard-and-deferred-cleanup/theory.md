@@ -10,7 +10,7 @@ levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 tags:
   - guard
   - defer
@@ -26,14 +26,10 @@ tags:
 `guard` checks what must be true for the rest of a code block. `defer` ties an
 already-acquired resource or started operation to the surrounding code block that owns it:
 
-```mermaid
-flowchart LR
-    Validate["Validate"] --> Acquire["Acquire"]
-    Acquire --> Register["Register cleanup"]
-    Register --> Work["Work"]
-    Work --> Exit["Any normal exit"]
-    Exit --> Cleanup["Cleanup"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 400 / 568; --schematic-width: 400px" title="Guard and Deferred Cleanup" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Guard and Deferred Cleanup diagram</a></figcaption>
+</figure>
 
 Neither keyword replaces a clear domain model. `guard` keeps failure paths near
 their checks. `defer` keeps synchronous cleanup near resource acquisition.

@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - environment
   - dependency-injection
@@ -30,11 +30,10 @@ instead of letting a leaf view create the live implementation. A *composition
 root* is the boundary where the application chooses and connects those
 implementations.
 
-```mermaid
-flowchart TD
-    Root["Composition root sets value"] --> Subtree["Subtree inherits it"]
-    Subtree --> Branch["Nearer override changes one branch"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 248" title="Environment and Dependency Injection" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Environment and Dependency Injection diagram</a></figcaption>
+</figure>
 
 It solves repeated propagation of ambient context. It does not remove the need to
 define ownership, lifetime, actor isolation, or a clear feature API.

@@ -4,7 +4,7 @@ domain: "Swift"
 page_type: topic-index
 interview_priority: high
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 ---
 
 # Properties

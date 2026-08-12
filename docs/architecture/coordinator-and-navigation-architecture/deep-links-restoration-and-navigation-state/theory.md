@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 8
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - deep-links
   - restoration
@@ -27,14 +27,10 @@ tags:
 A deep link is a request to reach a product destination, not an instruction to push a
 specific screen. Route handling is a pipeline:
 
-```mermaid
-flowchart TD
-    Input["URL, activity, or notification"] --> Parse["Parse typed route"]
-    Parse --> Validate["Validate and authorize"]
-    Validate --> Resolve["Resolve prerequisites"]
-    Resolve --> Delegate["Delegate to owning flow"]
-    Delegate --> Build["Build navigation state"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 512 / 568; --schematic-width: 512px" title="Deep Links, Restoration, and Navigation State" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Deep Links, Restoration, and Navigation State diagram</a></figcaption>
+</figure>
 
 Restoration runs through the same route model but starts from previously persisted,
 versioned state. Both inputs may be stale or invalid.

@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - task-lifetime
   - structured-concurrency
@@ -58,6 +58,13 @@ At a synchronous-to-async boundary, such as a button action or delegate callback
 work intentionally owned beyond the current async scope. I keep the task handle, handle
 errors inside it, and cancel it when its owner ends or replaces it.
 
+### Expanded Answer
+
+The task needs an explicit owner because it is not structurally awaited by the creating
+call. That owner defines replacement, cancellation, error reporting, and whether a late
+result may commit. If an async caller can await the work directly, structured concurrency
+usually communicates the lifetime more clearly.
+
 ### Trade-offs
 
 `Task {}` inherits actor context, priority, and task-local values, but it is not a child
@@ -72,6 +79,13 @@ of the creating task. Cancellation does not automatically flow from that caller.
 Only if its business owner outlives the screen. I cancel searches and previews. I may
 continue a checkout flow under a feature owner. An accepted offline mutation should be
 persisted and reconciled even if the initiating screen disappears.
+
+### Expanded Answer
+
+Navigation lifetime and business-operation lifetime are separate decisions. Move durable
+intent to a session, repository, or operation service before releasing the screen graph.
+The screen can stop observing while the longer-lived owner continues and exposes status
+to a later presentation.
 
 ### Example
 

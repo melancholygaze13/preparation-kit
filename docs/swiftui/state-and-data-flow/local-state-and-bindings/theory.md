@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 9
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - state
   - binding
@@ -31,10 +31,10 @@ another view read-write access to that source without copying or owning it.
 State therefore answers “who owns this mutable value and for how long?” A binding
 answers “who may read and write that existing value?”
 
-```mermaid
-flowchart LR
-    Owner["Owner: @State value"] -->|Binding&lt;Value&gt;| Child["Child control"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 248" title="Local State and Bindings" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Local State and Bindings diagram</a></figcaption>
+</figure>
 
 There is one storage location. The binding is a capability to access it, not a
 copy and not a second owner.

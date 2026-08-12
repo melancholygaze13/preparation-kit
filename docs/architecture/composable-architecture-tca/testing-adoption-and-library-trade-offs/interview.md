@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - tca
   - test-store
@@ -55,6 +55,13 @@ policy; integration and UI tests still cover adapters and framework presentation
 When complex state, effects, navigation, or multi-team composition make a consistent
 transition model and deterministic testing worth the library cost. I would not require
 it for every small screen with local state and little behavior.
+
+### Expanded Answer
+
+I evaluate the feature graph, effect ordering, navigation complexity, and need for one
+shared testing model. I also price training, compiler work, dependency upgrades, and the
+cost of coupling many modules to a third-party runtime. A pilot should demonstrate a
+better engineering outcome before organization-wide adoption.
 
 ### Trade-offs
 

@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: situational
-estimated_read_minutes: 4
+estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 tags:
   - plugin-architecture
   - extension-points
@@ -37,26 +37,10 @@ Name the model before discussing isolation, discovery, updates, or failure conta
 
 ## Contract Shape
 
-```mermaid
-flowchart LR
-    subgraph Host["Host owns"]
-        Contract["Contract and stable models"]
-        Policy["Lifecycle, ordering, failure policy"]
-        Compose["Discovery and composition"]
-    end
-
-    subgraph Contributor["Plugin owns"]
-        Impl["Implementation"]
-        Local["Local dependencies and tests"]
-    end
-
-    Compose --> Impl
-    Contract --> Impl
-    Policy --> Impl
-    Local --> Impl
-    Impl --> Result["Validated contribution"]
-    Result --> Policy
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 600" title="Extension Points and Plugin Contracts — Contract Shape" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Extension Points and Plugin Contracts — Contract Shape diagram</a></figcaption>
+</figure>
 
 ## Define the Contract
 
@@ -77,6 +61,38 @@ database, or mutable application state turns the boundary into privileged host a
 
 The host should validate contributions before applying them. It also owns security and
 privacy policy because a plugin cannot grant itself broader access.
+
+A narrow contract can pass an immutable context and return a value that the host checks:
+
+```swift
+struct HomeContext: Sendable {
+    let visibleItemIDs: [String]
+}
+
+struct HomeContribution: Sendable {
+    let pluginID: String
+    let itemIDs: [String]
+}
+
+protocol HomePlugin: Sendable {
+    var id: String { get }
+    func contribution(for context: HomeContext) async throws -> HomeContribution
+}
+
+struct RecentItemsPlugin: HomePlugin {
+    let id = "recent-items"
+
+    func contribution(for context: HomeContext) async throws -> HomeContribution {
+        HomeContribution(
+            pluginID: id,
+            itemIDs: Array(context.visibleItemIDs.prefix(3))
+        )
+    }
+}
+```
+
+The plugin receives no router, database, or global container. The host can verify the
+plugin identifier and returned item identifiers before rendering the contribution.
 
 ## Engineering Decisions
 

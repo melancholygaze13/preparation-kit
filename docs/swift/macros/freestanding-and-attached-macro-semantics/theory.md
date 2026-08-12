@@ -8,7 +8,7 @@ interview_priority: situational
 estimated_read_minutes: 2
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-08-12
 tags: [macros, freestanding-macros, attached-macros, expansion]
 ---
 
@@ -24,12 +24,33 @@ Correctness depends on both the visible invocation and the expanded code.
 ## How It Works
 
 ```swift
+@freestanding(expression)
+macro stringify<T>(_ value: T) -> (value: T, source: String) =
+    #externalMacro(module: "StringifyMacroPlugin", type: "StringifyMacro")
+
 @attached(member, names: named(init))
 macro MemberwiseInit() = #externalMacro(
     module: "ModelMacros",
     type: "MemberwiseInitMacro"
 )
+
+let result = #stringify(20 + 22)
+print(result.value)  // 42
+print(result.source) // 20 + 22
+
+@MemberwiseInit
+struct Account {
+    let id: String
+    let name: String
+}
+
+let account = Account(id: "42", name: "Mina")
+print(account.name) // Mina
 ```
+
+The freestanding macro replaces its `#stringify` expression with an expression.
+The attached macro is written as an attribute on `Account`. It adds the declared
+`init` member, which the example then calls.
 
 Freestanding expression macros behave as expressions; declaration macros introduce
 declarations. Attached roles constrain where and what a macro can add. Generated names

@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - navigation-testing
   - state-testing
@@ -41,6 +41,13 @@ I test route decisions as data or commands. State-driven navigation tests assert
 path or presented destination. An imperative coordinator test records commands at an
 owned router boundary. I keep focused integration and UI tests for framework translation,
 deep-link entry, back behavior, and critical journeys.
+
+### Expanded Answer
+
+Navigation policy should be testable without constructing an entire window hierarchy.
+The unit-level assertion covers which destination follows an event and what state it
+receives. A smaller number of framework tests then proves that the route is translated
+into the correct push, sheet, split-column, or SwiftUI destination.
 
 ### Trade-offs
 

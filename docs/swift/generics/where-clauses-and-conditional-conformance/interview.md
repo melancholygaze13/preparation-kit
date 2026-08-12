@@ -8,7 +8,7 @@ interview_priority: high
 estimated_read_minutes: 3
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 ---
 
 # Where Clauses and Conditional Conformance: Interview Questions
@@ -90,6 +90,13 @@ It is valid when all stored state is safe to transfer whenever the generic argum
 the stated sendability constraints. The condition must account for hidden references and
 mutation, not only the visible element type. Do not use unchecked conformance to bypass
 an ownership design the compiler cannot prove.
+
+### Expanded Answer
+
+The conformance condition must describe every value that can cross an isolation boundary.
+An immutable wrapper can often inherit sendability from its stored generic value. A
+wrapper with shared unsynchronized storage needs a different ownership design even when
+its element type is `Sendable`.
 
 ### Example
 

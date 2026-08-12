@@ -4,7 +4,7 @@ domain: "Swift"
 page_type: topic-index
 interview_priority: reference
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-08-12
 ---
 
 # Advanced Operators
@@ -38,7 +38,7 @@ Basic Operators and Numeric Types.
 | [Bitwise and Overflow Arithmetic](bitwise-and-overflow-arithmetic/README.md) | Manipulate fixed-width bit patterns and choose trapping, wrapping, or reporting overflow deliberately. | Reference | 5 min |
 | [Operator Overloading and Compound Assignment](operator-overloading-and-compound-assignment/README.md) | Implement familiar algebraic operations while preserving laws, mutation, and failure semantics. | Reference | 5 min |
 | [Custom Operators and Precedence Groups](custom-operators-and-precedence-groups/README.md) | Define custom syntax only with explicit fixity, precedence, associativity, and unambiguous parsing. | Reference | 5 min |
-| [Operator API Design and Evolution](operator-api-design-and-evolution/README.md) | Govern discoverability, collisions, complexity, compatibility, and organization-wide operator vocabulary. | Reference | 5 min |
+| [Operator API Design and Evolution](operator-api-design-and-evolution/README.md) | Govern discoverability, collisions, complexity, compatibility, and organization-wide operator vocabulary. | Reference | 6 min |
 
 ## Source Section
 

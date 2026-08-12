@@ -8,7 +8,7 @@ levels: [senior]
 interview_priority: reference
 estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 ---
 
 # Overloading, Type Subscripts, and API Evolution: Interview Questions
@@ -17,8 +17,12 @@ last_reviewed: 2026-07-22
 
 ## Question Index
 
-- [When is subscript overloading appropriate?](#q1-overloading)
-- [When should you use a type subscript?](#q2-type-subscript)
+| Question | Level | Focus |
+|---|---|---|
+| [When is subscript overloading appropriate?](#q1-overloading) | Senior | Distinct index domains |
+| [When should you use a type subscript?](#q2-type-subscript) | Senior | Type-owned lookup |
+
+---
 
 <a id="q1-overloading"></a>
 ## Q1: When Is Subscript Overloading Appropriate?

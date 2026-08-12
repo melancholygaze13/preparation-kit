@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 tags:
   - dependency-injection
   - composition-root
@@ -30,15 +30,10 @@ The rest of the app receives already constructed collaborators.
 
 An iOS app can have a small root hierarchy:
 
-```mermaid
-flowchart TD
-    App["App root"] --> Process["Process services: HTTP, database, telemetry"]
-    App --> Session["Session scope: account, repositories, permissions"]
-    App --> Scene["Scene root"]
-    Scene --> Navigation["Navigation owner"]
-    Scene --> Features["Feature roots"]
-    Features --> Objects["View models, use cases, child flows"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 600" title="Composition Roots and Object Graphs" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Composition Roots and Object Graphs diagram</a></figcaption>
+</figure>
 
 There may be one top-level root plus delegated feature composition roots. Delegation
 keeps the app root from importing every internal feature type.

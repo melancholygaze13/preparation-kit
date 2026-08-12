@@ -4,7 +4,7 @@ domain: "Architecture"
 page_type: topic-index
 interview_priority: core
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 ---
 
 # Architectural Foundations and Trade-offs

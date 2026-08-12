@@ -5,10 +5,10 @@ topic: "Protocols"
 concept: "Protocol API Evolution and Isolation"
 page_type: theory
 interview_priority: situational
-estimated_read_minutes: 2
+estimated_read_minutes: 3
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 ---
 
 # Protocol API Evolution and Isolation: Theory
@@ -28,10 +28,37 @@ receive the default until rebuilt/changed and behavior may differ from an intend
 implementation. Use a new refinement protocol when the capability is optional or adoption
 must be staged independently.
 
+```swift
+protocol Storage {
+    func load(key: String) async throws -> String?
+}
+
+protocol WritableStorage: Storage {
+    func save(_ value: String, key: String) async throws
+}
+```
+
+Existing `Storage` conformers keep their original contract. A conformer adopts
+`WritableStorage` only when it can support the new capability correctly.
+
 Actor isolation is part of the function contract. A main-actor type cannot truthfully
 satisfy a nonisolated synchronous requirement using isolated state. Options include making
 the protocol actor-aware, providing a truthful nonisolated witness, redesigning the API,
 or using a global-actor-isolated conformance where supported and appropriate.
+
+```swift
+@MainActor
+protocol ScreenRendering {
+    func render()
+}
+
+@MainActor
+final class ProfileScreen: ScreenRendering {
+    func render() {
+        print("Render profile on the main actor")
+    }
+}
+```
 
 ### Rules That Must Stay True
 

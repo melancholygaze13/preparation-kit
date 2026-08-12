@@ -10,7 +10,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 tags:
   - viper
   - presentation
@@ -30,17 +30,10 @@ router performs navigation, and entities carry domain data.
 The pattern is useful only when dependency direction keeps those roles real. Five files
 that call each other freely are not meaningful separation.
 
-```mermaid
-flowchart LR
-    User["User"] --> View["View"]
-    View -- "events" --> Presenter["Presenter"]
-    Presenter -- "use-case request" --> Interactor["Interactor"]
-    Interactor -- "domain result" --> Presenter
-    Presenter -- "display model" --> View
-    Presenter -- "route intent" --> Router["Router"]
-    Interactor --> Services["Repositories and services"]
-    Interactor --> Entities["Domain entities"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 600" title="View, Interactor, Presenter, Entity, and Router" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the View, Interactor, Presenter, Entity, and Router diagram</a></figcaption>
+</figure>
 
 The arrows describe common roles, not one mandatory protocol shape. Some implementations
 send interactor results through an output protocol; modern Swift can also use async return

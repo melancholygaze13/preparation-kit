@@ -7,12 +7,13 @@ interview_priority: high
 estimated_read_minutes: 1
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 ---
 
 # Existentials, Composition, and Delegation
 
-> Generics preserve one concrete type; an `any Protocol` existential stores a runtime value behind the protocol interface and introduces an abstraction boundary.
+> A generic parameter preserves one concrete type per call.
+> An `any Protocol` existential stores a runtime value behind the protocol interface.
 
 ## Quick Recall
 

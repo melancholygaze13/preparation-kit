@@ -8,7 +8,7 @@ interview_priority: core
 estimated_read_minutes: 5
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 ---
 
 # Async Functions, Suspension, and Executors: Theory
@@ -32,11 +32,35 @@ produces a result. A call can complete synchronously, so `await` is a permission
 suspend rather than a scheduling guarantee.
 
 ```swift
+struct Account: Sendable {
+    let id: Int
+}
+
+struct Activity: Sendable {
+    let message: String
+}
+
+struct Dashboard: Sendable {
+    let account: Account
+    let activity: Activity
+}
+
+func loadAccount() async throws -> Account {
+    Account(id: 42)
+}
+
+func loadActivity(for accountID: Int) async throws -> Activity {
+    Activity(message: "Activity for account \(accountID)")
+}
+
 func loadDashboard() async throws -> Dashboard {
     let account = try await loadAccount()
     let activity = try await loadActivity(for: account.id)
     return Dashboard(account: account, activity: activity)
 }
+
+let dashboard = try await loadDashboard()
+print(dashboard.activity.message)
 ```
 
 The second call depends on the first and is correctly sequential. Independent work

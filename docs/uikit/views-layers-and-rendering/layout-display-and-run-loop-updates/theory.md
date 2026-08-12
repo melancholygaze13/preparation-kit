@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 8
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # Layout, Display, and Run Loop Updates: Theory
@@ -23,14 +23,10 @@ Animation transaction commits. This keeps repeated changes efficient, but it
 means frame and drawing results may not be current until layout and display have
 run.
 
-```mermaid
-flowchart TD
-    Change["State change"] --> Invalidate["Invalidate layout or display"]
-    Invalidate --> Batch["UIKit batches work"]
-    Batch --> Layout["Layout pass computes geometry"]
-    Layout --> Display["Display pass redraws needed content"]
-    Display --> Commit["Core Animation commits layer changes"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 456 / 568; --schematic-width: 456px" title="Layout, Display, and Run Loop Updates" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Layout, Display, and Run Loop Updates diagram</a></figcaption>
+</figure>
 
 An interview answer should separate layout from display. Layout answers "where
 are things?" Display answers "what pixels or layer contents should be drawn?"

@@ -6,9 +6,9 @@ concept: "Hosting SwiftUI in UIKit"
 page_type: theory
 levels: [senior, staff, principal]
 interview_priority: situational
-estimated_read_minutes: 4
+estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 ---
 
 # Hosting SwiftUI in UIKit: Theory
@@ -45,18 +45,10 @@ configuration API when its lifecycle and deployment requirement fit.
 UIKit containment: add it as a child, add its view, constrain the view, then call
 `didMove(toParent:)`. Remove it with the matching removal calls.
 
-```mermaid
-flowchart TD
-    A["UIKit flow owns navigation"] --> B["Create SwiftUI root view"]
-    B --> C["Create UIHostingController"]
-    C --> D{"Boundary type"}
-    D -- "Screen" --> E["Push or present hosting controller"]
-    D -- "Child" --> F["Add child and constrain hosted view"]
-    E --> G["SwiftUI renders hosted feature"]
-    F --> G
-    G --> H["SwiftUI sends user intents"]
-    H --> I["UIKit coordinator or owner handles flow decisions"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 580" title="Hosting SwiftUI in UIKit — Hosting Shapes" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Hosting SwiftUI in UIKit — Hosting Shapes diagram</a></figcaption>
+</figure>
 
 ## State and Actions
 
@@ -102,6 +94,31 @@ final class ProfileViewController: UIViewController {
 This example keeps navigation in UIKit. The SwiftUI view exposes an edit intent
 without knowing how the surrounding UIKit stack presents the editor.
 
+### Hosting a Complete Scene
+
+On iOS 27 and related 2027 releases, `UIHostingSceneDelegate` lets a UIKit app
+use a SwiftUI `Scene` at the scene boundary. It is a protocol that extends
+`UISceneDelegate`. This is different from placing one view inside a
+`UIHostingController`: the system hosts the whole SwiftUI scene and its scene-level
+environment. This API is beta while the 2027 platform releases are in beta:
+
+```swift
+final class AccountSceneDelegate: UIHostingSceneDelegate {
+    static var rootScene: some Scene {
+        WindowGroup(id: "account") {
+            AccountRoot()
+        }
+    }
+}
+```
+
+Use this when a scene can move as a coherent boundary while the app keeps its UIKit
+application lifecycle. Set this class as the `delegateClass` of a
+`UISceneConfiguration`, or activate one of its scene IDs with a
+`UISceneSessionActivationRequest`. Keep an earlier-deployment path when the app still
+supports older systems. Do not use it to create a second navigation owner inside one
+existing UIKit window.
+
 ## Layout and Lifecycle
 
 Hosted SwiftUI content participates in UIKit layout through the hosting
@@ -146,3 +163,5 @@ ownership, testing, rollout, and removal criteria.
 
 - [UIHostingController](https://developer.apple.com/documentation/swiftui/uihostingcontroller)
 - [UIHostingConfiguration](https://developer.apple.com/documentation/swiftui/uihostingconfiguration)
+- [UIHostingSceneDelegate](https://developer.apple.com/documentation/swiftui/uihostingscenedelegate)
+- [SwiftUI updates](https://developer.apple.com/documentation/updates/swiftui)

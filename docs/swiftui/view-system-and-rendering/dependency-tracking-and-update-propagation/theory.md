@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 8
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - observation
   - invalidation
@@ -37,15 +37,10 @@ mutation does not imply an immediate full-screen redraw.
 
 ### Where Dependencies Come From
 
-```mermaid
-flowchart TD
-    A["Body reads input, environment, or observable property"] --> B["SwiftUI records dependency"]
-    B --> C["Dependency mutates"]
-    C --> D["Affected graph work is invalidated"]
-    D --> E["Dynamic properties refresh"]
-    E --> F["Affected body values may run"]
-    F --> G["Children reconcile, layout, and draw as needed"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 584" title="Dependency Tracking and Update Propagation — Where Dependencies Come From" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Dependency Tracking and Update Propagation — Where Dependencies Come From diagram</a></figcaption>
+</figure>
 
 A child view depends on the value its parent produces for it:
 

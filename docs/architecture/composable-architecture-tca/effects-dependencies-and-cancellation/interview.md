@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - tca
   - effects
@@ -55,6 +55,13 @@ starting untracked tasks inside the reducer.
 Reducers declare registered capabilities with `@Dependency`. Production receives live
 values, while tests and previews can override them. I inject clocks, IDs, and randomness
 as well as service clients so the complete decision remains deterministic.
+
+### Expanded Answer
+
+A dependency value should expose a narrow operation in domain terms and provide live,
+test, and preview behavior. Reducers read it at the point where an effect is formed.
+Stable registration and ownership matter because the dependency system is ambient to
+the reducer rather than visible in its initializer.
 
 ### Trade-offs
 

@@ -8,7 +8,7 @@ interview_priority: core
 estimated_read_minutes: 4
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-08-12
 ---
 
 # ARC Ownership and Object Lifetime: Theory
@@ -20,8 +20,9 @@ last_reviewed: 2026-06-22
 Think of ownership as a graph. Each node is an object. A strong reference is an
 arrow that keeps the referenced object alive. Roots include local variables in
 active scopes, global and static state, framework storage, tasks, closures, and
-collections. Swift can deallocate an object when no chain of strong references
-connects it to a live root.
+collections. A class instance can be deallocated only after no strong references
+to it remain. Tracing from roots helps find owners, but ARC does not collect an
+unrooted cycle whose objects still strongly reference one another.
 
 ## How It Works
 

@@ -8,7 +8,7 @@ interview_priority: high
 estimated_read_minutes: 3
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 ---
 
 # Lifecycle Architecture and Leak Diagnosis: Interview Questions
@@ -30,8 +30,8 @@ last_reviewed: 2026-07-12
 
 ### Short Answer
 
-Define when the object should become unnecessary. Reproduce that final lifecycle event and verify it remains
-alive, and trace strong paths from roots. Correlate those paths with active tasks, registrations,
+Define when the object should become unnecessary. Reproduce that final lifecycle event. If it remains
+alive, trace strong paths from roots. Correlate those paths with active tasks, registrations,
 caches, and operations. Memory growth or a cycle snapshot alone does not establish invalid retention.
 
 ### Expanded Answer

@@ -4,7 +4,7 @@ domain: "UIKit"
 page_type: topic-index
 interview_priority: situational
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # SwiftUI Interoperability and Migration
@@ -33,6 +33,6 @@ every bridge API.
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [Hosting SwiftUI in UIKit](hosting-swiftui-in-uikit/README.md) | Embeds declarative features in existing controller hierarchies. | Situational | 7 min |
+| [Hosting SwiftUI in UIKit](hosting-swiftui-in-uikit/README.md) | Embeds declarative features in existing controller hierarchies. | Situational | 8 min |
 | [Embedding UIKit in SwiftUI](embedding-uikit-in-swiftui/README.md) | Wraps UIKit views and controllers with correct lifecycle coordination. | Situational | 7 min |
-| [Incremental Migration and Ownership Boundaries](incremental-migration-and-ownership-boundaries/README.md) | Avoids duplicated state and navigation during staged adoption. | Situational | 7 min |
+| [Incremental Migration and Ownership Boundaries](incremental-migration-and-ownership-boundaries/README.md) | Avoids duplicated state and navigation during staged adoption. | Situational | 8 min |

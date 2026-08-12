@@ -10,7 +10,7 @@ levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 tags:
   - functions
   - api-design
@@ -24,15 +24,8 @@ tags:
 
 ## Mental Model
 
-A function declaration tells callers four things:
-
-```mermaid
-flowchart LR
-    Spelling["Call spelling"] --> Signature["Function signature"]
-    Ownership["Input ownership"] --> Signature
-    Effects["Effects"] --> Signature
-    Output["Output meaning"] --> Signature
-```
+A function declaration tells callers its call spelling, input ownership, effects,
+and output meaning.
 
 You can replace the implementation only while these visible promises remain
 valid. A locally convenient signature can create ambiguity, hidden mutation, or

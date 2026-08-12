@@ -9,7 +9,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 ---
 
 # Assertions and Preconditions: Interview Questions
@@ -51,6 +51,13 @@ Throw when failure can happen during normal operation and the caller can recover
 Use a precondition for a documented programming contract whose violation makes
 continuing unsafe.
 
+### Expanded Answer
+
+File corruption, network failure, and rejected input are operational outcomes and need
+recoverable error paths. A negative buffer capacity passed to an API that documents a
+nonnegative requirement is a programmer error. The boundary decides whether the caller
+can reasonably handle the failure.
+
 ---
 
 <a id="q3-how-should-untrusted-input-interact-with-preconditions"></a>
@@ -60,3 +67,9 @@ continuing unsafe.
 
 Validate untrusted input before calling an API with preconditions. Malformed
 external data should produce a recoverable error, not a process crash.
+
+### Expanded Answer
+
+Parse and validate network, file, URL, and user-provided values at the trust boundary.
+Only pass a value to a preconditioned API after the boundary has established its required
+rule. This keeps hostile or malformed input from turning into an intentional termination.

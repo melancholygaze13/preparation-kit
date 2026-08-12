@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - modularization
   - dependency-inversion
@@ -69,6 +69,13 @@ migration—not only the Swift declaration.
 When one team owns a stable implementation, consumers change with it, and a small
 public entry API already hides internals. Separate interface and live targets would
 add API, build, test, and discovery cost without isolating real change.
+
+### Expanded Answer
+
+I split targets when consumers need a stable contract without importing the live
+implementation or when build and ownership boundaries benefit. If all changes move
+together, ordinary access control and a focused public API can preserve encapsulation.
+The module graph should reflect a real independent reason to vary.
 
 ### Trade-offs
 

@@ -10,7 +10,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 8
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 tags:
   - tabs
   - tab-bar-controller
@@ -28,13 +28,10 @@ tags:
 of an app, such as Home, Library, and Settings. It is not a replacement for a
 navigation stack. A common hierarchy gives each tab its own navigation controller:
 
-```mermaid
-flowchart TD
-    Scene["Scene route owner"] --> Tabs["UITabBarController"]
-    Tabs --> Home["Home navigation stack"]
-    Tabs --> Library["Library navigation stack"]
-    Tabs --> Settings["Settings navigation stack"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 524" title="Tabs and Top-Level Navigation" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Tabs and Top-Level Navigation diagram</a></figcaption>
+</figure>
 
 This preserves context when the user switches tabs. The Home detail stack can stay
 intact while the user checks Settings, then returns. The scene route owner decides

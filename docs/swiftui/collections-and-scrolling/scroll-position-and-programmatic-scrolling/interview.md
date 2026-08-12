@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - scroll-position
   - scroll-view-reader
@@ -51,6 +51,10 @@ The target is declared with `.id` for `ScrollViewReader`, or inside a
 `.scrollTargetLayout()` for a position binding. I use availability checks when newer
 scroll APIs exceed the app's deployment target.
 
+For a lazy stack, SwiftUI may estimate an offscreen target's position and refine it
+during the scroll. Stable IDs and one stable row per data item make that path more
+reliable than an absolute-offset calculation.
+
 <a id="q2-how-would-you-restore-scroll-position"></a>
 ## Q2: How would you restore scroll position?
 
@@ -64,6 +68,9 @@ data loads, I validate the item and restore it, with a safe fallback if it disap
 Pixel offsets become invalid when rows change height due to new data, Dynamic Type,
 locale, or window size. The product must define whether restoration means last visible,
 first unread, latest item, or another meaningful target.
+
+Lazy stacks add another reason: their absolute size and offset can change as unmeasured
+rows become known. I never persist those estimates as the restoration contract.
 
 I keep restoration state scoped to the scene or flow, not a global singleton.
 

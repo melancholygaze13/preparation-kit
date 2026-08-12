@@ -7,12 +7,13 @@ interview_priority: situational
 estimated_read_minutes: 1
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 ---
 
 # Unsafe Memory and Foreign Boundaries
 
-> Unsafe APIs transfer proof of lifetime, bounds, initialization, binding, alignment, ownership, and synchronization from Swift to the programmer.
+> Unsafe APIs make the programmer prove lifetime, bounds, initialization, binding, alignment, ownership, and synchronization.
+> Swift no longer proves those properties.
 
 ## Quick Recall
 

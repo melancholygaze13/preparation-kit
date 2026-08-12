@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: high
-estimated_read_minutes: 6
+estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - tca
   - navigation
@@ -50,6 +50,42 @@ For upward communication, a child can emit a small delegate action such as `save
 `requestedSignOut`. The parent decides whether to dismiss, navigate, or update another
 feature. Avoid letting a child send a parent route directly or exposing all child actions
 as cross-feature API.
+
+Here is the smallest tree-based composition shape. The parent owns the optional child
+state, routes child actions, and embeds the child reducer:
+
+```swift
+@Reducer
+struct ParentFeature {
+    @ObservableState
+    struct State: Equatable {
+        @Presents var child: ChildFeature.State?
+    }
+
+    enum Action {
+        case child(PresentationAction<ChildFeature.Action>)
+        case showChildButtonTapped
+    }
+
+    var body: some ReducerOf<Self> {
+        Reduce { state, action in
+            switch action {
+            case .showChildButtonTapped:
+                state.child = ChildFeature.State()
+                return .none
+            case .child:
+                return .none
+            }
+        }
+        .ifLet(\.$child, action: \.child) {
+            ChildFeature()
+        }
+    }
+}
+```
+
+Setting `child` creates the destination domain. Setting it to `nil` removes that
+domain. The view presents a child store scoped from this same state and action path.
 
 ## Choose a Navigation Shape
 
@@ -117,12 +153,14 @@ framework remains a real adapter boundary.
 | Typed paths support deep links and restoration | Destination enums centralize knowledge |
 | Scoped stores limit a view's domain | Poor boundaries still create a coupled reducer tree |
 
-TCA 1.26 added scoping forms in preparation for 2.0, so teams should pin a version and
-use the matching documentation during upgrades. Keep feature contracts stable enough
-that library syntax changes do not require redesigning product boundaries.
+TCA 1.26 added scoping forms in preparation for 2.0. TCA 1.26.1 is the reviewed
+baseline for this page. Teams should pin a version and use the matching documentation
+during upgrades. Keep feature contracts stable enough that library syntax changes do
+not require redesigning product boundaries.
 
 ## References
 
 - [TCA navigation documentation](https://swiftpackageindex.com/pointfreeco/swift-composable-architecture/main/documentation/composablearchitecture/navigation)
+- [TCA 1.26.1 release notes](https://github.com/pointfreeco/swift-composable-architecture/releases/tag/1.26.1)
 - [TCA 1.26.0 release notes](https://github.com/pointfreeco/swift-composable-architecture/releases/tag/1.26.0)
 - [The Composable Architecture README](https://github.com/pointfreeco/swift-composable-architecture)

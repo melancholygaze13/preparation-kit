@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: situational
-estimated_read_minutes: 4
+estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 tags:
   - sdk-configuration
   - factories
@@ -32,16 +32,10 @@ encodes a real rule that the initializer cannot express clearly.
 
 ## Construction Flow
 
-```mermaid
-flowchart TD
-    A["Client setup values and providers"] --> B["Validate contract"]
-    B --> C{"Valid and complete?"}
-    C -- "No" --> D["Typed setup error"]
-    C -- "Yes" --> E["Composition or factory"]
-    E --> F["Select implementation and dependencies"]
-    F --> G["SDK instance or capability"]
-    G --> H["Runtime operations"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 600" title="Factories, Builders, and SDK Configuration — Construction Flow" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Factories, Builders, and SDK Configuration — Construction Flow diagram</a></figcaption>
+</figure>
 
 Setup establishes stable facts and resource ownership for one instance. Runtime APIs
 accept information that changes per account or operation.
@@ -59,6 +53,59 @@ accept information that changes per account or operation.
 Use the patterns together only when each has one job. For example, immutable configuration
 holds environment settings, an optional builder adds client providers, and an internal
 factory selects concrete implementations behind the public facade.
+
+This compact example shows those jobs without exposing the SDK's internal graph:
+
+```swift
+import Foundation
+
+struct SDKConfiguration: Sendable {
+    let appID: String
+    let endpoint: URL
+}
+
+enum SDKSetupError: Error {
+    case missingEndpoint
+}
+
+final class ExampleSDK {
+    let configuration: SDKConfiguration
+
+    fileprivate init(configuration: SDKConfiguration) {
+        self.configuration = configuration
+    }
+}
+
+private enum SDKFactory {
+    static func make(configuration: SDKConfiguration) -> ExampleSDK {
+        ExampleSDK(configuration: configuration)
+    }
+}
+
+struct SDKBuilder {
+    private let appID: String
+    private var endpoint: URL?
+
+    init(appID: String) {
+        self.appID = appID
+    }
+
+    func endpoint(_ value: URL) -> Self {
+        var copy = self
+        copy.endpoint = value
+        return copy
+    }
+
+    func build() throws -> ExampleSDK {
+        guard let endpoint else { throw SDKSetupError.missingEndpoint }
+        let configuration = SDKConfiguration(appID: appID, endpoint: endpoint)
+        return SDKFactory.make(configuration: configuration)
+    }
+}
+```
+
+The configuration is a stable value. The builder collects and validates client input.
+The factory remains private and chooses the concrete implementation.
 
 ## Validation and Lifecycle
 

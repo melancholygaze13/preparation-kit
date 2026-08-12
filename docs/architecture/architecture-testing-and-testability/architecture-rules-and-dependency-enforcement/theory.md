@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - dependency-rules
   - architecture-tests
@@ -52,16 +52,10 @@ deserve compiler enforcement.
 
 Suppose the intended graph is:
 
-```mermaid
-flowchart LR
-    App["App composition"] --> FeatureAPI["Feature API"]
-    App --> FeatureImpl["Feature implementation"]
-    FeatureImpl --> FeatureAPI
-    FeatureImpl --> Domain["Domain policy"]
-    FeatureImpl --> ServiceAPI["Service API"]
-    ServiceImpl["Service implementation"] --> ServiceAPI
-    App --> ServiceImpl
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 600" title="Architecture Rules and Dependency Enforcement — Enforce Dependency Direction" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Architecture Rules and Dependency Enforcement — Enforce Dependency Direction diagram</a></figcaption>
+</figure>
 
 The important rules are directional: `Domain` does not import UI or service
 implementations, consumers depend on service APIs, and the app composition target owns

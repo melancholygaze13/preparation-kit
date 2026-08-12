@@ -7,12 +7,12 @@ interview_priority: situational
 estimated_read_minutes: 1
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-08-12
 ---
 
 # Conditional Extensions and Specialization
 
-> A constrained extension makes behavior available only for generic specializations that satisfy the declared semantic and type requirements.
+> A constrained extension adds behavior only to generic specializations that meet its type and behavioral requirements.
 
 ## Quick Recall
 

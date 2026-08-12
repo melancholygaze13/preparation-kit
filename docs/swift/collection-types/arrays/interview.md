@@ -9,7 +9,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 ---
 
 # Arrays: Interview Questions
@@ -66,6 +66,13 @@ requires a separate operation.
 
 It is a view that keeps the original indices and may retain the original storage.
 Convert it to `Array` for zero-based indices or independent long-term storage.
+
+### Expanded Answer
+
+An `ArraySlice` shares the collection model of its source, so its `startIndex` may
+not be zero. Use the slice's own indices while processing it. Conversion creates a
+separate `Array`, rebases the indices, and prevents a small long-lived result from
+keeping a much larger source buffer alive.
 
 ### Example
 

@@ -3,7 +3,7 @@ title: "UIKit"
 page_type: domain-index
 interview_priority: core
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # UIKit

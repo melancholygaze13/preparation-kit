@@ -10,7 +10,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - sheets
   - popovers
@@ -32,6 +32,7 @@ An alert or confirmation dialog asks for a small decision without creating a ful
 - Attach presentation near the UI and state that own the interaction.
 - Expect popovers and sheets to adapt their appearance to the current platform and size.
 - Use alerts for important information and confirmation dialogs for action choices.
+- On 2027 platforms, item-bound alerts and dialogs carry context in the presentation state.
 - Make destructive actions explicit, cancelable, and correctly assigned a role.
 
 ## Study

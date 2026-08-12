@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 8
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - generics
   - opaque-types
@@ -32,13 +32,10 @@ SwiftUI's view hierarchy is also a nested generic type. Preserving that type giv
 the compiler and framework structural information. Choose the least dynamic
 abstraction that satisfies the API:
 
-```mermaid
-flowchart LR
-    Known["Known relationship"] --> Generic["Generic View"]
-    Hidden["Hidden implementation"] --> Opaque["some View"]
-    ControlFlow["Builder control flow"] --> Builder["ContentBuilder composite"]
-    Runtime["Runtime-varying type"] --> Erasure["AnyView, used deliberately"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 568" title="Composition, Generics, and Type Erasure" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Composition, Generics, and Type Erasure diagram</a></figcaption>
+</figure>
 
 Composition is usually the design tool. Type erasure is an escape hatch for a real
 runtime boundary, not the default way to simplify nested types.

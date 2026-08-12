@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - actor-isolation
   - main-actor
@@ -33,23 +33,10 @@ changes? Presentation state normally belongs to the main actor. A cache, connect
 registry, or shared token coordinator may justify its own actor. Immutable value types
 often need no actor at all.
 
-```mermaid
-flowchart LR
-    subgraph UI["Main actor — presentation owner"]
-        View["View"] --> Model["Screen model"]
-        Model --> State["UI state"]
-    end
-
-    subgraph Service["Service actor — shared mutation owner"]
-        API["Async commands and queries"] --> Store["Private mutable state"]
-    end
-
-    Remote["Remote or persistent system"]
-
-    Model -- "Sendable request value" --> API
-    Store -- "I/O" --> Remote
-    API -- "Sendable result value" --> Model
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 588" title="Isolation Ownership and Main-Actor Boundaries" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Isolation Ownership and Main-Actor Boundaries diagram</a></figcaption>
+</figure>
 
 The arrows carry values and explicit operations. They do not expose the service's
 mutable storage to the UI.

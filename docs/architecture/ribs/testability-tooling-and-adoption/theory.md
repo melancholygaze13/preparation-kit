@@ -10,7 +10,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 tags:
   - ribs
   - testability
@@ -27,15 +27,10 @@ RIBs is a framework and operating model, not only a pattern. Its benefits at sca
 on consistent builders, dependency contracts, lifecycle checks, code generation, and
 debugging support. Without those, teams keep the indirection but lose the safety.
 
-```mermaid
-flowchart TD
-    Problem["Nested-state or team-scale problem"] --> Pilot["Representative subtree pilot"]
-    Pilot --> Checks["Behavior, wiring, lifecycle, and leak checks"]
-    Checks --> Evidence{"Outcomes improve?"}
-    Evidence -- "yes" --> Standard["Templates, tooling, ownership, training"]
-    Evidence -- "no" --> Simpler["Use simpler feature and flow boundaries"]
-    Standard --> Expand["Incremental adoption"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 568" title="Testability, Tooling, and Adoption" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Testability, Tooling, and Adoption diagram</a></figcaption>
+</figure>
 
 The pilot must include real child transitions and teardown. A generated static screen
 does not test the framework's main value or cost.
@@ -86,6 +81,10 @@ policy, Swift concurrency direction, minimum platform requirements, and long-ter
 maintenance before adoption. Do not adopt it only because it has succeeded at a larger
 company with different constraints.
 
+At this 2026-08-12 review, the package on `main` declares iOS 15 as its minimum and
+RxSwift 6.9 up to, but not including, 7. Check the exact tag pinned by the app because
+these requirements can change independently of the architecture.
+
 ## Incremental Adoption
 
 Place a stable entry point around a representative new or changing flow. Keep the legacy
@@ -113,3 +112,4 @@ business scope.
 
 - [Uber RIBs for iOS](https://github.com/uber/RIBs-iOS)
 - [Uber RIBs tooling](https://github.com/uber/RIBs-iOS/tree/main/tooling)
+- [RIBs iOS package manifest](https://github.com/uber/RIBs-iOS/blob/main/Package.swift)

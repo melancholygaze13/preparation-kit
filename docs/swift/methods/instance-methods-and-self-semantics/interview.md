@@ -8,7 +8,7 @@ levels: [senior]
 interview_priority: reference
 estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 ---
 
 # Instance Methods and Self Semantics: Interview Questions
@@ -17,8 +17,12 @@ last_reviewed: 2026-07-22
 
 ## Question Index
 
-- [When should behavior be an instance method?](#q1-instance-method)
-- [What does `self` mean inside a method?](#q2-self)
+| Question | Level | Focus |
+|---|---|---|
+| [When should behavior be an instance method?](#q1-instance-method) | Senior | Behavior ownership |
+| [What does `self` mean inside a method?](#q2-self) | Senior | Receiver semantics |
+
+---
 
 <a id="q1-instance-method"></a>
 ## Q1: When Should Behavior Be an Instance Method?

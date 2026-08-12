@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 8
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - view-identity
   - state-lifetime
@@ -35,16 +35,10 @@ ends, its local state and other identity-scoped resources end with it.
 
 ### Value, Identity, and Lifetime Are Different
 
-```mermaid
-flowchart TD
-    A["Body produces new view value"] --> B{"Same identity as existing element?"}
-    B -- "Yes" --> C["Update existing element"]
-    C --> D["Reuse identity-scoped state"]
-    B -- "No" --> E["Remove old element"]
-    E --> F["End local state and tasks"]
-    F --> G["Insert new element"]
-    G --> H["Create new identity-scoped state"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 572" title="View Identity and Lifetime — Value, Identity, and Lifetime Are Different" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the View Identity and Lifetime — Value, Identity, and Lifetime Are Different diagram</a></figcaption>
+</figure>
 
 A view value is one description produced for the current inputs. SwiftUI can
 replace that value during the next update while treating both values as the same

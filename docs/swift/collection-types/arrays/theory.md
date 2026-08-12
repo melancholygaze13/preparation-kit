@@ -9,7 +9,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 ---
 
 # Arrays: Theory
@@ -31,11 +31,19 @@ Element behavior still matters. If an array stores class references, copying the
 array copies those references. Both arrays can point to the same objects.
 
 ```swift
-var first = [Account()]
+final class Account {
+    var name: String
+
+    init(name: String) {
+        self.name = name
+    }
+}
+
+var first = [Account(name: "Original")]
 var second = first
 second[0].name = "Changed"
 
-// first[0] observes the same Account instance.
+print(first[0].name) // Changed: both arrays contain the same instance.
 ```
 
 ## Indices, Slices, and Mutation

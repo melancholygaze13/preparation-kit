@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - task-lifetime
   - structured-concurrency
@@ -33,22 +33,10 @@ visible. A parent scope does not finish until its child tasks finish. Cancellati
 priority flow through that relationship. An unstructured task has no parent-child
 lifetime, so architecture must provide the missing ownership.
 
-```mermaid
-flowchart TD
-    Session["Signed-in session"]
-    Feature["Feature lifetime"]
-    Request["Refresh operation"]
-    Metadata["Child: load metadata"]
-    Content["Child: load content"]
-    Durable["Persistent outbox entry"]
-
-    Session --> Feature
-    Feature --> Request
-    Request --> Metadata
-    Request --> Content
-    Feature -. "creates durable intent" .-> Durable
-    Durable -. "survives feature and task" .-> Worker["App or background worker"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 600" title="Task and Effect Lifetimes" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Task and Effect Lifetimes diagram</a></figcaption>
+</figure>
 
 The task tree handles in-memory work. The outbox handles work whose business lifetime
 must survive the tree.

@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - tca
   - test-store
@@ -128,10 +128,10 @@ placement. Templates can help, but generated ceremony should not replace design 
 
 ## Manage Library and Performance Cost
 
-Pin a compatible TCA version and read migration guides before broad upgrades. Recent
-1.24–1.26 releases deprecated older binding, observation, effect, and scoping forms while
-preparing for 2.0. Keep warnings at zero so migration work does not accumulate across
-many feature modules.
+Pin a compatible TCA version and read migration guides before broad upgrades. Releases
+1.24 through 1.26 deprecated older binding, observation, effect, and scoping forms while
+preparing for 2.0. TCA 1.26.1 is the reviewed baseline for this page. Keep warnings at
+zero so migration work does not accumulate across many feature modules.
 
 Avoid wrapping every TCA type behind a custom framework; that often creates a second API
 to maintain. Instead, keep domain-specific models and capability contracts clean, and
@@ -160,6 +160,7 @@ change, not the percentage of screens converted.
 ## References
 
 - [Testing TCA on `main`](https://swiftpackageindex.com/pointfreeco/swift-composable-architecture/main/documentation/composablearchitecture/testingtca)
+- [TCA 1.26.1 release notes](https://github.com/pointfreeco/swift-composable-architecture/releases/tag/1.26.1)
 - [TCA 1.26.0 release notes](https://github.com/pointfreeco/swift-composable-architecture/releases/tag/1.26.0)
 - [TCA releases](https://github.com/pointfreeco/swift-composable-architecture/releases)
 - [The Composable Architecture README](https://github.com/pointfreeco/swift-composable-architecture)

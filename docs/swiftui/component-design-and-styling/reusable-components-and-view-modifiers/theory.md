@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - reusable-components
   - view-modifier
@@ -53,7 +53,17 @@ Prefer semantic values and actions:
 struct StatusCard<Content: View>: View {
     let title: LocalizedStringKey
     let status: String
-    @ViewBuilder let content: Content
+    let content: Content
+
+    init(
+        title: LocalizedStringKey,
+        status: String,
+        @ContentBuilder content: () -> Content
+    ) {
+        self.title = title
+        self.status = status
+        self.content = content()
+    }
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -76,12 +86,16 @@ retains policy.
 
 ### Content Builders
 
-Generic `@ViewBuilder` content lets callers supply structure without `AnyView`. Store
+Generic `@ContentBuilder` content lets callers supply structure without `AnyView`. Store
 the built content value when deferred construction is unnecessary:
 
 ```swift
 struct Card<Content: View>: View {
-    @ViewBuilder let content: Content
+    let content: Content
+
+    init(@ContentBuilder content: () -> Content) {
+        self.content = content()
+    }
 
     var body: some View {
         VStack(alignment: .leading) { content }
@@ -91,6 +105,11 @@ struct Card<Content: View>: View {
     }
 }
 ```
+
+Xcode 27 unifies SwiftUI's type-specific result builders under `ContentBuilder`.
+`ViewBuilder` remains source-compatible, so a library that must build with an older
+toolchain can keep the earlier spelling. This is a toolchain compatibility choice,
+not a change to the component's runtime ownership.
 
 Too many generic slots can make call sites and diagnostics difficult. Provide the
 smallest slots matching real variation. A configuration value or optional accessory
@@ -191,6 +210,8 @@ of the design-system API.
 ## References
 
 - [`ViewModifier`](https://developer.apple.com/documentation/swiftui/viewmodifier)
+- [`ContentBuilder`](https://developer.apple.com/documentation/swiftui/contentbuilder)
+- [TN3211: Resolving SwiftUI source incompatibilities for State and ContentBuilder](https://developer.apple.com/documentation/technotes/tn3211-resolving-swiftui-source-incompatibilities-for-state-and-contentbuilder)
 - [View styles](https://developer.apple.com/documentation/swiftui/view-styles)
 - [Creating performant scrollable stacks](https://developer.apple.com/documentation/swiftui/creating-performant-scrollable-stacks)
 - [Build an app with SwiftUI](https://developer.apple.com/videos/play/wwdc2022/10052/)

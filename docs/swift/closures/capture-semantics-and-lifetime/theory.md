@@ -10,7 +10,7 @@ levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 tags:
   - closures
   - captures
@@ -24,13 +24,7 @@ tags:
 
 ## Mental Model
 
-A closure value consists conceptually of executable code plus a capture context:
-
-```mermaid
-flowchart LR
-    Code["Code"] --> Closure["Closure"]
-    Environment["Captured environment"] --> Closure
-```
+A closure value consists conceptually of executable code plus a capture context.
 
 The environment can contain immutable snapshots, shared mutable storage, or
 references to objects. A function type such as `() -> Void` does not reveal the
@@ -138,11 +132,10 @@ because that would allow shared mutation beyond the exclusive method access.
 A common cycle occurs when an instance owns a closure property and that closure
 strongly captures the instance:
 
-```mermaid
-flowchart LR
-    Instance["Instance"] -->|owns| Property["Closure property"]
-    Property -->|captures| Instance
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 248" title="Capture Semantics and Lifetime — Strong Reference Cycles" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Capture Semantics and Lifetime — Strong Reference Cycles diagram</a></figcaption>
+</figure>
 
 Neither reference count reaches zero. Break the cycle by changing ownership,
 clearing the stored closure at a defined lifecycle point, capturing only needed

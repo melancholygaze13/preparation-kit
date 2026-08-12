@@ -5,10 +5,10 @@ topic: "Access Control"
 concept: "Access Levels and Lexical Scope"
 page_type: theory
 interview_priority: situational
-estimated_read_minutes: 2
+estimated_read_minutes: 3
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-08-12
 ---
 
 # Access Levels and Lexical Scope: Theory
@@ -37,6 +37,33 @@ public struct AccountSummary {
 
 External clients can construct/read the value but cannot assign `displayName`. The explicit public
 members are necessary because a public type's members do not automatically become public.
+
+An **access level** says which consumers may use a declaration. **Lexical scope** is
+the source-code region around that declaration. `private` limits use to the enclosing
+declaration and same-file extensions of that declaration. `fileprivate` allows unrelated
+declarations in the same source file to collaborate.
+
+```swift
+struct Cart {
+    private var itemIDs: [Int] = []
+
+    mutating func add(_ id: Int) {
+        itemIDs.append(id)
+    }
+}
+
+extension Cart { // This extension is in the same source file.
+    var itemCount: Int { itemIDs.count }
+}
+
+var cart = Cart()
+cart.add(42)
+print(cart.itemCount) // 1
+// print(cart.itemIDs) // Error: itemIDs is private.
+```
+
+Use `fileprivate` only when same-file collaboration between unrelated declarations is
+intentional. Moving one declaration to another file then changes what it can access.
 
 ### Rules That Must Stay True
 

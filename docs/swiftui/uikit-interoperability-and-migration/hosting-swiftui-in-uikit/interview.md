@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: situational
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 ---
 
 # Hosting SwiftUI in UIKit: Interview Questions
@@ -48,6 +48,10 @@ cell content and use `UIHostingController` for screens or child-controller conta
 The contract should say what data enters the SwiftUI root and what intents come
 back out. That keeps the hosted view from depending on UIKit details that make
 the migration harder later.
+
+On iOS 27, `UIHostingSceneDelegate` is another option when a complete scene,
+not only a screen or child view, can become SwiftUI-owned. The UIKit scene
+configuration still defines how the system creates that boundary.
 
 ---
 
@@ -118,7 +122,6 @@ If teams add islands independently, UIKit and SwiftUI can start modeling the sam
 screen state in different places. That makes bugs hard to diagnose because the
 problem is at the boundary, not inside either framework alone.
 
-At Staff or Principal level, I would define migration rules: where hosting is
-allowed, who owns navigation, how shared models cross the boundary, how visual
-and accessibility behavior is tested, and when temporary wrappers should be
-removed.
+At Staff or Principal level, I would define where hosting is allowed and who owns
+navigation. The rules would also cover shared models, visual and accessibility tests,
+and removal of temporary wrappers.

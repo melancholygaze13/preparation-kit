@@ -7,12 +7,13 @@ interview_priority: high
 estimated_read_minutes: 1
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 ---
 
 # Access Duration and Exclusivity Enforcement
 
-> Conflicting access requires the same storage, overlapping duration, and at least one write; long-term access makes otherwise hidden overlap visible.
+> A conflict needs the same storage, overlapping access, and at least one write.
+> Long access can reveal overlap that was otherwise hidden.
 
 ## Quick Recall
 

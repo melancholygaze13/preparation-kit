@@ -5,10 +5,10 @@ topic: "Concurrency"
 concept: "Async Sequences, Streams, and Continuations"
 page_type: theory
 interview_priority: high
-estimated_read_minutes: 4
+estimated_read_minutes: 5
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-08-12
 ---
 
 # Async Sequences, Streams, and Continuations: Theory
@@ -35,21 +35,31 @@ continuation ownership explicit. Configure a bounded buffering policy and inspec
 `yield` to detect termination or dropped values.
 
 ```swift
-let (stream, continuation) = AsyncStream<Event>.makeStream(
-    bufferingPolicy: .bufferingNewest(32)
+let (stream, continuation) = AsyncStream<Int>.makeStream(
+    bufferingPolicy: .bufferingNewest(2)
 )
 
-continuation.onTermination = { @Sendable _ in
-    source.stop()
+continuation.onTermination = { @Sendable reason in
+    print("Stream ended: \(reason)")
 }
 
-source.onEvent = { event in
-    switch continuation.yield(event) {
-    case .enqueued: break
-    case .dropped: metrics.incrementDroppedEvents()
-    case .terminated: source.stop()
-    @unknown default: source.stop()
+for value in 1...3 {
+    switch continuation.yield(value) {
+    case .enqueued:
+        break
+    case .dropped(let dropped):
+        print("Dropped \(dropped)")
+    case .terminated:
+        break
+    @unknown default:
+        break
     }
+}
+
+continuation.finish()
+
+for await value in stream {
+    print(value) // The bounded buffer keeps 2 and 3.
 }
 ```
 

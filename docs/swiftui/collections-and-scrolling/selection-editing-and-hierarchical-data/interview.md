@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 5
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - selection
   - editing
@@ -69,6 +69,11 @@ For moves, it also defines whether order applies globally, within the current fi
 or under one parent.
 
 Every entry point—swipe, menu, keyboard, or accessibility action—uses the same operation.
+
+For 2027 targets, a reorder container reports an identifier-based
+`ReorderDifference`. I apply it in the model instead of trusting array indices that
+may have changed during the drag. Earlier targets keep their existing `onMove` or
+drag-and-drop path.
 
 <a id="q3-how-would-you-model-a-large-hierarchical-list"></a>
 ## Q3: How would you model a large hierarchical list?

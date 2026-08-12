@@ -7,7 +7,7 @@ interview_priority: situational
 estimated_read_minutes: 1
 levels: [staff, principal]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-08-12
 ---
 
 # Parameter Packs and Variadic Generics

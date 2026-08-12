@@ -8,7 +8,7 @@ interview_priority: high
 estimated_read_minutes: 4
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 ---
 
 # Requirements, Conformance, and Synthesis: Theory
@@ -33,9 +33,16 @@ protocol Resettable {
 struct Buffer: Resettable {
     private var bytes: [UInt8] = []
     var isEmpty: Bool { bytes.isEmpty }
+    mutating func append(_ byte: UInt8) { bytes.append(byte) }
     mutating func reset() { bytes.removeAll(keepingCapacity: true) }
     init() {}
 }
+
+var buffer = Buffer()
+buffer.append(42)
+print(buffer.isEmpty) // false
+buffer.reset()
+print(buffer.isEmpty) // true
 ```
 
 A `{ get set }` property requires readable and writable capability; a conformer may use

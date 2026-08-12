@@ -10,7 +10,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 tags:
   - viper
   - composition-root
@@ -27,16 +27,10 @@ A VIPER module needs an external composition point. The builder creates the view
 presenter, interactor, and router, injects shared dependencies, and returns one supported
 entry point. The router performs navigation without becoming a service locator.
 
-```mermaid
-flowchart TD
-    Parent["Parent flow"] --> Builder["Feature builder"]
-    Builder --> Module["Connected VIPER module"]
-    Input["Typed module input"] --> Builder
-    Shared["App dependencies"] --> Builder
-    Module --> Router["Router owns transition"]
-    Router --> Child["Child module"]
-    Child -- "typed outcome" --> Parent
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 600" title="Module Assembly, Routing, and Data Handoff" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Module Assembly, Routing, and Data Handoff diagram</a></figcaption>
+</figure>
 
 Construction dependencies flow inward. User outcomes flow back through a narrow module
 contract rather than hidden globals.

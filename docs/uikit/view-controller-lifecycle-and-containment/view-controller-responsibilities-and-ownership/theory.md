@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # View Controller Responsibilities and Ownership: Theory
@@ -24,13 +24,10 @@ updates presentation state, and coordinates navigation or child controllers.
 The controller should not become the default home for every decision. In a
 production app, its job is usually coordination:
 
-```mermaid
-flowchart LR
-    Lifecycle["UIKit lifecycle"] --> Controller["Controller"]
-    Controller --> State["Presentation state"]
-    State --> Views["Views"]
-    Controller --> Boundaries["Models, services, routers"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 600" title="View Controller Responsibilities and Ownership" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the View Controller Responsibilities and Ownership diagram</a></figcaption>
+</figure>
 
 That boundary matters in interviews because many UIKit problems are ownership
 problems disguised as lifecycle problems. A controller that owns data loading,

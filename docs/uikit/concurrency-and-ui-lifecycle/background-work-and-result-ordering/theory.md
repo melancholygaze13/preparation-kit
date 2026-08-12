@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # Background Work and Result Ordering: Theory
@@ -22,13 +22,10 @@ UIKit screens must decide which results are still valid before rendering them.
 
 The safe flow is:
 
-```mermaid
-flowchart LR
-    Start["Start work"] --> Produce["Produce data off the UI path"]
-    Produce --> Decide{"Accept result?"}
-    Decide -->|Yes| Render["Render"]
-    Decide -->|No| Reject["Reject stale or irrelevant result"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 568" title="Background Work and Result Ordering" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Background Work and Result Ordering diagram</a></figcaption>
+</figure>
 
 Do not let every completion handler directly mutate views. That gives callback
 order control over screen state.

@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 tags:
   - migration-sequencing
   - dependencies
@@ -31,16 +31,10 @@ switch consumers, and delete the old edge.
 The useful unit of progress is not files moved. It is a dependency retired, a caller
 switched, a legacy responsibility removed, or a slice released safely.
 
-```mermaid
-flowchart TD
-    Map["Map real dependencies"] --> Seam["Introduce target contract"]
-    Seam --> Break["Break cycle or invert dependency"]
-    Break --> Slice["Move one vertical behavior slice"]
-    Slice --> Verify["Verify and release"]
-    Verify --> Switch["Switch remaining callers"]
-    Switch --> Delete["Delete old edge and compatibility code"]
-    Verify -- "failed evidence" --> Slice
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 580" title="Migration Sequencing and Dependency Untangling" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Migration Sequencing and Dependency Untangling diagram</a></figcaption>
+</figure>
 
 Each loop should leave the system releasable. A sequence that requires many unfinished
 steps before the app builds is a rewrite plan, not an incremental migration.

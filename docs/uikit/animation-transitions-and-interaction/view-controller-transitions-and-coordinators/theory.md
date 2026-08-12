@@ -10,7 +10,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # View Controller Transitions and Coordinators: Theory
@@ -23,13 +23,10 @@ A view-controller transition changes which controllers are in the hierarchy and 
 that change looks. UIKit owns the operation. It supplies a container and a transition
 context, then asks app objects to provide animation or interactive control.
 
-```mermaid
-flowchart TD
-    Delegate["Container or presentation delegate"] --> Animator["Transition animator creates visual change"]
-    Animator --> Interaction["Optional interaction controller drives progress"]
-    Interaction --> Context["Transition context reports completion or cancellation"]
-    Context --> Coordinator["Transition coordinator synchronizes related UI"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 512 / 568; --schematic-width: 512px" title="View Controller Transitions and Coordinators" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the View Controller Transitions and Coordinators diagram</a></figcaption>
+</figure>
 
 Prefer system navigation, sheets, popovers, and presentations. Their transitions
 already handle adaptation, accessibility, gestures, and platform consistency. Add a

@@ -8,9 +8,9 @@ levels:
   - senior
   - staff
 interview_priority: situational
-estimated_read_minutes: 2
+estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 tags:
   - ribs
   - dependency-injection
@@ -55,6 +55,13 @@ Because the RIB tree models active business scopes rather than screens. Authenti
 an active trip, or a safety capability may own logic and children without adding a view
 level. This keeps business lifetime independent from presentation structure.
 
+### Expanded Answer
+
+The interactor and router can own behavior, dependencies, and child scopes while UIKit
+or SwiftUI changes independently. This is useful when one business scope spans several
+screens or has no direct presentation. The active RIB tree therefore answers a different
+question from the view hierarchy.
+
 ### Trade-offs
 
 Separate business and view trees give flexibility but add a debugging model. Teams need
@@ -68,6 +75,13 @@ tree inspection and clear ownership so engineers can connect active scopes to vi
 A child declares a narrow parent-dependency contract. Its builder receives an object that
 satisfies that contract and creates a scoped component. The component provides values to
 the interactor and dependencies to child builders.
+
+### Expanded Answer
+
+The parent component supplies longer-lived capabilities, and the child component adds
+values owned by the new scope. The builder performs construction once and connects roles;
+runtime feature code does not resolve arbitrary services. Small dependency contracts make
+the child testable and keep lifetime visible.
 
 ### Example
 

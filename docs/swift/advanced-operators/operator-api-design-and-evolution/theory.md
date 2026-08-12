@@ -5,10 +5,10 @@ topic: "Advanced Operators"
 concept: "Operator API Design and Evolution"
 page_type: theory
 interview_priority: reference
-estimated_read_minutes: 2
+estimated_read_minutes: 3
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-08-12
 ---
 
 # Operator API Design and Evolution: Theory
@@ -26,8 +26,24 @@ changes meaning during recompilation.
 Before publishing an operator, document an equivalent named expression:
 
 ```swift
+struct Distance {
+    let meters: Double
+
+    static func + (lhs: Distance, rhs: Distance) -> Distance {
+        Distance(meters: lhs.meters + rhs.meters)
+    }
+
+    func adding(_ other: Distance) -> Distance {
+        self + other
+    }
+}
+
+let distanceA = Distance(meters: 120)
+let distanceB = Distance(meters: 80)
 let total = distanceA + distanceB
 let explicitTotal = distanceA.adding(distanceB)
+
+print(total.meters == explicitTotal.meters) // true
 ```
 
 The two forms should share units, validation, overflow, and result semantics. The named form improves

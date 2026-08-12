@@ -8,7 +8,7 @@ interview_priority: high
 estimated_read_minutes: 4
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 tags: [errors, throws, typed-throws, api-design]
 ---
 
@@ -24,6 +24,14 @@ to retry, use a fallback, translate the error, undo effects, or show it to the u
 ## How It Works
 
 ```swift
+struct Cart {
+    let items: [String]
+}
+
+struct Receipt {
+    let itemCount: Int
+}
+
 enum CheckoutError: Error {
     case emptyCart
     case paymentDeclined(code: String)
@@ -31,8 +39,11 @@ enum CheckoutError: Error {
 
 func submit(_ cart: Cart) throws(CheckoutError) -> Receipt {
     guard !cart.items.isEmpty else { throw .emptyCart }
-    // ...
+    return Receipt(itemCount: cart.items.count)
 }
+
+let receipt = try submit(Cart(items: ["Book"]))
+print(receipt.itemCount) // 1
 ```
 
 Throwing exits the current path; `defer` blocks still execute as scopes unwind. A

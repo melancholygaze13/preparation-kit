@@ -10,7 +10,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - selection
   - editing
@@ -28,12 +28,17 @@ tags:
 - Use an optional ID for single selection and a set of IDs for multiple selection.
 - Revalidate selection after deletion, filtering, permission, and parent changes.
 - Translate index-based move/delete callbacks into stable model operations immediately.
+- On 2027 platforms, reorder containers report identifier-based differences.
 - Hierarchical nodes need unique identity and explicit child-loading policy.
 - Preserve accessibility actions and keyboard behavior when customizing rows.
 
 Delete and move callbacks often provide indices into the displayed collection. Convert
 them to stable IDs immediately. Never keep an `IndexSet` across asynchronous work,
 because filtering, sorting, or another edit can change what each index means.
+
+For custom scroll containers on 2027 platforms, add `swipeActionsContainer()` so
+only one row's swipe actions remain open and scrolling dismisses them. `List`
+already provides this coordination.
 
 ## Study
 

@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - dependency-injection
   - composition-root
@@ -70,6 +70,13 @@ Providers document whether they return a shared, current-scope, or new instance.
 I start with manual construction because Swift's type system makes it explicit and
 compiler-checked. I consider generation or a container when measured graph size and
 repeated wiring justify the tooling. Container lookup stays inside composition roots.
+
+### Expanded Answer
+
+Factories or generated assembly can remove mechanical repetition while preserving typed
+initializers. If a container is used, registration and resolution remain at app, scene,
+or feature composition boundaries. Feature code still receives explicit capabilities so
+missing dependencies and cycles do not become hidden runtime behavior.
 
 ### Trade-offs
 

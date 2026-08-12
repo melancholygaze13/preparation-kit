@@ -4,7 +4,7 @@ domain: "SwiftUI"
 page_type: topic-index
 interview_priority: core
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 ---
 
 # Navigation and Presentation

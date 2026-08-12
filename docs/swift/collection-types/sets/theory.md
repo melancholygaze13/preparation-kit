@@ -9,7 +9,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 ---
 
 # Sets: Theory
@@ -42,6 +42,18 @@ Sets provide insertion, removal, membership, union, intersection, subtraction,
 and symmetric difference. Average lookup, insertion, and removal are expected to
 be constant time with a useful hash distribution. This is an average performance
 expectation, not a fixed time limit for every operation.
+
+```swift
+var enrolled: Set<String> = ["Mina", "Kai"]
+let insertion = enrolled.insert("Mina")
+
+print(insertion.inserted)              // false: Mina was already present.
+print(enrolled.contains("Kai"))        // true
+print(enrolled.intersection(["Kai"])) // ["Kai"], with unspecified order.
+```
+
+`insert(_:)` returns whether insertion happened and the member now stored in the
+set. Use that result when a duplicate needs an explicit policy.
 
 Iteration order is not part of the contract. Sort at a presentation or encoding
 boundary when deterministic order is required.

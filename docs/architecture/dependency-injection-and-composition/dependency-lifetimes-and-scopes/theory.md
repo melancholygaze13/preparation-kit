@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - dependency-injection
   - lifetime
@@ -57,17 +57,42 @@ security and product policy.
 final class AppRoot {
     private let infrastructure: Infrastructure
     private var session: SessionScope?
+    private var sessionGeneration = 0
+
+    init(infrastructure: Infrastructure) {
+        self.infrastructure = infrastructure
+    }
 
     func signIn(with credentials: Credentials) async throws {
-        session = try await SessionScope(
+        sessionGeneration += 1
+        let generation = sessionGeneration
+        let candidate = try await SessionScope(
             credentials: credentials,
             infrastructure: infrastructure
         )
+
+        guard generation == sessionGeneration else {
+            await candidate.shutdown()
+            throw CancellationError()
+        }
+
+        let previous = session
+        session = nil
+        await previous?.shutdown()
+
+        guard generation == sessionGeneration else {
+            await candidate.shutdown()
+            throw CancellationError()
+        }
+
+        session = candidate
     }
 
     func signOut() async {
-        await session?.shutdown()
+        sessionGeneration += 1
+        let previous = session
         session = nil
+        await previous?.shutdown()
     }
 }
 ```
@@ -75,6 +100,10 @@ final class AppRoot {
 Scope teardown is behavior, not only deallocation. It may cancel observations, flush
 safe pending data, revoke tokens, close resources, and prevent late results from
 re-entering a new session.
+
+The generation check also handles actor reentrancy. If sign-out or a newer sign-in runs
+while scope creation is suspended, the older call shuts down its candidate instead of
+publishing it into current session state.
 
 Avoid asynchronous work only in `deinit`; deinitializers cannot express normal async
 cleanup. Provide explicit shutdown at the owner boundary, while `deinit` remains a

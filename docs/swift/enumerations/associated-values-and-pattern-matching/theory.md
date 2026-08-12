@@ -10,7 +10,7 @@ levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 tags:
   - enumerations
   - associated-values
@@ -26,13 +26,10 @@ tags:
 
 An associated-value enum stores one of several cases. Each case can carry its own data:
 
-```mermaid
-flowchart LR
-    State{"LoadState"} --> Idle["idle"]
-    State --> Loading["loading(progress)"]
-    State --> Loaded["loaded(value)"]
-    State --> Failed["failed(error, retryability)"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 380" title="Associated Values and Pattern Matching" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Associated Values and Pattern Matching diagram</a></figcaption>
+</figure>
 
 The tag determines which payload exists. Code cannot access loaded data while the
 value is failed without first matching the case.

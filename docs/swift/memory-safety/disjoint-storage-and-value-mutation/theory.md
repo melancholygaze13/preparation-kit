@@ -8,7 +8,7 @@ interview_priority: situational
 estimated_read_minutes: 3
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 ---
 
 # Disjoint Storage and Value Mutation: Theory
@@ -50,7 +50,8 @@ dynamically checked because accessors and aliases can overlap.
 
 ### Constraints and Guarantees
 
-- Swift's special disjoint-property allowance requires stored instance properties of a local variable that is not captured, or is captured only by nonescaping closures.
+- Swift's special disjoint-property rule applies to stored instance properties of a local variable.
+  The variable must not be captured, except by nonescaping closures.
 - Mutating methods access `self`, not only the fields visibly changed in the body.
 - Class properties can alias through multiple references and do not gain value-projection guarantees.
 - Computed properties may call arbitrary getter/setter code and cannot be assumed disjoint.

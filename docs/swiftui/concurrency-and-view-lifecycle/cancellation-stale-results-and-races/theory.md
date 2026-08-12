@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - cancellation
   - stale-results
@@ -98,16 +98,10 @@ contract should state how cancellation is represented.
 
 Consider live search:
 
-```mermaid
-sequenceDiagram
-    participant UI
-    participant S as Search for s
-    participant Swift as Search for swift
-    UI->>S: Start
-    UI->>Swift: Start
-    Swift-->>UI: Finish and update
-    S-->>UI: Finish last and overwrite the UI
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 592" title="Cancellation, Stale Results, and Races — Stale-Result Races" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Cancellation, Stale Results, and Races — Stale-Result Races diagram</a></figcaption>
+</figure>
 
 Main-actor isolation serializes assignments but does not make their order match user
 intent. `.task(id: query)` cancels the old view task, but a reliable model also compares

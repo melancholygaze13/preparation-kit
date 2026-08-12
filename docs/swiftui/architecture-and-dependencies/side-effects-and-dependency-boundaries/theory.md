@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - dependency-injection
   - side-effects
@@ -102,14 +102,10 @@ or model operations whose lifetime is explicit.
 
 Separate domain decision from adapter mechanics:
 
-```mermaid
-flowchart LR
-    Event["User event"] --> Validate["Feature validates"]
-    Validate --> Effect["Dependency performs effect"]
-    Effect --> Adapter["Adapter translates external response"]
-    Adapter --> Result["Typed result or error"]
-    Result --> Validate
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 272" title="Side Effects and Dependency Boundaries — Side-Effect Boundaries" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Side Effects and Dependency Boundaries — Side-Effect Boundaries diagram</a></figcaption>
+</figure>
 
 Adapters translate transport models, status codes, callbacks, and persistence
 details into stable feature or domain values. A view should not decide retry policy

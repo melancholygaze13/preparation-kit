@@ -10,7 +10,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - loading-state
   - refreshable

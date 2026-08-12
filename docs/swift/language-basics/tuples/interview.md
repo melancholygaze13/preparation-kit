@@ -9,7 +9,7 @@ levels:
 interview_priority: reference
 estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 ---
 
 # Tuples: Interview Questions
@@ -48,6 +48,12 @@ two values. Labels can make the elements readable but do not create invariants.
 
 Use a struct when the data has invariants, behavior, documentation, protocol
 conformance, or a public contract that may evolve.
+
+### Expanded Answer
+
+A tuple groups values but cannot own methods or protocol conformances and gives the
+group no domain identity. A named struct gives callers stable member names, a place for
+validation, and room to evolve without making positional structure part of the API.
 
 ---
 

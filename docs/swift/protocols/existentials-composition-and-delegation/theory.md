@@ -8,7 +8,7 @@ interview_priority: high
 estimated_read_minutes: 4
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 ---
 
 # Existentials, Composition, and Delegation: Theory
@@ -25,7 +25,17 @@ parameter represents one caller-selected concrete type and preserves those relat
 ## How It Works
 
 ```swift
-protocol Renderer { func render(_ model: Model) -> Output }
+struct Model {
+    let title: String
+}
+
+protocol Renderer {
+    func render(_ model: Model) -> String
+}
+
+struct PlainTextRenderer: Renderer {
+    func render(_ model: Model) -> String { model.title }
+}
 
 struct Screen<R: Renderer> {
     let renderer: R
@@ -34,6 +44,13 @@ struct Screen<R: Renderer> {
 struct RuntimeScreen {
     let renderer: any Renderer
 }
+
+let staticScreen = Screen(renderer: PlainTextRenderer())
+let runtimeScreen = RuntimeScreen(renderer: PlainTextRenderer())
+let model = Model(title: "Profile")
+
+print(staticScreen.renderer.render(model))  // Profile
+print(runtimeScreen.renderer.render(model)) // Profile
 ```
 
 Choose `Screen<R>` when the concrete renderer participates in static composition. Choose

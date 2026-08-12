@@ -6,9 +6,9 @@ concept: "Delegation, Closures, Notifications, and Ownership"
 page_type: theory
 levels: [senior, staff, principal]
 interview_priority: core
-estimated_read_minutes: 7
+estimated_read_minutes: 8
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # Delegation, Closures, Notifications, and Ownership: Theory
@@ -43,6 +43,35 @@ properties are commonly weak.
 
 Delegation fits when the caller needs a typed protocol and may need a return
 value. It is also good when the relationship is part of an object's stable API.
+
+```swift
+@MainActor
+protocol RetryViewDelegate: AnyObject {
+    func retryViewDidRequestRetry(_ retryView: RetryView)
+}
+
+final class RetryView: UIView {
+    weak var delegate: RetryViewDelegate?
+
+    @objc private func retryTapped() {
+        delegate?.retryViewDidRequestRetry(self)
+    }
+}
+
+final class ErrorViewController: UIViewController, RetryViewDelegate {
+    func retryViewDidRequestRetry(_ retryView: RetryView) {
+        reloadContent()
+    }
+
+    private func reloadContent() {
+        // Start the screen-owned retry operation.
+    }
+}
+```
+
+The class-only protocol permits a weak reference. `@MainActor` matches the UIKit
+event boundary. The view reports a typed event, while its controller owns the retry
+operation.
 
 ## Closures
 
@@ -83,6 +112,47 @@ posting thread unless a block observer was registered with another operation que
 Do not assume a notification arrives on the main actor. A block-based observer token
 also stays registered until code removes it, so store the token and remove it when
 its owner ends.
+
+```swift
+extension Notification.Name {
+    static let accountDidChange = Notification.Name("accountDidChange")
+}
+
+final class AccountBannerController: UIViewController {
+    private var accountObserver: NSObjectProtocol?
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        accountObserver = NotificationCenter.default.addObserver(
+            forName: .accountDidChange,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            Task { @MainActor [weak self] in
+                self?.renderCurrentAccount()
+            }
+        }
+    }
+
+    deinit {
+        if let accountObserver {
+            NotificationCenter.default.removeObserver(accountObserver)
+        }
+    }
+
+    private func renderCurrentAccount() {
+        // Read current account state and update this screen.
+    }
+}
+
+NotificationCenter.default.post(name: .accountDidChange, object: nil)
+```
+
+The `.main` queue selects the main operation queue. The `@MainActor` task makes
+Swift concurrency isolation explicit; a queue choice alone is not a compiler
+guarantee. The token and weak captures make the lifetime visible. A different
+observer may choose a different queue, so the notification itself does not promise
+main-actor delivery.
 
 Use notifications for broad events, not for routine parent-child communication.
 If a child needs to tell its owner that a button was tapped, a delegate or

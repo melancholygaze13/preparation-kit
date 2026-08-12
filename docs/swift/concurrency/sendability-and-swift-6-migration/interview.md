@@ -8,7 +8,7 @@ interview_priority: core
 estimated_read_minutes: 3
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-08-12
 ---
 
 # Sendability and Swift 6 Migration: Interview Questions

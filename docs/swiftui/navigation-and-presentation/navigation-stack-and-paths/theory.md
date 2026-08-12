@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - navigation-stack
   - navigation-path
@@ -33,11 +33,10 @@ A **route** is application data that names a destination, such as “product 42.
 view SwiftUI creates for a route. Keeping these terms separate prevents views from
 becoming the application's navigation state.
 
-```mermaid
-flowchart LR
-    Path["Path: product(42), reviews(42)"] --> Product["ProductView"]
-    Product --> Reviews["ReviewsView"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram-1.html" style="--schematic-aspect: 960 / 248" title="NavigationStack and Paths" loading="lazy"></iframe>
+  <figcaption><a href="../diagram-1.html">Open the NavigationStack and Paths diagram</a></figcaption>
+</figure>
 
 The path is navigation state, not a collection of views. This separation makes
 programmatic navigation, deep linking, testing, and restoration possible.
@@ -46,16 +45,10 @@ programmatic navigation, deep linking, testing, and restoration possible.
 
 ### Framework-Owned and App-Owned State
 
-```mermaid
-stateDiagram-v2
-    [*] --> Root
-    Root --> Product: append .product(id)
-    Product --> Reviews: append .reviews(id)
-    Reviews --> Product: remove last route
-    Product --> Root: pop to root
-    Root --> Reviews: replace path from deep link
-    Reviews --> Root: invalid route or missing data clears path
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram-2.html" style="--schematic-aspect: 960 / 520" title="NavigationStack and Paths — Framework-Owned and App-Owned State" loading="lazy"></iframe>
+  <figcaption><a href="../diagram-2.html">Open the NavigationStack and Paths — Framework-Owned and App-Owned State diagram</a></figcaption>
+</figure>
 
 Without a path binding, SwiftUI manages pushes and pops internally. This is enough
 for a small local flow that only uses direct destination links. The application

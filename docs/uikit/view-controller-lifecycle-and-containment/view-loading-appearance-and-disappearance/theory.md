@@ -6,9 +6,9 @@ concept: "View Loading, Appearance, and Disappearance"
 page_type: theory
 levels: [senior, staff, principal]
 interview_priority: core
-estimated_read_minutes: 8
+estimated_read_minutes: 9
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # View Loading, Appearance, and Disappearance: Theory
@@ -21,17 +21,10 @@ UIKit separates view creation from visibility. A controller can exist before its
 view is loaded. Its view can be loaded once, appear many times, disappear many
 times, and still remain in memory.
 
-```mermaid
-flowchart TD
-    Init["Controller init"] --> LoadView["loadView"]
-    LoadView --> DidLoad["viewDidLoad"]
-    DidLoad --> WillAppear["viewWillAppear"]
-    WillAppear --> IsAppearing["viewIsAppearing"]
-    IsAppearing --> Layout["Layout pass"]
-    Layout --> DidAppear["viewDidAppear"]
-    DidAppear --> WillDisappear["viewWillDisappear"]
-    WillDisappear --> DidDisappear["viewDidDisappear"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 580" title="View Loading, Appearance, and Disappearance" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the View Loading, Appearance, and Disappearance diagram</a></figcaption>
+</figure>
 
 That sequence is common, but real apps add presentations, child containment,
 interactive transitions, memory pressure, trait changes, and scene transitions.
@@ -55,6 +48,65 @@ Use `viewDidLoad` for setup that requires the view hierarchy to exist:
 `viewDidLoad` is not a visibility callback. Starting a camera session,
 subscribing to visible-only updates, or marking analytics impressions there can
 be wrong because the screen may not be visible yet.
+
+This clock keeps hierarchy creation separate from work that should run only while
+the screen is visible:
+
+```swift
+final class ClockViewController: UIViewController {
+    private let timeLabel = UILabel()
+    private var timer: Timer?
+
+    override func loadView() {
+        view = UIView()
+        view.backgroundColor = .systemBackground
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.addSubview(timeLabel)
+        timeLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            timeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            timeLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
+
+    override func viewIsAppearing(_ animated: Bool) {
+        super.viewIsAppearing(animated)
+        updateTime()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        timer = Timer.scheduledTimer(
+            timeInterval: 1,
+            target: self,
+            selector: #selector(updateTime),
+            userInfo: nil,
+            repeats: true
+        )
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        timer?.invalidate()
+        timer = nil
+    }
+
+    @objc private func updateTime() {
+        timeLabel.text = DateFormatter.localizedString(
+            from: Date(),
+            dateStyle: .none,
+            timeStyle: .medium
+        )
+    }
+}
+```
+
+The example builds the view once, refreshes it for each appearance, and balances
+the visible-only timer with cleanup. Production code should also decide whether a
+cancelled interactive disappearance needs the work restarted.
 
 ## Appearance and Disappearance
 

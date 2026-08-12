@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 8
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - modularization
   - build-performance
@@ -54,6 +54,14 @@ repository history. The declared graph and actual import graph should agree.
 Suppose `Checkout` imports `Profile` for user data while `Profile` imports `Checkout`
 for cart badges. Do not create a third `Common` module and move both entire models into
 it. Ask who owns the shared facts and interactions.
+
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 592" title="Package Graphs, Build Times, and Cycles — Break Cycles by Fixing Ownership" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Package Graphs, Build Times, and Cycles — Break Cycles by Fixing Ownership diagram</a></figcaption>
+</figure>
+
+The refactor does not merely hide an import. The app owns cross-feature coordination,
+and the narrow `Session` capability owns the shared user facts.
 
 Options include:
 

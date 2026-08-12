@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - observation
   - model-ownership
@@ -31,12 +31,10 @@ mutable model state.
 
 These ideas answer different questions:
 
-```mermaid
-flowchart LR
-    Observation["@Observable"] --> Invalidation["Which property changes can invalidate readers?"]
-    Ownership["Ownership"] --> Lifetime["Who creates, retains, replaces, and destroys this instance?"]
-    Isolation["Isolation"] --> Access["Where may this mutable model be accessed?"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 584" title="Observation and Model Ownership" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Observation and Model Ownership diagram</a></figcaption>
+</figure>
 
 A correct design states all three. Adding `@Observable` alone does not define a
 model's lifetime or make its mutation concurrency-safe.

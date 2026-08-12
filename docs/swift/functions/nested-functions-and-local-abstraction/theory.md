@@ -10,7 +10,7 @@ levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 tags:
   - nested-functions
   - captures
@@ -23,13 +23,8 @@ tags:
 
 ## Mental Model
 
-Lexical nesting expresses ownership:
-
-```mermaid
-flowchart TD
-    Algorithm["Outer algorithm"] --> State["State and required rules"]
-    Algorithm --> Helper["Local helper that serves the algorithm"]
-```
+Lexical nesting says that a helper belongs to one outer algorithm and its local
+state and rules.
 
 While the helper remains nonescaping, its lifetime and meaning are bounded by the
 outer call. Once returned or stored, it becomes an object-like behavior value with

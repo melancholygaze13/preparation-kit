@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - caching
   - synchronization
@@ -40,6 +40,13 @@ tags:
 I start with product tolerance for latency, staleness, and offline use. Remote-only fits
 simple always-online data. Cache-aside reduces repeated reads. Cache-then-network gives
 fast stale content plus refresh. Local-first fits durable offline workflows but adds sync.
+
+### Expanded Answer
+
+I name the authoritative copy and define freshness, invalidation, and failure behavior
+before choosing the pattern. A discardable cache can be rebuilt; a local-first database
+may own user-visible state and pending writes. The stronger offline promise earns schema,
+conflict, background-work, and reconciliation cost.
 
 ### Trade-offs
 
@@ -70,6 +77,13 @@ failure class for diagnosis.
 I deduplicate in-flight work by resource when callers can share it and define cancellation
 per waiter. A sync actor may own cursor state, but after each `await` I recheck generation,
 account, and cursor before committing because actors are reentrant.
+
+### Expanded Answer
+
+The coordinator records one in-flight operation and lets compatible callers await it.
+Each caller can stop waiting without necessarily cancelling work still needed elsewhere.
+At commit time, identity and cursor checks prevent an old response from entering a new
+account or overwriting a more recent synchronization pass.
 
 ### Example
 

@@ -10,7 +10,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 tags:
   - viper
   - testability
@@ -30,15 +30,10 @@ action crosses several pass-through objects that have no independent policy.
 Evaluate the pattern through behavior, team boundaries, and change cost rather than test
 coverage or file count alone.
 
-```mermaid
-flowchart TD
-    Need["Observed architecture problem"] --> Pilot["Representative feature pilot"]
-    Pilot --> Evidence{"Better change and test outcomes?"}
-    Evidence -- "yes" --> Standard["Conventions, templates, and reviews"]
-    Evidence -- "no" --> Adapt["Use a simpler or hybrid boundary"]
-    Standard --> Expand["Adopt incrementally where it fits"]
-    Expand --> Remove["Retire replaced legacy paths"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 568" title="Testability, Complexity, and Adoption" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Testability, Complexity, and Adoption diagram</a></figcaption>
+</figure>
 
 The pilot should test the hard parts: async state, navigation, data handoff, and team
 ownership. A static sample screen proves little.

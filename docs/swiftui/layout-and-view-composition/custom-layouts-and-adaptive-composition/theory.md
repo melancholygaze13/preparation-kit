@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - custom-layout
   - adaptive-ui
@@ -34,12 +34,10 @@ means choosing a suitable structure or arrangement for the current conditions. A
 **custom layout** is a Swift type that conforms to `Layout` and owns a child measurement
 and placement algorithm.
 
-```mermaid
-flowchart LR
-    BuiltIns["Flexible built-ins"] --> Alternatives["Fitting alternatives"]
-    Alternatives --> Switch["Switch layout algorithm"]
-    Switch --> Custom["Custom Layout"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 488 / 568; --schematic-width: 488px" title="Custom Layouts and Adaptive Composition" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Custom Layouts and Adaptive Composition diagram</a></figcaption>
+</figure>
 
 ## Adapt to the Container
 
@@ -203,6 +201,14 @@ The bounds origin passed to placement is not guaranteed to be zero. Place relati
 `bounds.minX` and `bounds.minY`. Measurement and placement can run repeatedly, so they
 must be deterministic and free of network work, logging assumptions, or state changes.
 
+SwiftUI may run `Layout` requirement methods away from the main actor. Keep layout
+configuration in value types whose stored values are safe to copy. Do not capture or
+mutate a main-actor model from `sizeThatFits`, `placeSubviews`, or cache
+construction. If domain state changes the arrangement, pass a small immutable value
+into the layout. For example, the view can read a model's spacing on the main actor
+and initialize the layout with that `Double`. SwiftUI can copy the value for layout
+work without crossing the mutable model reference into a sendable callback.
+
 ## Spacing, Values, and Cache
 
 A reusable layout should respect platform spacing rather than always hard-coding a
@@ -262,3 +268,4 @@ failures, and a fallback when content cannot fit any preferred presentation.
 - [`containerRelativeFrame`](https://developer.apple.com/documentation/swiftui/view/containerrelativeframe%28_%3Aalignment%3A%29)
 - [Composing custom layouts with SwiftUI](https://developer.apple.com/documentation/swiftui/composing-custom-layouts-with-swiftui)
 - [Compose custom layouts with SwiftUI](https://developer.apple.com/videos/play/wwdc2022/10056/)
+- [Explore concurrency in SwiftUI](https://developer.apple.com/videos/play/wwdc2025/266/)

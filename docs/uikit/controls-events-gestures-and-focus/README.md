@@ -4,7 +4,7 @@ domain: "UIKit"
 page_type: topic-index
 interview_priority: high
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # Controls, Events, Gestures, and Focus
@@ -24,6 +24,12 @@ gesture coordination, and non-touch input well enough to debug conflicts.
 
 3. [Gesture Recognizer Coordination](gesture-recognizer-coordination/README.md)
 4. [Focus, Pointer, Keyboard, and Menu Interactions](focus-pointer-keyboard-and-menu-interactions/README.md)
+
+### Role-Specific Depth
+
+For iPad, Mac Catalyst, tvOS, or productivity roles, give extra attention to
+focus, pointer, hardware-keyboard, and menu behavior. Touch-only roles can keep
+that concept concise after learning the responder chain and gesture rules.
 
 ## Concepts
 

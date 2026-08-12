@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - lazy-containers
   - scrolling
@@ -88,6 +88,24 @@ List(model.visibleItems) { item in
 
 The model keeps `visibleItems` synchronized with source and filter inputs.
 
+Keep each `ForEach` element's direct-child structure stable. A leaf view that
+sometimes resolves to zero children, or to a changing number of top-level children,
+forces a lazy stack to do more work to preserve indices. It can also keep offscreen
+view state alive longer than expected. Filter the data before `ForEach`, then make
+one item resolve to one stable row container:
+
+```swift
+LazyVStack {
+    ForEach(model.visibleSteps) { step in
+        StepRow(step: step)
+    }
+}
+```
+
+This is not a rule against conditional details inside a row. The issue is using a
+leaf-level conditional to add or remove the row itself. The collection should make
+that membership explicit.
+
 ### Keep Rows Cheap
 
 A row should compose prepared values. Avoid synchronous file access, parsing, image
@@ -140,6 +158,15 @@ Scroll targets require stable IDs. Large immediate jumps can force construction 
 measurement of intermediate layout depending on container behavior. If a deep link
 targets unloaded data, load and identify the target before issuing the scroll request.
 
+A lazy stack estimates the size and position of content it has not measured. Its total
+content size and absolute offset can change as new children become visible. Do not use
+those absolute values for durable restoration or a business threshold. Prefer a stable
+target ID, a relative visibility threshold, or the set of visible target IDs.
+
+Programmatic scrolling can target an offscreen ID because SwiftUI estimates its
+position, then refines the position as layout becomes known. The request is smoother
+when each collection item has stable identity and resolves to one direct child.
+
 Avoid writing scroll position back into broad app state on every pixel change. Store
 semantic position only when restoration or product behavior needs it, and throttle
 expensive downstream work.
@@ -158,6 +185,16 @@ Batch insertion should preserve stable order and IDs. Replacing the entire array
 one changed status can be acceptable with efficient observation, but rebuilding every
 row's expensive derived input is not. Normalize updates in the model and project the
 small values each row needs.
+
+Lazy stacks may evaluate and lay out a row before it appears so that work is spread
+across several frames. Do not wait for `onAppear` to construct the row's basic
+content or change its entire height. Prepare a reasonable placeholder and stable
+layout before appearance. Start bounded data loading through an owned model or task,
+then update content without changing unrelated row structure.
+
+Geometry state that changes a row's size after it appears can also make a targeted
+scroll jump or require new estimation. Prefer layout primitives or a custom `Layout`
+when sibling geometry must determine placement in one layout pass.
 
 ### Layout and Rendering
 
@@ -216,6 +253,8 @@ image peaks from retained growth. One tool rarely explains every stage.
 - Fixed row dimensions can improve predictability only when content and accessibility allow them.
 - Lazy creation is not virtualization API documentation. Do not depend on a fixed
   reuse pool, preload distance, or destruction time.
+- Lazy-stack content size and absolute offset can be estimated and corrected as more
+  children are measured.
 
 ## Engineering Decisions
 
@@ -242,5 +281,6 @@ based on semantics and validate against measured workloads.
 
 - [Creating performant scrollable stacks](https://developer.apple.com/documentation/swiftui/creating-performant-scrollable-stacks)
 - [Loading and displaying a large data feed](https://developer.apple.com/documentation/swiftui/loading-and-displaying-a-large-data-feed)
+- [Dive into lazy stacks and scrolling with SwiftUI](https://developer.apple.com/videos/play/wwdc2026/321/)
 - [Demystify SwiftUI performance](https://developer.apple.com/videos/play/wwdc2023/10160/)
 - [Analyze hangs with Instruments](https://developer.apple.com/videos/play/wwdc2023/10248/)

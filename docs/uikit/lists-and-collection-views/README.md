@@ -4,7 +4,7 @@ domain: "UIKit"
 page_type: topic-index
 interview_priority: core
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # Lists and Collection Views
@@ -25,6 +25,12 @@ running after reuse.
 
 3. [Compositional Layouts and List Configuration](compositional-layouts-and-list-configuration/README.md)
 4. [Prefetching, Pagination, and Update Consistency](prefetching-pagination-and-update-consistency/README.md)
+
+### Role-Specific Depth
+
+For feed, catalog, or media roles, deepen pagination, prefetching, image work,
+and compositional layout. For ordinary settings or form lists, stable identity,
+complete cell configuration, and reuse correctness remain the main preparation.
 
 ## Concepts
 

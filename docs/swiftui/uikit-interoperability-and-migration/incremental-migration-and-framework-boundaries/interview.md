@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: situational
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 ---
 
 # Incremental Migration and Framework Boundaries: Interview Questions
@@ -67,6 +67,10 @@ I define the owner before writing the wrapper. If UIKit owns the flow, SwiftUI
 emits intents and receives current values. If SwiftUI owns the feature, UIKit
 hosts the boundary and delegates the internal state transitions to SwiftUI. The
 important part is that the same fact does not have two mutation paths.
+
+UIKit's Observation tracking can let both frameworks read one `@Observable` model
+while the UI boundary moves. That is useful only when the model already has one clear
+owner; observation does not resolve duplicated mutation policy by itself.
 
 ### Example
 

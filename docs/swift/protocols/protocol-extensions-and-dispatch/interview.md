@@ -8,7 +8,7 @@ interview_priority: high
 estimated_read_minutes: 3
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 ---
 
 # Protocol Extensions and Dispatch: Interview Questions
@@ -87,6 +87,13 @@ budgets differ; a pure derived diagnostic label safely has a default.
 Call the behavior through concrete, generic, and existential views that match production.
 Verify that requirements use the intended witness and extension-only helpers remain
 deliberately static. Concrete-only tests can miss the exact dispatch bug under review.
+
+### Expanded Answer
+
+The expression's static type changes how an extension-only member is selected. Tests
+should therefore create the same generic constraints and `any Protocol` storage used by
+the real boundary. If polymorphism is required, declare the member as a protocol
+requirement and verify the conformer's witness through that protocol view.
 
 ### Example
 

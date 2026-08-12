@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - scroll-position
   - scroll-view-reader
@@ -89,6 +89,12 @@ SwiftUI updates the binding during scrolling. Writing a new valid ID asks SwiftU
 scroll to that target. `ScrollPosition` supports IDs, edges, and offsets when a feature
 needs a richer position value.
 
+In a lazy stack, offscreen sizes and positions are estimates until SwiftUI measures
+those children. An ID-based `ScrollPosition` can still target an offscreen item:
+SwiftUI estimates the destination and refines it during layout. Keep one stable direct
+row structure per item so the stack can find and count targets without constructing
+unrelated views.
+
 The ID-binding APIs arrived before the richer `ScrollPosition` and scroll-geometry
 observation APIs. If the deployment target cannot use the needed API, keep
 `ScrollViewReader` as the event-driven fallback rather than building an unrestricted
@@ -150,6 +156,10 @@ With `onScrollGeometryChange`, transform the full geometry into the smallest
 when that derived value changes. Publishing the raw offset into shared state on every
 movement defeats that filtering and can create unnecessary view updates.
 
+Do not use an absolute content size or offset from a lazy stack as a durable threshold.
+Both can change as estimates are corrected. Prefer relative visibility or identified
+targets for decisions such as whether a section is near the viewport.
+
 The visibility, geometry, phase, and `ScrollPosition` APIs require the SwiftUI version
 shipped with iOS 18, iPadOS 18, macOS 15, and related 2024 platform releases. Guard
 them with the app's deployment targets. `scrollPosition(id:anchor:)` and
@@ -185,5 +195,6 @@ change geometry, reinforcing why semantic IDs are stronger restoration state.
 - [`ScrollPosition`](https://developer.apple.com/documentation/swiftui/scrollposition)
 - [`scrollPosition`](https://developer.apple.com/documentation/swiftui/view/scrollposition%28_%3A%29)
 - [Scroll views](https://developer.apple.com/documentation/swiftui/scroll-views)
+- [Dive into lazy stacks and scrolling with SwiftUI](https://developer.apple.com/videos/play/wwdc2026/321/)
 - [Beyond scroll views](https://developer.apple.com/videos/play/wwdc2023/10159/)
 - [What’s new in SwiftUI](https://developer.apple.com/videos/play/wwdc2024/10144/)

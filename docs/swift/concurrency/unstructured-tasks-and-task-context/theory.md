@@ -8,7 +8,7 @@ interview_priority: high
 estimated_read_minutes: 4
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 ---
 
 # Unstructured Tasks and Task Context: Theory
@@ -27,13 +27,27 @@ who stores the handle, observes completion, cancels on teardown, and reports fai
 It inherits the current actor, so creating it on `@MainActor` does not offload CPU work.
 
 ```swift
+struct SearchService: Sendable {
+    func search(_ query: String) async throws -> [String] {
+        ["Result for \(query)"]
+    }
+}
+
 @MainActor
 final class SearchModel {
+    private let service: SearchService
     private var searchTask: Task<Void, Never>?
+    private(set) var result: [String] = []
+    private(set) var error: (any Error)?
+
+    init(service: SearchService) {
+        self.service = service
+    }
 
     func search(for query: String) {
         searchTask?.cancel()
-        searchTask = Task { [weak self] in
+        let service = self.service
+        searchTask = Task { [weak self, service] in
             do {
                 let result = try await service.search(query)
                 try Task.checkCancellation()
@@ -46,7 +60,7 @@ final class SearchModel {
         }
     }
 
-    deinit { searchTask?.cancel() }
+    isolated deinit { searchTask?.cancel() }
 }
 ```
 

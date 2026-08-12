@@ -8,7 +8,7 @@ interview_priority: core
 estimated_read_minutes: 5
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-08-12
 ---
 
 # Object Graph Cycles and Non-Owning References: Theory
@@ -25,20 +25,10 @@ cycle is a design error when every object in it claims to own another.
 
 ## How It Works
 
-```mermaid
-flowchart LR
-    subgraph Cycle["Leaking ownership cycle"]
-        direction LR
-        ParentA["Parent"] -- "strong" --> ChildA["Child"]
-        ChildA -- "strong" --> ParentA
-    end
-
-    subgraph Healthy["Non-owning back-reference"]
-        direction LR
-        Owner["Owner"] -- "strong" --> ChildB["Delegate or child"]
-        ChildB -- "weak or unowned" --> Owner
-    end
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 588" title="Object Graph Cycles and Non-Owning References" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Object Graph Cycles and Non-Owning References diagram</a></figcaption>
+</figure>
 
 ```swift
 final class Parent {

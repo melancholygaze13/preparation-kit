@@ -5,10 +5,10 @@ topic: "Concurrency"
 concept: "Sendability and Swift 6 Migration"
 page_type: theory
 interview_priority: core
-estimated_read_minutes: 5
+estimated_read_minutes: 6
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-08-12
 ---
 
 # Sendability and Swift 6 Migration: Theory
@@ -35,10 +35,52 @@ types are safe to send because access remains isolated.
 executing closures is not made safe by capturing syntax; restructure into immutable values,
 an actor, or a synchronized owner.
 
+```swift
+struct SearchRequest: Sendable {
+    let query: String
+    let limit: Int
+}
+
+func perform(
+    _ request: SearchRequest,
+    using operation: @Sendable (SearchRequest) async -> [String]
+) async -> [String] {
+    await operation(request)
+}
+
+let matches = await perform(SearchRequest(query: "swift", limit: 2)) { request in
+    Array(repeating: request.query, count: request.limit)
+}
+
+print(matches) // ["swift", "swift"]
+```
+
 `sending` parameters and results describe transfer: after a non-sendable value is sent,
 the sending task or actor must not keep or use other references that could race. Region-based
 isolation lets the compiler examine connected objects instead of rejecting every
 non-sendable value in the same way.
+
+```swift
+final class Draft {
+    var text: String
+
+    init(text: String) {
+        self.text = text
+    }
+}
+
+actor DraftStore {
+    private var latest: Draft?
+
+    func save(_ draft: sending Draft) {
+        latest = draft
+    }
+}
+
+let draft = Draft(text: "Ready")
+await DraftStore().save(draft)
+// Do not use draft here: ownership moved into DraftStore.
+```
 
 `@unchecked Sendable` makes the author responsible for proving safety. Use it only
 in narrow cases. For example, a final class may qualify when one documented lock,

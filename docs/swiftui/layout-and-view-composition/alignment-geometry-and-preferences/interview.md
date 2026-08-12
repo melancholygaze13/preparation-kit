@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - alignment
   - geometry
@@ -76,6 +76,11 @@ live in a sheet, split window, or nested container.
 I choose a named coordinate space when positions must be compared inside a component.
 I also derive only the needed value, such as whether width crosses a breakpoint,
 instead of storing a continuously changing global frame.
+
+The `onGeometryChange` transform is `@Sendable` and may run away from the main
+actor. I calculate only from geometry and safely captured values there. I update
+UI-owned state in the action closure rather than capture a main-actor model in the
+transform.
 
 The coordinate-space modifier goes on the ancestor that should define the origin. A
 descendant then asks for `proxy.frame(in: .named(...))`. Local and global coordinates

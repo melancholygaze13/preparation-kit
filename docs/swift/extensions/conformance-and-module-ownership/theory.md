@@ -8,7 +8,7 @@ interview_priority: situational
 estimated_read_minutes: 4
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-08-12
 ---
 
 # Conformance and Module Ownership: Theory
@@ -70,7 +70,8 @@ need separate protocol-level reasoning; an extension does not create dynamic ove
 
 - Conformance availability is module import dependent at compile time but globally unique in the runtime process.
 - `@retroactive` suppresses/acknowledges the compiler warning; it provides no conflict-resolution mechanism.
-- Extensions of imported types without imported-protocol conformance do not create the same witness-table conflict, though member names can still collide.
+- Extending an imported type without adding an imported-protocol conformance avoids that witness-table conflict.
+  Member names can still collide.
 - A same-package exception to the warning is not proof that architecture or semantics are sound.
 
 ## Engineering Judgment

@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - async-sequence
   - event-ordering
@@ -35,18 +35,10 @@ A stream is a contract for values over time. Before choosing an API, define:
 `AsyncSequence` gives consumers an async pull interface. `AsyncStream` can adapt a push
 source to that interface, but buffering does not automatically slow the producer.
 
-```mermaid
-flowchart TD
-    Producer["Producer"] --> Boundary["Ordering boundary"]
-    Boundary --> Buffer{"Capacity available?"}
-    Buffer -- "yes" --> Queue["Bounded buffer"]
-    Buffer -- "no: keep newest" --> DropOld["Drop or coalesce older value"]
-    Buffer -- "no: every event matters" --> Persist["Persist or apply real flow control"]
-    Queue --> Consumer["Async consumer"]
-    DropOld --> Queue
-    Persist --> Consumer
-    Consumer -- "cancel or finish" --> Cleanup["Stop producer and release subscription"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 568" title="Event Ordering, Streams, and Backpressure" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Event Ordering, Streams, and Backpressure diagram</a></figcaption>
+</figure>
 
 The overflow branch is a product decision. Hiding it behind an unbounded queue only
 delays the decision until memory or latency becomes a problem.

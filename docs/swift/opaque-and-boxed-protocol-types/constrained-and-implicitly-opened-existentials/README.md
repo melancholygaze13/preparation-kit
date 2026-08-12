@@ -7,12 +7,13 @@ interview_priority: situational
 estimated_read_minutes: 1
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-08-12
 ---
 
 # Constrained and Implicitly Opened Existentials
 
-> Constrained existentials retain selected associated-type facts; implicit opening temporarily binds one boxed value's dynamic type to a generic parameter.
+> A constrained existential preserves selected associated-type facts.
+> Implicit opening temporarily binds one boxed value's runtime type to a generic parameter.
 
 ## Quick Recall
 

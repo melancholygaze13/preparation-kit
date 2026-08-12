@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 8
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - quality-attributes
   - product-constraints
@@ -28,10 +28,10 @@ Architecture is not a choice between named patterns. It is the set of hard-to-ch
 decisions about boundaries, ownership, data flow, and dependencies. Those decisions
 should follow the product's important qualities and constraints.
 
-A functional requirement says what the system does: "A customer can place an
-order." A **quality attribute** says how well the system must behave: the order must
-survive a network interruption, submission must not happen twice, and the interface
-must remain responsive. A **constraint** limits the available choices: the team must
+A functional requirement says what the system does: "A customer can place an order."
+A **quality attribute** says how well the system must behave. In this example, the order
+survives a network interruption, submission does not happen twice, and the interface
+remains responsive. A **constraint** limits the available choices: the team must
 reuse an existing API, ship in six weeks, support a minimum OS version, or meet a
 privacy rule.
 

@@ -8,9 +8,9 @@ levels:
   - staff
   - principal
 interview_priority: situational
-estimated_read_minutes: 2
+estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 tags:
   - platform-teams
   - ownership
@@ -39,6 +39,13 @@ tags:
 When many teams need it, variation creates meaningful risk or duplicated work, and scarce
 expertise can provide a better supported path. The reduction in cognitive and operational
 cost must exceed the coordination and blast-radius cost of centralization.
+
+### Expanded Answer
+
+I first confirm repeated consumer pain and a stable common capability. The platform team
+then owns a service contract, migration support, reliability, and contribution model.
+Product-specific decisions remain with feature teams so the platform does not become a
+central approval queue.
 
 ### Trade-offs
 
@@ -69,6 +76,13 @@ platform without turning it into several incompatible forks.
 Teams integrate faster with fewer defects and less duplicated infrastructure. I combine
 lead time, reliability, support causes, exception reasons, local alternatives, and product
 delivery outcomes. Adoption alone can be high only because the platform is mandatory.
+
+### Expanded Answer
+
+I measure the consumer journey from discovery through production operation. Shorter setup,
+clearer diagnostics, fewer repeated incidents, and fewer unsupported forks are stronger
+signals than registration counts. Qualitative interviews explain whether the platform
+removed work or merely moved it to another queue.
 
 ### Example
 

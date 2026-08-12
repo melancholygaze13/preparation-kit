@@ -8,7 +8,7 @@ interview_priority: situational
 estimated_read_minutes: 2
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-08-12
 tags: [any, anyobject, mixed-type-data, boundary-design]
 ---
 
@@ -26,6 +26,15 @@ domain types once.
 ## How It Works
 
 ```swift
+struct Metadata {
+    let id: String
+    let retries: Int
+}
+
+enum MetadataError: Error {
+    case invalidShape
+}
+
 func decodeMetadata(_ raw: [String: Any]) throws -> Metadata {
     guard let id = raw["id"] as? String,
           let retries = raw["retries"] as? Int else {
@@ -33,6 +42,9 @@ func decodeMetadata(_ raw: [String: Any]) throws -> Metadata {
     }
     return Metadata(id: id, retries: retries)
 }
+
+let metadata = try decodeMetadata(["id": "job-42", "retries": 2])
+print(metadata.id) // job-42
 ```
 
 Boundary code must distinguish missing key, explicit null, wrong type, and invalid

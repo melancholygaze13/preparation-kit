@@ -8,7 +8,7 @@ interview_priority: situational
 estimated_read_minutes: 3
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 ---
 
 # Unsafe Memory and Foreign Boundaries: Interview Questions

@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - clean-architecture
   - dependency-rule
@@ -72,6 +72,13 @@ It is unnecessary when it only forwards one stable call and owns no policy, reus
 security, transaction, or coordination. A direct injected dependency can be clearer.
 I add the boundary when important behavior needs isolation or several callers need the
 same operation.
+
+### Expanded Answer
+
+I look for a product decision that deserves a name and independent tests. If the type
+only renames an adapter method, it increases navigation and mapping without protecting
+policy. The boundary can be introduced later when coordination, reuse, authorization,
+or transaction rules appear.
 
 ### Trade-offs
 

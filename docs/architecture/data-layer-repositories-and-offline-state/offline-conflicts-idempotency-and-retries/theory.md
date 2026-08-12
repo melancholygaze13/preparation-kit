@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - offline
   - idempotency
@@ -49,6 +49,14 @@ The sync worker claims an eligible entry, sends it, and records acknowledgement.
 process stops after the server commits but before local acknowledgement, the same entry
 will run again. That is why its remote operation must be idempotent.
 
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 600" title="Offline Conflicts, Idempotency, and Retries — Persist an Outbox Entry" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Offline Conflicts, Idempotency, and Retries — Persist an Outbox Entry diagram</a></figcaption>
+</figure>
+
+The lost response makes delivery ambiguous. Reusing the same operation ID lets the
+server return the original result instead of applying the business operation twice.
+
 Do not serialize arbitrary Swift objects into a permanent queue. Store a versioned
 schema that future app versions can migrate, reject, or compensate. Encrypt sensitive
 payloads at rest and avoid keeping secrets that the operation can obtain safely later.
@@ -65,9 +73,9 @@ The server contract must define key scope, retention, payload mismatch behavior,
 response returned for a duplicate. Client-side deduplication alone cannot prevent two
 devices from sending the same business operation.
 
-Stable resource IDs can also make creation idempotent: “put this draft at ID X” is easier
-to replay than “create an anonymous new draft.” Deletes need tombstones or a versioned
-delete record when an older remote copy could otherwise reappear during sync.
+Stable resource IDs can also make creation idempotent. For example, “put this draft at
+ID X” is easier to replay than “create an anonymous new draft.” Deletes need tombstones
+or a versioned delete record when an older remote copy could reappear during sync.
 
 ## Retry by Failure Class
 

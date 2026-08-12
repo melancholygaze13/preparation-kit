@@ -8,7 +8,7 @@ interview_priority: high
 estimated_read_minutes: 4
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 ---
 
 # Protocol Extensions and Dispatch: Theory
@@ -38,6 +38,14 @@ struct Item: Describable {
     func describe() -> String { "item" }
     func debugLabel() -> String { "item debug" }
 }
+
+let concrete = Item()
+let erased: any Describable = concrete
+
+print(concrete.describe())  // item
+print(erased.describe())    // item: protocol requirement dispatch
+print(concrete.debugLabel()) // item debug
+print(erased.debugLabel())   // protocol: extension-only static dispatch
 ```
 
 Calling `describe()` through `any Describable` uses `Item`'s witness. Calling

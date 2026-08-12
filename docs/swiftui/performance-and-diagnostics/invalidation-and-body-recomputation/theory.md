@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - invalidation
   - body-recomputation
@@ -241,9 +241,9 @@ Profile the same interaction in a release-like build with realistic update rates
 Record signposts for product events so update traces can be tied to user actions.
 Compare before and after using the same device, data, and gesture.
 
-At Staff scope, provide shared diagnostics and performance budgets rather than rules
-such as “body may run only once.” Review state ownership and identity in component
-APIs so teams avoid common propagation problems without premature micro-optimization.
+At Staff scope, provide shared diagnostics and performance budgets. Avoid rules such as
+“body may run only once.” Review state ownership and identity in component APIs so teams
+can prevent broad updates without premature micro-optimization.
 
 ## References
 

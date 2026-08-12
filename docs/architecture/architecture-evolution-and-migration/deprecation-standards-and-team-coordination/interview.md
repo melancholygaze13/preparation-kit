@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 tags:
   - deprecation
   - standards
@@ -56,6 +56,13 @@ I make the preferred path easy, automate checks at the relevant boundary, and pr
 exception process with a reason, owner, risk control, and expiry. Repeated exceptions are
 feedback that the standard may need a supported extension.
 
+### Expanded Answer
+
+I begin with documentation, examples, and migration tooling, then block new violations
+before forcing existing consumers to move. Enforcement belongs near the boundary it
+protects, such as a module graph or API check. The exception record keeps urgent work
+visible without turning one exception into a permanent second standard.
+
 ### Trade-offs
 
 Immediate hard enforcement can stop urgent product work before the replacement is ready.
@@ -70,6 +77,13 @@ replacement maturity and migration support.
 When all supported consumers have migrated, runtime traffic is zero for the agreed
 window, compatibility and version promises allow the break, and rollback no longer
 depends on it. Then I remove the API, adapter, flag, tests, metrics, and outdated docs.
+
+### Expanded Answer
+
+Source search alone is not enough when released clients or dynamically selected paths
+can still call the API. I combine build-time inventory, production usage, support windows,
+and rollback dependencies. Removal is complete only when the old path and its temporary
+operational support are deleted.
 
 ### Example
 

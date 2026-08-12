@@ -7,12 +7,13 @@ interview_priority: reference
 estimated_read_minutes: 1
 levels: [senior, staff, principal]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-08-12
 ---
 
 # Operator API Design and Evolution
 
-> Operators are global source-language surface; govern them through behavior rules, discoverability, collision analysis, client compilation, and staged migration.
+> Operators are global source syntax.
+> Govern them with stable behavior, clear discovery, collision checks, client compilation, and staged migration.
 
 ## Quick Recall
 

@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # Containment and Child View Controllers: Theory
@@ -22,12 +22,10 @@ child controller's lifetime and places the child's root view inside its own view
 UIKit can then send lifecycle, trait, rotation, and appearance updates through
 the controller tree.
 
-```mermaid
-flowchart LR
-    Parent["Parent view controller"] --> Child["Child view controller"]
-    ParentView["Parent view"] --> ChildView["Child root view"]
-    Child --> ChildView
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 600" title="Containment and Child View Controllers" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Containment and Child View Controllers diagram</a></figcaption>
+</figure>
 
 Use containment when a region of the interface has its own lifecycle,
 dependencies, navigation, or state ownership. Use a plain `UIView` when the

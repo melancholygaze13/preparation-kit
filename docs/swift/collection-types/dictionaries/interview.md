@@ -9,7 +9,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 ---
 
 # Dictionaries: Interview Questions
@@ -68,6 +68,12 @@ optional `nil`. Avoid this model unless both states matter.
 Choose a domain rule: keep the old value, take the new value, combine them, or
 reject the conflict. Make the policy explicit at the merge boundary.
 
+### Expanded Answer
+
+Swift's merging APIs ask for a closure when duplicate keys appear. That closure is
+business policy, not collection plumbing. It should be deterministic and should
+preserve conflict evidence when silently choosing one value would lose information.
+
 ### Example
 
 Refreshing a cache may take the newest record. Importing two configuration files with
@@ -82,6 +88,12 @@ the same key should often reject the conflict so one source does not silently wi
 
 Use a dictionary for repeated lookup by a stable unique key. Use an array when
 order, duplicates, or positional traversal are part of the model.
+
+### Expanded Answer
+
+A dictionary makes key uniqueness and key-based access part of the type. It does not
+promise presentation order. If both fast lookup and stable order matter, keep one
+authoritative model and derive an ordered view instead of letting two collections drift.
 
 ### Trade-offs
 
@@ -99,3 +111,9 @@ order, duplicates, or positional traversal are part of the model.
 No. `dictionary[key, default: value]` can return the default without changing
 the dictionary. Mutating through that subscript, such as with `+=`, inserts the
 default and then applies the mutation.
+
+### Expanded Answer
+
+The read-only form computes a fallback value for that access. A mutating access needs
+storage to update, so Swift inserts the default for a missing key before applying the
+mutation. This difference matters when an empty dictionary is used to count values.

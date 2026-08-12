@@ -7,12 +7,13 @@ interview_priority: high
 estimated_read_minutes: 1
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 ---
 
 # Protocol Extensions and Dispatch
 
-> Default implementations can satisfy requirements dynamically through witnesses; extension-only members are selected from static type and constraints.
+> A default implementation can satisfy a requirement and dispatch through a witness.
+> Extension-only members are selected from the static type and constraints.
 
 ## Quick Recall
 

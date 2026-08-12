@@ -10,7 +10,7 @@ levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 tags:
   - function-types
   - higher-order-functions
@@ -28,12 +28,10 @@ A function value is callable behavior stored in a value. A *higher-order
 function* accepts a function, returns a function, or does both. This separates
 stable control flow from caller-supplied behavior:
 
-```mermaid
-flowchart LR
-    Function["Higher-order function"] --> Apply["Apply"]
-    Policy["Callable policy"] --> Apply
-    Apply --> Outcome["Result and effects"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 600" title="Function Values and Higher-Order Functions" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Function Values and Higher-Order Functions diagram</a></figcaption>
+</figure>
 
 The arrow type is necessary but incomplete. A production callback contract also
 defines its lifetime, number of calls, executor or actor, ordering, reentrancy, error,

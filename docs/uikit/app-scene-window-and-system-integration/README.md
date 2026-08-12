@@ -4,7 +4,7 @@ domain: "UIKit"
 page_type: topic-index
 interview_priority: high
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # App, Scene, Window, and System Integration
@@ -34,5 +34,5 @@ window contains that scene's visible controller hierarchy.
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
 | [Application, Scene, and Window Lifecycle](application-scene-and-window-lifecycle/README.md) | Separates process, scene, and visible-window responsibilities. | High | 9 min |
-| [Multiwindow, State Restoration, and Handoff](multiwindow-state-restoration-and-handoff/README.md) | Preserves independent user activities across scenes and devices. | Situational | 7 min |
-| [Appearance, Bars, Status, and System Chrome](appearance-bars-status-and-system-chrome/README.md) | Coordinates app styling with platform-owned interface elements. | Situational | 7 min |
+| [Multiwindow, State Restoration, and Handoff](multiwindow-state-restoration-and-handoff/README.md) | Preserves independent user activities across scenes and devices. | Situational | 8 min |
+| [Appearance, Bars, Status, and System Chrome](appearance-bars-status-and-system-chrome/README.md) | Coordinates app styling with platform-owned interface elements. | Situational | 8 min |

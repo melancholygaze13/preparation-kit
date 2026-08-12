@@ -4,7 +4,7 @@ domain: "UIKit"
 page_type: topic-index
 interview_priority: core
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # Performance, Memory, and Diagnostics
@@ -25,6 +25,12 @@ cost, and prove claims with measurements before rewriting code.
 
 3. [Layout, Rendering, and Offscreen Cost](layout-rendering-and-offscreen-cost/README.md)
 4. [Instruments, Hangs, Hitches, and Memory](instruments-hangs-hitches-and-memory/README.md)
+
+### Role-Specific Depth
+
+For feed, media, or UI-platform roles, practice with representative traces and
+large data sets. For any role, keep the same order: reproduce, measure, isolate
+the cost, change one cause, and measure again.
 
 ## Concepts
 

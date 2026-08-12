@@ -9,9 +9,9 @@ levels:
   - staff
   - principal
 interview_priority: situational
-estimated_read_minutes: 2
+estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - state-restoration
   - scene-storage
@@ -28,7 +28,7 @@ tags:
 |---|---|---|
 | [When would you use SceneStorage?](#q1-when-would-you-use-scenestorage) | Senior | Storage scope |
 | [How would you restore navigation safely?](#q2-how-would-you-restore-navigation-safely) | Senior | Best-effort reconstruction |
-| [How do FileDocument and ReferenceFileDocument differ?](#q3-how-do-filedocument-and-referencefiledocument-differ) | Staff | Document ownership and saving |
+| [How do SwiftUI's document protocols differ?](#q3-how-do-filedocument-and-referencefiledocument-differ) | Staff | Document ownership and saving |
 
 ---
 
@@ -66,22 +66,31 @@ change, and sign-in state can expire. I version restoration data when needed, ke
 separate from durable edits, and test migration and invalid-token paths.
 
 <a id="q3-how-do-filedocument-and-referencefiledocument-differ"></a>
-## Q3: How do FileDocument and ReferenceFileDocument differ?
+## Q3: How do SwiftUI's document protocols differ?
 
 ### Short Answer
 
-`FileDocument` suits value-semantic models and gives the editor a binding. A
-`ReferenceFileDocument` is a reference-semantic observable document and produces a
-snapshot for writing. Both declare content types and serialize through `FileWrapper`.
+For new document types on 2027 platforms, I prefer `Document`. It is an observable
+reference type with explicit snapshots and asynchronous readers and writers.
+`FileDocument` is value-semantic with binding-based edits. `ReferenceFileDocument` is
+reference-semantic and uses a write snapshot. I keep those older protocols when an
+earlier deployment target or existing implementation requires them.
 
 ### Expanded Answer
 
-I choose based on model ownership, not file size alone. The format boundary validates
-input, reports failures, and maintains compatibility. Snapshot creation must represent
-one consistent document version.
+The new `Document` protocol separates a small state snapshot from disk work. SwiftUI
+captures the snapshot on the main actor, then performs reading or writing in the
+background with coordinated file access. Its `sending` values make the actor crossing
+explicit. It also supports direct URL access and custom streaming readers or writers.
+
+I still choose based on model ownership, platform support, and I/O needs, not file size
+alone. The format boundary validates input, reports failures, and maintains
+compatibility. Every snapshot must represent one consistent document version.
 
 ### Trade-offs
 
-Value semantics simplify reasoning but copying can be costly for some models. Reference
-semantics support shared mutable identity but require stricter synchronization and
-snapshot discipline. Neither protocol defines the product's external-conflict policy.
+`FileDocument` gives automatic undo through value semantics, but copying can be costly
+for some models. Reference semantics support shared mutable identity but require
+explicit undo and stricter snapshot discipline. The modern API requires the 2027
+platform releases. None of the protocols defines the product's external-conflict
+policy.

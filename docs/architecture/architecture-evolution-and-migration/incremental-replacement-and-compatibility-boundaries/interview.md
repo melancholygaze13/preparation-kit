@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 tags:
   - incremental-migration
   - compatibility
@@ -57,6 +57,13 @@ At a seam that expresses a stable capability needed by callers, such as a reposi
 feature factory, navigation entry point, or service facade. It should hide implementation
 selection without copying legacy concepts into every new caller.
 
+### Expanded Answer
+
+The boundary should be owned by the consumer-facing capability, not by whichever
+implementation is being removed. It translates legacy and replacement models into one
+contract, lets rollout select either path, and remains narrow enough to delete temporary
+translation once migration finishes.
+
 ### Trade-offs
 
 A broad abstraction supports more migration paths but can freeze the old design. A narrow
@@ -71,6 +78,13 @@ out of temporary adapters so they remain removable.
 Only when one transactional write authority is impossible and the migration justifies
 the consistency cost. I define ordering, idempotency, partial-failure handling,
 reconciliation, conflict authority, observability, and an end date before enabling it.
+
+### Expanded Answer
+
+Dual writing creates a distributed consistency problem even inside one product. One path
+must remain authoritative, and retries need stable operation identities. A reconciler and
+metrics make divergence visible; an explicit exit condition prevents the temporary design
+from becoming permanent infrastructure.
 
 ### Example
 

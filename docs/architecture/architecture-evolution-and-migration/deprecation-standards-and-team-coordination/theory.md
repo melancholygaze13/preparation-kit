@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 tags:
   - deprecation
   - standards
@@ -32,16 +32,10 @@ Standards work when the preferred path is usable, enforced at the right boundary
 open to time-limited exceptions. Coordination turns those rules into sequenced work
 across teams.
 
-```mermaid
-flowchart TD
-    Ready["Replacement ready"] --> Announce["Publish guidance and deadline"]
-    Announce --> Migrate["Migrate and support consumers"]
-    Migrate --> Measure{"Legacy usage zero?"}
-    Measure -- "no" --> Exception["Resolve blocker or approve expiring exception"]
-    Exception --> Migrate
-    Measure -- "yes" --> Enforce["Make old path unavailable"]
-    Enforce --> Remove["Delete code, flags, docs, and ownership"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 568" title="Deprecation, Standards, and Team Coordination" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Deprecation, Standards, and Team Coordination diagram</a></figcaption>
+</figure>
 
 Removal is part of the plan, not optional cleanup after the interesting work.
 

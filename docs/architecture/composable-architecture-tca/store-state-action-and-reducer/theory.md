@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 6
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - tca
   - reducers
@@ -30,15 +30,10 @@ can enter the feature. A reducer handles one action, mutates state synchronously
 returns effects that may send later actions. A store runs this loop and exposes state
 to SwiftUI, UIKit, tests, or another integration layer.
 
-```mermaid
-flowchart LR
-    Action["Action"] --> Reducer["Reducer"]
-    Reducer --> State["New state"]
-    State --> Observation["Observation"]
-    Reducer --> Effect["Effect"]
-    Effect --> Later["Later action"]
-    Later --> Reducer
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 600" title="Store, State, Action, and Reducer" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Store, State, Action, and Reducer diagram</a></figcaption>
+</figure>
 
 This centralizes mutation and effect decisions. It does not remove the need to choose
 good boundaries, domain models, or dependency contracts.
@@ -118,9 +113,9 @@ a small child action route and selected delegate outcomes, not knowledge of ever
 
 ## Keep Reducers Understandable
 
-A reducer's synchronous transition should be easy to read as “given this state and
-action, make these changes and start this work.” It must not start hidden tasks, read
-global mutable state, or call live services directly. Return an effect and use a declared
+A reducer's synchronous transition should read as “given this state and action, make
+these changes and start this work.” It must not start hidden tasks. It must also avoid
+global mutable state and direct calls to live services. Return an effect and use a declared
 dependency instead.
 
 Split a reducer when a child domain has its own state, actions, lifetime, tests, or team

@@ -10,7 +10,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - custom-layout
   - adaptive-ui
@@ -35,6 +35,7 @@ views. Most screens need adaptation, but few need a custom layout algorithm.
 - A custom `Layout` measures through proxies, returns a size, then places subviews.
 - A proposal may contain exact, unspecified, zero, or infinite dimensions.
 - Layout measurement must be cheap, deterministic, and free of application side effects.
+- Layout methods may run away from the main actor, so their inputs must be safe to copy.
 
 ## Study
 

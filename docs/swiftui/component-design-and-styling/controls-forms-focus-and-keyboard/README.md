@@ -10,7 +10,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 2
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - controls
   - focus-state
@@ -30,6 +30,7 @@ tags:
 - Use optional focus enums for multi-field forms.
 - Focus identity must be unique; avoid binding multiple fields to one ambiguous value.
 - Keyboard configuration improves input but does not validate or secure it.
+- On 2027 platforms, bind `TextSelection` when a feature needs the current range.
 
 Use `@FocusState` for SwiftUI focus coordination, not as saved domain data. A keyboard
 type, content type, or submit label is a platform hint. Pasted text, dictation, and

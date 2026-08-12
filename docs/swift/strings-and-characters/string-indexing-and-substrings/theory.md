@@ -10,7 +10,7 @@ levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 tags:
   - string-index
   - substring
@@ -26,12 +26,10 @@ tags:
 
 A string index is a cursor at a valid boundary, not a distance:
 
-```mermaid
-flowchart LR
-    String["String value and version"] -->|Defines the meaning of| Index["String.Index"]
-    String -->|Slice range| Substring["Substring view"]
-    Substring -. "may retain" .-> Storage["Base storage"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 600" title="String Indexing and Substrings" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the String Indexing and Substrings diagram</a></figcaption>
+</figure>
 
 Keep three concepts separate:
 

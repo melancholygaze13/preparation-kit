@@ -4,7 +4,7 @@ domain: "UIKit"
 page_type: topic-index
 interview_priority: high
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # Accessibility and Adaptive UI
@@ -25,6 +25,12 @@ language direction, and system preferences as normal production requirements.
 
 3. [Localization, Right-to-Left, and Layout Direction](localization-right-to-left-and-layout-direction/README.md)
 4. [Reduce Motion, Contrast, and Input Adaptation](reduce-motion-contrast-and-input-adaptation/README.md)
+
+### Role-Specific Depth
+
+For accessibility, design-system, or global-product roles, rehearse all four
+concepts with a real screen. Include large text, VoiceOver, right-to-left layout,
+Reduce Motion, increased contrast, and non-touch input in the test plan.
 
 ## Concepts
 

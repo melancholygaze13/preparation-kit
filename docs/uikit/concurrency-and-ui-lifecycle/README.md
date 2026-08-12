@@ -4,7 +4,7 @@ domain: "UIKit"
 page_type: topic-index
 interview_priority: core
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # Concurrency and UI Lifecycle
@@ -24,6 +24,12 @@ results before rendering.
 
 3. [Image Loading, Deduplication, and Caching](image-loading-deduplication-and-caching/README.md)
 4. [Background Work and Result Ordering](background-work-and-result-ordering/README.md)
+
+### Role-Specific Depth
+
+For feed, search, or media-heavy roles, spend extra time on request
+deduplication, bounded caches, rapid reuse, and out-of-order results. These are
+applications of the same lifecycle and cancellation rules, not separate basics.
 
 ## Concepts
 

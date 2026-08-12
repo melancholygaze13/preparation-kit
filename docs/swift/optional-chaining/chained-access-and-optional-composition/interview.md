@@ -8,7 +8,7 @@ interview_priority: situational
 estimated_read_minutes: 2
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 ---
 
 # Chained Access and Optional Composition: Interview Questions

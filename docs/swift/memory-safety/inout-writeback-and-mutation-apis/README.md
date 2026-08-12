@@ -7,12 +7,13 @@ interview_priority: high
 estimated_read_minutes: 1
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 ---
 
 # `inout` Writeback and Mutation APIs
 
-> `inout` grants scoped exclusive read-modify-write access with writeback semantics; it is not a durable alias or guaranteed pointer identity.
+> `inout` grants temporary exclusive access for read-modify-write.
+> It uses writeback behavior and is not a durable alias or guaranteed pointer.
 
 ## Quick Recall
 

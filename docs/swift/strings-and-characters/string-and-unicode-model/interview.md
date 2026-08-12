@@ -10,7 +10,7 @@ levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 tags:
   - strings
   - unicode
@@ -82,9 +82,9 @@ the byte limit without claiming it equals visible characters or rendered width.
 
 Swift `String` and `Character` equality uses Unicode canonical equivalence, so
 precomposed and canonically equivalent decomposed forms compare equal. It isn't
-locale-sensitive and doesn't automatically provide case-insensitive comparison,
-locale-aware search ordering, or protection from look-alike characters. Those require an explicit domain and
-often Foundation policy.
+locale-sensitive. It also does not provide case-insensitive comparison,
+locale-aware search ordering, or protection from look-alike characters. Those
+need an explicit domain policy and often Foundation APIs.
 
 ### Expanded Answer
 

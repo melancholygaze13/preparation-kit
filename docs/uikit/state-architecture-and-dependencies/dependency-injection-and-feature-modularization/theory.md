@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: core
 estimated_read_minutes: 8
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # Dependency Injection and Feature Modularization: Theory
@@ -98,13 +98,10 @@ improving design.
 Modularization turns ownership into compile-time structure. A UIKit app might
 have modules by feature, by layer, or a hybrid:
 
-```mermaid
-flowchart LR
-    App["App"] --> Feature["FeatureOrders"]
-    Feature --> Domain["OrdersDomain"]
-    App --> SharedUI["SharedUI"]
-    App --> Networking["Networking"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 600" title="Dependency Injection and Feature Modularization — Modularization" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Dependency Injection and Feature Modularization — Modularization diagram</a></figcaption>
+</figure>
 
 Feature modules work well when teams own product areas. Layer modules work well
 when platform capabilities are reused across many features. Shared modules need

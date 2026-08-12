@@ -8,7 +8,7 @@ levels: [senior, staff, principal]
 interview_priority: high
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # Target-Action, Controls, and Primary Actions: Interview Questions
@@ -40,7 +40,7 @@ screen-owned button, the target is often the view controller. For a targetless
 action, UIKit routes the selector through the responder chain.
 
 The handler should usually be small: read the relevant control state and pass a
-the user's intended action to the screen or view model.
+user's intended action to the screen or view model.
 
 ---
 

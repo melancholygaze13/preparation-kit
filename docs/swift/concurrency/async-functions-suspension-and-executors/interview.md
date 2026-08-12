@@ -8,7 +8,7 @@ interview_priority: core
 estimated_read_minutes: 4
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 ---
 
 # Async Functions, Suspension, and Executors: Interview Questions
@@ -32,7 +32,7 @@ last_reviewed: 2026-07-12
 
 Suspension pauses the task and frees its thread for other work. Blocking keeps the
 thread occupied while it waits. `async` only permits suspension, and `await` marks a
-possible suspension, and neither promises a background thread or parallel execution.
+possible suspension point. Neither promises a background thread or parallel execution.
 
 ### Expanded Answer
 

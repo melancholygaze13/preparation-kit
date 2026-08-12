@@ -10,7 +10,7 @@ levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 tags:
   - conditionals
   - switch
@@ -24,13 +24,7 @@ tags:
 ## Mental Model
 
 An `if` chooses a branch from Boolean conditions. A `switch` divides all possible
-values into branches using patterns checked in order:
-
-```mermaid
-flowchart LR
-    Value["Value"] --> Pattern["First matching pattern"]
-    Pattern --> Branch["Branch"]
-```
+values into branches using patterns checked in order.
 
 An exhaustive switch handles every possible input. When more than one pattern
 could match, the first matching case wins.

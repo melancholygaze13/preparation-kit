@@ -4,7 +4,7 @@ domain: "Architecture"
 page_type: topic-index
 interview_priority: situational
 status: reviewed
-last_reviewed: 2026-07-12
+last_reviewed: 2026-08-12
 ---
 
 # RIBs
@@ -32,6 +32,6 @@ tool-supported architecture for many independently owned features.
 
 | Concept | Why it matters | Priority | Time |
 |---|---|---|---:|
-| [Router, Interactor, Builder, and Component](router-interactor-builder-and-component/README.md) | Defines the core RIB roles and dependency responsibilities. | Situational | 7 min |
-| [RIB Trees, Lifecycle, and Scoping](rib-trees-lifecycle-and-scoping/README.md) | Connects active business domains to child attachment and teardown. | Situational | 7 min |
+| [Router, Interactor, Builder, and Component](router-interactor-builder-and-component/README.md) | Defines the core RIB roles and dependency responsibilities. | Situational | 8 min |
+| [RIB Trees, Lifecycle, and Scoping](rib-trees-lifecycle-and-scoping/README.md) | Connects active business domains to child attachment and teardown. | Situational | 8 min |
 | [Testability, Tooling, and Adoption](testability-tooling-and-adoption/README.md) | Evaluates RIBs for large codebases and cross-platform organizations. | Situational | 7 min |

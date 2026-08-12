@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 7
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - clean-architecture
   - dependency-rule
@@ -32,13 +32,10 @@ Runtime calls can travel both ways. A use case calls an output port implemented 
 outer adapter. The implementation depends on the port, so the source dependency still
 points toward the application.
 
-```mermaid
-flowchart LR
-    UI["SwiftUI or UIKit"] --> UseCase["Use case"]
-    UseCase --> Port["Output port"]
-    Adapter["API or database adapter"] -->|implements| Port
-    UseCase --> Rules["Domain rules"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 600" title="Dependency Rule and Use-Case Boundaries" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Dependency Rule and Use-Case Boundaries diagram</a></figcaption>
+</figure>
 
 The diagram is not a required number of layers. The rule is which decisions may know
 about which other decisions.

@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 10
 status: reviewed
-last_reviewed: 2026-07-25
+last_reviewed: 2026-08-12
 tags:
   - alignment
   - geometry
@@ -30,12 +30,10 @@ These APIs solve three different layout communication problems:
 - **Geometry** describes a view's size or position in a coordinate space.
 - A **preference** lets descendants report values that an ancestor can combine and read.
 
-```mermaid
-flowchart LR
-    Alignment["Alignment: child reference point"] --> Parent["Arranging parent"]
-    Geometry["Geometry: layout system facts"] --> Observer["Observing view"]
-    Preference["Preference: descendant value"] --> Ancestor["Interested ancestor"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 568" title="Alignment, Geometry, and Preferences" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the Alignment, Geometry, and Preferences diagram</a></figcaption>
+</figure>
 
 They should support layout, not become a parallel state architecture. Use built-in
 containers first. Add measurement or upward communication only when the relationship
@@ -170,6 +168,14 @@ only needs a Boolean threshold creates more updates and more opportunities for l
 feedback. If a value only changes presentation, `ViewThatFits`, an adaptive grid, or
 a custom layout can often avoid storing geometry in state altogether.
 
+The geometry transform is `@Sendable` and SwiftUI may evaluate it away from the main
+actor. It must use only the proxy and other safely captured values. Do not read or
+mutate a main-actor model from that transform. The action closure is the place to
+commit the derived value to UI state, as the example above does.
+
+This split lets SwiftUI calculate geometry without forcing that work onto the main
+actor. It also keeps the value crossing the boundary small and `Sendable`.
+
 ## Preferences and Reduction
 
 Environment values travel from an ancestor to descendants. Preferences travel in the
@@ -277,4 +283,5 @@ document its coordinate space, aggregation rule, and supported hosting boundarie
 - [`PreferenceKey`](https://developer.apple.com/documentation/swiftui/preferencekey)
 - [`PreferenceKey.reduce`](https://developer.apple.com/documentation/swiftui/preferencekey/reduce%28value%3Anextvalue%3A%29)
 - [`preference`](https://developer.apple.com/documentation/swiftui/view/preference%28key%3Avalue%3A%29)
+- [Explore concurrency in SwiftUI](https://developer.apple.com/videos/play/wwdc2025/266/)
 - [Demystify SwiftUI](https://developer.apple.com/videos/play/wwdc2021/10022/)

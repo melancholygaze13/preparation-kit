@@ -4,7 +4,7 @@ domain: "UIKit"
 page_type: topic-index
 interview_priority: high
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # Testing UIKit Features
@@ -37,4 +37,4 @@ small set of important user flows.
 | [Testing Presentation and View Model Logic](testing-presentation-and-view-model-logic/README.md) | Verifies presentation decisions without unnecessary UI setup. | High | 11 min |
 | [Testing View Controller Lifecycle and Navigation](testing-view-controller-lifecycle-and-navigation/README.md) | Exercises loading, appearance, containment, and routing boundaries. | High | 11 min |
 | [UI, Accessibility, and Interaction Testing](ui-accessibility-and-interaction-testing/README.md) | Validates user-visible flows through stable accessibility information. | High | 11 min |
-| [Snapshot Testing and Visual Regressions](snapshot-testing-and-visual-regressions/README.md) | Detects selected rendering changes with controlled baselines. | Situational | 7 min |
+| [Snapshot Testing and Visual Regressions](snapshot-testing-and-visual-regressions/README.md) | Detects selected rendering changes with controlled baselines. | Situational | 8 min |

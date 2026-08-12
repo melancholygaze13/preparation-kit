@@ -11,7 +11,7 @@ levels:
 interview_priority: high
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - offline
   - idempotency
@@ -56,6 +56,13 @@ When the failure is temporary and repeating the logical operation cannot duplica
 effect. I use a stable idempotency key, bounded exponential backoff with jitter, server
 retry guidance, and one retry budget. I do not retry validation or conflict blindly.
 
+### Expanded Answer
+
+The key identifies the business operation across process restarts and network ambiguity.
+Retry policy distinguishes timeouts and temporary capacity from permanent rejection. A
+durable outbox can resume accepted intent, while the server or store must deduplicate the
+operation before repeating an external effect.
+
 ### Trade-offs
 
 Fast retries can amplify an outage; long retries delay recovery. Connectivity is only a
@@ -70,6 +77,13 @@ intent unless the user explicitly cancels the business operation.
 I send the base version with the mutation and compare base, local, and current server
 values on conflict. The policy is domain-specific: server wins, three-way field merge,
 operation merge, or user resolution. I avoid one global last-write-wins rule.
+
+### Expanded Answer
+
+Version information tells the server which state the user edited. A three-way comparison
+can merge independent changes and identify competing ones. Sensitive operations return to
+domain validation instead of using timestamps. The client keeps unresolved intent visible
+and records which operation depends on it.
 
 ### Example
 

@@ -4,7 +4,7 @@ domain: "UIKit"
 page_type: topic-index
 interview_priority: high
 status: reviewed
-last_reviewed: 2026-07-26
+last_reviewed: 2026-08-12
 ---
 
 # Animation, Transitions, and Interaction
@@ -38,4 +38,4 @@ needs them.
 | [Property Animators and Animation Options](property-animators-and-animation-options/README.md) | Chooses animation APIs with correct interruption behavior. | High | 11 min |
 | [View Controller Transitions and Coordinators](view-controller-transitions-and-coordinators/README.md) | Synchronizes custom and system-driven transitions. | High | 11 min |
 | [Interactive Animations and Interruption](interactive-animations-and-interruption/README.md) | Maintains consistent state through reversals and cancellation. | High | 11 min |
-| [Drag and Drop, Context Menus, and Haptics](drag-drop-context-menus-and-haptics/README.md) | Integrates richer platform interaction patterns for input-heavy apps. | Situational | 7 min |
+| [Drag and Drop, Context Menus, and Haptics](drag-drop-context-menus-and-haptics/README.md) | Integrates richer platform interaction patterns for input-heavy apps. | Situational | 8 min |

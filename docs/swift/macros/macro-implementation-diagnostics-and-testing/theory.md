@@ -5,10 +5,10 @@ topic: "Macros"
 concept: "Macro Implementation, Diagnostics, and Testing"
 page_type: theory
 interview_priority: situational
-estimated_read_minutes: 1
+estimated_read_minutes: 2
 levels: [senior, staff]
 status: reviewed
-last_reviewed: 2026-06-22
+last_reviewed: 2026-08-12
 tags: [macros, swiftsyntax, diagnostics, testing]
 ---
 
@@ -27,6 +27,23 @@ The implementation receives syntax and an expansion context, validates the attac
 declaration or arguments, constructs syntax nodes, and returns generated source. Prefer
 structured SwiftSyntax builders over fragile string concatenation where practical.
 
+```swift
+public static func expansion(
+    of node: some FreestandingMacroExpansionSyntax,
+    in context: some MacroExpansionContext
+) throws -> ExprSyntax {
+    guard let argument = node.arguments.first?.expression else {
+        throw StringifyMacroError.missingArgument
+    }
+
+    return "(\(argument), \(literal: argument.description))"
+}
+```
+
+This expression-macro implementation validates that an argument exists. It returns
+both the original expression and its source text. In a complete macro type, the
+method satisfies `ExpressionMacro.expansion(of:in:)`.
+
 Diagnostics should explain the violated requirement and identify a repair. Never
 force-cast expected syntax or silently ignore unsupported declarations.
 
@@ -43,6 +60,20 @@ force-cast expected syntax or silently ignore unsupported declarations.
 Keep transformation logic small and separate behavior analysis from syntax emission.
 Test helpers independently, then expansion fixtures and compile-level integration.
 Prefer a clear diagnostic over guessing developer intent.
+
+```swift
+@Test
+func expansionIsStable() {
+    assertMacroExpansion(
+        "#stringify(20 + 22)",
+        expandedSource: "(20 + 22, \"20 + 22\")",
+        macros: ["stringify": StringifyMacro.self]
+    )
+}
+```
+
+An exact-expansion test makes generated source changes visible. A separately compiled
+consumer should also verify that the public macro declaration loads and type-checks.
 
 ## References
 

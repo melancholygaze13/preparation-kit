@@ -11,7 +11,7 @@ levels:
 interview_priority: core
 estimated_read_minutes: 4
 status: reviewed
-last_reviewed: 2026-07-11
+last_reviewed: 2026-08-12
 tags:
   - test-strategy
   - test-boundaries
@@ -56,6 +56,13 @@ smaller one cannot detect wiring or framework failures.
 It has many deterministic logic tests, focused integration tests at risky boundaries,
 and a small set of critical UI journeys. It optimizes useful defect detection, feedback
 speed, and diagnosis—not test count or coverage percentage alone.
+
+### Expanded Answer
+
+Each layer should catch a different class of defect. Logic tests cover decisions and
+state transitions, integration tests cover real adapters and assembly, and UI tests cover
+framework translation and key journeys. I remove duplicate broad tests when a narrower
+test supplies the same confidence with clearer failures.
 
 ### Trade-offs
 

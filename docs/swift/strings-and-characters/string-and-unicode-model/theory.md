@@ -10,7 +10,7 @@ levels:
   - senior
   - staff
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 tags:
   - strings
   - unicode
@@ -26,13 +26,10 @@ tags:
 
 Text has layers:
 
-```mermaid
-flowchart TD
-    String["String"] --> Character["Character — extended grapheme cluster"]
-    Character --> Scalars["Unicode scalar values"]
-    Scalars --> UTF8["UTF-8 code units — bytes"]
-    Scalars --> UTF16["UTF-16 code units"]
-```
+<figure class="schematic-figure">
+  <iframe class="schematic-frame" src="../diagram.html" style="--schematic-aspect: 960 / 508" title="String and Unicode Model" loading="lazy"></iframe>
+  <figcaption><a href="../diagram.html">Open the String and Unicode Model diagram</a></figcaption>
+</figure>
 
 Choose the layer from the requirement:
 

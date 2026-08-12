@@ -11,7 +11,7 @@ levels:
   - staff
   - principal
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 tags:
   - enumerations
   - raw-values
@@ -27,12 +27,9 @@ tags:
 
 Keep three layers distinct:
 
-```mermaid
-flowchart LR
-    Case["Case"] --> Alternative["Domain alternative"]
-    Associated["Associated value"] --> Instance["Data chosen for one instance"]
-    Raw["Raw value"] --> Scalar["Fixed scalar mapping declared for one case"]
-```
+- A case names one domain alternative.
+- An associated value carries data chosen for one enum instance.
+- A raw value is a fixed scalar mapping declared for one case.
 
 `indirect` solves a representation recursion problem. It does not define external
 serialization or make recursive evaluation bounded.

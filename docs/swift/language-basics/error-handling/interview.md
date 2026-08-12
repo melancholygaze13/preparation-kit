@@ -9,7 +9,7 @@ levels:
 interview_priority: situational
 estimated_read_minutes: 3
 status: reviewed
-last_reviewed: 2026-07-22
+last_reviewed: 2026-08-12
 ---
 
 # Error Handling Fundamentals: Interview Questions
@@ -35,6 +35,12 @@ last_reviewed: 2026-07-22
 Use an optional for expected absence when the reason does not matter. Throw when
 failure detail or caller recovery policy matters.
 
+### Expanded Answer
+
+An optional gives the caller two states: value or no value. A thrown error can carry
+why the operation failed and lets intermediate layers preserve that information. Do not
+collapse authentication, decoding, and network failures into one unexplained `nil`.
+
 ---
 
 <a id="q2-try-forms"></a>
@@ -44,6 +50,12 @@ failure detail or caller recovery policy matters.
 
 `try` propagates or handles an error. `try?` converts failure to `nil` and loses
 the error. `try!` traps if an error occurs.
+
+### Expanded Answer
+
+Use plain `try` when the caller owns recovery or should continue propagation. Use
+`try?` only when all failures can truthfully become absence. Reserve `try!` for a
+nearby invariant whose failure is a programmer defect, not external input.
 
 ---
 
@@ -55,6 +67,12 @@ the error. `try!` traps if an error occurs.
 Catch it at the first layer that can make a real decision: recover, retry,
 translate, compensate, or present. Otherwise, preserve it and propagate it.
 
+### Expanded Answer
+
+Catching only to log and rethrow can duplicate sensitive or noisy diagnostics. A
+boundary may translate transport errors into domain failures, and a presentation owner
+may choose user-facing copy. Layers without such a decision should not erase detail.
+
 ---
 
 <a id="q4-what-does-typed-throws-change"></a>
@@ -65,6 +83,13 @@ translate, compensate, or present. Otherwise, preserve it and propagate it.
 Plain `throws` exposes `any Error`. `throws(MyError)` restricts the static error
 type, which can give callers exhaustive handling and preserve error information
 in generic code.
+
+### Expanded Answer
+
+Typed throws makes the failure type part of the function's static contract. It is most
+useful when the error set is small and intentionally stable. An adapter that forwards
+many evolving subsystem failures may be clearer with ordinary `throws` plus translation
+at a domain boundary.
 
 ### Trade-offs
 
