@@ -1,7 +1,6 @@
 (() => {
   const selector = "iframe.schematic-frame";
   const systemDark = window.matchMedia("(prefers-color-scheme: dark)");
-  let observer;
 
   function selectedScheme() {
     const selected = document.body?.getAttribute("data-md-color-scheme")
@@ -13,8 +12,10 @@
 
   function applyScheme(frame) {
     try {
-      const root = frame.contentDocument?.documentElement;
-      if (root) root.setAttribute("data-color-scheme", selectedScheme());
+      frame.contentWindow?.postMessage(
+        {type: "preparation-kit:diagram-theme", scheme: selectedScheme()},
+        "*",
+      );
     } catch {
       // Cross-origin embeds keep their own prefers-color-scheme fallback.
     }
@@ -33,20 +34,19 @@
   }
 
   function initialize() {
-    if (!observer) {
-      observer = new MutationObserver(syncDiagrams);
-      observer.observe(document.body ?? document.documentElement, {
-        attributes: true,
-        attributeFilter: ["data-md-color-scheme"],
-      });
+    if (document.body?.dataset.diagramThemeWatching !== "true") {
+      document.body.dataset.diagramThemeWatching = "true";
       systemDark.addEventListener("change", syncDiagrams);
+      document.addEventListener("click", (event) => {
+        if (event.target.closest('[data-md-component="palette"] label')) {
+          requestAnimationFrame(syncDiagrams);
+        }
+      });
     }
     syncDiagrams();
   }
 
-  if (typeof document$ !== "undefined") {
-    document$.subscribe(initialize);
-  } else if (document.readyState === "loading") {
+  if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initialize, {once: true});
   } else {
     initialize();

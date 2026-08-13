@@ -1,0 +1,148 @@
+/* Shared color system for the documentation site and standalone diagrams. */
+
+:root {
+  /* Light palette */
+  --palette-light-paper: oklch(97.5% 0.008 72);
+  --palette-light-paper-2: oklch(95% 0.01 72);
+  --palette-light-paper-3: oklch(91.5% 0.012 72);
+  --palette-light-rule: oklch(85% 0.012 72);
+  --palette-light-rule-2: oklch(72% 0.014 65);
+  --palette-light-muted: oklch(47% 0.018 48);
+  --palette-light-neutral: oklch(35% 0.014 55);
+  --palette-light-ink-2: oklch(27% 0.012 60);
+  --palette-light-ink: oklch(18% 0.012 60);
+  --palette-light-accent: oklch(49% 0.15 35);
+  --palette-light-accent-ink: oklch(98% 0.008 72);
+  --palette-light-focus: oklch(55% 0.18 35);
+  --palette-light-error: oklch(48% 0.18 25);
+  --palette-light-success: oklch(43% 0.1 155);
+
+  /* Dark palette */
+  --palette-dark-paper: oklch(16% 0.01 60);
+  --palette-dark-paper-2: oklch(19% 0.012 60);
+  --palette-dark-paper-3: oklch(23% 0.013 60);
+  --palette-dark-rule: oklch(29% 0.014 60);
+  --palette-dark-rule-2: oklch(42% 0.014 55);
+  --palette-dark-muted: oklch(70% 0.012 60);
+  --palette-dark-neutral: oklch(80% 0.01 60);
+  --palette-dark-ink-2: oklch(87% 0.009 65);
+  --palette-dark-ink: oklch(94% 0.008 72);
+  --palette-dark-accent: oklch(72% 0.13 35);
+  --palette-dark-accent-ink: oklch(18% 0.012 60);
+  --palette-dark-focus: oklch(78% 0.15 35);
+  --palette-dark-error: oklch(72% 0.14 25);
+  --palette-dark-success: oklch(72% 0.1 155);
+
+  /* The site defaults to the light palette. */
+  --color-paper: var(--palette-light-paper);
+  --color-paper-2: var(--palette-light-paper-2);
+  --color-paper-3: var(--palette-light-paper-3);
+  --color-rule: var(--palette-light-rule);
+  --color-rule-2: var(--palette-light-rule-2);
+  --color-muted: var(--palette-light-muted);
+  --color-neutral: var(--palette-light-neutral);
+  --color-ink-2: var(--palette-light-ink-2);
+  --color-ink: var(--palette-light-ink);
+  --color-accent: var(--palette-light-accent);
+  --color-accent-ink: var(--palette-light-accent-ink);
+  --color-focus: var(--palette-light-focus);
+  --color-error: var(--palette-light-error);
+  --color-success: var(--palette-light-success);
+  --color-transparent: oklch(0% 0 0 / 0);
+}
+
+[data-md-color-scheme="slate"] {
+  --color-paper: var(--palette-dark-paper);
+  --color-paper-2: var(--palette-dark-paper-2);
+  --color-paper-3: var(--palette-dark-paper-3);
+  --color-rule: var(--palette-dark-rule);
+  --color-rule-2: var(--palette-dark-rule-2);
+  --color-muted: var(--palette-dark-muted);
+  --color-neutral: var(--palette-dark-neutral);
+  --color-ink-2: var(--palette-dark-ink-2);
+  --color-ink: var(--palette-dark-ink);
+  --color-accent: var(--palette-dark-accent);
+  --color-accent-ink: var(--palette-dark-accent-ink);
+  --color-focus: var(--palette-dark-focus);
+  --color-error: var(--palette-dark-error);
+  --color-success: var(--palette-dark-success);
+}
+
+/*
+ * Diagram role mapping. Diagrams retain their inline legacy palette as a
+ * fallback, while this later stylesheet makes the site tokens authoritative.
+ */
+:root {
+  --diagram-mode-paper: var(--palette-light-paper);
+  --diagram-mode-paper-2: var(--palette-light-paper-2);
+  --diagram-mode-surface: var(--palette-light-paper);
+  --diagram-mode-ink: var(--palette-light-ink);
+  --diagram-mode-muted: var(--palette-light-neutral);
+  --diagram-mode-soft: var(--palette-light-muted);
+  --diagram-mode-accent: var(--palette-light-accent);
+  --diagram-mode-accent-tint: var(--palette-light-paper-3);
+  --diagram-mode-link: var(--palette-light-accent);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-color-scheme="light"]) {
+    --diagram-mode-paper: var(--palette-dark-paper);
+    --diagram-mode-paper-2: var(--palette-dark-paper-2);
+    --diagram-mode-surface: var(--palette-dark-paper);
+    --diagram-mode-ink: var(--palette-dark-ink);
+    --diagram-mode-muted: var(--palette-dark-neutral);
+    --diagram-mode-soft: var(--palette-dark-muted);
+    --diagram-mode-accent: var(--palette-dark-accent);
+    --diagram-mode-accent-tint: var(--palette-dark-paper-3);
+    --diagram-mode-link: var(--palette-dark-accent);
+  }
+}
+
+:root[data-color-scheme="light"] {
+  --diagram-mode-paper: var(--palette-light-paper);
+  --diagram-mode-paper-2: var(--palette-light-paper-2);
+  --diagram-mode-surface: var(--palette-light-paper);
+  --diagram-mode-ink: var(--palette-light-ink);
+  --diagram-mode-muted: var(--palette-light-neutral);
+  --diagram-mode-soft: var(--palette-light-muted);
+  --diagram-mode-accent: var(--palette-light-accent);
+  --diagram-mode-accent-tint: var(--palette-light-paper-3);
+  --diagram-mode-link: var(--palette-light-accent);
+}
+
+:root[data-color-scheme="dark"] {
+  --diagram-mode-paper: var(--palette-dark-paper);
+  --diagram-mode-paper-2: var(--palette-dark-paper-2);
+  --diagram-mode-surface: var(--palette-dark-paper);
+  --diagram-mode-ink: var(--palette-dark-ink);
+  --diagram-mode-muted: var(--palette-dark-neutral);
+  --diagram-mode-soft: var(--palette-dark-muted);
+  --diagram-mode-accent: var(--palette-dark-accent);
+  --diagram-mode-accent-tint: var(--palette-dark-paper-3);
+  --diagram-mode-link: var(--palette-dark-accent);
+}
+
+/* Repeating :root matches the specificity of each inline fallback selector. */
+:root:root {
+  --diagram-paper: var(--diagram-mode-paper);
+  --diagram-paper-2: var(--diagram-mode-paper-2);
+  --diagram-surface: var(--diagram-mode-surface);
+  --diagram-ink: var(--diagram-mode-ink);
+  --diagram-muted: var(--diagram-mode-muted);
+  --diagram-soft: var(--diagram-mode-soft);
+  --diagram-accent: var(--diagram-mode-accent);
+  --diagram-accent-tint: var(--diagram-mode-accent-tint);
+  --diagram-link: var(--diagram-mode-link);
+  --diagram-ink-015: color-mix(in oklch, var(--diagram-ink) 1.5%, transparent);
+  --diagram-ink-02: color-mix(in oklch, var(--diagram-ink) 2%, transparent);
+  --diagram-ink-025: color-mix(in oklch, var(--diagram-ink) 2.5%, transparent);
+  --diagram-ink-035: color-mix(in oklch, var(--diagram-ink) 3.5%, transparent);
+  --diagram-ink-06: color-mix(in oklch, var(--diagram-ink) 6%, transparent);
+  --diagram-ink-12: color-mix(in oklch, var(--diagram-ink) 12%, transparent);
+  --diagram-ink-20: color-mix(in oklch, var(--diagram-ink) 20%, transparent);
+  --diagram-ink-22: color-mix(in oklch, var(--diagram-ink) 22%, transparent);
+  --diagram-ink-24: color-mix(in oklch, var(--diagram-ink) 24%, transparent);
+  --diagram-ink-28: color-mix(in oklch, var(--diagram-ink) 28%, transparent);
+  --diagram-ink-40: color-mix(in oklch, var(--diagram-ink) 40%, transparent);
+  --diagram-ink-52: color-mix(in oklch, var(--diagram-ink) 52%, transparent);
+}

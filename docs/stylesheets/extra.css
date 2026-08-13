@@ -328,25 +328,22 @@ body {
   margin-inline: auto;
   border: 0;
   border-radius: 0.4rem;
-  background: #f5f5f5;
+  background: var(--color-paper);
   color-scheme: light;
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--kit-ink) 14%, transparent);
 }
 
 @media (prefers-color-scheme: dark) {
   .md-typeset .schematic-frame {
-    background: #2d3142;
     color-scheme: dark;
   }
 }
 
 [data-md-color-scheme="default"] .md-typeset .schematic-frame {
-  background: #f5f5f5;
   color-scheme: light;
 }
 
 [data-md-color-scheme="slate"] .md-typeset .schematic-frame {
-  background: #2d3142;
   color-scheme: dark;
 }
 

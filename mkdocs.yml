@@ -1354,9 +1354,10 @@ hooks:
   - hooks/progress.py
 
 extra_css:
-  - stylesheets/extra.css?v=17
+  - stylesheets/extra.css?v=18
+  - stylesheets/design-tokens.css?v=1
   - stylesheets/hallmark.css?v=15
 
 extra_javascript:
-  - javascripts/diagram-theme.js?v=3
+  - javascripts/diagram-theme.js?v=10
   - javascripts/progress.js?v=5
